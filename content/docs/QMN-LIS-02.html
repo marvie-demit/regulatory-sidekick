@@ -1,0 +1,61 @@
+<h1 class="doc-title">Device Applicability Matrix</h1>
+<div class="manual-banner">How to use this register</div>
+<table class="manual">
+<tr><td>Purpose</td><td>Scope the QMS to YOUR device. The QMS is one Core (always on) plus switch-on modules. This tool tells you which modules, standards and documents apply to your specific device.</td></tr>
+<tr><td>Step 1</td><td>Open the &#x27;Device Profile&#x27; sheet. For each characteristic, mark Applies? = Y or N for your device.</td></tr>
+<tr><td>Step 2</td><td>For every Y, the &#x27;Then activate&#x27; column tells you which module(s) to switch on. Read the &#x27;Applicability Matrix&#x27; sheet for the standards and the exact documents.</td></tr>
+<tr><td>Step 3</td><td>Activate those modules/documents; record any non-applicable characteristics as justified exclusions in the IMS Manual.</td></tr>
+<tr><td>Composable</td><td>A device can match several characteristics at once (e.g. active + implantable + software + AI). Activate ALL that apply - the modules compose. There is no &#x27;deferred&#x27; tier: there is Core (always on) + optional modules selected by device qualification/type.</td></tr>
+<tr><td>Status key</td><td>Built = authored &amp; ready. Stub = a scaffold exists, expand it before use. Every module here is OPTIONAL - you activate it only if your device has the characteristic; modules you do not need simply stay dormant for your device (they are not deleted).</td></tr>
+</table>
+<h3>Columns</h3><table class="grid"><tr><th>Column</th><th>Meaning</th></tr>
+<tr><td>Device characteristic</td><td>complete for every row</td></tr>
+<tr><td>Applies? (Y/N)</td><td>complete for every row</td></tr>
+<tr><td>Then activate</td><td>complete for every row</td></tr>
+</table>
+<h2>Device Profile</h2>
+<div class="tscroll"><table class="grid reg"><thead><tr><th>Device characteristic</th><th>Applies? (Y/N)</th><th>Then activate</th></tr></thead>
+<tbody>
+<tr><td>Standalone software (SaMD)</td><td></td><td>Software</td></tr>
+<tr><td>Embedded software in a device</td><td></td><td>Software</td></tr>
+<tr><td>Contains AI / machine learning</td><td></td><td>AI</td></tr>
+<tr><td>In-vitro diagnostic (examines specimens)</td><td></td><td>IVD</td></tr>
+<tr><td>Has a human user interface</td><td></td><td>Usability</td></tr>
+<tr><td>Processes personal / health data</td><td></td><td>Privacy</td></tr>
+<tr><td>Cloud-hosted / networked</td><td></td><td>Security</td></tr>
+<tr><td>Electrically powered / active device</td><td></td><td>Active / Electrical</td></tr>
+<tr><td>Patient-contacting / implantable</td><td></td><td>Biocompatibility</td></tr>
+<tr><td>Supplied sterile / reprocessed</td><td></td><td>Sterilization &amp; packaging</td></tr>
+<tr><td>Drug-device combination</td><td></td><td>Combination product</td></tr>
+<tr><td>Has a measuring function</td><td></td><td>Metrology</td></tr>
+<tr><td>Requires installation / servicing</td><td></td><td>Installation &amp; Servicing</td></tr>
+<tr><td>Custom-made / patient-matched</td><td></td><td>Custom-made</td></tr>
+<tr><td>Physically manufactured</td><td></td><td>Production</td></tr>
+<tr><td>Sold in the EU (device)</td><td></td><td>Market: MDR</td></tr>
+<tr><td>Sold in the EU (IVD)</td><td></td><td>Market: IVDR</td></tr>
+<tr><td>Sold in the USA</td><td></td><td>Market: FDA</td></tr>
+</tbody>
+</table></div>
+<h2>Applicability Matrix</h2>
+<div class="tscroll"><table class="grid reg"><thead><tr><th>#</th><th>Device characteristic</th><th>Activate module(s)</th><th>Applicable standards</th><th>Key NotJustAny documents</th><th>In library?</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Standalone software (SaMD)</td><td>Software</td><td>IEC 62304, IEC 82304-1, IEC 62366-1, IEC 81001-5-1</td><td>SWD-SOP-01; DEP-SOP-01; Software-Development; SEC</td><td>Built</td></tr>
+<tr><td>2</td><td>Embedded software in a device</td><td>Software</td><td>IEC 62304</td><td>SWD-SOP-01 (+ host device)</td><td>Built</td></tr>
+<tr><td>3</td><td>Contains AI / machine learning</td><td>AI</td><td>EU AI Act, ISO/IEC 42001, FDA GMLP/PCCP</td><td>AIM-SOP-01; AI-Lifecycle</td><td>Built</td></tr>
+<tr><td>4</td><td>In-vitro diagnostic (examines specimens)</td><td>IVD</td><td>EU IVDR, ISO 20916, GHTF SG5</td><td>PEV-SOP-01; PMS-SOP-02; TEF-SOP-03; DEV-SOP-02; Performance-Evaluation</td><td>Built</td></tr>
+<tr><td>5</td><td>Has a human user interface</td><td>Usability</td><td>IEC 62366-1, ISO 9241</td><td>HUF-SOP-01; Usability</td><td>Built</td></tr>
+<tr><td>6</td><td>Processes personal / health data</td><td>Privacy</td><td>GDPR, HIPAA, ISO/IEC 27018, ISO 27799</td><td>DPR-SOP-01; Data-Protection</td><td>Built</td></tr>
+<tr><td>7</td><td>Cloud-hosted / networked</td><td>Security</td><td>ISO/IEC 27001, IEC 80001-1, IEC 81001-5-1</td><td>ISM/SEC/IRP/BCP-SOP-01; INF-SOP-04</td><td>Built</td></tr>
+<tr><td>8</td><td>Electrically powered / active device</td><td>Active / Electrical</td><td>IEC 60601-1, IEC 60601-1-2 (EMC), IEC 61010-1 (lab)</td><td>AES-SOP-01; AES-TPL-01; AES-FOR-01</td><td>Built</td></tr>
+<tr><td>9</td><td>Patient-contacting / implantable</td><td>Biocompatibility</td><td>ISO 10993 series</td><td>BIO-SOP-01; BIO-TPL-01/02; BIO-FOR-01; BIO-LIS-01</td><td>Built</td></tr>
+<tr><td>10</td><td>Supplied sterile / reprocessed</td><td>Sterilization &amp; packaging</td><td>ISO 11135/11137/17665, ISO 11607</td><td>STE-SOP-01; STE-TPL-01/02; STE-FOR-01</td><td>Built</td></tr>
+<tr><td>11</td><td>Drug-device combination</td><td>Combination product</td><td>MDR Art 117, ISO 11608, Medicinal Annex I</td><td>CMB-SOP-01; CMB-TPL-01; CMB-FOR-01</td><td>Built</td></tr>
+<tr><td>12</td><td>Has a measuring function</td><td>Metrology</td><td>ISO 13485 7.6</td><td>INF-SOP-02; INF-FOR-01; INF-LIS-03</td><td>Built</td></tr>
+<tr><td>13</td><td>Requires installation / servicing</td><td>Installation &amp; Servicing</td><td>ISO 13485 7.5.3/7.5.4</td><td>SUP-SOP-01 (+ installation SOP)</td><td>Partial</td></tr>
+<tr><td>14</td><td>Custom-made / patient-matched</td><td>Custom-made</td><td>MDR Annex XIII</td><td>CMD-SOP-01; CMD-TPL-01; CMD-FOR-01</td><td>Built</td></tr>
+<tr><td>15</td><td>Physically manufactured</td><td>Production</td><td>ISO 13485 7.5, process validation</td><td>Production SOPs (scaffold); 12_Manufacturing</td><td>Stub</td></tr>
+<tr><td>16</td><td>Sold in the EU (device)</td><td>Market: MDR</td><td>EU MDR 2017/745</td><td>TEF-SOP-02; Technical-File</td><td>Built</td></tr>
+<tr><td>17</td><td>Sold in the EU (IVD)</td><td>Market: IVDR</td><td>EU IVDR 2017/746</td><td>TEF-SOP-03; Technical-File-IVD</td><td>Built</td></tr>
+<tr><td>18</td><td>Sold in the USA</td><td>Market: FDA</td><td>21 CFR 820 / QMSR, FDA 524B</td><td>TEF-SOP-01 FDA; VIG-SOP-01 (scaffold); 13_US-FDA-Market</td><td>Stub</td></tr>
+</tbody>
+</table></div>
