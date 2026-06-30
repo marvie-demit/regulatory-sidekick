@@ -17,7 +17,7 @@ export default function AuthLayout({
         {children}
       </div>
       <p className="mt-6 text-xs text-muted">
-        ISO 13485 / EU MDR · multi-tenant QMS
+        ISO 13485 · EU MDR · IVDR · multi-tenant QMS
       </p>
     </main>
   );

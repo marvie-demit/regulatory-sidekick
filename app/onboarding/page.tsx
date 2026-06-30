@@ -30,7 +30,7 @@ export default async function OnboardingPage() {
         </p>
         <OnboardingForm />
       </div>
-      <p className="mt-6 text-xs text-muted">ISO 13485 / EU MDR · multi-tenant QMS</p>
+      <p className="mt-6 text-xs text-muted">ISO 13485 · EU MDR · IVDR · multi-tenant QMS</p>
     </main>
   );
 }

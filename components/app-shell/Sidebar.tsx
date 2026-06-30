@@ -136,7 +136,7 @@ export function Sidebar({
             Sign out
           </button>
         </form>
-        <div className="px-3 text-[10px] text-white/30">ISO 13485 · EU MDR</div>
+        <div className="px-3 text-[10px] text-white/30">ISO 13485 · EU MDR · IVDR</div>
       </div>
     </aside>
   );
