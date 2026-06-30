@@ -5,6 +5,7 @@ import { StateProvider } from "@/components/app-shell/StateProvider";
 import { Toaster } from "@/components/app-shell/Toaster";
 import { PENDING_INVITE_COOKIE } from "@/lib/constants";
 import { getActiveOrg } from "@/lib/auth/org";
+import { isPlatformAdminEmail } from "@/lib/auth/platform";
 import { getOrgState } from "@/lib/db/state";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,6 +18,9 @@ export default async function AppLayout({
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims) redirect("/login");
+  const platformAdmin = isPlatformAdminEmail(
+    (data.claims as { email?: string }).email,
+  );
 
   // Require an organization; new users create one first — unless they arrived
   // via an invite link, in which case finish joining the org that invited them.
@@ -32,7 +36,12 @@ export default async function AppLayout({
   return (
     <StateProvider initial={state}>
       <div className="flex">
-        <Sidebar orgName={org.name} role={org.role} plan={org.plan} />
+        <Sidebar
+          orgName={org.name}
+          role={org.role}
+          plan={org.plan}
+          isPlatformAdmin={platformAdmin}
+        />
         <div className="min-h-screen min-w-0 flex-1">{children}</div>
         <Toaster />
       </div>

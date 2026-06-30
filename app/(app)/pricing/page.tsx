@@ -1,3 +1,4 @@
+import { RedeemField } from "@/components/auth/RedeemField";
 import { hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
 
@@ -119,6 +120,8 @@ export default async function PricingPage() {
           )}
         </div>
       </div>
+
+      {!full ? <RedeemField /> : null}
 
       <div className="mt-6 max-w-3xl rounded-xl border border-line bg-cream px-5 py-4 text-sm text-ink">
         <b className="text-teal-900">Independent consultant?</b> We run a partner

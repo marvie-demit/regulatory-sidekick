@@ -55,16 +55,24 @@ const NAV: { group: string; items: NavItem[] }[] = [
   },
 ];
 
+const ADMIN_GROUP: { group: string; items: NavItem[] } = {
+  group: "Platform",
+  items: [{ label: "Admin", href: "/admin", match: "/admin", ready: true }],
+};
+
 export function Sidebar({
   orgName,
   role,
   plan,
+  isPlatformAdmin = false,
 }: {
   orgName?: string;
   role?: string;
   plan?: string;
+  isPlatformAdmin?: boolean;
 }) {
   const path = usePathname();
+  const groups = isPlatformAdmin ? [...NAV, ADMIN_GROUP] : NAV;
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col gap-6 overflow-y-auto bg-[var(--side)] px-4 py-6">
       <div className="px-2">
@@ -103,7 +111,7 @@ export function Sidebar({
         ) : null}
       </div>
       <nav className="flex flex-col gap-5">
-        {NAV.map((g) => (
+        {groups.map((g) => (
           <div key={g.group}>
             <div className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
               {g.group}
