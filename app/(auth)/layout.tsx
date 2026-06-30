@@ -11,7 +11,7 @@ export default function AuthLayout({
         href="/"
         className="font-display text-lg font-semibold text-teal-900"
       >
-        NotJustAnyQMS
+        Regulatory Sidekick
       </Link>
       <div className="mt-6 w-full max-w-sm rounded-2xl border border-line bg-card p-7 shadow-sm">
         {children}

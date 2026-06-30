@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* NotJustAnyQMS brand tokens (ported from the existing app) */
+  /* Regulatory Sidekick brand tokens (ported from the existing app) */
   --t9: #0b2a26; /* deepest teal — titles */
   --t8: #0f3b35; /* headings / bands */
   --t6: #16504a;

@@ -17,7 +17,7 @@ export default async function OnboardingPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
       <span className="font-display text-lg font-semibold text-teal-900">
-        NotJustAnyQMS
+        Regulatory Sidekick
       </span>
       <div className="mt-6 w-full max-w-md rounded-2xl border border-line bg-card p-7 shadow-sm">
         <h1 className="font-display text-2xl font-semibold text-teal-900">

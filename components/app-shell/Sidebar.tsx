@@ -55,7 +55,7 @@ export function Sidebar({
           href="/dashboard"
           className="font-display text-lg font-semibold text-white"
         >
-          NotJustAnyQMS
+          Regulatory Sidekick
         </Link>
         {orgName ? (
           <div className="mt-1.5">
@@ -136,7 +136,7 @@ export function Sidebar({
             Sign out
           </button>
         </form>
-        <div className="px-3 text-[10px] text-white/30">Regulatory sidekick</div>
+        <div className="px-3 text-[10px] text-white/30">ISO 13485 · EU MDR</div>
       </div>
     </aside>
   );
