@@ -16,6 +16,14 @@
   --card: #ffffff;
   --ok: #1d6e62;
   --side: #0b2a26;
+  /* Document / template palette — intentionally neutral (white-label):
+     the rendered SOPs/forms/registers are the customer's controlled docs,
+     so they don't carry brand teal/coral. Keep app chrome on brand tokens. */
+  --doc-head: #1a1a1a;
+  --doc-head2: #4a4a4a;
+  --doc-band: #2e2e2e;
+  --doc-soft: #ececec;
+  --doc-soft2: #f6f6f6;
 }
 
 @theme inline {
@@ -185,24 +193,24 @@ body {
 .paper h1.doc-title,
 .paper .doc-title {
   font-family: var(--font-fraunces), Georgia, serif;
-  color: var(--t9);
+  color: var(--doc-head);
   font-size: 21px;
-  border-bottom: 2px solid var(--coral);
+  border-bottom: 2px solid var(--doc-band);
   padding-bottom: 8px;
   margin: 0 0 14px;
 }
 .paper h2 {
-  color: var(--t8);
+  color: var(--doc-head);
   font-size: 16px;
   margin: 20px 0 8px;
 }
 .paper h3 {
-  color: var(--t8);
+  color: var(--doc-head);
   font-size: 14px;
   margin: 15px 0 6px;
 }
 .paper h4 {
-  color: var(--t6);
+  color: var(--doc-head2);
   font-size: 13px;
   margin: 12px 0 5px;
 }
@@ -230,7 +238,7 @@ body {
 }
 .paper table.headerband td:first-child,
 .paper table.grid th {
-  background: var(--t8);
+  background: var(--doc-band);
   color: #fff;
   font-weight: 600;
   width: 33%;
@@ -239,18 +247,18 @@ body {
   width: auto;
 }
 .paper .manual-banner {
-  color: var(--coral);
+  color: var(--doc-head2);
   font-weight: 800;
   font-size: 12px;
   margin: 16px 0 4px;
 }
 .paper table.manual td:first-child {
-  background: var(--cream2);
+  background: var(--doc-soft);
   font-weight: 700;
   width: 26%;
 }
 .paper table.manual td:last-child {
-  background: var(--cream);
+  background: var(--doc-soft2);
   font-style: italic;
   color: var(--muted);
 }
@@ -270,7 +278,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: var(--t8);
+  background: var(--doc-band);
 }
 .paper table.reg tbody tr:nth-child(even) td {
   background: #fafcfb;
