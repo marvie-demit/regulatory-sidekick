@@ -2,6 +2,7 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { ACTIVE_ORG_COOKIE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
@@ -92,4 +93,39 @@ export async function createOrg(
     maxAge: 60 * 60 * 24 * 365,
   });
   redirect("/dashboard");
+}
+
+// ---- Account settings (any authenticated user) -----------------------------
+
+export async function updateProfile(
+  _prev: AuthResult,
+  formData: FormData,
+): Promise<AuthResult> {
+  const fullName = String(formData.get("fullName") || "").trim();
+  if (fullName.length < 2) return { error: "Please enter your name." };
+  if (fullName.length > 80) return { error: "That name is too long." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({
+    data: { full_name: fullName },
+  });
+  if (error) return { error: error.message };
+  revalidatePath("/", "layout");
+  return { message: "Name updated." };
+}
+
+export async function updatePassword(
+  _prev: AuthResult,
+  formData: FormData,
+): Promise<AuthResult> {
+  const password = String(formData.get("password") || "");
+  const confirm = String(formData.get("confirm") || "");
+  if (password.length < 8)
+    return { error: "Password must be at least 8 characters." };
+  if (password !== confirm) return { error: "The passwords don't match." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) return { error: error.message };
+  return { message: "Password updated." };
 }

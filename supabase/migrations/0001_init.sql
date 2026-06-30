@@ -250,7 +250,7 @@ create or replace function public.accept_invitation(p_raw_token text) returns uu
 declare v_inv public.invitations; v_uid uuid := (select auth.uid()); v_hash text;
 begin
   if v_uid is null then raise exception 'not authenticated'; end if;
-  v_hash := encode(digest(p_raw_token, 'sha256'), 'hex');
+  v_hash := encode(sha256(convert_to(p_raw_token, 'UTF8')), 'hex');  -- pg_catalog: resolvable under search_path=''
   select * into v_inv from public.invitations
     where token_hash = v_hash and accepted_at is null and expires_at > now();
   if not found then raise exception 'invalid or expired invitation'; end if;

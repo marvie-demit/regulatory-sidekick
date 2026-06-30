@@ -36,6 +36,23 @@ const NAV: { group: string; items: NavItem[] }[] = [
       { label: "Device profile", href: "/profile", match: "/profile", ready: true },
     ],
   },
+  {
+    group: "Workspace",
+    items: [
+      {
+        label: "Members",
+        href: "/settings/members",
+        match: "/settings/members",
+        ready: true,
+      },
+      {
+        label: "Account",
+        href: "/settings/profile",
+        match: "/settings/profile",
+        ready: true,
+      },
+    ],
+  },
 ];
 
 export function Sidebar({
