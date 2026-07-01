@@ -34,10 +34,18 @@ export async function GET(
     );
   }
 
+  // Content-Disposition filenames must be ASCII — a non-ASCII char (e.g. the
+  // em dash we used as a separator) leaks in as percent-encoded bytes. Fold to
+  // safe ASCII so the saved filename is clean.
+  const downloadName = file.name
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7E]/g, "-")
+    .replace(/\s{2,}/g, " ")
+    .trim();
   const admin = createAdminClient();
   const { data, error } = await admin.storage
     .from("documents")
-    .createSignedUrl(`${docId}.${file.ext}`, 60, { download: file.name });
+    .createSignedUrl(`${docId}.${file.ext}`, 60, { download: downloadName });
   if (error || !data?.signedUrl) {
     return NextResponse.redirect(
       new URL(`/library/${docId}?download=error`, origin),
