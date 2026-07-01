@@ -2,9 +2,10 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { canViewDocGroup } from "@/lib/auth/access";
+import { canViewDocGroup, hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
 import { byDocId, docActivities } from "@/lib/content/content";
+import { docFile } from "@/lib/docs";
 import { LockedNotice } from "@/components/content/LockedNotice";
 
 export async function generateMetadata({
@@ -30,6 +31,9 @@ export default async function DocViewer({
   // When not allowed we NEVER read the file, so the template never leaves the server.
   const org = await getActiveOrg();
   const allowed = canViewDocGroup(org?.plan, d.domain);
+  const full = hasFullAccess(org?.plan);
+  const file = docFile(docId);
+  const kind = file?.ext === "xlsx" ? "Excel" : "Word";
 
   let html = "";
   if (allowed) {
@@ -47,12 +51,31 @@ export default async function DocViewer({
 
   return (
     <main className="px-8 py-10">
-      <Link
-        href="/library"
-        className="text-sm font-medium text-teal-600 hover:underline"
-      >
-        ← Library
-      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <Link
+          href="/library"
+          className="text-sm font-medium text-teal-600 hover:underline"
+        >
+          ← Library
+        </Link>
+        {file && allowed ? (
+          full ? (
+            <a
+              href={`/api/docs/${docId}/download`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+            >
+              ↓ Download {kind}
+            </a>
+          ) : (
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-1.5 rounded-full border border-coral px-4 py-2 text-sm font-semibold text-coral transition hover:bg-coral hover:text-white"
+            >
+              ↓ Download {kind} · Full access
+            </Link>
+          )
+        ) : null}
+      </div>
 
       {acts.length > 0 && (
         <div className="mx-auto mt-4 max-w-[840px] rounded-lg border border-line bg-cream px-4 py-2.5 text-sm text-muted">
