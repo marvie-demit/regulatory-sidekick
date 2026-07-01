@@ -11,6 +11,7 @@ export type AccessCode = {
   usedCount: number;
   expiresAt: string | null;
   note: string | null;
+  targetOrgId: string | null; // set = locked to that org (0006)
   createdAt: string;
 };
 
@@ -26,14 +27,24 @@ export type AdminOrg = {
 
 export async function listAccessCodes(): Promise<AccessCode[]> {
   const admin = createAdminClient();
-  const { data } = await admin
+  const cols =
+    "id, code, plan, grant_days, max_uses, used_count, expires_at, note, target_org_id, created_at";
+  let res: { data: unknown[] | null; error: unknown } = await admin
     .from("access_codes")
-    .select(
-      "id, code, plan, grant_days, max_uses, used_count, expires_at, note, created_at",
-    )
+    .select(cols)
     .order("created_at", { ascending: false })
     .limit(50);
-  return (data ?? []).map((c) => ({
+  // Resilient to migrations 0005/0006 not being applied yet — retry without the
+  // newer columns so the list still renders.
+  if (res.error) {
+    res = await admin
+      .from("access_codes")
+      .select("id, plan, grant_days, max_uses, used_count, expires_at, note, created_at")
+      .order("created_at", { ascending: false })
+      .limit(50);
+  }
+  const rows = (res.data ?? []) as Record<string, unknown>[];
+  return rows.map((c) => ({
     id: c.id as string,
     code: (c.code as string | null) ?? null,
     plan: c.plan as string,
@@ -42,6 +53,7 @@ export async function listAccessCodes(): Promise<AccessCode[]> {
     usedCount: c.used_count as number,
     expiresAt: (c.expires_at as string | null) ?? null,
     note: (c.note as string | null) ?? null,
+    targetOrgId: (c.target_org_id as string | null) ?? null,
     createdAt: c.created_at as string,
   }));
 }

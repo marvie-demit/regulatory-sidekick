@@ -39,6 +39,7 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
 
   const maxUses = Math.max(1, parseInt(String(formData.get("maxUses") || "1"), 10) || 1);
   const note = String(formData.get("note") || "").trim().slice(0, 200) || null;
+  const targetOrgId = String(formData.get("targetOrgId") || "").trim() || null;
 
   const raw = "RS-" + randomBytes(15).toString("base64url");
   const codeHash = createHash("sha256").update(raw).digest("hex");
@@ -52,9 +53,14 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
     note,
     created_by: g.uid,
   };
-  // Store the raw code too (for re-display); fall back to hash-only if the
-  // 'code' column isn't present yet (migration 0005 not applied).
-  let ins = await admin.from("access_codes").insert({ ...base, code: raw });
+  // Prefer the full row (raw code for re-display + optional org lock); fall back
+  // to hash-only if those columns aren't present yet (migrations 0005 / 0006).
+  const full = {
+    ...base,
+    code: raw,
+    ...(targetOrgId ? { target_org_id: targetOrgId } : {}),
+  };
+  let ins = await admin.from("access_codes").insert(full);
   if (ins.error) ins = await admin.from("access_codes").insert(base);
   if (ins.error) return { error: ins.error.message };
 
