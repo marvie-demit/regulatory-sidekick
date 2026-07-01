@@ -44,15 +44,19 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   const codeHash = createHash("sha256").update(raw).digest("hex");
 
   const admin = createAdminClient();
-  const { error } = await admin.from("access_codes").insert({
+  const base = {
     code_hash: codeHash,
     plan,
     grant_days: grantDays,
     max_uses: maxUses,
     note,
     created_by: g.uid,
-  });
-  if (error) return { error: error.message };
+  };
+  // Store the raw code too (for re-display); fall back to hash-only if the
+  // 'code' column isn't present yet (migration 0005 not applied).
+  let ins = await admin.from("access_codes").insert({ ...base, code: raw });
+  if (ins.error) ins = await admin.from("access_codes").insert(base);
+  if (ins.error) return { error: ins.error.message };
 
   const hdrs = await headers();
   const origin =

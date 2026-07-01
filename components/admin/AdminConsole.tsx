@@ -17,6 +17,8 @@ const coral =
   "rounded-full bg-coral px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-60";
 const subtle =
   "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted transition hover:border-red-300 hover:text-red-600 disabled:opacity-60";
+const chipBtn =
+  "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-teal-800 transition hover:bg-white";
 const errCls =
   "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700";
 const okCls =
@@ -30,7 +32,6 @@ function MintForm() {
     createAccessCode,
     {},
   );
-  const [copied, setCopied] = useState(false);
   return (
     <form action={action} className={`${card} flex flex-col gap-4`}>
       <div>
@@ -38,7 +39,8 @@ function MintForm() {
           Mint an access code
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Generates a one-time code + link to grant full access. Shown once.
+          Generates a code + redeem link to grant full access. It appears in the
+          list below, so you can copy it any time.
         </p>
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -66,31 +68,25 @@ function MintForm() {
         {pending ? "Creating…" : "Create code"}
       </button>
       {state.error ? <p className={errCls}>{state.error}</p> : null}
-      {state.codeUrl ? (
-        <div className="flex flex-col gap-2 rounded-xl border border-teal-200 bg-teal-50 p-3">
-          <p className="text-sm text-teal-800">{state.message}</p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <input
-              readOnly
-              value={state.codeUrl}
-              onFocus={(e) => e.currentTarget.select()}
-              className={`${input} flex-1 font-mono text-xs`}
-            />
-            <button
-              type="button"
-              onClick={() => {
-                navigator.clipboard?.writeText(state.codeUrl!);
-                setCopied(true);
-              }}
-              className="shrink-0 rounded-full bg-teal-800 px-4 py-2 text-xs font-semibold text-white hover:brightness-110"
-            >
-              {copied ? "Copied" : "Copy link"}
-            </button>
-          </div>
-          <p className="font-mono text-xs text-teal-700">Code: {state.code}</p>
-        </div>
-      ) : null}
+      {state.message ? <p className={okCls}>{state.message} See it below to copy.</p> : null}
     </form>
+  );
+}
+
+function CopyBtn({ value, label }: { value: string; label: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        navigator.clipboard?.writeText(value);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+      className={chipBtn}
+    >
+      {copied ? "Copied" : label}
+    </button>
   );
 }
 
@@ -101,23 +97,46 @@ function CodeRow({ c }: { c: AccessCode }) {
   );
   const spent = c.usedCount >= c.maxUses;
   return (
-    <li className="flex items-center justify-between gap-3 border-b border-line py-2.5 last:border-0">
-      <div className="min-w-0">
-        <div className="truncate text-sm text-teal-900">
-          {c.note || "(no note)"} · {planLabel(c.plan)}
-          {c.grantDays ? ` · ${c.grantDays}d` : " · ∞"}
+    <li className="flex flex-col gap-2 border-b border-line py-3 last:border-0">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="truncate text-sm text-teal-900">
+            {c.note || "(no note)"} · {planLabel(c.plan)}
+            {c.grantDays ? ` · ${c.grantDays}d` : " · ∞"}
+          </div>
+          <div className="text-xs text-muted">
+            {c.usedCount}/{c.maxUses} used · {fmtDate(c.createdAt)} ·{" "}
+            <span className={spent ? "text-muted" : "text-teal-700"}>
+              {spent ? "spent" : "active"}
+            </span>
+          </div>
         </div>
-        <div className="text-xs text-muted">
-          {c.usedCount}/{c.maxUses} used · {fmtDate(c.createdAt)}
-          {spent ? " · spent" : ""}
-        </div>
+        <form action={action}>
+          <input type="hidden" name="codeId" value={c.id} />
+          <button type="submit" disabled={pending} className={subtle}>
+            {pending ? "…" : "Delete"}
+          </button>
+        </form>
       </div>
-      <form action={action}>
-        <input type="hidden" name="codeId" value={c.id} />
-        <button type="submit" disabled={pending} className={subtle}>
-          {pending ? "…" : "Delete"}
-        </button>
-      </form>
+      {c.code ? (
+        <div className="flex flex-col gap-2 rounded-lg border border-line bg-[#f7faf8] p-2 sm:flex-row sm:items-center">
+          <code className="flex-1 truncate font-mono text-xs text-teal-800">
+            {c.code}
+          </code>
+          <div className="flex gap-2">
+            <CopyBtn value={c.code} label="Copy code" />
+            <CopyBtn
+              value={`${typeof window !== "undefined" ? window.location.origin : ""}/redeem/${c.code}`}
+              label="Copy link"
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="text-xs text-muted">
+          Minted before code storage — delete and mint a new one to get a
+          copyable code/link.
+        </div>
+      )}
       {state.error ? <p className={errCls}>{state.error}</p> : null}
     </li>
   );
@@ -130,6 +149,9 @@ function OrgRow({ o }: { o: AdminOrg }) {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="min-w-0">
           <div className="truncate text-sm font-medium text-teal-900">{o.name}</div>
+          {o.ownerEmail ? (
+            <div className="truncate text-xs text-muted">{o.ownerEmail}</div>
+          ) : null}
           <div className="text-xs text-muted">
             {planLabel(o.plan)}
             {o.planExpiresAt ? ` · until ${fmtDate(o.planExpiresAt)}` : ""} ·{" "}
@@ -174,23 +196,29 @@ export function AdminConsole({
 }) {
   const [q, setQ] = useState("");
   const filtered = orgs.filter((o) =>
-    o.name.toLowerCase().includes(q.toLowerCase()),
+    (o.name + " " + (o.ownerEmail ?? "")).toLowerCase().includes(q.toLowerCase()),
   );
   return (
     <div className="flex flex-col gap-6">
       <MintForm />
-      {codes.length > 0 ? (
-        <section className={card}>
-          <h2 className="mb-1 font-display text-lg font-semibold text-teal-900">
-            Access codes
-          </h2>
+
+      <section className={card}>
+        <h2 className="mb-1 font-display text-lg font-semibold text-teal-900">
+          Access codes
+        </h2>
+        {codes.length > 0 ? (
           <ul className="flex flex-col">
             {codes.map((c) => (
               <CodeRow key={c.id} c={c} />
             ))}
           </ul>
-        </section>
-      ) : null}
+        ) : (
+          <p className="py-2 text-sm text-muted">
+            No codes yet — mint one above to get a copyable code and redeem link.
+          </p>
+        )}
+      </section>
+
       <section className={card}>
         <div className="mb-2 flex items-center justify-between gap-3">
           <h2 className="font-display text-lg font-semibold text-teal-900">
@@ -199,8 +227,8 @@ export function AdminConsole({
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search…"
-            className={`${input} w-40`}
+            placeholder="Search name / email…"
+            className={`${input} w-48`}
           />
         </div>
         <ul className="flex flex-col">
