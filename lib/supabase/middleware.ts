@@ -2,7 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Public routes that never require auth.
-const PUBLIC_PREFIXES = ["/", "/login", "/signup", "/accept-invite", "/auth"];
+const PUBLIC_PREFIXES = [
+  "/",
+  "/login",
+  "/signup",
+  "/accept-invite",
+  "/redeem",
+  "/auth",
+];
 
 function isPublic(path: string) {
   return PUBLIC_PREFIXES.some(

@@ -5,3 +5,7 @@ export const ACTIVE_ORG_COOKIE = "nja_active_org";
 // Set when a logged-out user opens an invite link; read by the app layout so a
 // freshly signed-up invitee joins the org instead of being sent to onboarding.
 export const PENDING_INVITE_COOKIE = "nja_pending_invite";
+
+// Set when a logged-out user opens a redeem link; the app applies the code once
+// they have an account + organization (survives sign-up → confirm → onboarding).
+export const PENDING_REDEEM_COOKIE = "nja_pending_redeem";
