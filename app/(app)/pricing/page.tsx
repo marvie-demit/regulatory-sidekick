@@ -6,7 +6,7 @@ export const metadata = { title: "Pricing" };
 
 // Where "Apply" / "Contact" go until Stripe checkout exists. Swap for a real
 // sales address or form before a public launch.
-const CONTACT = "marvie.demit@vividsolutions.io";
+const CONTACT = "regulatory.sidekick@notjustany.tech";
 
 const FEATURES = [
   "All 53 activities and 197 deep sub-activities",
