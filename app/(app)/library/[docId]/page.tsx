@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { canViewDocGroup, hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
-import { byDocId, docActivities } from "@/lib/content/content";
+import { byDocId, docActivities, docStep, PHASE_NAMES } from "@/lib/content/content";
 import { docFile } from "@/lib/docs";
 import { LockedNotice } from "@/components/content/LockedNotice";
 
@@ -48,6 +48,7 @@ export default async function DocViewer({
   }
 
   const acts = docActivities(docId);
+  const ds = docStep(docId);
 
   return (
     <main className="px-8 py-10">
@@ -76,6 +77,18 @@ export default async function DocViewer({
           )
         ) : null}
       </div>
+
+      {ds && (
+        <div className="mx-auto mt-4 max-w-[840px] rounded-lg border border-line bg-cream px-4 py-2.5 text-sm text-muted">
+          <b className="mr-2 text-teal-800">Created in</b>
+          <span className="font-medium text-teal-900">{ds.pn}</span>
+          <span className="mx-1.5">·</span>
+          {ds.st}
+          <span className="ml-2 inline-block rounded-md border border-line bg-card px-2 py-0.5 text-[11.5px] font-medium text-teal-700">
+            Phase {ds.ph} · {PHASE_NAMES[ds.ph]}
+          </span>
+        </div>
+      )}
 
       {acts.length > 0 && (
         <div className="mx-auto mt-4 max-w-[840px] rounded-lg border border-line bg-cream px-4 py-2.5 text-sm text-muted">

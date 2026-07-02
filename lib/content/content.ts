@@ -239,3 +239,33 @@ export function docActivities(docId: string): string[] {
   return (content.docActs?.[docId] || []).slice().sort((a, b) => idnum(a) - idnum(b));
 }
 
+// ---- doc → producing step (from the process model, via doc-steps.json) ----
+// Answers "when/where is this document created": the process + step that
+// produces it, plus the phase and maturity. Covers every document, including
+// the ones no activity used to reference.
+export type DocStep = { p: string; pn: string; s: string; st: string; ph: number; m: string };
+
+let _docSteps: Record<string, DocStep> | null = null;
+function docStepsMap(): Record<string, DocStep> {
+  if (_docSteps) return _docSteps;
+  try {
+    _docSteps = JSON.parse(
+      readFileSync(join(process.cwd(), "content", "doc-steps.json"), "utf-8"),
+    ) as Record<string, DocStep>;
+    return _docSteps;
+  } catch {
+    return {}; // don't cache a failed read
+  }
+}
+
+export function docStep(docId: string): DocStep | null {
+  return docStepsMap()[docId] ?? null;
+}
+
+export const PHASE_NAMES: Record<number, string> = {
+  1: "Operate safely",
+  2: "Control & trace",
+  3: "Govern & lead",
+  4: "Improve & certify",
+};
+
