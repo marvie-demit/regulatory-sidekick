@@ -52,9 +52,10 @@ export async function GET(
     );
   }
 
-  // best-effort audit trail (who downloaded what)
+  // best-effort audit trail (who downloaded what). Written with the service
+  // role — direct member INSERT to audit_log is revoked (migration 0008).
   try {
-    await supabase.from("audit_log").insert({
+    await admin.from("audit_log").insert({
       org_id: org.id,
       actor_id: (claims.claims as { sub?: string }).sub ?? null,
       action: "document.download",

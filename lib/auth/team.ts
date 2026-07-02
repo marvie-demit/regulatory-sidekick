@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { randomBytes, createHash } from "crypto";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getActiveOrg, type OrgMembership } from "@/lib/auth/org";
 import { hasFullAccess } from "@/lib/auth/access";
 import { SEAT_LIMIT } from "@/lib/auth/members";
@@ -82,7 +83,8 @@ export async function createInvite(_prev: Res, formData: FormData): Promise<Res>
     return { error: error.message };
   }
 
-  await supabase.from("audit_log").insert({
+  // Service role: direct member INSERT to audit_log is revoked (migration 0008).
+  await createAdminClient().from("audit_log").insert({
     org_id: org.id,
     actor_id: user?.id ?? null,
     action: "invitation.create",

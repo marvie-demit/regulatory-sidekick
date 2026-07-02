@@ -2,9 +2,8 @@
 
 import { getActiveOrg } from "@/lib/auth/org";
 import { LABEL_TO_ENUM } from "@/lib/db/state";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-
-type Supa = Awaited<ReturnType<typeof createClient>>;
 
 async function ctx() {
   const supabase = await createClient();
@@ -15,8 +14,11 @@ async function ctx() {
   return { supabase, uid, orgId: org.id };
 }
 
+// Audit rows are written with the SERVICE ROLE. Direct INSERT to audit_log is
+// revoked for end users (migration 0008) so the trail can't be forged; the
+// org_id/actor_id here come from the validated ctx(), not the client. Best-
+// effort — an audit failure must never break the user's action.
 async function audit(
-  supabase: Supa,
   orgId: string,
   uid: string,
   action: string,
@@ -24,9 +26,9 @@ async function audit(
   entityId: string | null,
   detail?: Record<string, unknown>,
 ) {
-  // Best-effort; never let an audit failure break the user's action.
   try {
-    await supabase.from("audit_log").insert({
+    const admin = createAdminClient();
+    await admin.from("audit_log").insert({
       org_id: orgId,
       actor_id: uid,
       action,
@@ -47,7 +49,7 @@ export async function setActivityStatus(activityId: string, label: string) {
     { onConflict: "org_id,activity_id" },
   );
   if (error) throw new Error(error.message);
-  await audit(supabase, orgId, uid, "status.set", "activity", activityId, { status });
+  await audit(orgId, uid, "status.set", "activity", activityId, { status });
 }
 
 export async function bulkSetStatus(activityIds: string[], label: string) {
@@ -65,7 +67,7 @@ export async function bulkSetStatus(activityIds: string[], label: string) {
     .from("activity_status")
     .upsert(rows, { onConflict: "org_id,activity_id" });
   if (error) throw new Error(error.message);
-  await audit(supabase, orgId, uid, "status.bulk", "activity", null, {
+  await audit(orgId, uid, "status.bulk", "activity", null, {
     count: activityIds.length,
     status,
   });
@@ -132,7 +134,7 @@ export async function resetAllState() {
     .delete()
     .eq("org_id", orgId);
   if (taskError) throw new Error(taskError.message);
-  await audit(supabase, orgId, uid, "state.reset", "org", orgId);
+  await audit(orgId, uid, "state.reset", "org", orgId);
 }
 
 export async function setQuizBest(phase: number, score: number) {
@@ -168,7 +170,7 @@ export async function setDeviceProfile(modules: string[] | null) {
     { onConflict: "org_id" },
   );
   if (error) throw new Error(error.message);
-  await audit(supabase, orgId, uid, "profile.set", "org", orgId, {
+  await audit(orgId, uid, "profile.set", "org", orgId, {
     configured: modules !== null,
     modules: modules ?? [],
   });
