@@ -73,7 +73,9 @@ export async function bulkSetStatus(activityIds: string[], label: string) {
 
 // Toggle a granular task. Checking the first task on a "not started" activity
 // promotes it to "in progress" (server-side, same rule as before). Returns
-// whether the promotion happened so the client can reflect it.
+// whether the promotion happened so the client can reflect it. Every write is
+// error-checked: a failed/RLS-blocked write throws so the client's optimistic
+// update rolls back instead of silently dropping the change.
 export async function toggleTask(
   activityId: string,
   stepIndex: number,
@@ -81,33 +83,37 @@ export async function toggleTask(
 ): Promise<{ promoted: boolean }> {
   const { supabase, uid, orgId } = await ctx();
   if (done) {
-    await supabase.from("task_completion").upsert(
+    const { error } = await supabase.from("task_completion").upsert(
       { org_id: orgId, activity_id: activityId, step_index: stepIndex, updated_by: uid, updated_at: NOW() },
       { onConflict: "org_id,activity_id,step_index" },
     );
+    if (error) throw new Error(error.message);
   } else {
-    await supabase
+    const { error } = await supabase
       .from("task_completion")
       .delete()
       .eq("org_id", orgId)
       .eq("activity_id", activityId)
       .eq("step_index", stepIndex);
+    if (error) throw new Error(error.message);
   }
 
   let promoted = false;
   if (done) {
-    const { data: cur } = await supabase
+    const { data: cur, error: selError } = await supabase
       .from("activity_status")
       .select("status")
       .eq("org_id", orgId)
       .eq("activity_id", activityId)
       .maybeSingle();
+    if (selError) throw new Error(selError.message);
     const status = (cur as { status: string } | null)?.status;
     if (!status || status === "not_started") {
-      await supabase.from("activity_status").upsert(
+      const { error } = await supabase.from("activity_status").upsert(
         { org_id: orgId, activity_id: activityId, status: "in_progress", updated_by: uid, updated_at: NOW() },
         { onConflict: "org_id,activity_id" },
       );
+      if (error) throw new Error(error.message);
       promoted = true;
     }
   }
@@ -116,26 +122,36 @@ export async function toggleTask(
 
 export async function resetAllState() {
   const { supabase, uid, orgId } = await ctx();
-  await supabase.from("activity_status").delete().eq("org_id", orgId);
-  await supabase.from("task_completion").delete().eq("org_id", orgId);
+  const { error: statusError } = await supabase
+    .from("activity_status")
+    .delete()
+    .eq("org_id", orgId);
+  if (statusError) throw new Error(statusError.message);
+  const { error: taskError } = await supabase
+    .from("task_completion")
+    .delete()
+    .eq("org_id", orgId);
+  if (taskError) throw new Error(taskError.message);
   await audit(supabase, orgId, uid, "state.reset", "org", orgId);
 }
 
 export async function setQuizBest(phase: number, score: number) {
   const { supabase, uid, orgId } = await ctx();
-  const { data: cur } = await supabase
+  const { data: cur, error: selError } = await supabase
     .from("quiz_score")
     .select("best_score")
     .eq("org_id", orgId)
     .eq("phase", phase)
     .maybeSingle();
+  if (selError) throw new Error(selError.message);
   const best = (cur as { best_score: number } | null)?.best_score ?? -1;
   if (score > best) {
-    await supabase.from("quiz_score").upsert(
+    const { error } = await supabase.from("quiz_score").upsert(
       { org_id: orgId, phase, best_score: score, updated_by: uid, updated_at: NOW() },
       { onConflict: "org_id,phase" },
     );
-    }
+    if (error) throw new Error(error.message);
+  }
 }
 
 // modules = null → not configured (show everything); [] → Core only; [..] → those modules.

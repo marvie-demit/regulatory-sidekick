@@ -41,6 +41,10 @@ const FAIL = "Couldn't save — check your connection";
 // (the (app) layout reads it). Every mutation updates the store optimistically
 // and persists via a Server Action, rolling back on failure. Refs mirror state
 // so the callbacks stay referentially stable but can read/restore latest values.
+//
+// Rollback rule: on failure we revert ONLY the key this operation touched, and
+// only if our optimistic value still stands — never a whole-map snapshot, which
+// would erase a concurrent save to a different key that landed during the await.
 export function StateProvider({
   initial,
   children,
@@ -76,43 +80,75 @@ export function StateProvider({
   };
 
   const setStatus = useCallback((id: string, label: string) => {
-    const prev = statusRef.current;
-    writeStatus({ ...prev, [id]: label });
+    const before = statusRef.current[id];
+    writeStatus({ ...statusRef.current, [id]: label });
     aSetStatus(id, label).catch(() => {
-      writeStatus(prev);
+      if (statusRef.current[id] === label) {
+        const m = { ...statusRef.current };
+        if (before === undefined) delete m[id];
+        else m[id] = before;
+        writeStatus(m);
+      }
       toast(FAIL);
     });
   }, []);
 
   const bulkSet = useCallback((ids: string[], label: string) => {
     if (!ids.length) return;
-    const prev = statusRef.current;
-    const next = { ...prev };
+    const before: Record<string, string | undefined> = {};
+    ids.forEach((id) => (before[id] = statusRef.current[id]));
+    const next = { ...statusRef.current };
     ids.forEach((id) => (next[id] = label));
     writeStatus(next);
     aBulkSet(ids, label).catch(() => {
-      writeStatus(prev);
+      const m = { ...statusRef.current };
+      ids.forEach((id) => {
+        if (m[id] !== label) return; // superseded by a newer save — leave it
+        const b = before[id];
+        if (b === undefined) delete m[id];
+        else m[id] = b;
+      });
+      writeStatus(m);
       toast(FAIL);
     });
   }, []);
 
   const toggleTask = useCallback((id: string, index: number, done: boolean) => {
-    const prevTasks = tasksRef.current;
-    const cur = { ...(prevTasks[id] || {}) };
+    const beforeTask = tasksRef.current[id]?.[index]; // 1 | undefined
+    const cur = { ...(tasksRef.current[id] || {}) };
     if (done) cur[index] = 1;
     else delete cur[index];
-    writeTasks({ ...prevTasks, [id]: cur });
+    writeTasks({ ...tasksRef.current, [id]: cur });
+
     // Auto-promote not-started → in-progress on first check (matches the server).
-    if (done && (statusRef.current[id] || "Not started") === "Not started") {
-      writeStatus({ ...statusRef.current, [id]: "In progress" });
-    }
+    const beforeStatus = statusRef.current[id];
+    const promoted =
+      done && (beforeStatus || "Not started") === "Not started";
+    if (promoted) writeStatus({ ...statusRef.current, [id]: "In progress" });
+
     aToggleTask(id, index, done).catch(() => {
-      writeTasks(prevTasks);
+      // Revert only this task, and only if our optimistic value still stands.
+      if ((tasksRef.current[id]?.[index] === 1) === done) {
+        const t = { ...tasksRef.current };
+        const entry = { ...(t[id] || {}) };
+        if (beforeTask === undefined) delete entry[index];
+        else entry[index] = beforeTask;
+        t[id] = entry;
+        writeTasks(t);
+      }
+      // Roll back the auto-promotion we applied, if it still stands.
+      if (promoted && statusRef.current[id] === "In progress") {
+        const s = { ...statusRef.current };
+        if (beforeStatus === undefined) delete s[id];
+        else s[id] = beforeStatus;
+        writeStatus(s);
+      }
       toast(FAIL);
     });
   }, []);
 
   const reset = useCallback(() => {
+    // Reset is an all-or-nothing clear, so a full snapshot restore is correct.
     const prevS = statusRef.current;
     const prevT = tasksRef.current;
     writeStatus({});
@@ -126,12 +162,21 @@ export function StateProvider({
 
   const saveQuiz = useCallback((phase: number, score: number) => {
     if (score <= (quizRef.current[phase] ?? -1)) return;
-    const prev = quizRef.current;
-    writeQuiz({ ...prev, [phase]: score });
-    aSetQuiz(phase, score).catch(() => writeQuiz(prev));
+    const before = quizRef.current[phase];
+    writeQuiz({ ...quizRef.current, [phase]: score });
+    aSetQuiz(phase, score).catch(() => {
+      if (quizRef.current[phase] === score) {
+        const q = { ...quizRef.current };
+        if (before === undefined) delete q[phase];
+        else q[phase] = before;
+        writeQuiz(q);
+      }
+      toast(FAIL);
+    });
   }, []);
 
   const setProfile = useCallback((p: Record<string, number> | null) => {
+    // Profile is one atomic value, so a full restore is correct.
     const prev = profileRef.current;
     writeProfile(p);
     aSetProfile(p ? Object.keys(p) : null).catch(() => {
