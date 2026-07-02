@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { AuthForm } from "@/components/auth/AuthForm";
+import { FlashNotice } from "@/components/app-shell/FlashNotice";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata = { title: "Sign in" };
@@ -18,6 +19,7 @@ export default async function LoginPage({
 
   return (
     <>
+      <FlashNotice className="mb-4" />
       <h1 className="font-display text-2xl font-semibold text-teal-900">
         Welcome back
       </h1>

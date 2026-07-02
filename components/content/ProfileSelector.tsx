@@ -115,9 +115,9 @@ export function ProfileSelector({
       </div>
 
       <p className="mt-5 rounded-lg bg-cream px-4 py-3 text-[13px] text-muted">
-        Your selection is saved and scopes the roadmap, checklist, matrix and
-        library. Once accounts are wired up it becomes your organisation&apos;s
-        device profile.
+        Your selection is saved as your organisation&apos;s device profile and
+        scopes the roadmap, checklist, matrix and library for everyone on your
+        team.
       </p>
     </>
   );

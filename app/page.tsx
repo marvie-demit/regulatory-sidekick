@@ -9,7 +9,7 @@ export default function Home() {
       </h1>
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
         A guided, step-by-step quality management system for ISO&nbsp;13485,
-        EU&nbsp;MDR and IVDR — plus key FDA requirements — made from
+        EU&nbsp;MDR and IVDR — plus key FDA requirements — made for
         manufacturers, by manufacturers.
       </p>
       <div className="mt-9 flex flex-wrap items-center justify-center gap-3">

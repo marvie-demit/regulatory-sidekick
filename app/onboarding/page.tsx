@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { OnboardingForm } from "@/components/auth/OnboardingForm";
+import { FlashNotice } from "@/components/app-shell/FlashNotice";
 import { getMemberships } from "@/lib/auth/org";
 import { createClient } from "@/lib/supabase/server";
 
@@ -19,6 +20,7 @@ export default async function OnboardingPage() {
       <span className="font-display text-lg font-semibold text-teal-900">
         Regulatory Sidekick
       </span>
+      <FlashNotice className="mt-6 w-full max-w-md" />
       <div className="mt-6 w-full max-w-md rounded-2xl border border-line bg-card p-7 shadow-sm">
         <h1 className="font-display text-2xl font-semibold text-teal-900">
           Create your organization

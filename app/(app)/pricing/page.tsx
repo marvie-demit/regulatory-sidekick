@@ -11,7 +11,7 @@ const CONTACT = "regulatory.sidekick@notjustany.tech";
 const FEATURES = [
   "All 53 activities and 197 deep sub-activities",
   "All 275 controlled-document templates — view, customise, download",
-  "Checklist progress, Gantt timeline, shared team workspace",
+  "Checklist progress, Gantt timeline, and up to 3 team members",
   "Standards matrix, knowledge checks, device-profile scoping",
   "12 months of updates and support included",
 ];
@@ -74,7 +74,7 @@ export default async function PricingPage() {
             <b className="text-teal-900">
               individual QA/RA managers or solo practitioners
             </b>{" "}
-            — your own organisation, one user. By application.
+            — your own organisation, up to 3 users. By application.
           </p>
           {full ? (
             <div className="mt-5 inline-flex rounded-full bg-cream2 px-5 py-2.5 text-sm font-semibold text-teal-800">
