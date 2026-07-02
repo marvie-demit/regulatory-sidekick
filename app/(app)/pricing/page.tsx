@@ -11,7 +11,7 @@ const CONTACT = "regulatory.sidekick@notjustany.tech";
 const FEATURES = [
   "All 53 activities and 197 deep sub-activities",
   "All 275 controlled-document templates — view, customise, download",
-  "Checklist progress, Gantt timeline, evidence uploads, full team",
+  "Checklist progress, Gantt timeline, shared team workspace",
   "Standards matrix, knowledge checks, device-profile scoping",
   "12 months of updates and support included",
 ];

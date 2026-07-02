@@ -5,15 +5,11 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ACTIVE_ORG_COOKIE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
+import { safeNext } from "./safe-next";
 
 // Returned to useActionState in the auth form. (Not exported as a type — a
 // "use server" module may only export async functions.)
 type AuthResult = { error?: string; message?: string };
-
-function safeNext(next: unknown): string {
-  const n = typeof next === "string" ? next : "";
-  return n.startsWith("/") && !n.startsWith("//") ? n : "/dashboard";
-}
 
 export async function signIn(
   _prev: AuthResult,
