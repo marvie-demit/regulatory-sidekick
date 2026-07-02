@@ -1,7 +1,8 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useOrgState } from "@/components/app-shell/StateProvider";
+import { RealizationChain } from "@/components/content/RealizationChain";
 import {
   PHASE_LABELS,
   TIERS,
@@ -15,7 +16,16 @@ export function ProcessMapView({ rows }: { rows: MatrixRow[] }) {
   const { profile } = useOrgState();
   const configured = profile !== null;
   const [scoped, setScoped] = useState(configured);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const detailRef = useRef<HTMLDivElement>(null);
   const scope = profileToScope(profile as Record<string, unknown> | null);
+
+  const openDetail = () => {
+    setDetailOpen(true);
+    requestAnimationFrame(() =>
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
+  };
 
   const view: MatrixRow[] =
     scoped && configured
@@ -41,6 +51,25 @@ export function ProcessMapView({ rows }: { rows: MatrixRow[] }) {
 
   return (
     <>
+      <RealizationChain onOpen={openDetail} />
+
+      <div ref={detailRef} className="mt-8">
+        <button
+          type="button"
+          onClick={() => setDetailOpen((o) => !o)}
+          aria-expanded={detailOpen}
+          className="flex w-full items-center justify-between rounded-xl border border-line bg-cream px-4 py-3 text-left transition hover:border-coral"
+        >
+          <span className="font-display text-base font-semibold text-teal-900">
+            Full process detail — 39 processes × 4 phases
+          </span>
+          <span className="text-sm font-semibold text-coral">
+            {detailOpen ? "Hide detail ▾" : "Show detail ▸"}
+          </span>
+        </button>
+
+        {detailOpen ? (
+          <>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {configured ? (
           <div className="inline-flex rounded-full border border-line bg-card p-0.5 text-sm">
@@ -172,6 +201,9 @@ export function ProcessMapView({ rows }: { rows: MatrixRow[] }) {
             })}
           </tbody>
         </table>
+      </div>
+          </>
+        ) : null}
       </div>
     </>
   );

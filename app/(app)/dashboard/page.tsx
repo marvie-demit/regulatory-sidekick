@@ -19,7 +19,6 @@ export default function DashboardPage() {
     <DashboardClient
       phases={content.phases}
       acts={acts}
-      qses={content.qses}
       modules={content.modules}
       docModules={docModules}
       totalDocs={content.stats.docs}

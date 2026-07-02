@@ -18,20 +18,21 @@ export default async function ProcessMapPage() {
         Process map
       </h1>
       <p className="lead">
-        How the {stats.processes}{" "}
-        processes interact across the four phases (the
-        ISO&nbsp;13485 §4.1.2 process-interaction map). Each cell is the step a
-        process runs in that phase — starting lean and maturing toward
-        certification. Every step produces controlled documents: {stats.steps}{" "}
-        steps · {stats.docs} documents, with none unaccounted for.
+        The realization chain — how your core processes trigger and hand off to
+        each other as the device matures across the four phases. Rows are
+        processes, columns are phases (left&nbsp;→&nbsp;right), and arrows show
+        what triggers or feeds what. Open any cell for the full detail:{" "}
+        {stats.processes} processes · {stats.steps} steps · {stats.docs}{" "}
+        controlled documents, with every document mapped to the step that
+        creates it.
       </p>
 
       <ProcessMapView rows={rows} />
 
       <p className="mt-4 text-xs text-muted">
-        Switch to <strong>My device</strong> to see only the processes and steps
-        your device profile requires — the same profile that scopes your roadmap
-        and document library. <strong>Full library</strong> shows every process.
+        The detail table below scopes to your device with{" "}
+        <strong>My device</strong> (the same profile that scopes your roadmap and
+        document library); <strong>Full library</strong> shows every process.
       </p>
     </main>
   );

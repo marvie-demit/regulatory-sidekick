@@ -24,7 +24,6 @@ function fmtWk(d: number) {
 export function DashboardClient({
   phases,
   acts,
-  qses,
   modules,
   docModules,
   totalDocs,
@@ -32,7 +31,6 @@ export function DashboardClient({
 }: {
   phases: Phase[];
   acts: Act[];
-  qses: string[];
   modules: ModuleDef[];
   docModules: string[];
   totalDocs: number;
@@ -197,19 +195,6 @@ export function DashboardClient({
           Open the process map →
         </span>
       </Link>
-
-      <div className="sect-h">Work by essential</div>
-      <div className="chips">
-        {qses.map((q) => (
-          <Link
-            key={q}
-            className="chip"
-            href={`/checklist?qse=${encodeURIComponent(q)}`}
-          >
-            {q}
-          </Link>
-        ))}
-      </div>
     </main>
   );
 }
