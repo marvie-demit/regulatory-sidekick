@@ -68,28 +68,29 @@ export async function listOrgs(): Promise<AdminOrg[]> {
     .order("created_at", { ascending: false })
     .limit(100);
   const rows = (data ?? []) as Record<string, unknown>[];
-  const result: AdminOrg[] = [];
-  for (const o of rows) {
-    let ownerEmail: string | null = null;
-    try {
-      const { data: u } = await admin.auth.admin.getUserById(
-        o.created_by as string,
-      );
-      ownerEmail = u.user?.email ?? null;
-    } catch {
-      // ignore identity lookup failure — still show the org row
-    }
-    result.push({
-      id: o.id as string,
-      name: o.name as string,
-      plan: (o.plan as string) ?? "explore",
-      planExpiresAt: (o.plan_expires_at as string | null) ?? null,
-      createdAt: o.created_at as string,
-      members: Array.isArray(o.memberships)
-        ? ((o.memberships[0] as { count?: number })?.count ?? 0)
-        : 0,
-      ownerEmail,
-    });
-  }
-  return result;
+  // Resolve owner emails in parallel — this was ~100 sequential round-trips.
+  return Promise.all(
+    rows.map(async (o) => {
+      let ownerEmail: string | null = null;
+      try {
+        const { data: u } = await admin.auth.admin.getUserById(
+          o.created_by as string,
+        );
+        ownerEmail = u.user?.email ?? null;
+      } catch {
+        // ignore identity lookup failure — still show the org row
+      }
+      return {
+        id: o.id as string,
+        name: o.name as string,
+        plan: (o.plan as string) ?? "explore",
+        planExpiresAt: (o.plan_expires_at as string | null) ?? null,
+        createdAt: o.created_at as string,
+        members: Array.isArray(o.memberships)
+          ? ((o.memberships[0] as { count?: number })?.count ?? 0)
+          : 0,
+        ownerEmail,
+      };
+    }),
+  );
 }

@@ -35,26 +35,32 @@ export async function GET(
     return res;
   }
 
-  // Signed in but no workspace yet → create one first, then come back here.
-  const org = await getActiveOrg();
-  if (!org) {
-    const res = NextResponse.redirect(new URL(`/onboarding`, origin));
-    res.cookies.set(PENDING_REDEEM_COOKIE, code, cookieOpts);
-    return res;
-  }
-
-  // Resolve against the active workspace; clear the pending cookie on every exit.
+  // Clear the pending cookie on every resolved exit, so a transient failure
+  // can't leave the user re-redirecting to /redeem until the cookie expires (1h).
   const done = (path: string) => {
     const res = NextResponse.redirect(new URL(path, origin));
     res.cookies.delete(PENDING_REDEEM_COOKIE);
     return res;
   };
-  if (org.role !== "admin") return done(`/pricing?redeem=notadmin`);
 
-  const { error } = await supabase.rpc("redeem_access_code", {
-    p_raw_code: code,
-    p_org: org.id,
-  });
-  if (error) return done(`/pricing?redeem=invalid`);
-  return done(`/dashboard?redeem=ok`);
+  try {
+    // Signed in but no workspace yet → create one first, then come back here.
+    const org = await getActiveOrg();
+    if (!org) {
+      const res = NextResponse.redirect(new URL(`/onboarding`, origin));
+      res.cookies.set(PENDING_REDEEM_COOKIE, code, cookieOpts);
+      return res;
+    }
+    if (org.role !== "admin") return done(`/pricing?redeem=notadmin`);
+
+    const { error } = await supabase.rpc("redeem_access_code", {
+      p_raw_code: code,
+      p_org: org.id,
+    });
+    return done(error ? `/pricing?redeem=invalid` : `/dashboard?redeem=ok`);
+  } catch {
+    // Unexpected failure (e.g. transient DB error) — clear the cookie so the
+    // user isn't trapped, and let them retry via the manual redeem field.
+    return done(`/pricing?redeem=invalid`);
+  }
 }

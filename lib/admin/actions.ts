@@ -61,7 +61,17 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
     ...(targetOrgId ? { target_org_id: targetOrgId } : {}),
   };
   let ins = await admin.from("access_codes").insert(full);
-  if (ins.error) ins = await admin.from("access_codes").insert(base);
+  if (ins.error) {
+    // The hash-only fallback also drops target_org_id — never silently downgrade
+    // an org-locked code into a generic one that any org could redeem.
+    if (targetOrgId)
+      return {
+        error:
+          "Could not create an org-locked code (ensure migrations 0005 & 0006 are applied): " +
+          ins.error.message,
+      };
+    ins = await admin.from("access_codes").insert(base);
+  }
   if (ins.error) return { error: ins.error.message };
 
   const hdrs = await headers();

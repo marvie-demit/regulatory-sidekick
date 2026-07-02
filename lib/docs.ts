@@ -10,16 +10,17 @@ export type DocFile = { ext: string; name: string };
 let _m: Record<string, DocFile> | null = null;
 
 function manifest(): Record<string, DocFile> {
-  if (!_m) {
-    try {
-      _m = JSON.parse(
-        readFileSync(join(process.cwd(), "content", "docs.manifest.json"), "utf-8"),
-      ) as Record<string, DocFile>;
-    } catch {
-      _m = {};
-    }
+  if (_m) return _m;
+  try {
+    _m = JSON.parse(
+      readFileSync(join(process.cwd(), "content", "docs.manifest.json"), "utf-8"),
+    ) as Record<string, DocFile>;
+    return _m;
+  } catch {
+    // Don't cache a failed read — caching {} would break every download until
+    // the server restarts. Return empty this time and retry on the next call.
+    return {};
   }
-  return _m;
 }
 
 export function docFile(docId: string): DocFile | null {

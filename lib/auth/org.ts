@@ -27,7 +27,12 @@ export async function getMemberships(): Promise<OrgMembership[]> {
       .order("created_at", { ascending: true });
   }
   const { data, error } = res;
-  if (error || !data) return [];
+  // A real query failure must NOT look like "no organisations" — that would
+  // funnel an existing user into onboarding (creating a duplicate org) and can
+  // trap the redeem cookie re-looping. Surface it so the error boundary shows a
+  // retry. Genuinely-empty data (new user) still returns [].
+  if (error) throw new Error("Could not load your organisations. Please try again.");
+  if (!data) return [];
   return (data as any[])
     .map((r) => {
       const o = Array.isArray(r.organizations)
