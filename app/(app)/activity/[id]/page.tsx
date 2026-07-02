@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CRITset, getActivity, pnum } from "@/lib/content/content";
-import { canViewActivity } from "@/lib/auth/access";
+import { canViewActivity, hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
+import { listEvidence } from "@/lib/db/evidence";
 import { ActivityTasks } from "@/components/content/ActivityTasks";
 import { DocWorkflow } from "@/components/content/DocWorkflow";
+import { EvidenceSection } from "@/components/content/EvidenceSection";
 import { LockedNotice } from "@/components/content/LockedNotice";
 import { StatusDropdown } from "@/components/content/StatusDropdown";
 
@@ -83,6 +85,7 @@ export default async function ActivityPage({
   // (sub-activities, tasks, clause coverage) never leaves the server.
   const org = await getActiveOrg();
   const allowed = canViewActivity(org?.plan, id);
+  const evidence = allowed && org ? await listEvidence(org.id, id) : [];
 
   return (
     <main className="mx-auto max-w-3xl px-8 py-10">
@@ -253,6 +256,17 @@ export default async function ActivityPage({
           <Section label="Status">
             <StatusDropdown id={a.id} />
           </Section>
+
+          {org && (
+            <Section label="Evidence">
+              <EvidenceSection
+                activityId={a.id}
+                orgId={org.id}
+                canUpload={hasFullAccess(org.plan)}
+                items={evidence}
+              />
+            </Section>
+          )}
         </>
       )}
     </main>

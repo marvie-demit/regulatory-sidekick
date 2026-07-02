@@ -12,6 +12,7 @@ const FEATURES = [
   "All 53 activities and 197 deep sub-activities",
   "All 275 controlled-document templates — view, customise, download",
   "Checklist progress, Gantt timeline, and up to 3 team members",
+  "Per-activity evidence uploads (private to your workspace)",
   "Standards matrix, knowledge checks, device-profile scoping",
   "12 months of updates and support included",
 ];

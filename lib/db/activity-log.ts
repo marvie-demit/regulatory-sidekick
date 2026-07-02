@@ -23,6 +23,8 @@ const LABELS: Record<string, string> = {
   "state.reset": "Reset all progress",
   "profile.set": "Updated device profile",
   "document.download": "Downloaded a document",
+  "evidence.add": "Attached evidence",
+  "evidence.delete": "Removed evidence",
   "plan.redeem": "Redeemed an access code",
   "plan.set_by_platform_admin": "Plan updated by platform admin",
 };
