@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "check:model": "node scripts/check-process-model.mjs",
+    "build": "node scripts/check-process-model.mjs && next build",
     "start": "next start",
     "lint": "eslint"
   },
