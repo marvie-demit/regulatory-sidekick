@@ -46,6 +46,12 @@ const NAV: { group: string; items: NavItem[] }[] = [
         ready: true,
       },
       {
+        label: "Activity log",
+        href: "/settings/activity",
+        match: "/settings/activity",
+        ready: true,
+      },
+      {
         label: "Account",
         href: "/settings/profile",
         match: "/settings/profile",
