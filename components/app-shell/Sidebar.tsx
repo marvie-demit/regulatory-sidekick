@@ -21,6 +21,12 @@ const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       { label: "Standards matrix", href: "/matrix", match: "/matrix", ready: true },
       { label: "Document library", href: "/library", match: "/library", ready: true },
+      {
+        label: "Process map",
+        href: "/process-map",
+        match: "/process-map",
+        ready: true,
+      },
     ],
   },
   {
