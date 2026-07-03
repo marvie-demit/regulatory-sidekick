@@ -143,10 +143,8 @@ export function RoadmapTree({
 }) {
   const { status, profile } = useOrgState();
   const full = hasFullAccess(plan);
-  // collapsible tiers — "support & enabling" (the long tail) collapsed by default
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
-    support: true,
-  });
+  // collapsible tiers — all expanded by default (consistent), user collapses any
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
   const vis = acts.filter((a) => actInScope(a, profile));
 
@@ -266,11 +264,12 @@ export function RoadmapTree({
                     acc += c.h + GAP;
                   });
                   return (
-                    <div key={p} className="flex" style={{ height: tree.h }}>
-                      <div
-                        className="flex items-center"
-                        style={{ height: tree.h }}
-                      >
+                    <div
+                      key={p}
+                      className="flex items-center"
+                      style={{ minHeight: tree.h }}
+                    >
+                      <div className="flex items-center self-stretch">
                         <div
                           className="flex-none rounded-xl border-2 border-teal-800 bg-teal-800 px-3 py-2 text-white"
                           style={{ width: PILLW }}

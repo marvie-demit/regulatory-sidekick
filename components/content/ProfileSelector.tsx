@@ -127,26 +127,28 @@ export function ProfileSelector({
       <h2 className="mt-6 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
         Other markets
       </h2>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={fdaOn}
-        onClick={() => setFda(!fdaOn)}
-        className={`mt-3 flex w-full items-start gap-3 rounded-xl border p-4 text-left transition sm:w-[372px] ${fdaOn ? "border-teal-600 bg-[#eef5f2]" : off}`}
-      >
-        <span
-          className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${fdaOn ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={fdaOn}
+          onClick={() => setFda(!fdaOn)}
+          className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${fdaOn ? "border-teal-600 bg-[#eef5f2]" : off}`}
         >
-          <span className="h-4 w-4 rounded-full bg-white shadow" />
-        </span>
-        <span className="flex flex-col">
-          <span className="font-medium text-teal-900">US FDA</span>
-          <span className="text-[12px] text-muted">
-            Adds the US pathway (510(k)/PMA, QMSR) & reporting. Can be combined
-            with an EU route, or used on its own.
+          <span
+            className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${fdaOn ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
+          >
+            <span className="h-4 w-4 rounded-full bg-white shadow" />
           </span>
-        </span>
-      </button>
+          <span className="flex flex-col">
+            <span className="font-medium text-teal-900">US FDA</span>
+            <span className="text-[12px] text-muted">
+              Adds the US pathway (510(k)/PMA, QMSR) & reporting. Can be combined
+              with an EU route, or used on its own.
+            </span>
+          </span>
+        </button>
+      </div>
 
       {/* --- Device characteristics --- */}
       <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
