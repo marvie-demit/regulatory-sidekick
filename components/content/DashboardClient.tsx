@@ -94,7 +94,7 @@ export function DashboardClient({
         Dashboard
       </h1>
       <p className="lead">
-        Your Medical Device Stepwise Implementation - a lean, audit-ready IMS
+        Your Medical Device Stepwise Implementation - a lean, audit-ready QMS
         toward ISO 13485, EU MDR/IVDR, ISO 27001/42001 and GDPR, implemented
         step by step on the WHO LQSI model.
       </p>
