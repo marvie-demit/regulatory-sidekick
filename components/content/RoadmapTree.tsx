@@ -22,6 +22,7 @@ export type TAct = {
   mods: string[];
   reg?: string[];
   depends: string;
+  wave: string; // "W1".."Wn" — per-phase dependency level = recommended start order
 };
 
 const TIERS: { key: string; label: string }[] = [
@@ -158,6 +159,34 @@ export function RoadmapTree({
     groups[a.proc].push(a);
   });
 
+  // Recommended start order: the model's per-phase dependency wave (what each
+  // step needs as input) re-ranked to a contiguous 1..k for the visible profile.
+  // Every card carries its number so the "parallel-looking" roots read as ①②③.
+  const waveNum = (a: TAct) => parseInt(a.wave.slice(1), 10) || 1;
+  const presentWaves = Array.from(new Set(vis.map(waveNum))).sort((x, y) => x - y);
+  const rankOf: Record<number, number> = {};
+  presentWaves.forEach((w, i) => (rankOf[w] = i + 1));
+  const maxRank = presentWaves.length || 1;
+  const rankFor = (a: TAct) => rankOf[waveNum(a)] || 1;
+  const minRank = (p: string) => Math.min(...groups[p].map(rankFor));
+  const waveStyle = (r: number) => {
+    const t = maxRank <= 1 ? 0 : (r - 1) / (maxRank - 1);
+    const alpha = 1 - t * 0.7; // rank 1 = solid teal (do first) → later ranks fade
+    return {
+      background: `rgba(15,59,53,${alpha})`,
+      color: alpha > 0.55 ? "#fff" : "#0F3B35",
+    };
+  };
+  const WaveBadge = ({ r }: { r: number }) => (
+    <span
+      className="inline-flex h-3.5 min-w-[14px] items-center justify-center rounded px-1 text-[9px] font-bold leading-none"
+      style={waveStyle(r)}
+      aria-hidden
+    >
+      {r}
+    </span>
+  );
+
   const Card = ({ a }: { a: TAct }) => {
     const crit = critSet[a.id];
     const cls = stcls(status[a.id] || "");
@@ -170,9 +199,14 @@ export function RoadmapTree({
             {a.statement}
           </span>
         </div>
-        <div className="mt-0.5 text-[9px] text-muted">
-          {a.id} · {a.dur}d{crit ? " · critical" : ""}
-          {locked ? " · locked" : ""}
+        <div className="mt-0.5 flex items-center gap-1 text-[9px] text-muted">
+          <span title={`Recommended start order: ${rankFor(a)} of ${maxRank}`}>
+            <WaveBadge r={rankFor(a)} />
+          </span>
+          <span>
+            {a.id} · {a.dur}d{crit ? " · critical" : ""}
+            {locked ? " · locked" : ""}
+          </span>
         </div>
       </>
     );
@@ -229,8 +263,27 @@ export function RoadmapTree({
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-line bg-card px-3 py-2 text-[10px] text-muted">
+        <span className="font-semibold uppercase tracking-wide text-teal-800">
+          Start order
+        </span>
+        <span className="flex items-center gap-1">
+          {presentWaves.map((_, i) => (
+            <WaveBadge key={i} r={i + 1} />
+          ))}
+        </span>
+        <span className="max-w-xl">
+          Each card is numbered by the order to tackle it in this phase — lower
+          first, same number = do in parallel. Derived from what each step needs
+          as input (e.g. intended purpose → classification → discipline plans).
+        </span>
+      </div>
       {TIERS.map((tier) => {
-        const procs = order.filter((p) => groups[p][0].tier === tier.key);
+        const procs = order
+          .filter((p) => groups[p][0].tier === tier.key)
+          .sort(
+            (a, b) => minRank(a) - minRank(b) || order.indexOf(a) - order.indexOf(b),
+          );
         if (!procs.length) return null;
         const isOpen = !collapsed[tier.key];
         const stepCount = procs.reduce((n, p) => n + groups[p].length, 0);

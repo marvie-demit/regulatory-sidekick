@@ -29,7 +29,8 @@
           ],
           "consumes": [],
           "handoffTo": [
-            "DEV.intended"
+            "DEV.intended",
+            "DEV.intended.ivd"
           ]
         },
         {
@@ -51,7 +52,9 @@
             "TEF.classify.ivdr",
             "CLE.plan",
             "PEV.plan",
-            "DEV.inputs"
+            "DEV.inputs",
+            "SWD.plan",
+            "AIM.plan"
           ]
         },
         {
@@ -180,7 +183,8 @@
           ],
           "handoffTo": [
             "DEV.inputs",
-            "RSK.analyze"
+            "RSK.analyze",
+            "SWD.plan"
           ]
         },
         {
@@ -1411,9 +1415,7 @@
             "QMN-LIS-02"
           ],
           "consumes": [],
-          "handoffTo": [
-            "DOC.establish"
-          ]
+          "handoffTo": []
         }
       ]
     },

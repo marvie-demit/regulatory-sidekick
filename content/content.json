@@ -44,7 +44,7 @@
    "who": "Development team",
    "documents": "DEV-SOP-01; DEV-SOP-03; DEV-FOR-06; DEV-LIS-01",
    "depends": "-",
-   "leads": "DEV.intended",
+   "leads": "DEV.intended, DEV.intended.ivd",
    "clause": "ISO 13485 7.3.3-7.3.6",
    "mods": [
     "Core"
@@ -380,7 +380,7 @@
    "who": "Project / Software Lead",
    "documents": "DEV-TPL-01; DEV-TPL-02; DEV-FOR-01; DEV-TPL-07",
    "depends": "DEV.establish",
-   "leads": "RSK.plan, TEF.classify.mdr, TEF.classify.ivdr, CLE.plan, PEV.plan, DEV.inputs",
+   "leads": "RSK.plan, TEF.classify.mdr, TEF.classify.ivdr, CLE.plan, PEV.plan, DEV.inputs, SWD.plan, AIM.plan",
    "clause": "ISO 13485 7.3.2 / IEC 62304 5.1",
    "mods": [
     "Core"
@@ -1098,7 +1098,7 @@
   {
    "id": "DEV.intended.ivd",
    "phase": "P1",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Intended purpose (IVD)",
    "why": "An in-vitro diagnostic is developed around its intended purpose and its analytical and clinical performance - what it measures, in whom, and how well. This activity stands up the IVD-specific design process so your performance claims are designed in and provable, not bolted on.",
@@ -1106,7 +1106,7 @@
    "how": "",
    "who": "R&D / Quality",
    "documents": "DEV-TPL-03",
-   "depends": "-",
+   "depends": "DEV.establish",
    "leads": "PEV.plan, TEF.classify.ivdr, DEV.ivd",
    "clause": "ISO 13485 7.3",
    "mods": [
@@ -1296,8 +1296,8 @@
     }
    ],
    "dur": 15,
-   "es": 0,
-   "ef": 15,
+   "es": 15,
+   "ef": 30,
    "sid": "DEV.intended.ivd",
    "proc": "DEV",
    "procName": "Design & development",
@@ -1310,7 +1310,7 @@
   {
    "id": "DEV.ivd",
    "phase": "P2",
-   "wave": "W4",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Run the IVD design & development (assay-specific).",
    "why": "IVD design and development follows the same design-control discipline but with assay-specific inputs and outputs: the intended purpose and analyte, the assay design, reagents and specimen requirements, and the design plan geared to the IVDR performance-evaluation evidence. Getting the IVD design right and traceable is what makes the analytical and clinical performance studies meaningful.",
@@ -1425,8 +1425,8 @@
     }
    ],
    "dur": 20,
-   "es": 15,
-   "ef": 35,
+   "es": 30,
+   "ef": 50,
    "sid": "DEV.ivd",
    "proc": "DEV",
    "procName": "Design & development",
@@ -1448,7 +1448,7 @@
    "who": "Risk Manager",
    "documents": "RSK-SOP-01; RSK-TPL-01; RSK-FOR-01; RSK-FOR-04; RSK-FOR-05",
    "depends": "DEV.intended",
-   "leads": "DEV.inputs, RSK.analyze",
+   "leads": "DEV.inputs, RSK.analyze, SWD.plan",
    "clause": "ISO 14971 / TIR57 / AI Act 9",
    "mods": [
     "Core"
@@ -2486,8 +2486,8 @@
     }
    ],
    "dur": 4,
-   "es": 171,
-   "ef": 175,
+   "es": 178,
+   "ef": 182,
    "sid": "RSK.postmarket",
    "proc": "RSK",
    "procName": "Risk management",
@@ -2500,7 +2500,7 @@
   {
    "id": "SWD.plan",
    "phase": "P1",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Plan the software lifecycle & assign the 62304 safety class.",
    "why": "IEC 62304 starts with planning and, critically, software safety classification (Class A/B/C) based on the possible harm from a software failure. The class sets how much rigour the whole lifecycle needs. The plan defines the lifecycle model, activities, configuration management and problem resolution. Getting the safety class and plan right up front avoids under- or over-engineering the entire software effort.",
@@ -2508,7 +2508,7 @@
    "how": "1. Map the core design-build-release process.\n2. Prepare the D&D plan (DEV-TPL-07) with phases and review gates.\n3. For software, prepare the development plan and safety class (SWD-TPL-01).",
    "who": "Software Lead",
    "documents": "SWD-SOP-01; SWD-TPL-01; SWD-TPL-02; SWD-FOR-06",
-   "depends": "DEV.inputs",
+   "depends": "DEV.intended, DEV.inputs, RSK.plan",
    "leads": "SWD.design",
    "clause": "IEC 62304 s4-s5.1",
    "mods": [
@@ -2617,8 +2617,8 @@
     }
    ],
    "dur": 5,
-   "es": 0,
-   "ef": 5,
+   "es": 33,
+   "ef": 38,
    "sid": "SWD.plan",
    "proc": "SWD",
    "procName": "Software development",
@@ -2631,7 +2631,7 @@
   {
    "id": "SWD.design",
    "phase": "P2",
-   "wave": "W4",
+   "wave": "W6",
    "qse": "Process Management",
    "statement": "SW requirements & architecture.",
    "why": "For software - SaMD or embedded - IEC 62304 defines the lifecycle that makes software safe: requirements, architecture, detailed design, implementation, integration and system testing, plus maintenance, configuration management and problem resolution, all scaled to the software safety class. Skipping these steps leaves software that cannot be shown to be safe or maintainable, and the technical file cannot stand.",
@@ -2940,8 +2940,8 @@
     }
    ],
    "dur": 20,
-   "es": 5,
-   "ef": 25,
+   "es": 38,
+   "ef": 58,
    "sid": "SWD.design",
    "proc": "SWD",
    "procName": "Software development",
@@ -2954,7 +2954,7 @@
   {
    "id": "SWD.build",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Implement the software with reviews under the IEC 62304 lifecycle.",
    "why": "Implementation is where the software architecture becomes code under the IEC 62304 lifecycle. For anything above Class A, 62304 requires defined implementation with unit verification, code and design reviews and configuration control, all traceable to the software requirements and architecture. Disciplined reviews here catch defects - and safety issues - far more cheaply than in verification or in the field.",
@@ -3069,8 +3069,8 @@
     }
    ],
    "dur": 20,
-   "es": 25,
-   "ef": 45,
+   "es": 58,
+   "ef": 78,
    "sid": "SWD.build",
    "proc": "SWD",
    "procName": "Software development",
@@ -3083,7 +3083,7 @@
   {
    "id": "SWD.verify",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W8",
    "qse": "Process Management",
    "statement": "Verify & validate the software; compile the software file.",
    "why": "Software verification (unit, integration and system testing) confirms the software meets its requirements; software validation confirms it meets user needs in the intended environment. IEC 62304 s5.5-s5.7 require planned testing traceable to requirements, with results and anomalies recorded. This is where defects are caught before release, and it is the evidence a reviewer traces requirement by requirement.",
@@ -3216,8 +3216,8 @@
     }
    ],
    "dur": 15,
-   "es": 45,
-   "ef": 60,
+   "es": 78,
+   "ef": 93,
    "sid": "SWD.verify",
    "proc": "SWD",
    "procName": "Software development",
@@ -3230,7 +3230,7 @@
   {
    "id": "SWD.release",
    "phase": "P2",
-   "wave": "W7",
+   "wave": "W9",
    "qse": "Process Management",
    "statement": "Release the software with anomalies assessed + cybersecurity docs.",
    "why": "Software release under IEC 62304 5.8 requires that verification is complete, known anomalies are documented and their risk assessed, and the released version is under configuration control with an archived, reproducible build. Cybersecurity documentation (IEC 81001-5-1, MDCG 2019-16) - SBOM, threat model, security testing - is now expected in the technical file for connected and software devices. The software full report consolidates the lifecycle evidence.",
@@ -3366,8 +3366,8 @@
     }
    ],
    "dur": 12,
-   "es": 60,
-   "ef": 72,
+   "es": 93,
+   "ef": 105,
    "sid": "SWD.release",
    "proc": "SWD",
    "procName": "Software development",
@@ -4194,7 +4194,7 @@
   {
    "id": "AIM.plan",
    "phase": "P1",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "AI/ML lifecycle & data-governance plan.",
    "why": "An AI/ML component adds obligations on top of the device rules: under the EU AI Act a medical-device AI is typically high-risk, requiring a risk-management system, data and data governance, technical documentation, transparency, human oversight and demonstrated accuracy, robustness and cybersecurity. ISO/IEC 42001 provides the AI management system to govern it. Treating AI like ordinary software misses these duties and the model-specific risks of drift, bias and opacity.",
@@ -4202,7 +4202,7 @@
    "how": "1. Govern training/validation/test data and examine bias (AIM-TPL-02).\n2. Validate model performance and subgroups (AIM-TPL-03).",
    "who": "AI Lead",
    "documents": "AIM-SOP-01; AIM-TPL-01; AIM-TPL-02",
-   "depends": "-",
+   "depends": "DEV.intended",
    "leads": "AIM.build",
    "clause": "EU AI Act 10/15",
    "mods": [
@@ -4459,8 +4459,8 @@
     }
    ],
    "dur": 12,
-   "es": 0,
-   "ef": 12,
+   "es": 23,
+   "ef": 35,
    "sid": "AIM.plan",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
@@ -4726,8 +4726,8 @@
     }
    ],
    "dur": 6,
-   "es": 12,
-   "ef": 18,
+   "es": 35,
+   "ef": 41,
    "sid": "AIM.build",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
@@ -4854,8 +4854,8 @@
     }
    ],
    "dur": 10,
-   "es": 18,
-   "ef": 28,
+   "es": 41,
+   "ef": 51,
    "sid": "AIM.compliance",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
@@ -4868,7 +4868,7 @@
   {
    "id": "DEP.plan",
    "phase": "P2",
-   "wave": "W8",
+   "wave": "W9",
    "qse": "Process Management",
    "statement": "Release & deployment plan.",
    "why": "Getting software safely from 'done' to 'in the field' - and keeping it safe through updates - is its own controlled process. IEC 62304 covers release, deployment and maintenance so that what users run is the version you verified, and updates do not introduce new risk.",
@@ -5049,8 +5049,8 @@
     }
    ],
    "dur": 8,
-   "es": 73,
-   "ef": 81,
+   "es": 93,
+   "ef": 101,
    "sid": "DEP.plan",
    "proc": "DEP",
    "procName": "Release & deployment",
@@ -5176,8 +5176,8 @@
     }
    ],
    "dur": 5,
-   "es": 81,
-   "ef": 86,
+   "es": 105,
+   "ef": 110,
    "sid": "DEP.release",
    "proc": "DEP",
    "procName": "Release & deployment",
@@ -5464,7 +5464,7 @@
   {
    "id": "CLE.evidence",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Build the clinical evidence base: systematic literature & equivalence.",
    "why": "Under MDR most of the clinical evidence base is built from a systematic literature review and, where claimed, a demonstration of equivalence. The search must be reproducible and unbiased; equivalence under MDR (technical, biological and clinical characteristics) is much harder than before and rarely survives without access to the comparator's technical documentation (MDCG 2020-5). Reviewer independence must be documented.",
@@ -6144,8 +6144,8 @@
     }
    ],
    "dur": 15,
-   "es": 23,
-   "ef": 38,
+   "es": 30,
+   "ef": 45,
    "sid": "PEV.plan",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6273,8 +6273,8 @@
     }
    ],
    "dur": 8,
-   "es": 38,
-   "ef": 46,
+   "es": 45,
+   "ef": 53,
    "sid": "PEV.sv",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6409,8 +6409,8 @@
     }
    ],
    "dur": 15,
-   "es": 38,
-   "ef": 53,
+   "es": 45,
+   "ef": 60,
    "sid": "PEV.feasibility",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6578,8 +6578,8 @@
     }
    ],
    "dur": 25,
-   "es": 53,
-   "ef": 78,
+   "es": 60,
+   "ef": 85,
    "sid": "PEV.ap",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6873,8 +6873,8 @@
     }
    ],
    "dur": 30,
-   "es": 78,
-   "ef": 108,
+   "es": 85,
+   "ef": 115,
    "sid": "PEV.cp",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7023,8 +7023,8 @@
     }
    ],
    "dur": 10,
-   "es": 108,
-   "ef": 118,
+   "es": 115,
+   "ef": 125,
    "sid": "PEV.report",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7284,8 +7284,8 @@
     }
    ],
    "dur": 3,
-   "es": 23,
-   "ef": 26,
+   "es": 30,
+   "ef": 33,
    "sid": "TEF.classify.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -7300,7 +7300,7 @@
   {
    "id": "TEF.gspr.mdr",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W5",
    "qse": "Customer Focus",
    "statement": "GSPR conformity checklist — MDR.",
    "why": "Selling in the USA means FDA, not CE. You have to determine the right pathway (510(k), De Novo, PMA or exempt), make the submission, and only distribute once cleared or approved - with US-specific QMSR and UDI obligations on top.",
@@ -7636,8 +7636,8 @@
     }
    ],
    "dur": 10,
-   "es": 26,
-   "ef": 36,
+   "es": 33,
+   "ef": 43,
    "sid": "TEF.gspr.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -7779,8 +7779,8 @@
     }
    ],
    "dur": 12,
-   "es": 118,
-   "ef": 130,
+   "es": 125,
+   "ef": 137,
    "sid": "TEF.file",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -7992,8 +7992,8 @@
     }
    ],
    "dur": 10,
-   "es": 130,
-   "ef": 140,
+   "es": 137,
+   "ef": 147,
    "sid": "TEF.certify.stage1",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8217,8 +8217,8 @@
     }
    ],
    "dur": 15,
-   "es": 140,
-   "ef": 155,
+   "es": 147,
+   "ef": 162,
    "sid": "TEF.certify.stage2",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8483,8 +8483,8 @@
     }
    ],
    "dur": 10,
-   "es": 155,
-   "ef": 165,
+   "es": 162,
+   "ef": 172,
    "sid": "TEF.market.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8609,8 +8609,8 @@
     }
    ],
    "dur": 5,
-   "es": 155,
-   "ef": 160,
+   "es": 162,
+   "ef": 167,
    "sid": "TEF.market.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8735,8 +8735,8 @@
     }
    ],
    "dur": 8,
-   "es": 130,
-   "ef": 138,
+   "es": 137,
+   "ef": 145,
    "sid": "TEF.market.fda",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9426,8 +9426,8 @@
     }
    ],
    "dur": 6,
-   "es": 165,
-   "ef": 171,
+   "es": 172,
+   "ef": 178,
    "sid": "PMS.operate",
    "proc": "PMS",
    "procName": "Post-market surveillance",
@@ -10205,8 +10205,8 @@
     }
    ],
    "dur": 6,
-   "es": 138,
-   "ef": 144,
+   "es": 145,
+   "ef": 151,
    "sid": "VIG.us",
    "proc": "VIG",
    "procName": "Vigilance",
@@ -11422,7 +11422,7 @@
   {
    "id": "QMN.establish",
    "phase": "P1",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Organisation",
    "statement": "QMS manual, quality policy & guides.",
    "why": "A management system only works if Top Management owns it - ISO 13485 makes management commitment, the quality policy, measurable objectives and a clear assignment of responsibility and authority explicit requirements of clause 5, not optional good practice. Without a committed leadership that provides resources, appoints a management representative and sets the direction, the QMS decays into a paperwork exercise nobody follows. Reading the Implementation Handbook up front gives everyone the same mental model of the four-phase roadmap and how the documents fit together, so the build proceeds in a planned sequence rather than ad hoc.",
@@ -11431,7 +11431,7 @@
    "who": "Top Management",
    "documents": "QMN-MAN-01; QMN-POL-01; QMN-LIS-01; QMN-MAN-02; QMN-MAN-03; QMN-LIS-02",
    "depends": "DOC.establish",
-   "leads": "DOC.establish",
+   "leads": "-",
    "clause": "ISO 13485 5.1/5.5",
    "mods": [
     "Core"
@@ -11958,8 +11958,8 @@
     }
    ],
    "dur": 3,
-   "es": 8,
-   "ef": 11,
+   "es": 5,
+   "ef": 8,
    "sid": "QMN.establish",
    "proc": "QMN",
    "procName": "Quality management & planning",
@@ -12876,7 +12876,7 @@
   {
    "id": "DOC.establish",
    "phase": "P1",
-   "wave": "W2",
+   "wave": "W1",
    "qse": "Documents & Records",
    "statement": "Doc control, templates, glossary & registers.",
    "why": "Think of this as building the filing cabinet before you start filling it. Everything else you do - your manual, design files, risk file, audits - produces documents and records, and an auditor's very first question is always 'show me how you control them'. If procedures live in people's inboxes and records can be quietly edited, you cannot prove staff followed the current instructions or that your evidence is genuine - and that single gap can sink an audit. ISO 13485 says it plainly: documents must be reviewed and approved before use, carry a revision status, and old versions must be kept out of circulation (4.2.4); records must stay legible, findable and kept for a defined time (4.2.5). Doing this first saves you from re-doing everything later, because every activity that follows simply slots into the system you set up here. It is not glamorous, but it is the single highest-leverage thing you can do on day one.",
@@ -12884,7 +12884,7 @@
    "how": "1. Adopt the naming convention and class scheme (DOC-LIS-05).\n2. Create the controlled folder structure with access rights; decide retention.\n3. Release DOC-SOP-01 and the master templates.",
    "who": "QMR",
    "documents": "DOC-SOP-01; DOC-TPL-01; DOC-TPL-02; DOC-TPL-03; DOC-FOR-01; DOC-LIS-01; DOC-LIS-03; DOC-LIS-04; DOC-LIS-05",
-   "depends": "QMN.establish",
+   "depends": "-",
    "leads": "QMN.establish",
    "clause": "ISO 13485 4.2.4/4.2.5",
    "mods": [
@@ -13383,8 +13383,8 @@
     }
    ],
    "dur": 5,
-   "es": 3,
-   "ef": 8,
+   "es": 0,
+   "ef": 5,
    "sid": "DOC.establish",
    "proc": "DOC",
    "procName": "Document & record control",
@@ -14358,7 +14358,7 @@
   {
    "id": "INF.csv",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W4",
    "qse": "Equipment",
    "statement": "Computerised system validation.",
    "why": "Computerised systems that run the QMS, design or production must do what they are supposed to, reliably and with data integrity. ISO 13485 requires validation of QMS software (4.1.6) and production / monitoring software (7.5.6, 7.6), and where electronic records or signatures are used, 21 CFR Part 11 applies. A risk-based CSV approach (IEC/TR 80002-2, GAMP 5) focuses effort where system failure would most affect product quality or data.",
@@ -16494,7 +16494,7 @@
   {
    "id": "DPR.assess",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W4",
    "qse": "Information Management",
    "statement": "DPIA & data-processing agreements.",
    "why": "Beyond the baseline (P1.9), GDPR imposes concrete operational duties when you process personal and health data: maintain records of processing (Art 30), run data protection impact assessments for high-risk processing such as health data (Art 35), put processor agreements in place (Art 28), and build data protection in by design and default (Art 25). Health data is a special category, so the bar is high; failing here risks fines and loss of trust.",
@@ -24102,7 +24102,7 @@
    "PSA.setup"
   ]
  },
- "projectDays": 175,
+ "projectDays": 182,
  "stats": {
   "docs": 275,
   "activities": 92,

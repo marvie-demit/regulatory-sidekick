@@ -33,6 +33,7 @@ export default async function RoadmapPage({
     mods: a.mods || [],
     reg: a.reg || [],
     depends: a.depends || "-",
+    wave: a.wave || "W1",
   }));
   const org = await getActiveOrg();
 
