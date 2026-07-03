@@ -364,6 +364,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 0
   },
@@ -689,6 +690,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 1
   },
@@ -817,6 +819,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 2
   },
@@ -943,6 +946,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 3
   },
@@ -1087,6 +1091,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 4
   },
@@ -1298,6 +1303,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 5
   },
@@ -1426,6 +1432,7 @@
    "procName": "Design & development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 6
   },
@@ -1790,6 +1797,7 @@
    "procName": "Risk management",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 7
   },
@@ -1935,6 +1943,7 @@
    "procName": "Risk management",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 8
   },
@@ -2062,6 +2071,7 @@
    "procName": "Risk management",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 9
   },
@@ -2354,6 +2364,7 @@
    "procName": "Risk management",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 10
   },
@@ -2482,6 +2493,7 @@
    "procName": "Risk management",
    "tier": "core",
    "maturity": "sustain",
+   "reg": [],
    "authored": true,
    "ord": 11
   },
@@ -2612,6 +2624,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 12
   },
@@ -2934,6 +2947,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 13
   },
@@ -3062,6 +3076,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 14
   },
@@ -3208,6 +3223,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 15
   },
@@ -3357,6 +3373,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 16
   },
@@ -3490,6 +3507,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 17
   },
@@ -3619,6 +3637,7 @@
    "procName": "Software development",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 18
   },
@@ -3891,6 +3910,7 @@
    "procName": "Usability engineering",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 19
   },
@@ -4019,6 +4039,7 @@
    "procName": "Usability engineering",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 20
   },
@@ -4166,6 +4187,7 @@
    "procName": "Usability engineering",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 21
   },
@@ -4444,6 +4466,7 @@
    "procName": "AI/ML lifecycle",
    "tier": "core",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 22
   },
@@ -4710,6 +4733,7 @@
    "procName": "AI/ML lifecycle",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 23
   },
@@ -4837,6 +4861,7 @@
    "procName": "AI/ML lifecycle",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 24
   },
@@ -5031,6 +5056,7 @@
    "procName": "Release & deployment",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 25
   },
@@ -5157,6 +5183,7 @@
    "procName": "Release & deployment",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 26
   },
@@ -5428,6 +5455,9 @@
    "procName": "Clinical evaluation (MDR)",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 27
   },
@@ -5563,6 +5593,9 @@
    "procName": "Clinical evaluation (MDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 28
   },
@@ -5714,6 +5747,9 @@
    "procName": "Clinical evaluation (MDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 29
   },
@@ -5904,6 +5940,9 @@
    "procName": "Clinical evaluation (MDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 30
   },
@@ -5922,7 +5961,7 @@
    "leads": "PEV.sv, PEV.feasibility",
    "clause": "IVDR Annex XIII",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -6112,6 +6151,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 31
   },
@@ -6130,7 +6172,7 @@
    "leads": "PEV.ap",
    "clause": "IVDR Annex XIII 1.2.1",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -6238,6 +6280,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 32
   },
@@ -6256,7 +6301,7 @@
    "leads": "PEV.ap",
    "clause": "IVDR Annex XIII 1.2; ISO 20916",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 0,
    "how2": [
@@ -6371,6 +6416,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 33
   },
@@ -6389,7 +6437,7 @@
    "leads": "PEV.cp",
    "clause": "IVDR Annex I 9 & Annex XIII 1.2.2",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 0,
    "how2": [
@@ -6537,6 +6585,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 34
   },
@@ -6555,8 +6606,7 @@
    "leads": "PEV.cp",
    "clause": "IVDR Annex I 9; IEC 62304",
    "mods": [
-    "SW",
-    "IVD"
+    "SW"
    ],
    "deep": 0,
    "how2": [
@@ -6664,6 +6714,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 35
   },
@@ -6682,7 +6735,7 @@
    "leads": "PEV.report",
    "clause": "IVDR Annex XIII 1.2.3 & Annex I 9.1; ISO 20916",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 0,
    "how2": [
@@ -6827,6 +6880,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 36
   },
@@ -6845,7 +6901,7 @@
    "leads": "TEF.file",
    "clause": "IVDR Annex XIII & Art 56; Annex XIII Part B",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -6974,6 +7030,9 @@
    "procName": "Performance evaluation (IVDR)",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 37
   },
@@ -7102,6 +7161,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 38
   },
@@ -7120,7 +7182,7 @@
    "leads": "TEF.gspr.ivdr",
    "clause": "IVDR Art 47 & Annex VIII",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 0,
    "how2": [
@@ -7229,6 +7291,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 39
   },
@@ -7429,6 +7494,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 40
   },
@@ -7447,7 +7515,7 @@
    "leads": "TEF.file",
    "clause": "IVDR Annex I (GSPR) & Annex II/III",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 0,
    "how2": [
@@ -7575,6 +7643,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 41
   },
@@ -7715,6 +7786,7 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 42
   },
@@ -7733,7 +7805,7 @@
    "leads": "TEF.certify.stage2",
    "clause": "MDR/IVDR conformity assessment",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -7927,6 +7999,10 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "govern",
+   "reg": [
+    "MDR",
+    "IVDR"
+   ],
    "authored": true,
    "ord": 43
   },
@@ -7945,7 +8021,7 @@
    "leads": "TEF.market.mdr, TEF.market.ivdr",
    "clause": "MDR/IVDR conformity assessment",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -8148,6 +8224,10 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "govern",
+   "reg": [
+    "MDR",
+    "IVDR"
+   ],
    "authored": true,
    "ord": 44
   },
@@ -8410,6 +8490,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 45
   },
@@ -8428,7 +8511,7 @@
    "leads": "PMS.operate",
    "clause": "IVDR Art 5, 10, 26-28; Art 24 (EUDAMED)",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -8533,6 +8616,9 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "IVDR"
+   ],
    "authored": true,
    "ord": 46
   },
@@ -8656,6 +8742,7 @@
    "procName": "Technical file & market access",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 47
   },
@@ -8783,6 +8870,7 @@
    "procName": "Labeling & UDI",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 48
   },
@@ -8933,6 +9021,7 @@
    "procName": "Labeling & UDI",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 49
   },
@@ -9192,6 +9281,7 @@
    "procName": "Post-market surveillance",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 50
   },
@@ -9343,6 +9433,7 @@
    "procName": "Post-market surveillance",
    "tier": "core",
    "maturity": "sustain",
+   "reg": [],
    "authored": true,
    "ord": 51
   },
@@ -9528,6 +9619,7 @@
    "procName": "Post-market surveillance",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 52
   },
@@ -9654,6 +9746,9 @@
    "procName": "Post-market clinical follow-up",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 53
   },
@@ -9788,6 +9883,9 @@
    "procName": "Post-market clinical follow-up",
    "tier": "core",
    "maturity": "sustain",
+   "reg": [
+    "MDR"
+   ],
    "authored": true,
    "ord": 54
   },
@@ -9806,7 +9904,7 @@
    "leads": "CAP.operate",
    "clause": "MDR Art 87-92; IVDR Art 82-87",
    "mods": [
-    "IVD"
+    "Core"
    ],
    "deep": 1,
    "how2": [
@@ -9916,6 +10014,10 @@
    "procName": "Vigilance",
    "tier": "core",
    "maturity": "full",
+   "reg": [
+    "MDR",
+    "IVDR"
+   ],
    "authored": true,
    "ord": 55
   },
@@ -10110,6 +10212,7 @@
    "procName": "Vigilance",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 56
   },
@@ -10350,6 +10453,7 @@
    "procName": "Complaint handling",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 57
   },
@@ -10623,6 +10727,7 @@
    "procName": "Corrective & preventive action",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 58
   },
@@ -10773,6 +10878,7 @@
    "procName": "Corrective & preventive action",
    "tier": "support",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 59
   },
@@ -11040,6 +11146,7 @@
    "procName": "Change management",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 60
   },
@@ -11308,6 +11415,7 @@
    "procName": "Nonconforming product",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 61
   },
@@ -11857,6 +11965,7 @@
    "procName": "Quality management & planning",
    "tier": "management",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 62
   },
@@ -12122,6 +12231,7 @@
    "procName": "Management review & data analysis",
    "tier": "management",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 63
   },
@@ -12491,6 +12601,7 @@
    "procName": "Internal audit",
    "tier": "management",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 64
   },
@@ -12758,6 +12869,7 @@
    "procName": "Regulatory affairs & monitoring",
    "tier": "management",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 65
   },
@@ -13278,6 +13390,7 @@
    "procName": "Document & record control",
    "tier": "support",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 66
   },
@@ -13400,6 +13513,7 @@
    "procName": "Document & record control",
    "tier": "support",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 67
   },
@@ -13710,6 +13824,7 @@
    "procName": "HR & training",
    "tier": "support",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 68
   },
@@ -13960,6 +14075,7 @@
    "procName": "HR & training",
    "tier": "support",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 69
   },
@@ -14235,6 +14351,7 @@
    "procName": "Infrastructure & CSV",
    "tier": "support",
    "maturity": "lean",
+   "reg": [],
    "authored": true,
    "ord": 70
   },
@@ -14499,6 +14616,7 @@
    "procName": "Infrastructure & CSV",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 71
   },
@@ -14704,6 +14822,7 @@
    "procName": "Infrastructure & CSV",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 72
   },
@@ -14971,6 +15090,7 @@
    "procName": "Purchasing & supplier",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 73
   },
@@ -15183,6 +15303,7 @@
    "procName": "Purchasing & supplier",
    "tier": "support",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 74
   },
@@ -15403,6 +15524,7 @@
    "procName": "Tendering & sales",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 75
   },
@@ -15530,6 +15652,7 @@
    "procName": "Support & servicing",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 76
   },
@@ -15818,6 +15941,7 @@
    "procName": "Information security (ISMS)",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 77
   },
@@ -15947,6 +16071,7 @@
    "procName": "Product security",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 78
   },
@@ -16080,6 +16205,7 @@
    "procName": "Product security",
    "tier": "core",
    "maturity": "sustain",
+   "reg": [],
    "authored": true,
    "ord": 79
   },
@@ -16361,6 +16487,7 @@
    "procName": "Data protection & privacy",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 80
   },
@@ -16631,6 +16758,7 @@
    "procName": "Data protection & privacy",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 81
   },
@@ -16760,6 +16888,7 @@
    "procName": "Incident & breach response",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 82
   },
@@ -16887,6 +17016,7 @@
    "procName": "Incident & breach response",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 83
   },
@@ -17148,6 +17278,7 @@
    "procName": "Business continuity",
    "tier": "support",
    "maturity": "govern",
+   "reg": [],
    "authored": true,
    "ord": 84
   },
@@ -17347,6 +17478,7 @@
    "procName": "Active & electrical safety",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 85
   },
@@ -17541,6 +17673,7 @@
    "procName": "Biological evaluation",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 86
   },
@@ -17730,6 +17863,7 @@
    "procName": "Combination products",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 87
   },
@@ -17919,6 +18053,7 @@
    "procName": "Custom-made devices",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 88
   },
@@ -18234,6 +18369,7 @@
    "procName": "Production",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 89
   },
@@ -18441,6 +18577,7 @@
    "procName": "Sterilization & packaging",
    "tier": "core",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 90
   },
@@ -18736,6 +18873,7 @@
    "procName": "Contaminated products",
    "tier": "support",
    "maturity": "full",
+   "reg": [],
    "authored": true,
    "ord": 91
   }
@@ -18748,7 +18886,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-SOP-01",
@@ -18757,7 +18896,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-01",
@@ -18766,7 +18906,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-02",
@@ -18775,7 +18916,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-03",
@@ -18784,7 +18926,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-04",
@@ -18793,7 +18936,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-05",
@@ -18802,7 +18946,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-06",
@@ -18811,7 +18956,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AIM-TPL-07",
@@ -18820,7 +18966,8 @@
    "domain": "AIM",
    "module": "AI",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AUD-LIS-01",
@@ -18829,7 +18976,8 @@
    "domain": "AUD",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AUD-SOP-01",
@@ -18838,7 +18986,8 @@
    "domain": "AUD",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AUD-TPL-01",
@@ -18847,7 +18996,8 @@
    "domain": "AUD",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AUD-TPL-02",
@@ -18856,7 +19006,8 @@
    "domain": "AUD",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AUD-TPL-03",
@@ -18865,7 +19016,8 @@
    "domain": "AUD",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CAP-FOR-01",
@@ -18874,7 +19026,8 @@
    "domain": "CAP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CAP-LIS-01",
@@ -18883,7 +19036,8 @@
    "domain": "CAP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CAP-SOP-01",
@@ -18892,7 +19046,8 @@
    "domain": "CAP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CHG-FOR-01",
@@ -18901,7 +19056,8 @@
    "domain": "CHG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CHG-LIS-01",
@@ -18910,7 +19066,8 @@
    "domain": "CHG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CHG-SOP-01",
@@ -18919,7 +19076,8 @@
    "domain": "CHG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CLE-SOP-01",
@@ -18928,7 +19086,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-01",
@@ -18937,7 +19098,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-02",
@@ -18946,7 +19110,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-03",
@@ -18955,7 +19122,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-04",
@@ -18964,7 +19134,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-05",
@@ -18973,7 +19146,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-06",
@@ -18982,7 +19158,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-07",
@@ -18991,7 +19170,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-08",
@@ -19000,7 +19182,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-09",
@@ -19009,7 +19194,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-10",
@@ -19018,7 +19206,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-11",
@@ -19027,7 +19218,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-TPL-12",
@@ -19036,7 +19230,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-WI-01",
@@ -19045,7 +19242,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CLE-WI-02",
@@ -19054,7 +19254,10 @@
    "domain": "CLE",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "CMP-LIS-01",
@@ -19063,7 +19266,8 @@
    "domain": "CMP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMP-SOP-01",
@@ -19072,7 +19276,8 @@
    "domain": "CMP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-01",
@@ -19081,7 +19286,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-06",
@@ -19090,7 +19296,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-07",
@@ -19099,7 +19306,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-08",
@@ -19108,7 +19316,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-09",
@@ -19117,7 +19326,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-LIS-01",
@@ -19126,7 +19336,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-SOP-01",
@@ -19135,7 +19346,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-SOP-03",
@@ -19144,7 +19356,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-01",
@@ -19153,7 +19366,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-02",
@@ -19162,7 +19376,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-07",
@@ -19171,7 +19386,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-08",
@@ -19180,7 +19396,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-09",
@@ -19189,7 +19406,8 @@
    "domain": "DEV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-FOR-01",
@@ -19198,7 +19416,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-01",
@@ -19207,7 +19426,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-02",
@@ -19216,7 +19436,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-03",
@@ -19225,7 +19446,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-04",
@@ -19234,7 +19456,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-05",
@@ -19243,7 +19466,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-LIS-06",
@@ -19252,7 +19476,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-SOP-01",
@@ -19261,7 +19486,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-TPL-01",
@@ -19270,7 +19496,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-TPL-02",
@@ -19279,7 +19506,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DOC-TPL-03",
@@ -19288,7 +19516,8 @@
    "domain": "DOC",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-FOR-01",
@@ -19297,7 +19526,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-FOR-02",
@@ -19306,7 +19536,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-FOR-03",
@@ -19315,7 +19546,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-FOR-04",
@@ -19324,7 +19556,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-SOP-01",
@@ -19333,7 +19566,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HRT-TPL-01",
@@ -19342,7 +19576,8 @@
    "domain": "HRT",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-SOP-01",
@@ -19351,7 +19586,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-TPL-01",
@@ -19360,7 +19596,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-TPL-02",
@@ -19369,7 +19606,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-TPL-03",
@@ -19378,7 +19616,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-TPL-04",
@@ -19387,7 +19626,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "HUF-TPL-05",
@@ -19396,7 +19636,8 @@
    "domain": "HUF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-LIS-01",
@@ -19405,7 +19646,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-LIS-05",
@@ -19414,7 +19656,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-SOP-01",
@@ -19423,7 +19666,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-SOP-03",
@@ -19432,7 +19676,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-SOP-04",
@@ -19441,7 +19686,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-TPL-01",
@@ -19450,7 +19696,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-TPL-02",
@@ -19459,7 +19706,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-TPL-03",
@@ -19468,7 +19716,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-TPL-05",
@@ -19477,7 +19726,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-TPL-06",
@@ -19486,7 +19736,8 @@
    "domain": "INF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "LBL-LIS-01",
@@ -19495,7 +19746,8 @@
    "domain": "LBL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "LBL-LIS-02",
@@ -19504,7 +19756,8 @@
    "domain": "LBL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "LBL-SOP-01",
@@ -19513,7 +19766,8 @@
    "domain": "LBL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "LBL-TPL-01",
@@ -19522,7 +19776,8 @@
    "domain": "LBL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "LBL-TPL-02",
@@ -19531,7 +19786,8 @@
    "domain": "LBL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "MRV-FOR-01",
@@ -19540,7 +19796,8 @@
    "domain": "MRV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "MRV-SOP-01",
@@ -19549,7 +19806,8 @@
    "domain": "MRV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "MRV-TPL-01",
@@ -19558,7 +19816,8 @@
    "domain": "MRV",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "NCP-LIS-01",
@@ -19567,7 +19826,8 @@
    "domain": "NCP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "NCP-SOP-01",
@@ -19576,7 +19836,8 @@
    "domain": "NCP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PCF-SOP-01",
@@ -19585,7 +19846,10 @@
    "domain": "PCF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "PCF-TPL-01",
@@ -19594,7 +19858,10 @@
    "domain": "PCF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "PCF-TPL-02",
@@ -19603,7 +19870,10 @@
    "domain": "PCF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "PMS-SOP-01",
@@ -19612,7 +19882,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-01",
@@ -19621,7 +19892,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-02",
@@ -19630,7 +19902,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-03",
@@ -19639,7 +19912,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-04",
@@ -19648,7 +19922,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-08",
@@ -19657,7 +19932,8 @@
    "domain": "PMS",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-FOR-01",
@@ -19666,7 +19942,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-FOR-02",
@@ -19675,7 +19952,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-FOR-03",
@@ -19684,7 +19962,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-LIS-01",
@@ -19693,7 +19972,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-SOP-01",
@@ -19702,7 +19982,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PUR-TPL-01",
@@ -19711,7 +19992,8 @@
    "domain": "PUR",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-LIS-01",
@@ -19720,7 +20002,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-LIS-02",
@@ -19729,7 +20012,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-MAN-01",
@@ -19738,7 +20022,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-MAN-02",
@@ -19747,7 +20032,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-MAN-03",
@@ -19756,7 +20042,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "QMN-POL-01",
@@ -19765,7 +20052,8 @@
    "domain": "QMN",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "REG-LIS-01",
@@ -19774,7 +20062,8 @@
    "domain": "REG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "REG-SOP-01",
@@ -19783,7 +20072,8 @@
    "domain": "REG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "REG-TPL-01",
@@ -19792,7 +20082,8 @@
    "domain": "REG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "REG-TPL-02",
@@ -19801,7 +20092,8 @@
    "domain": "REG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-FOR-01",
@@ -19810,7 +20102,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-FOR-02",
@@ -19819,7 +20112,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-FOR-03",
@@ -19828,7 +20122,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-FOR-04",
@@ -19837,7 +20132,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-FOR-05",
@@ -19846,7 +20142,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-SOP-01",
@@ -19855,7 +20152,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-01",
@@ -19864,7 +20162,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-02",
@@ -19873,7 +20172,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-03",
@@ -19882,7 +20182,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-04",
@@ -19891,7 +20192,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-05",
@@ -19900,7 +20202,8 @@
    "domain": "RSK",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SAL-SOP-01",
@@ -19909,7 +20212,8 @@
    "domain": "SAL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SAL-TPL-01",
@@ -19918,7 +20222,8 @@
    "domain": "SAL",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SUP-SOP-01",
@@ -19927,7 +20232,8 @@
    "domain": "SUP",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "TEF-FOR-01",
@@ -19936,7 +20242,10 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "TEF-FOR-02",
@@ -19945,7 +20254,10 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "TEF-FOR-09",
@@ -19954,7 +20266,10 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "TEF-LIS-01",
@@ -19963,7 +20278,8 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "TEF-SOP-02",
@@ -19972,7 +20288,10 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "MDR"
+   ]
   },
   {
    "id": "TEF-TPL-01",
@@ -19981,7 +20300,8 @@
    "domain": "TEF",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "VIG-FOR-02",
@@ -19990,7 +20310,11 @@
    "domain": "VIG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR",
+    "MDR"
+   ]
   },
   {
    "id": "VIG-FOR-03",
@@ -19999,7 +20323,11 @@
    "domain": "VIG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR",
+    "MDR"
+   ]
   },
   {
    "id": "VIG-SOP-02",
@@ -20008,7 +20336,11 @@
    "domain": "VIG",
    "module": "Core",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR",
+    "MDR"
+   ]
   },
   {
    "id": "TEF-SOP-01",
@@ -20017,7 +20349,8 @@
    "domain": "TEF",
    "module": "FDA",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "VIG-FOR-01",
@@ -20026,7 +20359,8 @@
    "domain": "VIG",
    "module": "FDA",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "VIG-SOP-01",
@@ -20035,7 +20369,8 @@
    "domain": "VIG",
    "module": "FDA",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AES-FOR-01",
@@ -20044,7 +20379,8 @@
    "domain": "AES",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AES-LIS-01",
@@ -20053,7 +20389,8 @@
    "domain": "AES",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AES-SOP-01",
@@ -20062,7 +20399,8 @@
    "domain": "AES",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "AES-TPL-01",
@@ -20071,7 +20409,8 @@
    "domain": "AES",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BIO-FOR-01",
@@ -20080,7 +20419,8 @@
    "domain": "BIO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BIO-LIS-01",
@@ -20089,7 +20429,8 @@
    "domain": "BIO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BIO-SOP-01",
@@ -20098,7 +20439,8 @@
    "domain": "BIO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BIO-TPL-01",
@@ -20107,7 +20449,8 @@
    "domain": "BIO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BIO-TPL-02",
@@ -20116,7 +20459,8 @@
    "domain": "BIO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMB-FOR-01",
@@ -20125,7 +20469,8 @@
    "domain": "CMB",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMB-SOP-01",
@@ -20134,7 +20479,8 @@
    "domain": "CMB",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMB-TPL-01",
@@ -20143,7 +20489,8 @@
    "domain": "CMB",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMD-FOR-01",
@@ -20152,7 +20499,8 @@
    "domain": "CMD",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMD-LIS-01",
@@ -20161,7 +20509,8 @@
    "domain": "CMD",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMD-SOP-01",
@@ -20170,7 +20519,8 @@
    "domain": "CMD",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "CMD-TPL-01",
@@ -20179,7 +20529,8 @@
    "domain": "CMD",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-FOR-01",
@@ -20188,7 +20539,8 @@
    "domain": "INF",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-LIS-03",
@@ -20197,7 +20549,8 @@
    "domain": "INF",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "INF-SOP-02",
@@ -20206,7 +20559,8 @@
    "domain": "INF",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-SOP-01",
@@ -20215,7 +20569,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-SOP-03",
@@ -20224,7 +20579,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-01",
@@ -20233,7 +20589,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-02",
@@ -20242,7 +20599,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-03",
@@ -20251,7 +20609,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-04",
@@ -20260,7 +20619,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-05",
@@ -20269,7 +20629,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-06",
@@ -20278,7 +20639,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PRO-TPL-07",
@@ -20287,7 +20649,8 @@
    "domain": "PRO",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PSA-SOP-01",
@@ -20296,7 +20659,8 @@
    "domain": "PSA",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "STE-FOR-01",
@@ -20305,7 +20669,8 @@
    "domain": "STE",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "STE-SOP-01",
@@ -20314,7 +20679,8 @@
    "domain": "STE",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "STE-TPL-01",
@@ -20323,7 +20689,8 @@
    "domain": "STE",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "STE-TPL-02",
@@ -20332,7 +20699,8 @@
    "domain": "STE",
    "module": "HW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-02",
@@ -20341,7 +20709,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-03",
@@ -20350,7 +20719,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-04",
@@ -20359,7 +20729,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-FOR-05",
@@ -20368,7 +20739,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-SOP-02",
@@ -20377,7 +20749,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-03",
@@ -20386,7 +20759,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-04",
@@ -20395,7 +20769,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-05",
@@ -20404,7 +20779,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEV-TPL-06",
@@ -20413,7 +20789,8 @@
    "domain": "DEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PEV-FOR-01",
@@ -20422,7 +20799,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-SOP-01",
@@ -20431,7 +20811,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-01",
@@ -20440,7 +20823,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-02",
@@ -20449,7 +20835,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-03",
@@ -20458,7 +20847,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-04",
@@ -20467,7 +20859,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-05",
@@ -20476,7 +20871,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-06",
@@ -20485,7 +20883,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-07",
@@ -20494,7 +20895,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-08",
@@ -20503,7 +20907,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-09",
@@ -20512,7 +20919,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-10",
@@ -20521,7 +20931,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-11",
@@ -20530,7 +20943,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-12",
@@ -20539,7 +20955,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-13",
@@ -20548,7 +20967,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PEV-TPL-14",
@@ -20557,7 +20979,10 @@
    "domain": "PEV",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "PMS-SOP-02",
@@ -20566,7 +20991,8 @@
    "domain": "PMS",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-05",
@@ -20575,7 +21001,8 @@
    "domain": "PMS",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-06",
@@ -20584,7 +21011,8 @@
    "domain": "PMS",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "PMS-TPL-07",
@@ -20593,7 +21021,8 @@
    "domain": "PMS",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-SOP-02",
@@ -20602,7 +21031,8 @@
    "domain": "RSK",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-SOP-03",
@@ -20611,7 +21041,8 @@
    "domain": "RSK",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-06",
@@ -20620,7 +21051,8 @@
    "domain": "RSK",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "RSK-TPL-07",
@@ -20629,7 +21061,8 @@
    "domain": "RSK",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "TEF-FOR-03",
@@ -20638,7 +21071,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-FOR-04",
@@ -20647,7 +21083,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-FOR-05",
@@ -20656,7 +21095,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-FOR-06",
@@ -20665,7 +21107,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-FOR-07",
@@ -20674,7 +21119,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-SOP-03",
@@ -20683,7 +21131,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "TEF-TPL-02",
@@ -20692,7 +21143,10 @@
    "domain": "TEF",
    "module": "IVD",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": [
+    "IVDR"
+   ]
   },
   {
    "id": "DPR-FOR-01",
@@ -20701,7 +21155,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-LIS-01",
@@ -20710,7 +21165,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-SOP-01",
@@ -20719,7 +21175,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-TPL-01",
@@ -20728,7 +21185,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-TPL-02",
@@ -20737,7 +21195,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-TPL-03",
@@ -20746,7 +21205,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DPR-TPL-04",
@@ -20755,7 +21215,8 @@
    "domain": "DPR",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-FOR-02",
@@ -20764,7 +21225,8 @@
    "domain": "IRP",
    "module": "PRIV",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BCP-FOR-01",
@@ -20773,7 +21235,8 @@
    "domain": "BCP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BCP-LIS-01",
@@ -20782,7 +21245,8 @@
    "domain": "BCP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BCP-SOP-01",
@@ -20791,7 +21255,8 @@
    "domain": "BCP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BCP-TPL-01",
@@ -20800,7 +21265,8 @@
    "domain": "BCP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "BCP-TPL-02",
@@ -20809,7 +21275,8 @@
    "domain": "BCP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-FOR-01",
@@ -20818,7 +21285,8 @@
    "domain": "IRP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-LIS-01",
@@ -20827,7 +21295,8 @@
    "domain": "IRP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-SOP-01",
@@ -20836,7 +21305,8 @@
    "domain": "IRP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-TPL-01",
@@ -20845,7 +21315,8 @@
    "domain": "IRP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "IRP-TPL-02",
@@ -20854,7 +21325,8 @@
    "domain": "IRP",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-FOR-01",
@@ -20863,7 +21335,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-LIS-01",
@@ -20872,7 +21345,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-LIS-02",
@@ -20881,7 +21355,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-SOP-01",
@@ -20890,7 +21365,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-TPL-01",
@@ -20899,7 +21375,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "ISM-TPL-02",
@@ -20908,7 +21385,8 @@
    "domain": "ISM",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-FOR-01",
@@ -20917,7 +21395,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-LIS-01",
@@ -20926,7 +21405,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-POL-01",
@@ -20935,7 +21415,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-SOP-01",
@@ -20944,7 +21425,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-TPL-01",
@@ -20953,7 +21435,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SEC-TPL-02",
@@ -20962,7 +21445,8 @@
    "domain": "SEC",
    "module": "SEC",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-FOR-01",
@@ -20971,7 +21455,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-LIS-01",
@@ -20980,7 +21465,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-SOP-01",
@@ -20989,7 +21475,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-TPL-01",
@@ -20998,7 +21485,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-TPL-02",
@@ -21007,7 +21495,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "DEP-TPL-03",
@@ -21016,7 +21505,8 @@
    "domain": "DEP",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-01",
@@ -21025,7 +21515,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-02",
@@ -21034,7 +21525,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-03",
@@ -21043,7 +21535,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-04",
@@ -21052,7 +21545,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-05",
@@ -21061,7 +21555,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-06",
@@ -21070,7 +21565,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-FOR-07",
@@ -21079,7 +21575,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-LIS-01",
@@ -21088,7 +21585,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-SOP-01",
@@ -21097,7 +21595,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-01",
@@ -21106,7 +21605,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-02",
@@ -21115,7 +21615,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-03",
@@ -21124,7 +21625,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-04",
@@ -21133,7 +21635,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-05",
@@ -21142,7 +21645,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-07",
@@ -21151,7 +21655,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-08",
@@ -21160,7 +21665,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-09",
@@ -21169,7 +21675,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-10",
@@ -21178,7 +21685,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-11",
@@ -21187,7 +21695,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-12",
@@ -21196,7 +21705,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-13",
@@ -21205,7 +21715,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   },
   {
    "id": "SWD-TPL-14",
@@ -21214,7 +21725,8 @@
    "domain": "SWD",
    "module": "SW",
    "status": "Drafted",
-   "page": true
+   "page": true,
+   "reg": []
   }
  ],
  "examples": {},

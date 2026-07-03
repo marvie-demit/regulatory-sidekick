@@ -6,6 +6,7 @@ import { StatusDropdown } from "@/components/content/StatusDropdown";
 import { hasFullAccess, SAMPLE_ACTIVITY_ID } from "@/lib/auth/access";
 import { toast } from "@/lib/toast";
 import { useOrgState } from "@/components/app-shell/StateProvider";
+import { actInScope } from "@/lib/content/scope";
 
 export type CKActivity = {
   id: string;
@@ -15,6 +16,7 @@ export type CKActivity = {
   dur: number;
   clause?: string;
   mods: string[];
+  reg?: string[];
   docIds: string[];
   tasks: { t: string; d: string }[];
 };
@@ -121,11 +123,7 @@ export function ChecklistView({
   });
 
   const full = hasFullAccess(plan);
-  const inScope = (a: CKActivity) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
+  const inScope = (a: CKActivity) => actInScope(a, profile);
   const scoped = activities.filter(
     (a) =>
       inScope(a) &&

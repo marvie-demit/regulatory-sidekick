@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
 import { hasFullAccess, SAMPLE_ACTIVITY_ID } from "@/lib/auth/access";
+import { actInScope } from "@/lib/content/scope";
 
 // LQSI-style roadmap: each process is a parent branch; its steps in this phase
 // flow LEFT→RIGHT along their dependency chain (DEV.inputs → verify → validate),
@@ -18,6 +19,7 @@ export type TAct = {
   tier: string;
   dur: number;
   mods: string[];
+  reg?: string[];
   depends: string;
 };
 
@@ -141,12 +143,7 @@ export function RoadmapTree({
   const { status, profile } = useOrgState();
   const full = hasFullAccess(plan);
 
-  const inScope = (a: TAct) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
-  const vis = acts.filter(inScope);
+  const vis = acts.filter((a) => actInScope(a, profile));
 
   const order: string[] = [];
   const groups: Record<string, TAct[]> = {};

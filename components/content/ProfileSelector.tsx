@@ -2,65 +2,81 @@
 
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import type { ModuleDef } from "@/lib/content/types";
+import { actInScope, docInScope, euRoute } from "@/lib/content/scope";
+
+type Prof = Record<string, number>;
 
 export function ProfileSelector({
   modules,
   modCounts,
   acts,
-  docModules,
+  docScopes,
   totalDocs,
   totalActs,
 }: {
   modules: ModuleDef[];
   modCounts: Record<string, number>;
-  acts: { mods: string[] }[];
-  docModules: string[];
+  acts: { mods: string[]; reg?: string[] }[];
+  docScopes: { module: string; reg?: string[] }[];
   totalDocs: number;
   totalActs: number;
 }) {
   const { profile, setProfile } = useOrgState();
 
-  const isActive = (code: string) => !profile || !!profile[code];
-  const inScopeAct = (a: { mods: string[] }) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
-  const inScopeDoc = (m: string) => !profile || m === "Core" || !!profile[m];
-  const docsInScope = docModules.filter(inScopeDoc).length;
-  const actsInScope = acts.filter(inScopeAct).length;
-  const activeCodes = profile
-    ? modules.filter((m) => profile[m.code]).map((m) => m.code)
-    : [];
+  // characteristics only — the EU route (MDR/IVDR) and FDA market are their own
+  // controls, so IVD/FDA are pulled out of the generic module grid.
+  const charModules = modules.filter(
+    (m) => m.code !== "IVD" && m.code !== "FDA",
+  );
+  const route = euRoute(profile); // "MDR" | "IVDR" | null
+  const fdaOn = !!profile?.FDA;
 
-  function save(p: Record<string, number> | null) {
+  const docsInScope = docScopes.filter((d) => docInScope(d, profile)).length;
+  const actsInScope = acts.filter((a) => actInScope(a, profile)).length;
+
+  const base = (): Prof => (profile ? { ...profile } : {});
+
+  function setRoute(r: "MDR" | "IVDR" | null) {
+    const p = base();
+    delete p.MDR;
+    delete p.IVDR;
+    delete p.IVD;
+    if (r === "MDR") p.MDR = 1;
+    if (r === "IVDR") {
+      p.IVDR = 1;
+      p.IVD = 1; // an IVDR device IS an IVD → enable IVD-specific content
+    }
     setProfile(p);
   }
-  function toggle(code: string) {
-    const base: Record<string, number> = profile
-      ? { ...profile }
-      : (() => {
-          const o: Record<string, number> = {};
-          modules.forEach((m) => (o[m.code] = 1));
-          return o;
-        })();
-    if (base[code]) delete base[code];
-    else base[code] = 1;
-    save(base);
+  function setFda(on: boolean) {
+    const p = base();
+    if (on) p.FDA = 1;
+    else delete p.FDA;
+    setProfile(p);
   }
-  function allOn() {
-    const o: Record<string, number> = {};
-    modules.forEach((m) => (o[m.code] = 1));
-    save(o);
+  function toggleChar(code: string) {
+    const p = base();
+    if (p[code]) delete p[code];
+    else p[code] = 1;
+    setProfile(p);
   }
+
+  const routeBtn =
+    "flex-1 rounded-xl border-2 px-4 py-3 text-left transition min-w-[180px]";
+  const on = "border-teal-700 bg-[#eef5f2]";
+  const off = "border-line bg-card hover:border-teal-600";
 
   return (
     <>
       <div className="scopebar" style={{ marginTop: 14 }}>
         {profile ? (
           <>
-            Active: <b>Core</b>
-            {activeCodes.length ? " + " + activeCodes.join(", ") : " only"}
+            {route ? (
+              <b>EU {route}</b>
+            ) : (
+              <b>No EU route</b>
+            )}
+            {fdaOn ? " + US FDA" : ""}
           </>
         ) : (
           <>
@@ -71,20 +87,85 @@ export function ProfileSelector({
         {totalActs} activities in scope
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {modules.map((m) => {
-          const on = isActive(m.code);
+      {/* --- Regulatory route (EU) --- */}
+      <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
+        EU regulatory route
+      </h2>
+      <p className="mt-1 text-[13px] text-muted">
+        A product is regulated under one route — pick the one that applies. It
+        decides Clinical Evaluation (MDR) vs Performance Evaluation (IVDR),
+        classification, GSPR and market access.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-3">
+        <button
+          type="button"
+          role="radio"
+          aria-checked={route === "MDR"}
+          onClick={() => setRoute(route === "MDR" ? null : "MDR")}
+          className={`${routeBtn} ${route === "MDR" ? on : off}`}
+        >
+          <div className="font-medium text-teal-900">EU MDR</div>
+          <div className="text-[12px] text-muted">
+            Medical device (2017/745) → Clinical Evaluation
+          </div>
+        </button>
+        <button
+          type="button"
+          role="radio"
+          aria-checked={route === "IVDR"}
+          onClick={() => setRoute(route === "IVDR" ? null : "IVDR")}
+          className={`${routeBtn} ${route === "IVDR" ? on : off}`}
+        >
+          <div className="font-medium text-teal-900">EU IVDR</div>
+          <div className="text-[12px] text-muted">
+            In-vitro diagnostic (2017/746) → Performance Evaluation
+          </div>
+        </button>
+      </div>
+
+      {/* --- US market --- */}
+      <h2 className="mt-6 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
+        Other markets
+      </h2>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={fdaOn}
+        onClick={() => setFda(!fdaOn)}
+        className={`mt-3 flex w-full items-start gap-3 rounded-xl border p-4 text-left transition sm:w-[372px] ${fdaOn ? "border-teal-600 bg-[#eef5f2]" : off}`}
+      >
+        <span
+          className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${fdaOn ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
+        >
+          <span className="h-4 w-4 rounded-full bg-white shadow" />
+        </span>
+        <span className="flex flex-col">
+          <span className="font-medium text-teal-900">US FDA</span>
+          <span className="text-[12px] text-muted">
+            Adds the US pathway (510(k)/PMA, QMSR) & reporting. Can be combined
+            with an EU route, or used on its own.
+          </span>
+        </span>
+      </button>
+
+      {/* --- Device characteristics --- */}
+      <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
+        Device characteristics
+      </h2>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {charModules.map((m) => {
+          const active = !profile || !!profile[m.code];
           return (
             <button
               key={m.code}
               type="button"
               role="switch"
-              aria-checked={on}
-              onClick={() => toggle(m.code)}
-              className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${on ? "border-teal-600 bg-[#eef5f2]" : "border-line bg-card hover:border-teal-600"}`}
+              aria-checked={active}
+              onClick={() => toggleChar(m.code)}
+              className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${active ? "border-teal-600 bg-[#eef5f2]" : off}`}
             >
               <span
-                className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${on ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
+                className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${active ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
               >
                 <span className="h-4 w-4 rounded-full bg-white shadow" />
               </span>
@@ -100,15 +181,13 @@ export function ProfileSelector({
         })}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
-        <button type="button" className="btn ghost" onClick={allOn}>
-          Select all modules
-        </button>
-        <button type="button" className="btn ghost" onClick={() => save({})}>
-          Core only
-        </button>
+      <div className="mt-5 flex flex-wrap items-center gap-2">
         {profile ? (
-          <button type="button" className="btn ghost" onClick={() => save(null)}>
+          <button
+            type="button"
+            className="btn ghost"
+            onClick={() => setProfile(null)}
+          >
             Reset (show everything)
           </button>
         ) : null}
@@ -117,7 +196,7 @@ export function ProfileSelector({
       <p className="mt-5 rounded-lg bg-cream px-4 py-3 text-[13px] text-muted">
         Your selection is saved as your organisation&apos;s device profile and
         scopes the roadmap, checklist, matrix and library for everyone on your
-        team.
+        team. <b>ISO 13485 (Core) always applies.</b>
       </p>
     </>
   );

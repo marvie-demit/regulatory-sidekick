@@ -31,16 +31,20 @@ export function activitiesByPhase(n: number): Activity[] {
   return content.activities.filter((a) => pnum(a.phase) === n);
 }
 
-// device-profile scoping — ported verbatim from the existing app (inScopeAct / inScopeDoc)
+// device-profile scoping — delegates to the shared reg + mods helper (scope.ts)
+// so server and client apply IDENTICAL rules (regulation route AND characteristics).
+import { actInScope, docInScope } from "./scope";
+
 export function inScopeAct(a: Activity, prof: Profile): boolean {
-  if (!prof) return true;
-  if (!a.mods || a.mods.indexOf("Core") >= 0) return true;
-  return a.mods.some((m) => !!prof[m]);
+  return actInScope(a, prof);
 }
 
-export function inScopeDoc(moduleCode: string, prof: Profile): boolean {
-  if (moduleCode === "Core" || !prof) return true;
-  return !!prof[moduleCode];
+export function inScopeDoc(
+  moduleCode: string,
+  prof: Profile,
+  reg?: string[],
+): boolean {
+  return docInScope({ module: moduleCode, reg }, prof);
 }
 
 export type ContentCounts = {
@@ -216,7 +220,7 @@ export function documentsByProcess(profile: Profile = null): ProcGroup[] {
   >;
   const byDom: Record<string, DocItem[]> = {};
   content.documents
-    .filter((d) => inScopeDoc(d.module, profile))
+    .filter((d) => inScopeDoc(d.module, profile, d.reg))
     .forEach((d) => {
       (byDom[d.domain] = byDom[d.domain] || []).push(d);
     });

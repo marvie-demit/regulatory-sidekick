@@ -12,15 +12,19 @@ export default function DashboardPage() {
     es: a.es || 0,
     ef: a.ef || 0,
     mods: a.mods || [],
+    reg: a.reg || [],
   }));
-  const docModules = content.documents.map((d) => d.module);
+  const docScopes = content.documents.map((d) => ({
+    module: d.module,
+    reg: d.reg,
+  }));
 
   return (
     <DashboardClient
       phases={content.phases}
       acts={acts}
       modules={content.modules}
-      docModules={docModules}
+      docScopes={docScopes}
       totalDocs={content.stats.docs}
       critLen={CRIT.length}
     />

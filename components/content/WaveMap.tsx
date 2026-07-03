@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
 import { hasFullAccess, SAMPLE_ACTIVITY_ID } from "@/lib/auth/access";
+import { actInScope } from "@/lib/content/scope";
 
 type WAct = {
   id: string;
@@ -11,6 +12,7 @@ type WAct = {
   wave: string;
   dur: number;
   mods: string[];
+  reg?: string[];
   ord: number;
 };
 
@@ -54,12 +56,7 @@ export function WaveMap({
   const { status, profile } = useOrgState();
 
   const full = hasFullAccess(plan);
-  const inScope = (a: WAct) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
-  const vis = acts.filter(inScope);
+  const vis = acts.filter((a) => actInScope(a, profile));
   const inSet: Record<string, 1> = {};
   vis.forEach((a) => (inSet[a.id] = 1));
   const inEdges = edges.filter(([u, v]) => inSet[u] && inSet[v]);

@@ -4,8 +4,14 @@ import { ProfileSelector } from "@/components/content/ProfileSelector";
 export const metadata = { title: "Device profile" };
 
 export default function ProfilePage() {
-  const acts = content.activities.map((a) => ({ mods: a.mods || [] }));
-  const docModules = content.documents.map((d) => d.module);
+  const acts = content.activities.map((a) => ({
+    mods: a.mods || [],
+    reg: a.reg || [],
+  }));
+  const docScopes = content.documents.map((d) => ({
+    module: d.module,
+    reg: d.reg,
+  }));
 
   return (
     <main className="mx-auto max-w-3xl px-8 py-10">
@@ -22,7 +28,7 @@ export default function ProfilePage() {
         modules={content.modules}
         modCounts={content.modCounts}
         acts={acts}
-        docModules={docModules}
+        docScopes={docScopes}
         totalDocs={content.stats.docs}
         totalActs={content.activities.length}
       />

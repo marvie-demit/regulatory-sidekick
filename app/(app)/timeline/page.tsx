@@ -12,6 +12,7 @@ export default function TimelinePage() {
     es: a.es || 0,
     ef: a.ef || 0,
     mods: a.mods || [],
+    reg: a.reg || [],
     ord: idnum(a.id),
   }));
 

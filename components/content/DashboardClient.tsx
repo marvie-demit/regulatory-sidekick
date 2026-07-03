@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import type { Phase, ModuleDef } from "@/lib/content/types";
+import { actInScope, docInScope } from "@/lib/content/scope";
 
 type Act = {
   id: string;
@@ -12,7 +13,9 @@ type Act = {
   es: number;
   ef: number;
   mods: string[];
+  reg?: string[];
 };
+type DocScope = { module: string; reg?: string[] };
 
 const PC = ["var(--t5)", "var(--t6)", "var(--t8)", "var(--t9)"];
 
@@ -25,27 +28,20 @@ export function DashboardClient({
   phases,
   acts,
   modules,
-  docModules,
+  docScopes,
   totalDocs,
   critLen,
 }: {
   phases: Phase[];
   acts: Act[];
   modules: ModuleDef[];
-  docModules: string[];
+  docScopes: DocScope[];
   totalDocs: number;
   critLen: number;
 }) {
   const { status, profile } = useOrgState();
 
-  const inScopeAct = (a: Act) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
-  const inScopeDoc = (m: string) => !profile || m === "Core" || !!profile[m];
-
-  const scoped = acts.filter(inScopeAct);
+  const scoped = acts.filter((a) => actInScope(a, profile));
 
   let na = 0,
     done = 0,
@@ -59,7 +55,7 @@ export function DashboardClient({
   const base = tot - na;
   const pct = base ? Math.round((done / base) * 100) : 0;
   const pdays = scoped.length ? Math.max(...scoped.map((a) => a.ef)) : 0;
-  const docsInScope = docModules.filter(inScopeDoc).length;
+  const docsInScope = docScopes.filter((d) => docInScope(d, profile)).length;
   const actsInScope = scoped.length;
   const activeMods = profile ? modules.filter((m) => profile[m.code]) : [];
 

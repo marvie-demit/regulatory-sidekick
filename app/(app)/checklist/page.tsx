@@ -22,6 +22,7 @@ export default async function ChecklistPage() {
       dur: a.dur ?? 0,
       clause: a.clause,
       mods: a.mods || [],
+      reg: a.reg || [],
       docIds: allowed ? expandRefs(a.documents) : [],
       tasks: allowed ? (a.how2 || []).flatMap((g) => g.steps) : [],
     };

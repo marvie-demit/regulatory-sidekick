@@ -31,6 +31,7 @@ export default async function RoadmapPage({
     tier: (a as { tier?: string }).tier || "core",
     dur: a.dur || 0,
     mods: a.mods || [],
+    reg: a.reg || [],
     depends: a.depends || "-",
   }));
   const org = await getActiveOrg();

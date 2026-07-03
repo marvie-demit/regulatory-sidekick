@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import { hasFullAccess, SAMPLE_DOC_GROUP } from "@/lib/auth/access";
+import { docInScope } from "@/lib/content/scope";
 
 type Doc = {
   id: string;
@@ -11,6 +12,7 @@ type Doc = {
   cls: string;
   module: string;
   domain: string;
+  reg?: string[];
   status?: string;
   page?: boolean;
 };
@@ -74,20 +76,19 @@ export function LibraryView({
   const { profile } = useOrgState();
 
   const full = hasFullAccess(plan);
-  const inScopeDoc = (m: string) => !profile || m === "Core" || !!profile[m];
   const modules = uniq(documents.map((d) => d.module));
   const types = uniq(documents.map((d) => d.cls));
   const ql = q.toLowerCase();
   const ds = documents.filter(
     (d) =>
-      (libAll || inScopeDoc(d.module)) &&
+      (libAll || docInScope(d, profile)) &&
       (!mod || d.module === mod) &&
       (!cls || d.cls === cls) &&
       (!ql ||
         d.id.toLowerCase().indexOf(ql) >= 0 ||
         (d.title || "").toLowerCase().indexOf(ql) >= 0),
   );
-  const hidden = documents.filter((d) => !inScopeDoc(d.module)).length;
+  const hidden = documents.filter((d) => !docInScope(d, profile)).length;
 
   const byDom: Record<string, Doc[]> = {};
   ds.forEach((d) => (byDom[d.domain] = byDom[d.domain] || []).push(d));

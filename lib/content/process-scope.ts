@@ -70,14 +70,12 @@ export type Scope = {
 export function profileToScope(profile: Record<string, unknown> | null): Scope {
   const chars = new Set<string>();
   const markets = new Set<string>(["EU"]);
-  let regulation = "MDR";
   const has = (m: string) => !!(profile && profile[m]);
+  // EU route: explicit MDR/IVDR wins; an IVD device implies IVDR; default MDR.
+  const regulation = has("IVDR") || has("IVD") ? "IVDR" : "MDR";
   if (has("SW")) chars.add("software");
   if (has("AI")) chars.add("ai");
-  if (has("IVD")) {
-    chars.add("ivd");
-    regulation = "IVDR";
-  }
+  if (regulation === "IVDR") chars.add("ivd");
   if (has("SEC")) chars.add("security");
   if (has("PRIV")) chars.add("privacy");
   if (has("FDA")) markets.add("US-FDA");

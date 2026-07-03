@@ -31,6 +31,7 @@ export type Activity = {
   tips?: string[];
   lean?: { start: string; evolve: string } | null;
   mods?: string[];
+  reg?: string[]; // regulatory route: ["MDR"] | ["IVDR"] | ["MDR","IVDR"] | [] (common)
   documents?: string;
   depends?: string;
   leads?: string;
@@ -48,6 +49,7 @@ export type DocItem = {
   cls: string; // SOP | WI | TPL | FOR | LIS | POL | MAN
   domain: string;
   module: string;
+  reg?: string[]; // regulatory route of the producing step (for library scoping)
   status?: string;
   page?: boolean;
 };

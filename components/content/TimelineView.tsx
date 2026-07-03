@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
+import { actInScope } from "@/lib/content/scope";
 
 type TAct = {
   id: string;
@@ -13,6 +14,7 @@ type TAct = {
   es: number;
   ef: number;
   mods: string[];
+  reg?: string[];
   ord: number;
 };
 
@@ -32,11 +34,7 @@ export function TimelineView({
 }) {
   const { status, profile } = useOrgState();
 
-  const inScope = (a: TAct) =>
-    !profile ||
-    !a.mods.length ||
-    a.mods.indexOf("Core") >= 0 ||
-    a.mods.some((m) => profile[m]);
+  const inScope = (a: TAct) => actInScope(a, profile);
   const scoped = acts
     .filter(inScope)
     .slice()
