@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
 import { hasFullAccess, SAMPLE_ACTIVITY_ID } from "@/lib/auth/access";
@@ -29,12 +30,12 @@ const TIERS: { key: string; label: string }[] = [
   { key: "support", label: "Support & enabling" },
 ];
 
-// geometry (Connector maths depends on these)
-const CH = 58; // card height
-const GAP = 12; // vertical gap between sibling subtrees
-const CW = 236; // card width
-const CONN = 44; // connector width
-const PILLW = 186;
+// geometry (Connector maths depends on these) — compact so deep chains fit
+const CH = 50; // card height
+const GAP = 10; // vertical gap between sibling subtrees
+const CW = 198; // card width
+const CONN = 34; // connector width
+const PILLW = 162;
 const STROKE = "#9fbdb5";
 
 type LNode = { act: TAct | null; children: LNode[]; h: number };
@@ -142,6 +143,10 @@ export function RoadmapTree({
 }) {
   const { status, profile } = useOrgState();
   const full = hasFullAccess(plan);
+  // collapsible tiers — "support & enabling" (the long tail) collapsed by default
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
+    support: true,
+  });
 
   const vis = acts.filter((a) => actInScope(a, profile));
 
@@ -163,18 +168,18 @@ export function RoadmapTree({
       <>
         <div className="flex items-center gap-1.5">
           {!locked && <span className={"pdot" + (cls ? " " + cls : "")} />}
-          <span className="line-clamp-2 text-[12.5px] font-medium leading-snug text-teal-900">
+          <span className="line-clamp-2 text-[11px] font-medium leading-snug text-teal-900">
             {a.statement}
           </span>
         </div>
-        <div className="mt-0.5 text-[10.5px] text-muted">
+        <div className="mt-0.5 text-[9px] text-muted">
           {a.id} · {a.dur}d{crit ? " · critical" : ""}
           {locked ? " · locked" : ""}
         </div>
       </>
     );
     const base =
-      "flex flex-col justify-center rounded-xl border bg-card px-3 py-2 transition";
+      "flex flex-col justify-center rounded-lg border bg-card px-2.5 py-1.5 transition";
     const style = { width: CW, height: CH } as const;
     return locked ? (
       <Link
@@ -225,17 +230,32 @@ export function RoadmapTree({
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       {TIERS.map((tier) => {
         const procs = order.filter((p) => groups[p][0].tier === tier.key);
         if (!procs.length) return null;
+        const isOpen = !collapsed[tier.key];
+        const stepCount = procs.reduce((n, p) => n + groups[p].length, 0);
         return (
           <section key={tier.key}>
-            <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
+            <button
+              type="button"
+              onClick={() =>
+                setCollapsed((c) => ({ ...c, [tier.key]: !c[tier.key] }))
+              }
+              aria-expanded={isOpen}
+              className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-800 transition hover:text-teal-950"
+            >
+              <span className="text-[9px]">{isOpen ? "▾" : "▸"}</span>
               {tier.label}
-            </h2>
-            <div className="gwrap">
-              <div className="flex flex-col gap-5">
+              <span className="font-normal normal-case tracking-normal text-muted">
+                {procs.length} process{procs.length === 1 ? "" : "es"} ·{" "}
+                {stepCount} step{stepCount === 1 ? "" : "s"}
+              </span>
+            </button>
+            {!isOpen ? null : (
+            <div className="gwrap pr-6">
+              <div className="flex flex-col gap-4">
                 {procs.map((p) => {
                   const kids = groups[p];
                   const tree = buildGroupTree(kids);
@@ -252,13 +272,13 @@ export function RoadmapTree({
                         style={{ height: tree.h }}
                       >
                         <div
-                          className="flex-none rounded-2xl border-2 border-teal-800 bg-teal-800 px-3.5 py-2.5 text-white"
+                          className="flex-none rounded-xl border-2 border-teal-800 bg-teal-800 px-3 py-2 text-white"
                           style={{ width: PILLW }}
                         >
-                          <div className="text-[13px] font-semibold leading-snug">
+                          <div className="text-[11.5px] font-semibold leading-snug">
                             {kids[0].procName}
                           </div>
-                          <div className="mt-0.5 text-[10px] uppercase tracking-wide text-teal-100/80">
+                          <div className="mt-0.5 text-[9px] uppercase tracking-wide text-teal-100/80">
                             {kids.length} {kids.length === 1 ? "step" : "steps"}
                           </div>
                         </div>
@@ -274,6 +294,7 @@ export function RoadmapTree({
                 })}
               </div>
             </div>
+            )}
           </section>
         );
       })}
