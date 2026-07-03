@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { content, activitiesByPhase, CRITset } from "@/lib/content/content";
-import { RoadmapTree } from "@/components/content/RoadmapTree";
+import { RoadmapGrid } from "@/components/content/RoadmapGrid";
 import { getActiveOrg } from "@/lib/auth/org";
 
 export async function generateMetadata({
@@ -57,16 +57,16 @@ export default async function RoadmapPage({
       </div>
 
       <p className="lead mt-4">
-        {ph.focus}. Work is grouped by <b className="text-teal-800">process</b>
-        {" — "}each branch is a process, and its steps flow left to right in the
-        order you do them.{" "}
+        {ph.focus}. Each row is a <b className="text-teal-800">process</b>; the
+        columns are the <b className="text-teal-800">start order</b> — a step sits
+        in the column you tackle it, so a column reads down across every process.{" "}
         <b style={{ color: "#993c1d" }}>Coral</b>
         {" "}marks the critical path; the dot shows each activity&apos;s status.
         Select any card to open it.
       </p>
 
       <div className="mt-6">
-        <RoadmapTree acts={acts} critSet={CRITset} plan={org?.plan} />
+        <RoadmapGrid acts={acts} critSet={CRITset} plan={org?.plan} />
       </div>
     </main>
   );
