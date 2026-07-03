@@ -263,9 +263,9 @@ export function docStep(docId: string): DocStep | null {
 }
 
 export const PHASE_NAMES: Record<number, string> = {
-  1: "Operate safely",
-  2: "Control & trace",
+  1: "Research & foundations",
+  2: "Develop under control",
   3: "Govern & lead",
-  4: "Improve & certify",
+  4: "Certify, launch & improve",
 };
 

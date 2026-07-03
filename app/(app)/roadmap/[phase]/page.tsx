@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  content,
-  activitiesByPhase,
-  idnum,
-  EDGES,
-  CRITset,
-  CRITe,
-} from "@/lib/content/content";
-import { WaveMap } from "@/components/content/WaveMap";
+import { content, activitiesByPhase, CRITset } from "@/lib/content/content";
+import { RoadmapTree } from "@/components/content/RoadmapTree";
 import { getActiveOrg } from "@/lib/auth/org";
 
 export async function generateMetadata({
@@ -33,13 +26,13 @@ export default async function RoadmapPage({
   const acts = activitiesByPhase(n).map((a) => ({
     id: a.id,
     statement: a.statement,
-    wave: a.wave,
+    proc: (a as { proc?: string }).proc || "",
+    procName: (a as { procName?: string }).procName || "Other",
+    tier: (a as { tier?: string }).tier || "core",
     dur: a.dur || 0,
     mods: a.mods || [],
-    ord: idnum(a.id),
+    depends: a.depends || "-",
   }));
-  const idset = new Set(acts.map((a) => a.id));
-  const edges = EDGES.filter(([u, v]) => idset.has(u) && idset.has(v));
   const org = await getActiveOrg();
 
   return (
@@ -62,21 +55,16 @@ export default async function RoadmapPage({
       </div>
 
       <p className="lead mt-4">
-        {ph.focus}. Activities are laid out in dependency{" "}
-        <b className="text-teal-800">waves</b> left→right — finish a wave before
-        the work that depends on it. <b style={{ color: "#993c1d" }}>Coral</b>{" "}
-        traces the critical path; the dot shows each activity&apos;s status.
+        {ph.focus}. Work is grouped by <b className="text-teal-800">process</b>
+        {" — "}each branch is a process, and its steps flow left to right in the
+        order you do them.{" "}
+        <b style={{ color: "#993c1d" }}>Coral</b>
+        {" "}marks the critical path; the dot shows each activity&apos;s status.
         Select any card to open it.
       </p>
 
       <div className="mt-6">
-        <WaveMap
-          acts={acts}
-          edges={edges}
-          critSet={CRITset}
-          crite={CRITe}
-          plan={org?.plan}
-        />
+        <RoadmapTree acts={acts} critSet={CRITset} plan={org?.plan} />
       </div>
     </main>
   );
