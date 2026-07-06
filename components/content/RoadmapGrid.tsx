@@ -54,6 +54,7 @@ export function RoadmapGrid({
   const { status, profile } = useOrgState();
   const full = hasFullAccess(plan);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [legendOpen, setLegendOpen] = useState(false);
 
   const vis = acts.filter((a) => actInScope(a, profile));
 
@@ -192,19 +193,34 @@ export function RoadmapGrid({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="rounded-lg border border-line bg-card px-3 py-2 text-[10px] leading-relaxed text-muted">
-        Rows are processes; columns are the recommended start order. A card sits in
-        the column you tackle it — so a column reads down across every process, and
-        gaps mean the process has nothing at that order.{" "}
-        <span style={{ color: "#993c1d" }}>Coral</span> marks the critical path;
-        scroll sideways for later steps.
-        <div className="mt-1 border-t border-line pt-1">
-          The bar under each card is its duration. This phase runs{" "}
-          <b className="font-medium text-teal-800">≈ {spanParallel} working days</b>{" "}
-          if unblocked work overlaps, or{" "}
-          <b className="font-medium text-teal-800">{spanSerial} days</b> done solo
-          back-to-back — your real timeline sits between the two.
-        </div>
+      <div className="rounded-lg border border-line bg-card px-3 py-1.5 text-[10px] text-muted">
+        <button
+          type="button"
+          onClick={() => setLegendOpen((o) => !o)}
+          aria-expanded={legendOpen}
+          className="flex w-full items-center gap-2 text-left transition hover:text-teal-900"
+        >
+          <span className="text-[9px]">{legendOpen ? "▾" : "▸"}</span>
+          <span className="font-medium text-teal-800">How to read this</span>
+          <span className="ml-auto whitespace-nowrap">
+            ≈ <b className="font-medium text-teal-800">{spanParallel}d</b> parallel ·{" "}
+            <b className="font-medium text-teal-800">{spanSerial}d</b> solo
+          </span>
+        </button>
+        {legendOpen ? (
+          <div className="mt-1.5 border-t border-line pt-1.5 leading-relaxed">
+            Rows are processes; columns are the recommended start order. A card sits
+            in the column you tackle it — so a column reads down across every
+            process, and gaps mean the process has nothing at that order.{" "}
+            <span style={{ color: "#993c1d" }}>Coral</span> marks the critical path;
+            scroll sideways for later steps. The bar under each card is its
+            duration; the phase runs{" "}
+            <b className="font-medium text-teal-800">≈ {spanParallel} days</b> if
+            unblocked work overlaps, or{" "}
+            <b className="font-medium text-teal-800">{spanSerial} days</b> solo
+            back-to-back — your real timeline sits between the two.
+          </div>
+        ) : null}
       </div>
       <div className="max-h-[72vh] overflow-auto">
         <div style={{ minWidth: gridW }}>
