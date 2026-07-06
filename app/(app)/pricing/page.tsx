@@ -9,7 +9,7 @@ export const metadata = { title: "Pricing" };
 const CONTACT = "regulatory.sidekick@notjustany.tech";
 
 const FEATURES = [
-  "All 53 activities and 197 deep sub-activities",
+  "All 92 activities and 346 deep sub-activities",
   "All 275 controlled-document templates — view, customise, download",
   "Checklist progress, Gantt timeline, and up to 3 team members",
   "Per-activity evidence uploads (private to your workspace)",

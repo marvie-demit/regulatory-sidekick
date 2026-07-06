@@ -27,7 +27,7 @@ export default function Home() {
         </a>
       </div>
       <p className="mt-5 text-sm text-muted">
-        53 activities · 4 phases · 275 documents
+        92 activities · 4 phases · 275 documents
       </p>
     </main>
   );

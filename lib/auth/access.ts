@@ -13,11 +13,12 @@ export const PLAN_LABELS: Record<OrgPlan, string> = {
 // Purchase-to-activate copy (no "Pro" anywhere).
 export const LOCKED_CTA = "Purchase for full access";
 export const LOCKED_BLURB =
-  "Purchase for full access — activate all 53 activities, 197 sub-activities and 275 templates.";
+  "Purchase for full access — activate all 92 activities, 346 sub-activities and 275 templates.";
 
 // The free Explore sample: ONE fully-open activity + ONE open document group.
 // (Both are one-line changes — swap the sample here.)
-export const SAMPLE_ACTIVITY_ID = "P1.1";
+// Activity ids are process-based (see content.json activities[].id, e.g. "DEV.establish").
+export const SAMPLE_ACTIVITY_ID = "QMN.establish"; // "QMS manual, quality policy & guides" — foundational Phase-1 activity
 export const SAMPLE_DOC_GROUP = "CHG"; // domain code for "Change Management" (the free sample group)
 
 export function hasFullAccess(plan: string | null | undefined): boolean {

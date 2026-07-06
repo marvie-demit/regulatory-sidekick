@@ -36,7 +36,7 @@ function label(action: string): string {
   );
 }
 
-// Uuids/long refs aren't useful to show; activity ids ("P1.1"), doc ids and
+// Uuids/long refs aren't useful to show; activity ids ("QMN.establish"), doc ids and
 // emails are.
 function shortEntity(id: string | null): string | null {
   if (!id) return null;
