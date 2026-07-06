@@ -30,6 +30,8 @@ export default async function RoadmapPage({
     procName: (a as { procName?: string }).procName || "Other",
     tier: (a as { tier?: string }).tier || "core",
     dur: a.dur || 0,
+    es: a.es || 0,
+    ef: a.ef || 0,
     mods: a.mods || [],
     reg: a.reg || [],
     depends: a.depends || "-",

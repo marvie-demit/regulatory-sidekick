@@ -21,6 +21,8 @@ export type TAct = {
   procName: string;
   tier: string;
   dur: number;
+  es: number; // earliest start (working day from project start)
+  ef: number; // earliest finish
   mods: string[];
   reg?: string[];
   depends: string;
@@ -60,6 +62,15 @@ export function RoadmapGrid({
   const maxRank = presentWaves.length || 1;
   const rankFor = (a: TAct) => rankOf[waveNum(a)] || 1;
 
+  // schedule cues (the Timeline's data, folded into the grid): per-card duration
+  // bar, and an honest phase span — parallel floor (calendar window if same-wave
+  // work overlaps) vs solo sum (one founder, back to back).
+  const maxDur = Math.max(1, ...vis.map((a) => a.dur || 0));
+  const spanParallel = vis.length
+    ? Math.max(...vis.map((a) => a.ef || 0)) - Math.min(...vis.map((a) => a.es || 0))
+    : 0;
+  const spanSerial = vis.reduce((s, a) => s + (a.dur || 0), 0);
+
   const order: string[] = [];
   const groups: Record<string, TAct[]> = {};
   vis.forEach((a) => {
@@ -90,6 +101,20 @@ export function RoadmapGrid({
           {a.id} · {a.dur}d{crit ? " · critical" : ""}
           {locked ? " · locked" : ""}
         </div>
+        {!locked && (
+          <div
+            className="mt-1 h-1 overflow-hidden rounded-full bg-line"
+            title={`${a.dur} working days · starts ~day ${a.es}`}
+          >
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: `${Math.max(6, Math.round((a.dur / maxDur) * 100))}%`,
+                background: crit ? "#d8593a" : "#1d6e62",
+              }}
+            />
+          </div>
+        )}
       </>
     );
     const base = "block rounded-lg border bg-card px-2 py-1.5 transition";
@@ -170,6 +195,13 @@ export function RoadmapGrid({
         gaps mean the process has nothing at that order.{" "}
         <span style={{ color: "#993c1d" }}>Coral</span> marks the critical path;
         scroll sideways for later steps.
+        <div className="mt-1 border-t border-line pt-1">
+          The bar under each card is its duration. This phase runs{" "}
+          <b className="font-medium text-teal-800">≈ {spanParallel} working days</b>{" "}
+          if unblocked work overlaps, or{" "}
+          <b className="font-medium text-teal-800">{spanSerial} days</b> done solo
+          back-to-back — your real timeline sits between the two.
+        </div>
       </div>
       <div className="overflow-x-auto pb-3">
         <div style={{ minWidth: gridW }}>
