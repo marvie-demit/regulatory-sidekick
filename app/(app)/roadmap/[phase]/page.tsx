@@ -58,8 +58,8 @@ export default async function RoadmapPage({
   const org = await getActiveOrg();
 
   return (
-    <main className="px-8 py-10">
-      <h1 className="font-display mb-6 text-3xl font-semibold tracking-tight text-teal-900">
+    <main className="px-8 py-6">
+      <h1 className="font-display mb-3 text-2xl font-semibold tracking-tight text-teal-900">
         Roadmap · Phase {n}
       </h1>
 
@@ -76,9 +76,14 @@ export default async function RoadmapPage({
         ))}
       </div>
 
-      <p className="lead mt-4">{ph.focus}.</p>
+      <p
+        className="mt-2 mb-3 line-clamp-2 max-w-3xl text-[13px] leading-snug text-muted"
+        title={ph.focus}
+      >
+        {ph.focus}.
+      </p>
 
-      <div className="mt-6">
+      <div className="mt-3">
         <RoadmapViews
           phaseActs={acts}
           allActs={allActs}
