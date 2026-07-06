@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  content,
-  activitiesByPhase,
-  CRITset,
-  pnum,
-  idnum,
-} from "@/lib/content/content";
-import { RoadmapViews } from "@/components/content/RoadmapViews";
+import { content, activitiesByPhase, CRITset } from "@/lib/content/content";
+import { RoadmapGrid } from "@/components/content/RoadmapGrid";
 import { getActiveOrg } from "@/lib/auth/org";
 
 export async function generateMetadata({
@@ -43,18 +37,6 @@ export default async function RoadmapPage({
     depends: a.depends || "-",
     wave: a.wave || "W1",
   }));
-  // whole-project acts for the Timeline mode (all phases, scoped client-side)
-  const allActs = content.activities.map((a) => ({
-    id: a.id,
-    statement: a.statement,
-    phaseN: pnum(a.phase),
-    dur: a.dur || 0,
-    es: a.es || 0,
-    ef: a.ef || 0,
-    mods: a.mods || [],
-    reg: a.reg || [],
-    ord: idnum(a.id),
-  }));
   const org = await getActiveOrg();
 
   return (
@@ -84,10 +66,8 @@ export default async function RoadmapPage({
       </p>
 
       <div className="mt-3">
-        <RoadmapViews
-          phaseActs={acts}
-          allActs={allActs}
-          projectDays={content.projectDays}
+        <RoadmapGrid
+          acts={acts}
           critSet={CRITset}
           plan={org?.plan}
           phase={n}
