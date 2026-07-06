@@ -52,6 +52,17 @@ export function AuthForm({
         />
       </label>
 
+      {mode === "login" ? (
+        <div className="-mt-2 text-right">
+          <Link
+            href="/forgot-password"
+            className="text-xs font-medium text-teal-700 hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
+      ) : null}
+
       {state.error ? (
         <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
           {state.error}

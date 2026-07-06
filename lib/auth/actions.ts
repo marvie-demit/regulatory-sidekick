@@ -57,6 +57,29 @@ export async function signUp(
   };
 }
 
+export async function requestPasswordReset(
+  _prev: AuthResult,
+  formData: FormData,
+): Promise<AuthResult> {
+  const email = String(formData.get("email") || "").trim();
+  if (!email) return { error: "Enter your email." };
+
+  const supabase = await createClient();
+  const hdrs = await headers();
+  const origin =
+    hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
+  // The reset link returns to /auth/callback (PKCE), which sets a short recovery
+  // session and forwards to /reset-password. Enumeration-safe: Supabase succeeds
+  // even for unknown emails and we show the same message either way.
+  await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/callback?next=/reset-password`,
+  });
+  return {
+    message:
+      "If an account exists for that email, a password-reset link is on its way. Check your inbox (and spam).",
+  };
+}
+
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
