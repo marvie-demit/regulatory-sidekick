@@ -41,6 +41,25 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   const note = String(formData.get("note") || "").trim().slice(0, 200) || null;
   const targetOrgId = String(formData.get("targetOrgId") || "").trim() || null;
 
+  // Redeem-by window: the code self-expires if not redeemed in time. Field absent
+  // (org-row quick "Create code") -> default 14 days; blank or 0 -> no deadline.
+  const redeemRaw = formData.get("redeemDays");
+  const redeemDays =
+    redeemRaw === null
+      ? 14
+      : String(redeemRaw).trim() === "" || String(redeemRaw).trim() === "0"
+        ? null
+        : parseInt(String(redeemRaw), 10);
+  if (
+    redeemDays !== null &&
+    (!Number.isFinite(redeemDays) || redeemDays < 1 || redeemDays > 365)
+  )
+    return { error: "Redeem-by window must be 1–365 days (or blank for no deadline)." };
+  const expiresAt =
+    redeemDays !== null
+      ? new Date(Date.now() + redeemDays * 86_400_000).toISOString()
+      : null;
+
   const raw = "RS-" + randomBytes(15).toString("base64url");
   const codeHash = createHash("sha256").update(raw).digest("hex");
 
@@ -50,6 +69,7 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
     plan,
     grant_days: grantDays,
     max_uses: maxUses,
+    expires_at: expiresAt,
     note,
     created_by: g.uid,
   };

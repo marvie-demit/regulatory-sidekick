@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   createAccessCode,
   revokeAccessCode,
@@ -26,6 +26,32 @@ const okCls =
 const planLabel = (p: string) =>
   p === "enterprise" ? "Enterprise" : p === "full" ? "Full" : "Explore";
 const fmtDate = (s: string | null) => (s ? s.slice(0, 10) : "—");
+
+// Live redeem-by countdown for an access code. null = no deadline.
+function Countdown({ iso }: { iso: string | null }) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!iso) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [iso]);
+  if (!iso) return <span className="text-muted">no redeem deadline</span>;
+  const ms = new Date(iso).getTime() - now;
+  if (ms <= 0) return <span className="font-medium text-red-600">expired</span>;
+  const s = Math.floor(ms / 1000);
+  const d = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  const label =
+    d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h ${m}m` : `${m}m ${sec}s`;
+  const urgent = ms < 24 * 3600 * 1000;
+  return (
+    <span className={urgent ? "font-medium text-coral" : "text-teal-700"}>
+      redeem within {label}
+    </span>
+  );
+}
 
 function CopyBtn({ value, label }: { value: string; label: string }) {
   const [copied, setCopied] = useState(false);
@@ -76,7 +102,7 @@ function MintForm() {
           row below.)
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <label className="flex flex-col gap-1 text-xs text-muted">
           Plan
           <select name="plan" defaultValue="full" className={input}>
@@ -85,8 +111,24 @@ function MintForm() {
           </select>
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
-          Days (blank = ∞)
-          <input name="grantDays" defaultValue="365" inputMode="numeric" className={input} />
+          Access days
+          <input
+            name="grantDays"
+            defaultValue="365"
+            inputMode="numeric"
+            title="How long the plan lasts once redeemed (blank = no expiry)"
+            className={input}
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-xs text-muted">
+          Redeem within
+          <input
+            name="redeemDays"
+            defaultValue="14"
+            inputMode="numeric"
+            title="Days the code stays redeemable before it self-expires (blank = no deadline)"
+            className={input}
+          />
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
           Max uses
@@ -128,9 +170,11 @@ function CodeRow({ c, targetName }: { c: AccessCode; targetName: string | null }
           </div>
           <div className="text-xs text-muted">
             {c.usedCount}/{c.maxUses} used · {fmtDate(c.createdAt)} ·{" "}
-            <span className={spent ? "text-muted" : "text-teal-700"}>
-              {spent ? "spent" : "active"}
-            </span>
+            {spent ? (
+              <span className="text-muted">spent</span>
+            ) : (
+              <Countdown iso={c.expiresAt} />
+            )}
           </div>
         </div>
         <form action={action}>
