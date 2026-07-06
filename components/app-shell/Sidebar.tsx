@@ -32,7 +32,6 @@ const NAV: { group: string; items: NavItem[] }[] = [
   {
     group: "Track",
     items: [
-      { label: "Timeline", href: "/timeline", match: "/timeline", ready: true },
       {
         label: "Knowledge checks",
         href: "/knowledge-checks",

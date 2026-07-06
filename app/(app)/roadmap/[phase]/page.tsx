@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { content, activitiesByPhase, CRITset } from "@/lib/content/content";
-import { RoadmapGrid } from "@/components/content/RoadmapGrid";
+import {
+  content,
+  activitiesByPhase,
+  CRITset,
+  pnum,
+  idnum,
+} from "@/lib/content/content";
+import { RoadmapViews } from "@/components/content/RoadmapViews";
 import { getActiveOrg } from "@/lib/auth/org";
 
 export async function generateMetadata({
@@ -37,6 +43,18 @@ export default async function RoadmapPage({
     depends: a.depends || "-",
     wave: a.wave || "W1",
   }));
+  // whole-project acts for the Timeline mode (all phases, scoped client-side)
+  const allActs = content.activities.map((a) => ({
+    id: a.id,
+    statement: a.statement,
+    phaseN: pnum(a.phase),
+    dur: a.dur || 0,
+    es: a.es || 0,
+    ef: a.ef || 0,
+    mods: a.mods || [],
+    reg: a.reg || [],
+    ord: idnum(a.id),
+  }));
   const org = await getActiveOrg();
 
   return (
@@ -58,17 +76,16 @@ export default async function RoadmapPage({
         ))}
       </div>
 
-      <p className="lead mt-4">
-        {ph.focus}. Each row is a <b className="text-teal-800">process</b>; the
-        columns are the <b className="text-teal-800">start order</b> — a step sits
-        in the column you tackle it, so a column reads down across every process.{" "}
-        <b style={{ color: "#993c1d" }}>Coral</b>
-        {" "}marks the critical path; the dot shows each activity&apos;s status.
-        Select any card to open it.
-      </p>
+      <p className="lead mt-4">{ph.focus}.</p>
 
       <div className="mt-6">
-        <RoadmapGrid acts={acts} critSet={CRITset} plan={org?.plan} />
+        <RoadmapViews
+          phaseActs={acts}
+          allActs={allActs}
+          projectDays={content.projectDays}
+          critSet={CRITset}
+          plan={org?.plan}
+        />
       </div>
     </main>
   );

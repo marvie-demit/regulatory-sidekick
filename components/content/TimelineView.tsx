@@ -6,7 +6,7 @@ import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
 import { actInScope } from "@/lib/content/scope";
 
-type TAct = {
+export type TimelineAct = {
   id: string;
   statement: string;
   phaseN: number;
@@ -28,32 +28,30 @@ export function TimelineView({
   projectDays,
   critSet,
 }: {
-  acts: TAct[];
+  acts: TimelineAct[];
   projectDays: number;
   critSet: Record<string, number>;
 }) {
   const { status, profile } = useOrgState();
 
-  const inScope = (a: TAct) => actInScope(a, profile);
+  const inScope = (a: TimelineAct) => actInScope(a, profile);
   const scoped = acts
     .filter(inScope)
     .slice()
     .sort((a, b) => a.es - b.es || a.ord - b.ord);
   const total = (scoped.length ? Math.max(...scoped.map((a) => a.ef)) : projectDays) || 1;
+  const solo = scoped.reduce((s, a) => s + a.dur, 0);
   const weeks = Math.ceil(total / 5);
 
   return (
-    <main className="mx-auto max-w-5xl px-8 py-10">
-      <h1 className="font-display text-3xl font-semibold tracking-tight text-teal-900">
-        Timeline
-      </h1>
+    <div>
       <p className="lead mt-3">
         Auto-scheduled from each activity&apos;s estimated duration and its
-        dependencies (critical-path method). Total ≈{" "}
+        dependencies (critical-path method). ≈{" "}
         <b className="text-teal-800">{fmtWk(total)}</b> ({total} working days) to
-        certification. <b style={{ color: "#993c1d" }}>Coral</b> marks the
-        critical path. These are planning estimates - tune the durations to your
-        project.
+        certification if unblocked work overlaps — or ~{solo} days done solo,
+        back-to-back. <b style={{ color: "#993c1d" }}>Coral</b> marks the critical
+        path; these are planning estimates, so tune the durations to your project.
       </p>
 
       <div
@@ -121,6 +119,6 @@ export function TimelineView({
           );
         })}
       </div>
-    </main>
+    </div>
   );
 }

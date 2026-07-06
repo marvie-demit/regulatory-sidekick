@@ -17,10 +17,15 @@ export default function TimelinePage() {
   }));
 
   return (
-    <TimelineView
-      acts={acts}
-      projectDays={content.projectDays}
-      critSet={CRITset}
-    />
+    <main className="mx-auto max-w-5xl px-8 py-10">
+      <h1 className="font-display text-3xl font-semibold tracking-tight text-teal-900">
+        Timeline
+      </h1>
+      <TimelineView
+        acts={acts}
+        projectDays={content.projectDays}
+        critSet={CRITset}
+      />
+    </main>
   );
 }
