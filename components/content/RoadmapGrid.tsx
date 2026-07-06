@@ -6,6 +6,7 @@ import { useOrgState } from "@/components/app-shell/StateProvider";
 import { stcls } from "@/components/content/StatusDropdown";
 import { hasFullAccess, SAMPLE_ACTIVITY_ID } from "@/lib/auth/access";
 import { actInScope } from "@/lib/content/scope";
+import { WAVE_OBJECTIVES } from "@/lib/content/wave-objectives";
 
 // Start-order grid: rows are processes, columns are the recommended start order
 // (the model's per-phase dependency wave, re-ranked 1..k for the visible profile).
@@ -43,10 +44,12 @@ export function RoadmapGrid({
   acts,
   critSet,
   plan,
+  phase,
 }: {
   acts: TAct[];
   critSet: Record<string, number>;
   plan?: string;
+  phase: number;
 }) {
   const { status, profile } = useOrgState();
   const full = hasFullAccess(plan);
@@ -205,23 +208,36 @@ export function RoadmapGrid({
       </div>
       <div className="max-h-[72vh] overflow-auto">
         <div style={{ minWidth: gridW }}>
-          <div className="sticky top-0 z-30 flex items-end bg-bg">
+          <div className="sticky top-0 z-30 flex bg-bg">
             <div
-              className="sticky left-0 z-40 flex flex-none items-end bg-bg pb-1"
+              className="sticky left-0 z-40 flex flex-none items-end bg-bg pb-1.5"
               style={{ width: GUTTER }}
             >
               <span className="text-[10px] text-muted">Start order →</span>
             </div>
             <div className="flex flex-none" style={{ width: maxRank * COLW }}>
-              {cols.map((c) => (
-                <div
-                  key={c}
-                  className="flex-none border-l border-dashed border-line bg-bg py-1 text-center text-[11px] font-semibold text-teal-800"
-                  style={{ width: COLW }}
-                >
-                  {c}
-                </div>
-              ))}
+              {cols.map((c) => {
+                const obj = WAVE_OBJECTIVES[phase]?.[presentWaves[c - 1]];
+                return (
+                  <div
+                    key={c}
+                    className="flex-none border-l border-dashed border-line bg-bg px-1 pt-1 pb-1.5 text-center"
+                    style={{ width: COLW }}
+                  >
+                    <div className="text-[11px] font-semibold text-teal-800">
+                      {c}
+                    </div>
+                    {obj && (
+                      <div
+                        className="mt-0.5 text-[9px] font-medium leading-tight text-teal-900"
+                        title={obj.hint}
+                      >
+                        {obj.title}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 

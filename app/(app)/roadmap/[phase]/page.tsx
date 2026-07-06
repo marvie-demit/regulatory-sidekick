@@ -85,6 +85,7 @@ export default async function RoadmapPage({
           projectDays={content.projectDays}
           critSet={CRITset}
           plan={org?.plan}
+          phase={n}
         />
       </div>
     </main>

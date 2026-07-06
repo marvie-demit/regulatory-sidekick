@@ -14,12 +14,14 @@ export function RoadmapViews({
   projectDays,
   critSet,
   plan,
+  phase,
 }: {
   phaseActs: TAct[];
   allActs: TimelineAct[];
   projectDays: number;
   critSet: Record<string, number>;
   plan?: string;
+  phase: number;
 }) {
   const [mode, setMode] = useState<"grid" | "timeline">("grid");
   const seg = (m: "grid" | "timeline", label: string) => (
@@ -45,7 +47,7 @@ export function RoadmapViews({
         {seg("timeline", "Timeline")}
       </div>
       {mode === "grid" ? (
-        <RoadmapGrid acts={phaseActs} critSet={critSet} plan={plan} />
+        <RoadmapGrid acts={phaseActs} critSet={critSet} plan={plan} phase={phase} />
       ) : (
         <TimelineView acts={allActs} projectDays={projectDays} critSet={critSet} />
       )}
