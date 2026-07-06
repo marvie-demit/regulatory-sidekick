@@ -153,3 +153,50 @@ export async function revokeAccessCode(_prev: Res, formData: FormData): Promise<
   revalidatePath("/admin");
   return { message: "Code deleted." };
 }
+
+// Permanently delete an org: cascade-wipes every per-org table via the DB FKs,
+// and purges the org's evidence files from Storage (which does NOT cascade).
+// Requires the exact org name typed back as confirmation. Irreversible.
+export async function deleteOrg(_prev: Res, formData: FormData): Promise<Res> {
+  const g = await gate();
+  if ("error" in g) return { error: g.error };
+
+  const orgId = String(formData.get("orgId") || "");
+  const confirmName = String(formData.get("confirmName") || "").trim();
+  if (!orgId) return { error: "Missing organization." };
+
+  const admin = createAdminClient();
+  const { data: org, error: fErr } = await admin
+    .from("organizations")
+    .select("name")
+    .eq("id", orgId)
+    .single();
+  if (fErr || !org) return { error: "Organization not found." };
+  if (confirmName !== org.name)
+    return { error: "The typed name doesn't match — nothing deleted." };
+
+  // Storage doesn't cascade with the DB delete, so purge the org's evidence
+  // folder first. Best-effort: a leftover file must not block the delete.
+  try {
+    const bucket = admin.storage.from("evidence");
+    const prefix = `org/${orgId}`;
+    const { data: folders } = await bucket.list(prefix, { limit: 1000 });
+    const paths: string[] = [];
+    for (const f of folders ?? []) {
+      const sub = `${prefix}/${f.name}`;
+      const { data: files } = await bucket.list(sub, { limit: 1000 });
+      (files ?? []).forEach((x) => paths.push(`${sub}/${x.name}`));
+    }
+    if (paths.length) await bucket.remove(paths);
+  } catch {
+    // ignore — orphaned evidence is preferable to a half-completed delete
+  }
+
+  // Cascades memberships, activity_status, task_completion, org_device_profile,
+  // quiz_score, evidence rows, invitations, code_redemptions, audit_log.
+  const { error } = await admin.from("organizations").delete().eq("id", orgId);
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin");
+  return { message: `Deleted "${org.name}" and all its data.` };
+}

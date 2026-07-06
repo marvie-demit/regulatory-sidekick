@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import {
   createAccessCode,
+  deleteOrg,
   revokeAccessCode,
   setOrgPlan,
 } from "@/lib/admin/actions";
@@ -217,6 +218,12 @@ function OrgRow({ o }: { o: AdminOrg }) {
     createAccessCode,
     {},
   );
+  const [delState, delAction, delPending] = useActionState<Res, FormData>(
+    deleteOrg,
+    {},
+  );
+  const [confirming, setConfirming] = useState(false);
+  const [typed, setTyped] = useState("");
   return (
     <li className="flex flex-col gap-2 border-b border-line py-3 last:border-0">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -258,12 +265,53 @@ function OrgRow({ o }: { o: AdminOrg }) {
               {codePending ? "…" : "Create code"}
             </button>
           </form>
+          <button
+            type="button"
+            onClick={() => {
+              setConfirming((v) => !v);
+              setTyped("");
+            }}
+            className="shrink-0 rounded-full border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50"
+          >
+            {confirming ? "Cancel" : "Delete"}
+          </button>
         </div>
       </div>
       {applyState.error ? <p className={errCls}>{applyState.error}</p> : null}
       {applyState.message ? <p className={okCls}>{applyState.message}</p> : null}
       {codeState.error ? <p className={errCls}>{codeState.error}</p> : null}
       <CodeResult state={codeState} />
+      {confirming ? (
+        <form
+          action={delAction}
+          className="flex flex-col gap-2 rounded-lg border border-red-200 bg-red-50 p-3"
+        >
+          <div className="text-xs text-red-700">
+            Permanently delete <b>{o.name}</b> and everything in it — members,
+            progress, evidence files, and audit history. This can&apos;t be undone.
+            Type the name to confirm.
+          </div>
+          <input type="hidden" name="orgId" value={o.id} />
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              name="confirmName"
+              value={typed}
+              onChange={(e) => setTyped(e.target.value)}
+              placeholder={o.name}
+              autoComplete="off"
+              className={`${input} min-w-[10rem] flex-1`}
+            />
+            <button
+              type="submit"
+              disabled={delPending || typed.trim() !== o.name}
+              className="shrink-0 rounded-full bg-red-600 px-4 py-1.5 text-xs font-semibold text-white transition hover:brightness-95 disabled:opacity-40"
+            >
+              {delPending ? "Deleting…" : "Delete permanently"}
+            </button>
+          </div>
+          {delState.error ? <p className={errCls}>{delState.error}</p> : null}
+        </form>
+      ) : null}
     </li>
   );
 }
