@@ -203,11 +203,11 @@ export function RoadmapGrid({
           back-to-back — your real timeline sits between the two.
         </div>
       </div>
-      <div className="overflow-x-auto pb-3">
+      <div className="max-h-[72vh] overflow-auto">
         <div style={{ minWidth: gridW }}>
-          <div className="flex items-end">
+          <div className="sticky top-0 z-30 flex items-end bg-bg">
             <div
-              className="sticky left-0 z-20 flex flex-none items-end bg-bg pb-1"
+              className="sticky left-0 z-40 flex flex-none items-end bg-bg pb-1"
               style={{ width: GUTTER }}
             >
               <span className="text-[10px] text-muted">Start order →</span>
@@ -216,7 +216,7 @@ export function RoadmapGrid({
               {cols.map((c) => (
                 <div
                   key={c}
-                  className="flex-none border-l border-dashed border-line py-1 text-center text-[11px] font-semibold text-teal-800"
+                  className="flex-none border-l border-dashed border-line bg-bg py-1 text-center text-[11px] font-semibold text-teal-800"
                   style={{ width: COLW }}
                 >
                   {c}
