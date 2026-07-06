@@ -28,11 +28,5 @@ export default async function ChecklistPage() {
     };
   });
 
-  return (
-    <ChecklistView
-      activities={activities}
-      qses={content.qses}
-      plan={org?.plan}
-    />
-  );
+  return <ChecklistView activities={activities} plan={org?.plan} />;
 }

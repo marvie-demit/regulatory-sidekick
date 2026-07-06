@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CRITset, getActivity, pnum } from "@/lib/content/content";
+import { getActivity, pnum } from "@/lib/content/content";
 import { canViewActivity, hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
 import { listEvidence } from "@/lib/db/evidence";
@@ -77,7 +77,6 @@ export default async function ActivityPage({
   const { id } = await params;
   const a = getActivity(id);
   if (!a) notFound();
-  const crit = !!CRITset[id];
   const hasSubs = !!(a.subs && a.subs.length);
 
   // Server-side gate: a free org may only open the sample activity in full. When
@@ -105,11 +104,6 @@ export default async function ActivityPage({
             {t}
           </span>
         ))}
-        {crit && (
-          <span className="rounded-full bg-[#f5c4b3] px-2.5 py-0.5 text-[11px] font-semibold text-[#712b13]">
-            critical path
-          </span>
-        )}
         {a.dur != null && (
           <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
             {a.dur} working days
@@ -121,6 +115,15 @@ export default async function ActivityPage({
       <h1 className="font-display mt-0.5 text-3xl font-semibold tracking-tight text-teal-900">
         {a.statement}
       </h1>
+
+      {allowed && (
+        <div className="mt-5 flex flex-wrap items-center gap-3 rounded-xl border border-teal-800/25 bg-cream2/60 px-4 py-3">
+          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-teal-800">
+            Status
+          </span>
+          <StatusDropdown id={a.id} />
+        </div>
+      )}
 
       {!allowed ? (
         <div className="mt-6">
@@ -252,10 +255,6 @@ export default async function ActivityPage({
               <ActLinks ids={a.leads} />
             </div>
           </div>
-
-          <Section label="Status">
-            <StatusDropdown id={a.id} />
-          </Section>
 
           {org && (
             <Section label="Evidence">

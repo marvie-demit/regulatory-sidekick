@@ -96,11 +96,9 @@ function StatusMenu({
 
 export function ChecklistView({
   activities,
-  qses,
   plan,
 }: {
   activities: CKActivity[];
-  qses: string[];
   plan?: string;
 }) {
   const {
@@ -113,7 +111,6 @@ export function ChecklistView({
     reset: ctxReset,
   } = useOrgState();
   const [scope, setScope] = useState("all");
-  const [qse, setQse] = useState("");
   const [view, setView] = useState("phase");
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [sel, setSel] = useState<Record<string, 1>>({});
@@ -125,10 +122,7 @@ export function ChecklistView({
   const full = hasFullAccess(plan);
   const inScope = (a: CKActivity) => actInScope(a, profile);
   const scoped = activities.filter(
-    (a) =>
-      inScope(a) &&
-      (scope === "all" || "p" + a.phaseN === scope) &&
-      (!qse || a.qse === qse),
+    (a) => inScope(a) && (scope === "all" || "p" + a.phaseN === scope),
   );
 
   const tc = (a: CKActivity) => {
@@ -414,22 +408,6 @@ export function ChecklistView({
           <option value="p3">Phase 3</option>
           <option value="p4">Phase 4</option>
         </select>
-        <label className="sr-only" htmlFor="ckqse">
-          Filter by essential
-        </label>
-        <select
-          id="ckqse"
-          value={qse}
-          onChange={(e) => {
-            setQse(e.target.value);
-            setSel({});
-          }}
-        >
-          <option value="">All essentials</option>
-          {qses.map((q) => (
-            <option key={q}>{q}</option>
-          ))}
-        </select>
         <label className="sr-only" htmlFor="cksort">
           View
         </label>
@@ -464,40 +442,53 @@ export function ChecklistView({
         </div>
       ) : null}
 
-      <div className="mcards">
-        <div className="mc" style={{ gridColumn: "1/-1" }}>
-          <div className="l">
-            Activity completion ({done} of {base} applicable done)
+      <div className="mb-3.5 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-line bg-card px-4 py-2.5">
+        <div className="flex items-center gap-2" title={`${done} of ${base} applicable activities done`}>
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-teal-800">
+            Activities
+          </span>
+          <div className="h-1.5 w-24 overflow-hidden rounded-full bg-cream2">
+            <div
+              className="h-full rounded-full bg-[var(--ok)]"
+              style={{ width: pct + "%" }}
+            />
           </div>
-          <div className="cbar">
-            <i style={{ width: pct + "%" }} />
+          <span className="text-[13px] font-bold text-teal-900">{pct}%</span>
+          <span className="text-[11px] text-muted">
+            {done}/{base}
+          </span>
+        </div>
+        <div className="flex items-center gap-2" title={`${tdone} of ${ttot} granular checks done`}>
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-teal-800">
+            Checks
+          </span>
+          <div className="h-1.5 w-24 overflow-hidden rounded-full bg-cream2">
+            <div
+              className="h-full rounded-full bg-[var(--ok)]"
+              style={{ width: tpct + "%" }}
+            />
           </div>
-          <div className="n">{pct}%</div>
+          <span className="text-[13px] font-bold text-teal-900">{tpct}%</span>
+          <span className="text-[11px] text-muted">
+            {tdone}/{ttot}
+          </span>
         </div>
-        <div className="mc" style={{ gridColumn: "1/-1" }}>
-          <div className="l">
-            Granular checks ({tdone} of {ttot} items)
-          </div>
-          <div className="cbar">
-            <i style={{ width: tpct + "%" }} />
-          </div>
-          <div className="n">{tpct}%</div>
-        </div>
-        <div className="mc">
-          <div className="n">{done}</div>
-          <div className="l">Done</div>
-        </div>
-        <div className="mc">
-          <div className="n">{prog}</div>
-          <div className="l">In progress</div>
-        </div>
-        <div className="mc">
-          <div className="n">{notStarted}</div>
-          <div className="l">Not started</div>
-        </div>
-        <div className="mc">
-          <div className="n">{na}</div>
-          <div className="l">N-A</div>
+        <div className="ml-auto flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[11px] text-muted">
+          <span>
+            <b className="font-semibold text-teal-800">{done}</b> done
+          </span>
+          <span className="text-line">·</span>
+          <span>
+            <b className="font-semibold text-teal-800">{prog}</b> in progress
+          </span>
+          <span className="text-line">·</span>
+          <span>
+            <b className="font-semibold text-teal-800">{notStarted}</b> not started
+          </span>
+          <span className="text-line">·</span>
+          <span>
+            <b className="font-semibold text-teal-800">{na}</b> N-A
+          </span>
         </div>
       </div>
 

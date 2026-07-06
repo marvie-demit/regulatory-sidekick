@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { content, activitiesByPhase, CRITset } from "@/lib/content/content";
+import { content, activitiesByPhase } from "@/lib/content/content";
 import { RoadmapGrid } from "@/components/content/RoadmapGrid";
 import { getActiveOrg } from "@/lib/auth/org";
 
@@ -66,12 +66,7 @@ export default async function RoadmapPage({
       </p>
 
       <div className="mt-3">
-        <RoadmapGrid
-          acts={acts}
-          critSet={CRITset}
-          plan={org?.plan}
-          phase={n}
-        />
+        <RoadmapGrid acts={acts} plan={org?.plan} phase={n} />
       </div>
     </main>
   );

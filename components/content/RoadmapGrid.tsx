@@ -42,12 +42,10 @@ const STROKE = "#9fbdb5";
 
 export function RoadmapGrid({
   acts,
-  critSet,
   plan,
   phase,
 }: {
   acts: TAct[];
-  critSet: Record<string, number>;
   plan?: string;
   phase: number;
 }) {
@@ -90,7 +88,6 @@ export function RoadmapGrid({
   const gridW = GUTTER + maxRank * COLW;
 
   const Card = ({ a }: { a: TAct }) => {
-    const crit = critSet[a.id];
     const cls = stcls(status[a.id] || "");
     const locked = !full && a.id !== SAMPLE_ACTIVITY_ID;
     const inner = (
@@ -102,8 +99,7 @@ export function RoadmapGrid({
           </span>
         </div>
         <div className="mt-1 text-[10px] text-muted">
-          {a.id} · {a.dur}d{crit ? " · critical" : ""}
-          {locked ? " · locked" : ""}
+          {a.id} · {a.dur}d{locked ? " · locked" : ""}
         </div>
         {!locked && (
           <div
@@ -114,7 +110,7 @@ export function RoadmapGrid({
               className="h-full rounded-full"
               style={{
                 width: `${Math.max(6, Math.round((a.dur / maxDur) * 100))}%`,
-                background: crit ? "#d8593a" : "#1d6e62",
+                background: "#1d6e62",
               }}
             />
           </div>
@@ -134,9 +130,9 @@ export function RoadmapGrid({
     ) : (
       <Link
         href={`/activity/${a.id}`}
-        className={`${base} ${crit ? "border-coral" : "border-line"} hover:border-teal-700`}
+        className={`${base} border-line hover:border-teal-700`}
         title={a.statement}
-        aria-label={`${a.statement} (${a.id})${crit ? " — critical path" : ""}`}
+        aria-label={`${a.statement} (${a.id})`}
       >
         {inner}
       </Link>
@@ -211,9 +207,8 @@ export function RoadmapGrid({
           <div className="mt-1.5 border-t border-line pt-1.5 leading-relaxed">
             Rows are processes; columns are the recommended start order. A card sits
             in the column you tackle it — so a column reads down across every
-            process, and gaps mean the process has nothing at that order.{" "}
-            <span style={{ color: "#993c1d" }}>Coral</span> marks the critical path;
-            scroll sideways for later steps. The bar under each card is its
+            process, and gaps mean the process has nothing at that order. Scroll
+            sideways for later steps. The bar under each card is its
             duration; the phase runs{" "}
             <b className="font-medium text-teal-800">≈ {spanParallel} days</b> if
             unblocked work overlaps, or{" "}
