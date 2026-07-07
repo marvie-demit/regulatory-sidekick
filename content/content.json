@@ -22241,60 +22241,64 @@
    "std": "ISO 13485",
    "phaseActs": {
     "P1": [
-     "P1.1",
-     "P1.2",
-     "P1.3",
-     "P1.4",
-     "P1.5",
-     "P1.6",
-     "P1.7",
-     "P1.8"
+     "DEV.establish",
+     "DEV.intended",
+     "DEV.intended.ivd",
+     "QMN.establish",
+     "REG.establish",
+     "DOC.establish",
+     "HRT.establish",
+     "INF.establish"
     ],
     "P2": [
-     "P2.2",
-     "P2.8",
-     "P2.9",
-     "P2.10",
-     "P2.11",
-     "P2.12",
-     "P2.13",
-     "P2.14",
-     "P2.15",
-     "P2.16",
-     "P2.17",
-     "P2.22"
+     "DEV.inputs",
+     "DEV.verify",
+     "DEV.validate",
+     "DEV.ivd",
+     "CMP.setup",
+     "CAP.setup",
+     "CHG.setup",
+     "NCP.setup",
+     "INF.csv",
+     "INF.metrology",
+     "PUR.establish",
+     "SAL.setup",
+     "SUP.setup",
+     "PRO.setup",
+     "STE.setup",
+     "PSA.setup"
     ],
     "P3": [
-     "P3.1",
-     "P3.2",
-     "P3.3",
-     "P3.5",
-     "P3.6"
+     "CAP.operate",
+     "MRV.establish",
+     "AUD.establish",
+     "DOC.maintain",
+     "HRT.mature",
+     "PUR.surveil"
     ],
     "P4": [
-     "P4.4",
-     "P4.5"
+     "DEP.release"
     ]
    },
    "clauses": [
+    {
+     "c": "4.1.2 & 4.2.3-4.2.4",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [
+       "DOC.maintain"
+      ],
+      "P4": []
+     }
+    },
     {
      "c": "4.1.6",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.8"
+       "INF.csv"
       ],
-      "P3": [],
-      "P4": []
-     }
-    },
-    {
-     "c": "4.2.2",
-     "acts": {
-      "P1": [
-       "P1.4"
-      ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -22302,11 +22306,11 @@
     {
      "c": "4.2.3",
      "acts": {
-      "P1": [],
-      "P2": [],
-      "P3": [
-       "P3.3"
+      "P1": [
+       "REG.establish"
       ],
+      "P2": [],
+      "P3": [],
       "P4": []
      }
     },
@@ -22314,8 +22318,7 @@
      "c": "4.2.4",
      "acts": {
       "P1": [
-       "P1.1",
-       "P1.3"
+       "DOC.establish"
       ],
       "P2": [],
       "P3": [],
@@ -22326,7 +22329,7 @@
      "c": "4.2.5",
      "acts": {
       "P1": [
-       "P1.1"
+       "DOC.establish"
       ],
       "P2": [],
       "P3": [],
@@ -22337,29 +22340,7 @@
      "c": "5.1",
      "acts": {
       "P1": [
-       "P1.2"
-      ],
-      "P2": [],
-      "P3": [],
-      "P4": []
-     }
-    },
-    {
-     "c": "5.3",
-     "acts": {
-      "P1": [
-       "P1.4"
-      ],
-      "P2": [],
-      "P3": [],
-      "P4": []
-     }
-    },
-    {
-     "c": "5.4",
-     "acts": {
-      "P1": [
-       "P1.4"
+       "QMN.establish"
       ],
       "P2": [],
       "P3": [],
@@ -22370,7 +22351,7 @@
      "c": "5.5",
      "acts": {
       "P1": [
-       "P1.2"
+       "QMN.establish"
       ],
       "P2": [],
       "P3": [],
@@ -22383,22 +22364,20 @@
       "P1": [],
       "P2": [],
       "P3": [
-       "P3.2"
+       "MRV.establish"
       ],
-      "P4": [
-       "P4.5"
-      ]
+      "P4": []
      }
     },
     {
      "c": "6.2",
      "acts": {
       "P1": [
-       "P1.5"
+       "HRT.establish"
       ],
       "P2": [],
       "P3": [
-       "P3.5"
+       "HRT.mature"
       ],
       "P4": []
      }
@@ -22407,20 +22386,9 @@
      "c": "6.3",
      "acts": {
       "P1": [
-       "P1.6"
+       "INF.establish"
       ],
       "P2": [],
-      "P3": [],
-      "P4": []
-     }
-    },
-    {
-     "c": "6.4",
-     "acts": {
-      "P1": [],
-      "P2": [
-       "P2.16"
-      ],
       "P3": [],
       "P4": []
      }
@@ -22430,7 +22398,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.17"
+       "PSA.setup"
       ],
       "P3": [],
       "P4": []
@@ -22440,19 +22408,30 @@
      "c": "7.2",
      "acts": {
       "P1": [],
-      "P2": [],
+      "P2": [
+       "SAL.setup"
+      ],
       "P3": [],
-      "P4": [
-       "P4.4"
-      ]
+      "P4": []
      }
     },
     {
      "c": "7.3",
      "acts": {
+      "P1": [
+       "DEV.intended.ivd"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "7.3; IVDR Annex I & II",
+     "acts": {
       "P1": [],
       "P2": [
-       "P2.22"
+       "DEV.ivd"
       ],
       "P3": [],
       "P4": []
@@ -22462,7 +22441,7 @@
      "c": "7.3.2",
      "acts": {
       "P1": [
-       "P1.7"
+       "DEV.intended"
       ],
       "P2": [],
       "P3": [],
@@ -22470,11 +22449,44 @@
      }
     },
     {
-     "c": "7.3.3-7.3.6",
+     "c": "7.3.3-7.3.4; MDR Annex I",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.2"
+       "DEV.inputs"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "7.3.3-7.3.6",
+     "acts": {
+      "P1": [
+       "DEV.establish"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "7.3.6; MDR Annex I",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "DEV.verify"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "7.3.7 & 7.3.8",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "DEV.validate"
       ],
       "P3": [],
       "P4": []
@@ -22485,7 +22497,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.11"
+       "CHG.setup"
       ],
       "P3": [],
       "P4": []
@@ -22496,7 +22508,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.9"
+       "PUR.establish"
       ],
       "P3": [],
       "P4": []
@@ -22508,7 +22520,7 @@
       "P1": [],
       "P2": [],
       "P3": [
-       "P3.6"
+       "PUR.surveil"
       ],
       "P4": []
      }
@@ -22518,18 +22530,18 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.12"
+       "PRO.setup"
       ],
       "P3": [],
       "P4": []
      }
     },
     {
-     "c": "7.5.6",
+     "c": "7.5.4; MDR Art 10",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.13"
+       "SUP.setup"
       ],
       "P3": [],
       "P4": []
@@ -22540,10 +22552,21 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.14"
+       "STE.setup"
       ],
       "P3": [],
       "P4": []
+     }
+    },
+    {
+     "c": "7.5; IEC 62304 5.8",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "DEP.release"
+      ]
      }
     },
     {
@@ -22551,7 +22574,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.15"
+       "INF.metrology"
       ],
       "P3": [],
       "P4": []
@@ -22560,10 +22583,11 @@
     {
      "c": "8.2.2",
      "acts": {
-      "P1": [
-       "P1.8"
+      "P1": [],
+      "P2": [
+       "CMP.setup",
+       "NCP.setup"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -22574,20 +22598,19 @@
       "P1": [],
       "P2": [],
       "P3": [
-       "P3.1"
+       "AUD.establish"
       ],
-      "P4": [
-       "P4.5"
-      ]
+      "P4": []
      }
     },
     {
      "c": "8.3",
      "acts": {
-      "P1": [
-       "P1.8"
+      "P1": [],
+      "P2": [
+       "CMP.setup",
+       "NCP.setup"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -22598,7 +22621,7 @@
       "P1": [],
       "P2": [],
       "P3": [
-       "P3.2"
+       "MRV.establish"
       ],
       "P4": []
      }
@@ -22608,9 +22631,20 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.10"
+       "CAP.setup"
       ],
       "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "8.5.2/8.5.3; MDR Art 10(9)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [
+       "CAP.operate"
+      ],
       "P4": []
      }
     }
@@ -22619,26 +22653,63 @@
   {
    "std": "ISO 14971",
    "phaseActs": {
-    "P1": [],
+    "P1": [
+     "RSK.plan"
+    ],
     "P2": [
-     "P2.1",
-     "P2.19",
-     "P2.23",
-     "P2.24"
+     "RSK.analyze",
+     "RSK.report",
+     "RSK.ivd",
+     "BIO.setup"
     ],
     "P3": [],
-    "P4": []
+    "P4": [
+     "RSK.postmarket"
+    ]
    },
    "clauses": [
     {
-     "c": "(general)",
+     "c": "s5-s7",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.1",
-       "P2.19",
-       "P2.23",
-       "P2.24"
+       "RSK.analyze"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "s8",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "RSK.report"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "s10; MDR Art 83-86",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "RSK.postmarket"
+      ]
+     }
+    },
+    {
+     "c": "(general)",
+     "acts": {
+      "P1": [
+       "RSK.plan"
+      ],
+      "P2": [
+       "RSK.ivd",
+       "BIO.setup"
       ],
       "P3": [],
       "P4": []
@@ -22650,23 +22721,25 @@
    "std": "IEC 62304",
    "phaseActs": {
     "P1": [
-     "P1.7"
+     "DEV.intended",
+     "SWD.plan"
     ],
     "P2": [
-     "P2.3",
-     "P2.25"
+     "SWD.design",
+     "SWD.build",
+     "SWD.verify",
+     "SWD.release",
+     "DEP.plan"
     ],
     "P3": [],
-    "P4": [
-     "P4.10"
-    ]
+    "P4": []
    },
    "clauses": [
     {
      "c": "5.1",
      "acts": {
       "P1": [
-       "P1.7"
+       "DEV.intended"
       ],
       "P2": [],
       "P3": [],
@@ -22678,7 +22751,18 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.3"
+       "SWD.design"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "5.5-5.6",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SWD.build"
       ],
       "P3": [],
       "P4": []
@@ -22688,19 +22772,41 @@
      "c": "5.8",
      "acts": {
       "P1": [],
-      "P2": [],
+      "P2": [
+       "DEP.plan"
+      ],
       "P3": [],
-      "P4": [
-       "P4.10"
-      ]
+      "P4": []
      }
     },
     {
-     "c": "9",
+     "c": "5.8; IEC 81001-5-1; MDCG 2019-16",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.25"
+       "SWD.release"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "s4-s5.1",
+     "acts": {
+      "P1": [
+       "SWD.plan"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "s5.5-s5.7",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SWD.verify"
       ],
       "P3": [],
       "P4": []
@@ -22713,18 +22819,42 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "P2.4"
+     "HUF.plan",
+     "HUF.formative",
+     "HUF.summative"
     ],
     "P3": [],
     "P4": []
    },
    "clauses": [
     {
+     "c": "(formative evaluation)",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "HUF.formative"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
      "c": "(general)",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.4"
+       "HUF.plan"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "(summative evaluation)",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "HUF.summative"
       ],
       "P3": [],
       "P4": []
@@ -22737,18 +22867,42 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "P2.5"
+     "ISM.establish",
+     "SEC.establish",
+     "IRP.establish"
     ],
     "P3": [],
     "P4": []
    },
    "clauses": [
     {
+     "c": "NIS2 (where in scope)",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "IRP.establish"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "MDCG 2019-16",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SEC.establish"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
      "c": "(general)",
      "acts": {
       "P1": [],
       "P2": [
-       "P2.5"
+       "ISM.establish"
       ],
       "P3": [],
       "P4": []
@@ -22761,7 +22915,7 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "P2.8"
+     "INF.csv"
     ],
     "P3": [],
     "P4": []
@@ -22772,7 +22926,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.8"
+       "INF.csv"
       ],
       "P3": [],
       "P4": []
@@ -22783,10 +22937,10 @@
   {
    "std": "AAMI TIR57",
    "phaseActs": {
-    "P1": [],
-    "P2": [
-     "P2.1"
+    "P1": [
+     "RSK.plan"
     ],
+    "P2": [],
     "P3": [],
     "P4": []
    },
@@ -22794,10 +22948,10 @@
     {
      "c": "(general)",
      "acts": {
-      "P1": [],
-      "P2": [
-       "P2.1"
+      "P1": [
+       "RSK.plan"
       ],
+      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -22807,21 +22961,44 @@
   {
    "std": "EU MDR",
    "phaseActs": {
-    "P1": [],
+    "P1": [
+     "CLE.plan",
+     "TEF.classify.mdr"
+    ],
     "P2": [
-     "P2.20",
-     "P2.21"
+     "CLE.evidence",
+     "CLE.investigation",
+     "LBL.setup",
+     "PMS.plan",
+     "VIG.eu",
+     "CMB.setup",
+     "CMD.setup"
     ],
     "P3": [],
     "P4": [
-     "P4.1",
-     "P4.2",
-     "P4.3",
-     "P4.6",
-     "P4.7"
+     "CLE.report",
+     "TEF.file",
+     "TEF.certify.stage1",
+     "TEF.certify.stage2",
+     "TEF.market.mdr",
+     "LBL.produce",
+     "PMS.operate",
+     "PCF.plan",
+     "PCF.report"
     ]
    },
    "clauses": [
+    {
+     "c": "Annex II & III; Art 19 (DoC)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "TEF.file"
+      ]
+     }
+    },
     {
      "c": "Annex II/III, Art 19/17",
      "acts": {
@@ -22829,18 +23006,84 @@
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.3"
+       "TEF.market.mdr"
       ]
      }
     },
     {
-     "c": "Art 61",
+     "c": "Annex I Ch III & Art 27 (UDI)",
      "acts": {
       "P1": [],
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.1"
+       "LBL.produce"
+      ]
+     }
+    },
+    {
+     "c": "Art 27 (UDI) & Annex I Ch III",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "LBL.setup"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 51 & Annex VIII",
+     "acts": {
+      "P1": [
+       "TEF.classify.mdr"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 61",
+     "acts": {
+      "P1": [
+       "CLE.plan"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 61 & Annex XIV Part A; Art 32 (SSCP)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "CLE.report"
+      ]
+     }
+    },
+    {
+     "c": "Art 62-82 & Annex XV; ISO 14155",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "CLE.investigation"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 83-86 & Annex III; IVDR Art 78-81",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "PMS.operate"
       ]
      }
     },
@@ -22848,11 +23091,22 @@
      "c": "Art 83-92",
      "acts": {
       "P1": [],
-      "P2": [],
+      "P2": [
+       "PMS.plan"
+      ],
       "P3": [],
-      "P4": [
-       "P4.2"
-      ]
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 87-92; IVDR Art 82-87",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "VIG.eu"
+      ],
+      "P3": [],
+      "P4": []
      }
     },
     {
@@ -22860,10 +23114,43 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.20"
+       "CMB.setup"
       ],
       "P3": [],
       "P4": []
+     }
+    },
+    {
+     "c": "Annex XIV Part A; MDCG 2020-5",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "CLE.evidence"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex XIV Part B; MDCG 2020-7",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "PCF.plan"
+      ]
+     }
+    },
+    {
+     "c": "Annex XIV Part B; MDCG 2020-7/8",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "PCF.report"
+      ]
      }
     },
     {
@@ -22871,7 +23158,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.21"
+       "CMD.setup"
       ],
       "P3": [],
       "P4": []
@@ -22884,8 +23171,8 @@
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.6",
-       "P4.7"
+       "TEF.certify.stage1",
+       "TEF.certify.stage2"
       ]
      }
     }
@@ -22894,17 +23181,31 @@
   {
    "std": "EU IVDR",
    "phaseActs": {
-    "P1": [],
-    "P2": [],
+    "P1": [
+     "CLE.plan",
+     "PEV.plan",
+     "PEV.sv",
+     "TEF.classify.ivdr"
+    ],
+    "P2": [
+     "PEV.feasibility",
+     "PEV.ap",
+     "PEV.ap.sw",
+     "PEV.cp",
+     "TEF.gspr.ivdr",
+     "LBL.setup",
+     "PMS.plan",
+     "PMS.ivd"
+    ],
     "P3": [],
     "P4": [
-     "P4.1",
-     "P4.2",
-     "P4.3",
-     "P4.6",
-     "P4.7",
-     "P4.8",
-     "P4.9"
+     "PEV.report",
+     "TEF.file",
+     "TEF.certify.stage1",
+     "TEF.certify.stage2",
+     "TEF.market.mdr",
+     "TEF.market.ivdr",
+     "LBL.produce"
     ]
    },
    "clauses": [
@@ -22912,10 +23213,87 @@
      "c": "78-81",
      "acts": {
       "P1": [],
+      "P2": [
+       "PMS.plan"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex XIII 1.2.1",
+     "acts": {
+      "P1": [
+       "PEV.sv"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex XIII 1.2.3 & Annex I 9.1; ISO 20916",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "PEV.cp"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex XIII 1.2; ISO 20916",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "PEV.feasibility"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 5, 10, 26-28; Art 24 (EUDAMED)",
+     "acts": {
+      "P1": [],
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.2"
+       "TEF.market.ivdr"
+      ]
+     }
+    },
+    {
+     "c": "Annex I 9 & Annex XIII 1.2.2",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "PEV.ap"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex I 9; IEC 62304",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "PEV.ap.sw"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex II & III; Art 19 (DoC)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "TEF.file"
       ]
      }
     },
@@ -22926,7 +23304,51 @@
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.3"
+       "TEF.market.mdr"
+      ]
+     }
+    },
+    {
+     "c": "Annex I Ch III & Art 27 (UDI)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "LBL.produce"
+      ]
+     }
+    },
+    {
+     "c": "Art 27 (UDI) & Annex I Ch III",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "LBL.setup"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 47 & Annex VIII",
+     "acts": {
+      "P1": [
+       "TEF.classify.ivdr"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex XIII & Art 56; Annex XIII Part B",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "PEV.report"
       ]
      }
     },
@@ -22934,23 +23356,34 @@
      "c": "Art 78",
      "acts": {
       "P1": [],
-      "P2": [],
+      "P2": [
+       "PMS.ivd"
+      ],
       "P3": [],
-      "P4": [
-       "P4.9"
-      ]
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex I (GSPR) & Annex II/III",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "TEF.gspr.ivdr"
+      ],
+      "P3": [],
+      "P4": []
      }
     },
     {
      "c": "Annex XIII",
      "acts": {
-      "P1": [],
+      "P1": [
+       "CLE.plan",
+       "PEV.plan"
+      ],
       "P2": [],
       "P3": [],
-      "P4": [
-       "P4.1",
-       "P4.8"
-      ]
+      "P4": []
      }
     },
     {
@@ -22960,8 +23393,32 @@
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.6",
-       "P4.7"
+       "TEF.certify.stage1",
+       "TEF.certify.stage2"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "std": "MDCG guidance",
+   "phaseActs": {
+    "P1": [],
+    "P2": [],
+    "P3": [],
+    "P4": [
+     "SEC.postmarket"
+    ]
+   },
+   "clauses": [
+    {
+     "c": "2019-16; IEC 81001-5-1",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "SEC.postmarket"
       ]
      }
     }
@@ -22970,15 +23427,14 @@
   {
    "std": "ISO 27001",
    "phaseActs": {
-    "P1": [
-     "P1.9"
-    ],
+    "P1": [],
     "P2": [
-     "P2.5",
-     "P2.10"
+     "CAP.setup",
+     "ISM.establish",
+     "DPR.establish"
     ],
     "P3": [
-     "P3.4"
+     "BCP.establish"
     ],
     "P4": []
    },
@@ -22986,10 +23442,10 @@
     {
      "c": "7.3",
      "acts": {
-      "P1": [
-       "P1.9"
+      "P1": [],
+      "P2": [
+       "DPR.establish"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -22999,7 +23455,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.10"
+       "CAP.setup"
       ],
       "P3": [],
       "P4": []
@@ -23011,7 +23467,7 @@
       "P1": [],
       "P2": [],
       "P3": [
-       "P3.4"
+       "BCP.establish"
       ],
       "P4": []
      }
@@ -23021,7 +23477,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.5"
+       "ISM.establish"
       ],
       "P3": [],
       "P4": []
@@ -23032,24 +23488,26 @@
   {
    "std": "EU AI Act",
    "phaseActs": {
-    "P1": [],
+    "P1": [
+     "RSK.plan",
+     "AIM.plan"
+    ],
     "P2": [
-     "P2.1",
-     "P2.7"
+     "SWD.ml",
+     "AIM.build",
+     "AIM.compliance"
     ],
-    "P3": [
-     "P3.7"
-    ],
+    "P3": [],
     "P4": []
    },
    "clauses": [
     {
      "c": "9",
      "acts": {
-      "P1": [],
-      "P2": [
-       "P2.1"
+      "P1": [
+       "RSK.plan"
       ],
+      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -23057,10 +23515,10 @@
     {
      "c": "10",
      "acts": {
-      "P1": [],
-      "P2": [
-       "P2.7"
+      "P1": [
+       "AIM.plan"
       ],
+      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -23069,10 +23527,10 @@
      "c": "12",
      "acts": {
       "P1": [],
-      "P2": [],
-      "P3": [
-       "P3.7"
+      "P2": [
+       "AIM.build"
       ],
+      "P3": [],
       "P4": []
      }
     },
@@ -23080,10 +23538,10 @@
      "c": "13",
      "acts": {
       "P1": [],
-      "P2": [],
-      "P3": [
-       "P3.7"
+      "P2": [
+       "AIM.build"
       ],
+      "P3": [],
       "P4": []
      }
     },
@@ -23091,20 +23549,20 @@
      "c": "14",
      "acts": {
       "P1": [],
-      "P2": [],
-      "P3": [
-       "P3.7"
+      "P2": [
+       "AIM.build"
       ],
+      "P3": [],
       "P4": []
      }
     },
     {
      "c": "15",
      "acts": {
-      "P1": [],
-      "P2": [
-       "P2.7"
+      "P1": [
+       "AIM.plan"
       ],
+      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -23113,10 +23571,32 @@
      "c": "43",
      "acts": {
       "P1": [],
-      "P2": [],
-      "P3": [
-       "P3.7"
+      "P2": [
+       "AIM.build"
       ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Annex IV; FDA PCCP guidance",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "AIM.compliance"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "IEC 62304; ISO/IEC 42001",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SWD.ml"
+      ],
+      "P3": [],
       "P4": []
      }
     }
@@ -23125,12 +23605,12 @@
   {
    "std": "GDPR",
    "phaseActs": {
-    "P1": [
-     "P1.9"
-    ],
+    "P1": [],
     "P2": [
-     "P2.6",
-     "P2.10"
+     "CAP.setup",
+     "DPR.establish",
+     "DPR.assess",
+     "IRP.privacy"
     ],
     "P3": [],
     "P4": []
@@ -23141,7 +23621,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.10"
+       "CAP.setup"
       ],
       "P3": [],
       "P4": []
@@ -23152,7 +23632,18 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.6"
+       "DPR.assess"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "Art 33-34",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "IRP.privacy"
       ],
       "P3": [],
       "P4": []
@@ -23161,10 +23652,10 @@
     {
      "c": "(general)",
      "acts": {
-      "P1": [
-       "P1.9"
+      "P1": [],
+      "P2": [
+       "DPR.establish"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -23176,12 +23667,14 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "P2.18"
+     "SWD.diga",
+     "TEF.gspr.mdr",
+     "AES.setup"
     ],
     "P3": [],
     "P4": [
-     "P4.11",
-     "P4.12"
+     "TEF.market.fda",
+     "VIG.us"
     ]
    },
    "clauses": [
@@ -23192,7 +23685,18 @@
       "P2": [],
       "P3": [],
       "P4": [
-       "P4.12"
+       "VIG.us"
+      ]
+     }
+    },
+    {
+     "c": "FDA 21 CFR 807/814; QMSR (820)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "TEF.market.fda"
       ]
      }
     },
@@ -23200,11 +23704,33 @@
      "c": "FDA 21 CFR 820",
      "acts": {
       "P1": [],
-      "P2": [],
+      "P2": [
+       "TEF.gspr.mdr"
+      ],
       "P3": [],
-      "P4": [
-       "P4.11"
-      ]
+      "P4": []
+     }
+    },
+    {
+     "c": "DVG",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SWD.diga"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "DiGAV (BfArM)",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "SWD.diga"
+      ],
+      "P3": [],
+      "P4": []
      }
     },
     {
@@ -23212,7 +23738,7 @@
      "acts": {
       "P1": [],
       "P2": [
-       "P2.18"
+       "AES.setup"
       ],
       "P3": [],
       "P4": []
