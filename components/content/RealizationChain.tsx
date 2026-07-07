@@ -2,9 +2,9 @@
 
 // The realization chain: the curated, high-level process map — 7 lanes ×
 // 4 phases with the trigger / hand-off arrows and the improvement feedback
-// loop. This is the "landscape"; the full 39-process detail lives below it
-// (ProcessMapView), which each cell can open. Editorial by design (not derived
-// from the model) so it stays a readable one-glance map.
+// loop. The one view of how the processes interact across the lifecycle
+// (ISO 13485 §4.1.2). Editorial by design (not derived from the model) so it
+// stays a readable one-glance map.
 
 type Lane = {
   key: string;
@@ -92,10 +92,8 @@ const CORAL_TEXT = "#FBE7DF";
 const INK = "#0B2A26";
 const TEAL_LINE = "#1D6E62";
 const CORAL_LINE = "#D8593A";
-const MUTED = "#6B7A76";
 
-export function RealizationChain({ onOpen }: { onOpen?: () => void }) {
-  const open = () => onOpen?.();
+export function RealizationChain() {
   return (
     <div className="mt-5 overflow-x-auto rounded-xl border border-line bg-card p-2">
       <svg
@@ -104,7 +102,6 @@ export function RealizationChain({ onOpen }: { onOpen?: () => void }) {
         aria-label="Realization chain: processes by phase, with triggers"
         style={{ width: "100%", minWidth: 760, display: "block" }}
       >
-        <style>{`.rc-cell{cursor:pointer}.rc-cell rect{transition:opacity .12s}.rc-cell:hover rect{opacity:.85}`}</style>
         <defs>
           <marker
             id="rc-tri-teal"
@@ -164,7 +161,7 @@ export function RealizationChain({ onOpen }: { onOpen?: () => void }) {
                 const cx = COL[p];
                 const midY = y + CH / 2;
                 return (
-                  <g key={p} className="rc-cell" onClick={open}>
+                  <g key={p}>
                     <rect
                       x={cx}
                       y={y}
@@ -238,7 +235,6 @@ export function RealizationChain({ onOpen }: { onOpen?: () => void }) {
         <text x={354} y={817} fontSize={17} fill={INK}>triggers / hands off</text>
         <line x1={600} y1={812} x2={644} y2={812} stroke={CORAL_LINE} strokeWidth={2.5} strokeDasharray="7 6" markerEnd="url(#rc-tri-coral)" />
         <text x={654} y={817} fontSize={17} fill={INK}>feedback loop</text>
-        <text x={870} y={817} fontSize={17} fill={MUTED}>click a cell to open the full detail</text>
       </svg>
     </div>
   );

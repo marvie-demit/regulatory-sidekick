@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getActiveOrg } from "@/lib/auth/org";
-import { phaseMatrix, modelStats } from "@/lib/content/process";
-import { ProcessMapView } from "@/components/content/ProcessMapView";
+import { modelStats } from "@/lib/content/process";
+import { RealizationChain } from "@/components/content/RealizationChain";
 
 export const metadata = { title: "Process map" };
 
@@ -9,7 +9,6 @@ export default async function ProcessMapPage() {
   const org = await getActiveOrg();
   if (!org) redirect("/onboarding");
 
-  const rows = phaseMatrix();
   const stats = modelStats();
 
   return (
@@ -21,19 +20,12 @@ export default async function ProcessMapPage() {
         The realization chain — how your core processes trigger and hand off to
         each other as the device matures across the four phases. Rows are
         processes, columns are phases (left&nbsp;→&nbsp;right), and arrows show
-        what triggers or feeds what. Open any cell for the full detail:{" "}
-        {stats.processes} processes · {stats.steps} steps · {stats.docs}{" "}
-        controlled documents, with every document mapped to the step that
-        creates it.
+        what triggers or feeds what — the interaction view ISO 13485 §4.1.2 asks
+        for, spanning {stats.processes} processes, {stats.steps} steps and{" "}
+        {stats.docs} controlled documents.
       </p>
 
-      <ProcessMapView rows={rows} />
-
-      <p className="mt-4 text-xs text-muted">
-        The detail table below scopes to your device with{" "}
-        <strong>My device</strong> (the same profile that scopes your roadmap and
-        document library); <strong>Full library</strong> shows every process.
-      </p>
+      <RealizationChain />
     </main>
   );
 }
