@@ -164,6 +164,17 @@ export function Sidebar({
         ))}
       </nav>
       <div className="mt-auto flex flex-col gap-2">
+        <Link
+          href="/guide"
+          className={
+            "rounded-lg px-3 py-2 text-sm transition-colors " +
+            (path.startsWith("/guide")
+              ? "bg-white/15 font-medium text-white"
+              : "text-white/75 hover:bg-white/10 hover:text-white")
+          }
+        >
+          Guide
+        </Link>
         <form action={signOut}>
           <button
             type="submit"

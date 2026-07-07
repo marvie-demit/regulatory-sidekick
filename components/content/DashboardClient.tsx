@@ -30,14 +30,12 @@ export function DashboardClient({
   modules,
   docScopes,
   totalDocs,
-  critLen,
 }: {
   phases: Phase[];
   acts: Act[];
   modules: ModuleDef[];
   docScopes: DocScope[];
   totalDocs: number;
-  critLen: number;
 }) {
   const { status, profile } = useOrgState();
 
@@ -45,16 +43,17 @@ export function DashboardClient({
 
   let na = 0,
     done = 0,
+    inprog = 0,
     tot = 0;
   scoped.forEach((a) => {
     tot++;
     const s = status[a.id];
     if (s === "N-A") na++;
     else if (s === "Done") done++;
+    else if (s === "In progress") inprog++;
   });
   const base = tot - na;
   const pct = base ? Math.round((done / base) * 100) : 0;
-  const pdays = scoped.length ? Math.max(...scoped.map((a) => a.ef)) : 0;
   const docsInScope = docScopes.filter((d) => docInScope(d, profile)).length;
   const actsInScope = scoped.length;
   const activeMods = profile ? modules.filter((m) => profile[m.code]) : [];
@@ -73,19 +72,19 @@ export function DashboardClient({
   }
 
   const kpis = [
-    { l: "Implementation", v: pct + "%", s: "overall completion", accent: true },
-    {
-      l: "Controlled documents",
-      v: docsInScope,
-      s: profile ? "in your scope" : "Core + optional modules",
-    },
+    { l: "Implementation", v: pct + "%", s: "of applicable activities", accent: true },
+    { l: "Done", v: done, s: "activities complete" },
+    { l: "In progress", v: inprog, s: "activities underway" },
     {
       l: "Activities",
       v: actsInScope,
       s: profile ? "in your scope" : "across 4 phases",
     },
-    { l: "Critical path", v: critLen, s: "activities to certification" },
-    { l: "Est. timeline", v: fmtWk(pdays), s: pdays + " working days" },
+    {
+      l: "Controlled documents",
+      v: docsInScope,
+      s: profile ? "in your scope" : "in your plan",
+    },
   ];
 
   return (
@@ -144,6 +143,69 @@ export function DashboardClient({
             <div className="ks">{k.s}</div>
           </div>
         ))}
+      </div>
+
+      <div className="sect-h">Getting started</div>
+      <div className="rounded-2xl border border-line bg-card p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="max-w-2xl text-sm text-muted">
+            New to Regulatory Sidekick? These four steps are the whole loop — the
+            full guide explains every section in detail.
+          </p>
+          <Link
+            href="/guide"
+            className="shrink-0 text-sm font-semibold text-coral hover:underline"
+          >
+            Open the full guide →
+          </Link>
+        </div>
+        <ol className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              n: 1,
+              t: "Set your device profile",
+              d: "We scope the plan to what applies to your device.",
+              href: "/profile",
+            },
+            {
+              n: 2,
+              t: "Work the roadmap",
+              d: "Tackle each phase in the recommended start order.",
+              href: "/roadmap/1",
+            },
+            {
+              n: 3,
+              t: "Track status as you go",
+              d: "Set activity status and tick off checklist items.",
+              href: "/checklist",
+            },
+            {
+              n: 4,
+              t: "Attach evidence & reference",
+              d: "Upload proof; pull templates from the library.",
+              href: "/library",
+            },
+          ].map((s) => (
+            <li key={s.n}>
+              <Link
+                href={s.href}
+                className="group block h-full rounded-xl border border-line bg-bg p-3 transition hover:border-coral"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-800 text-xs font-bold text-white">
+                    {s.n}
+                  </span>
+                  <span className="text-sm font-semibold text-teal-900">
+                    {s.t}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-[12px] leading-snug text-muted">
+                  {s.d}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ol>
       </div>
 
       <div className="sect-h">Phase progress</div>

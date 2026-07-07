@@ -1,4 +1,4 @@
-import { content, pnum, CRIT } from "@/lib/content/content";
+import { content, pnum } from "@/lib/content/content";
 import { DashboardClient } from "@/components/content/DashboardClient";
 
 export const metadata = { title: "Dashboard" };
@@ -26,7 +26,6 @@ export default function DashboardPage() {
       modules={content.modules}
       docScopes={docScopes}
       totalDocs={content.stats.docs}
-      critLen={CRIT.length}
     />
   );
 }
