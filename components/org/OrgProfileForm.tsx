@@ -14,9 +14,15 @@ export type OrgProfile = {
 
 type State = { error?: string; message?: string };
 
-const inputCls =
-  "rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-teal-900 outline-none transition focus:border-teal-500 disabled:bg-[#f7faf8] disabled:text-muted";
+const fieldBase =
+  "rounded-lg border border-line bg-white px-3.5 text-sm text-teal-900 outline-none transition focus:border-teal-500 disabled:bg-[#f7faf8] disabled:text-muted";
+// Fixed height so nothing (focus, autofill, a browser extension badge) can
+// change the box and misalign the field beside it.
+const inputCls = `${fieldBase} h-[42px]`;
+const areaCls = `${fieldBase} py-2.5 resize-y`;
 const labelCls = "text-xs font-medium uppercase tracking-wide text-teal-800";
+// Opt single-line fields out of writing-assistant / password-manager overlays.
+const noExt = { autoComplete: "off", "data-gramm": "false" } as const;
 
 export function OrgProfileForm({
   profile,
@@ -49,10 +55,11 @@ export function OrgProfileForm({
           defaultValue={profile.name}
           disabled={ro}
           className={inputCls}
+          {...noExt}
         />
       </label>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid items-start gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5">
           <span className={labelCls}>Website</span>
           <input
@@ -63,6 +70,7 @@ export function OrgProfileForm({
             defaultValue={profile.website}
             disabled={ro}
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -75,6 +83,7 @@ export function OrgProfileForm({
             defaultValue={profile.linkedin}
             disabled={ro}
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -85,6 +94,7 @@ export function OrgProfileForm({
             defaultValue={profile.industry}
             disabled={ro}
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -95,6 +105,7 @@ export function OrgProfileForm({
             defaultValue={profile.country}
             disabled={ro}
             className={inputCls}
+            {...noExt}
           />
         </label>
       </div>
@@ -107,7 +118,7 @@ export function OrgProfileForm({
           placeholder="A sentence or two about the company and what you're building."
           defaultValue={profile.about}
           disabled={ro}
-          className={`${inputCls} resize-y`}
+          className={areaCls}
         />
       </label>
 

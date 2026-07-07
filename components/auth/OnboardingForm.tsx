@@ -5,10 +5,15 @@ import { createOrg } from "@/lib/auth/actions";
 
 type State = { error?: string };
 
-const inputCls =
-  "rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-teal-900 outline-none transition focus:border-teal-500";
-const labelCls =
-  "text-xs font-medium uppercase tracking-wide text-teal-800";
+const fieldBase =
+  "rounded-lg border border-line bg-white px-3.5 text-sm text-teal-900 outline-none transition focus:border-teal-500";
+// Fixed height so focus / autofill / a browser-extension badge can't change the
+// box and misalign the field beside it in the two-column row.
+const inputCls = `${fieldBase} h-[42px]`;
+const areaCls = `${fieldBase} py-2.5 resize-y`;
+const labelCls = "text-xs font-medium uppercase tracking-wide text-teal-800";
+// Opt single-line fields out of writing-assistant / password-manager overlays.
+const noExt = { autoComplete: "off", "data-gramm": "false" } as const;
 
 export function OnboardingForm() {
   const [state, action, pending] = useActionState<State, FormData>(
@@ -27,10 +32,11 @@ export function OnboardingForm() {
           autoFocus
           placeholder="Acme Medical Devices Ltd."
           className={inputCls}
+          {...noExt}
         />
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid items-start gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5">
           <span className={labelCls}>Website</span>
           <input
@@ -39,6 +45,7 @@ export function OnboardingForm() {
             inputMode="url"
             placeholder="acme.com"
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -49,6 +56,7 @@ export function OnboardingForm() {
             inputMode="url"
             placeholder="linkedin.com/company/acme"
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -57,11 +65,17 @@ export function OnboardingForm() {
             name="industry"
             placeholder="Medical devices — IVD"
             className={inputCls}
+            {...noExt}
           />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className={labelCls}>Country</span>
-          <input name="country" placeholder="Germany" className={inputCls} />
+          <input
+            name="country"
+            placeholder="Germany"
+            className={inputCls}
+            {...noExt}
+          />
         </label>
       </div>
 
@@ -71,7 +85,7 @@ export function OnboardingForm() {
           name="about"
           rows={3}
           placeholder="A sentence or two about the company and what you're building."
-          className={`${inputCls} resize-y`}
+          className={areaCls}
         />
       </label>
 
