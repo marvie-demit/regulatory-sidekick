@@ -5,6 +5,11 @@ import { createOrg } from "@/lib/auth/actions";
 
 type State = { error?: string };
 
+const inputCls =
+  "rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-teal-900 outline-none transition focus:border-teal-500";
+const labelCls =
+  "text-xs font-medium uppercase tracking-wide text-teal-800";
+
 export function OnboardingForm() {
   const [state, action, pending] = useActionState<State, FormData>(
     createOrg,
@@ -12,20 +17,68 @@ export function OnboardingForm() {
   );
 
   return (
-    <form action={action} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5 text-left">
-        <span className="text-xs font-medium uppercase tracking-wide text-teal-800">
-          Organization name
-        </span>
+    <form action={action} className="flex flex-col gap-4 text-left">
+      <label className="flex flex-col gap-1.5">
+        <span className={labelCls}>Company / workspace name</span>
         <input
           name="orgName"
           required
           minLength={2}
           autoFocus
           placeholder="Acme Medical Devices Ltd."
-          className="rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-teal-900 outline-none transition focus:border-teal-500"
+          className={inputCls}
         />
       </label>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="flex flex-col gap-1.5">
+          <span className={labelCls}>Website</span>
+          <input
+            name="website"
+            type="text"
+            inputMode="url"
+            placeholder="acme.com"
+            className={inputCls}
+          />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className={labelCls}>LinkedIn</span>
+          <input
+            name="linkedin"
+            type="text"
+            inputMode="url"
+            placeholder="linkedin.com/company/acme"
+            className={inputCls}
+          />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className={labelCls}>Industry</span>
+          <input
+            name="industry"
+            placeholder="Medical devices — IVD"
+            className={inputCls}
+          />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className={labelCls}>Country</span>
+          <input name="country" placeholder="Germany" className={inputCls} />
+        </label>
+      </div>
+
+      <label className="flex flex-col gap-1.5">
+        <span className={labelCls}>About</span>
+        <textarea
+          name="about"
+          rows={3}
+          placeholder="A sentence or two about the company and what you're building."
+          className={`${inputCls} resize-y`}
+        />
+      </label>
+
+      <p className="text-xs text-muted">
+        Only the name is required — everything else is optional and editable
+        later in your workspace profile.
+      </p>
 
       {state.error ? (
         <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -38,7 +91,7 @@ export function OnboardingForm() {
         disabled={pending}
         className="mt-1 rounded-full bg-coral px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-60"
       >
-        {pending ? "Creating…" : "Create organization"}
+        {pending ? "Creating…" : "Create workspace"}
       </button>
     </form>
   );

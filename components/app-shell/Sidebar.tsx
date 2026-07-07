@@ -45,6 +45,12 @@ const NAV: { group: string; items: NavItem[] }[] = [
     group: "Workspace",
     items: [
       {
+        label: "Organization",
+        href: "/settings/organization",
+        match: "/settings/organization",
+        ready: true,
+      },
+      {
         label: "Members",
         href: "/settings/members",
         match: "/settings/members",

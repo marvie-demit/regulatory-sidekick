@@ -15,6 +15,8 @@ export type AccessCode = {
   createdAt: string;
 };
 
+export type OrgMember = { email: string | null; role: string };
+
 export type AdminOrg = {
   id: string;
   name: string;
@@ -23,6 +25,7 @@ export type AdminOrg = {
   createdAt: string;
   members: number;
   ownerEmail: string | null;
+  memberList: OrgMember[];
 };
 
 export async function listAccessCodes(): Promise<AccessCode[]> {
@@ -62,35 +65,65 @@ export async function listOrgs(): Promise<AdminOrg[]> {
   const admin = createAdminClient();
   const { data } = await admin
     .from("organizations")
-    .select(
-      "id, name, plan, plan_expires_at, created_at, created_by, memberships(count)",
-    )
+    .select("id, name, plan, plan_expires_at, created_at, created_by")
     .order("created_at", { ascending: false })
     .limit(100);
   const rows = (data ?? []) as Record<string, unknown>[];
-  // Resolve owner emails in parallel — this was ~100 sequential round-trips.
-  return Promise.all(
-    rows.map(async (o) => {
-      let ownerEmail: string | null = null;
-      try {
-        const { data: u } = await admin.auth.admin.getUserById(
-          o.created_by as string,
-        );
-        ownerEmail = u.user?.email ?? null;
-      } catch {
-        // ignore identity lookup failure — still show the org row
-      }
-      return {
-        id: o.id as string,
-        name: o.name as string,
-        plan: (o.plan as string) ?? "explore",
-        planExpiresAt: (o.plan_expires_at as string | null) ?? null,
-        createdAt: o.created_at as string,
-        members: Array.isArray(o.memberships)
-          ? ((o.memberships[0] as { count?: number })?.count ?? 0)
-          : 0,
-        ownerEmail,
-      };
-    }),
-  );
+  const orgIds = rows.map((o) => o.id as string);
+
+  // All memberships for the listed orgs, in one query (service role bypasses RLS).
+  const { data: mems } = await admin
+    .from("memberships")
+    .select("org_id, user_id, role")
+    .in("org_id", orgIds.length ? orgIds : ["00000000-0000-0000-0000-000000000000"]);
+  const memRows = (mems ?? []) as {
+    org_id: string;
+    user_id: string;
+    role: string;
+  }[];
+
+  // One user_id -> email map for everyone, instead of a lookup per user. Paged
+  // (perPage 1000); caps at 10 pages (10k users) — plenty for now, and never a
+  // reason to fail the whole list.
+  const emailById = new Map<string, string>();
+  try {
+    for (let page = 1; page <= 10; page++) {
+      const { data: pageData } = await admin.auth.admin.listUsers({
+        page,
+        perPage: 1000,
+      });
+      const users = pageData?.users ?? [];
+      users.forEach((u) => {
+        if (u.email) emailById.set(u.id, u.email);
+      });
+      if (users.length < 1000) break;
+    }
+  } catch {
+    // identity lookup unavailable — rows still render, emails just show as unknown
+  }
+
+  const rank = (r: string) => (r === "admin" ? 0 : r === "member" ? 1 : 2);
+  const byOrg = new Map<string, OrgMember[]>();
+  memRows.forEach((m) => {
+    const list = byOrg.get(m.org_id) ?? [];
+    list.push({ email: emailById.get(m.user_id) ?? null, role: m.role });
+    byOrg.set(m.org_id, list);
+  });
+
+  return rows.map((o) => {
+    const id = o.id as string;
+    const memberList = (byOrg.get(id) ?? []).sort(
+      (a, b) => rank(a.role) - rank(b.role),
+    );
+    return {
+      id,
+      name: o.name as string,
+      plan: (o.plan as string) ?? "explore",
+      planExpiresAt: (o.plan_expires_at as string | null) ?? null,
+      createdAt: o.created_at as string,
+      members: memberList.length,
+      ownerEmail: emailById.get(o.created_by as string) ?? null,
+      memberList,
+    };
+  });
 }

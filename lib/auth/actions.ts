@@ -5,11 +5,23 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ACTIVE_ORG_COOKIE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
+import { getActiveOrg } from "./org";
 import { safeNext } from "./safe-next";
 
 // Returned to useActionState in the auth form. (Not exported as a type — a
 // "use server" module may only export async functions.)
 type AuthResult = { error?: string; message?: string };
+
+// ---- Company / workspace profile field helpers ----------------------------
+function cleanField(v: FormDataEntryValue | null, max = 200): string | null {
+  const s = String(v ?? "").trim().slice(0, max);
+  return s || null;
+}
+// Lenient: accept "acme.com" and store "https://acme.com". Empty stays null.
+function normalizeUrl(v: string | null): string | null {
+  if (!v) return null;
+  return /^https?:\/\//i.test(v) ? v : `https://${v}`;
+}
 
 export async function signIn(
   _prev: AuthResult,
@@ -103,6 +115,27 @@ export async function createOrg(
   if (error || !orgId)
     return { error: error?.message ?? "Could not create the organization." };
 
+  // Company profile (optional). The creator is now this org's admin, so the
+  // org_update policy allows this. Best-effort: never fail org creation on it
+  // (e.g. if migration 0010 isn't applied yet) — they can fill it in later.
+  const profile: Record<string, string> = {};
+  const website = normalizeUrl(cleanField(formData.get("website")));
+  const linkedin = normalizeUrl(cleanField(formData.get("linkedin")));
+  const industry = cleanField(formData.get("industry"), 80);
+  const country = cleanField(formData.get("country"), 80);
+  const about = cleanField(formData.get("about"), 600);
+  if (website) profile.website = website;
+  if (linkedin) profile.linkedin = linkedin;
+  if (industry) profile.industry = industry;
+  if (country) profile.country = country;
+  if (about) profile.about = about;
+  if (Object.keys(profile).length) {
+    await supabase
+      .from("organizations")
+      .update(profile)
+      .eq("id", orgId as string);
+  }
+
   const cookieStore = await cookies();
   cookieStore.set(ACTIVE_ORG_COOKIE, String(orgId), {
     httpOnly: true,
@@ -147,4 +180,47 @@ export async function updatePassword(
   const { error } = await supabase.auth.updateUser({ password });
   if (error) return { error: error.message };
   return { message: "Password updated." };
+}
+
+// ---- Company / workspace profile (admins of the active org) -----------------
+
+export async function updateOrgProfile(
+  _prev: AuthResult,
+  formData: FormData,
+): Promise<AuthResult> {
+  const org = await getActiveOrg();
+  if (!org) return { error: "No active workspace." };
+  if (org.role !== "admin")
+    return { error: "Only workspace admins can edit the profile." };
+
+  const name = String(formData.get("name") || "").trim();
+  if (name.length < 2) return { error: "Enter the workspace name." };
+  if (name.length > 80) return { error: "That name is too long." };
+
+  const supabase = await createClient();
+  // Full write (nulls included) so clearing a field actually clears it.
+  // The org_update policy (admin) + this role check both gate it.
+  const { error } = await supabase
+    .from("organizations")
+    .update({
+      name,
+      website: normalizeUrl(cleanField(formData.get("website"))),
+      linkedin: normalizeUrl(cleanField(formData.get("linkedin"))),
+      industry: cleanField(formData.get("industry"), 80),
+      country: cleanField(formData.get("country"), 80),
+      about: cleanField(formData.get("about"), 600),
+    })
+    .eq("id", org.id);
+  if (error) {
+    // Friendlier message if the code is deployed before migration 0010.
+    if (/column .* does not exist/i.test(error.message))
+      return {
+        error:
+          "Company-profile fields aren't available yet — apply database migration 0010, then try again.",
+      };
+    return { error: error.message };
+  }
+
+  revalidatePath("/", "layout"); // the workspace name shows in the sidebar
+  return { message: "Workspace profile saved." };
 }

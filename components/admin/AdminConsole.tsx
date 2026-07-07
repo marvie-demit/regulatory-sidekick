@@ -296,6 +296,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
   );
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState("");
+  const [showMembers, setShowMembers] = useState(false);
   return (
     <li className="flex flex-col gap-2 border-b border-line py-3 last:border-0">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -307,7 +308,13 @@ function OrgRow({ o }: { o: AdminOrg }) {
           <div className="text-xs text-muted">
             {planLabel(o.plan)}
             {o.planExpiresAt ? ` · until ${fmtDate(o.planExpiresAt)}` : ""} ·{" "}
-            {o.members} member{o.members === 1 ? "" : "s"}
+            <button
+              type="button"
+              onClick={() => setShowMembers((v) => !v)}
+              className="underline decoration-dotted underline-offset-2 transition hover:text-teal-800"
+            >
+              {o.members} member{o.members === 1 ? "" : "s"} {showMembers ? "▾" : "▸"}
+            </button>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -349,6 +356,27 @@ function OrgRow({ o }: { o: AdminOrg }) {
           </button>
         </div>
       </div>
+      {showMembers ? (
+        o.memberList.length ? (
+          <ul className="flex flex-col gap-1 rounded-lg border border-line bg-[#f7faf8] p-2">
+            {o.memberList.map((m, i) => (
+              <li
+                key={i}
+                className="flex items-center justify-between gap-2 text-xs"
+              >
+                <span className="truncate text-teal-900">
+                  {m.email ?? "(unknown user)"}
+                </span>
+                <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted">
+                  {m.role}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-xs text-muted">No members yet.</p>
+        )
+      ) : null}
       {applyState.error ? <p className={errCls}>{applyState.error}</p> : null}
       {applyState.message ? <p className={okCls}>{applyState.message}</p> : null}
       {codeState.error ? <p className={errCls}>{codeState.error}</p> : null}
@@ -399,7 +427,15 @@ export function AdminConsole({
   const nameOf = (id: string | null) =>
     id ? (orgs.find((o) => o.id === id)?.name ?? null) : null;
   const filtered = orgs.filter((o) =>
-    (o.name + " " + (o.ownerEmail ?? "")).toLowerCase().includes(q.toLowerCase()),
+    (
+      o.name +
+      " " +
+      (o.ownerEmail ?? "") +
+      " " +
+      o.memberList.map((m) => m.email ?? "").join(" ")
+    )
+      .toLowerCase()
+      .includes(q.toLowerCase()),
   );
   return (
     <div className="flex flex-col gap-6">
