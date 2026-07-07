@@ -12,6 +12,7 @@ type Res = {
   message?: string;
   code?: string;
   codeUrl?: string;
+  linkUrl?: string;
 };
 
 async function gate(): Promise<{ uid: string } | { error: string }> {
@@ -102,6 +103,58 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
     message: "Access code created — copy it now, it isn't shown again.",
     code: raw,
     codeUrl: `${origin}/redeem/${raw}`,
+  };
+}
+
+// Generate a one-time auth link for a user (recovery or magic sign-in), for an
+// admin to copy and send. We use admin.generateLink (token_hash) and route the
+// user through /auth/confirm (verifyOtp) rather than resetPasswordForEmail /
+// signInWithOtp: those attach a PKCE code_verifier to the *initiator's* browser,
+// so an admin-triggered email link would fail in the recipient's browser. A
+// token_hash link verifies server-side with no browser dependency. Links are
+// single-use and expire per the project's OTP lifetime (~1 hour by default).
+export async function adminAuthLink(_prev: Res, formData: FormData): Promise<Res> {
+  const g = await gate();
+  if ("error" in g) return { error: g.error };
+
+  const email = String(formData.get("email") || "")
+    .trim()
+    .toLowerCase();
+  const kind = String(formData.get("kind") || "");
+  if (!email) return { error: "Enter the user's email." };
+  const type =
+    kind === "recovery" ? "recovery" : kind === "magiclink" ? "magiclink" : null;
+  if (!type) return { error: "Choose a recovery or magic-link." };
+
+  const admin = createAdminClient();
+  const params =
+    type === "recovery"
+      ? ({ type: "recovery", email } as const)
+      : ({ type: "magiclink", email } as const);
+  const { data, error } = await admin.auth.admin.generateLink(params);
+  if (error) {
+    // recovery/magiclink require an existing user
+    return {
+      error: /not.*found|user.*exist/i.test(error.message)
+        ? `No account found for ${email}.`
+        : error.message,
+    };
+  }
+  const hashed = data?.properties?.hashed_token;
+  if (!hashed) return { error: "Could not generate a link — try again." };
+
+  const hdrs = await headers();
+  const origin =
+    hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
+  const next = type === "recovery" ? "/reset-password" : "/dashboard";
+  const linkUrl = `${origin}/auth/confirm?token_hash=${hashed}&type=${type}&next=${encodeURIComponent(next)}`;
+
+  return {
+    message:
+      type === "recovery"
+        ? `Password-recovery link ready for ${email}. Copy it and send it to them — it lets them set a new password. Single-use, expires in ~1 hour.`
+        : `Magic sign-in link ready for ${email}. Copy it and send it to them — it signs them straight in. Single-use, expires in ~1 hour.`,
+    linkUrl,
   };
 }
 

@@ -15,7 +15,8 @@ export default async function AdminPage() {
         Platform admin
       </h1>
       <p className="mb-6 mt-1 text-sm text-muted">
-        Mint access codes and grant or revoke full access for any organization.
+        Mint access codes, grant or revoke full access for any organization, and
+        generate sign-in or password-recovery links for users.
       </p>
       <AdminConsole codes={codes} orgs={orgs} />
     </main>
