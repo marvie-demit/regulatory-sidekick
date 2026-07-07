@@ -1449,7 +1449,7 @@
    "documents": "RSK-SOP-01; RSK-TPL-01; RSK-FOR-01; RSK-FOR-04; RSK-FOR-05",
    "depends": "DEV.intended",
    "leads": "DEV.inputs, RSK.analyze, SWD.plan",
-   "clause": "ISO 14971 / TIR57 / AI Act 9",
+   "clause": "ISO 14971 4 / TIR57 / AI Act 9",
    "mods": [
     "Core"
    ],
@@ -1814,7 +1814,7 @@
    "documents": "RSK-TPL-02; RSK-TPL-03; RSK-FOR-02",
    "depends": "RSK.plan, HUF.formative",
    "leads": "RSK.report",
-   "clause": "ISO 14971 s5-s7",
+   "clause": "ISO 14971 5/6/7",
    "mods": [
     "Core"
    ],
@@ -1960,7 +1960,7 @@
    "documents": "RSK-TPL-04; RSK-TPL-05; RSK-FOR-03",
    "depends": "RSK.analyze",
    "leads": "TEF.file, DEV.validate, RSK.postmarket, PEV.report, CLE.report",
-   "clause": "ISO 14971 s8",
+   "clause": "ISO 14971 8/9",
    "mods": [
     "Core"
    ],
@@ -2088,7 +2088,7 @@
    "documents": "RSK-SOP-02; RSK-SOP-03; RSK-TPL-06; RSK-TPL-07",
    "depends": "-",
    "leads": "TEF.file",
-   "clause": "ISO 14971",
+   "clause": "ISO 14971 5/6/7",
    "mods": [
     "IVD"
    ],
@@ -2381,7 +2381,7 @@
    "documents": "-",
    "depends": "RSK.report, PMS.operate",
    "leads": "CAP.operate",
-   "clause": "ISO 14971 s10; MDR Art 83-86",
+   "clause": "ISO 14971 10 / MDR Art 83-86",
    "mods": [
     "Core"
    ],
@@ -17495,7 +17495,7 @@
    "documents": "BIO-SOP-01; BIO-TPL-01; BIO-TPL-02; BIO-FOR-01; BIO-LIS-01",
    "depends": "-",
    "leads": "TEF.file",
-   "clause": "ISO 14971",
+   "clause": "ISO 14971 5.3",
    "mods": [
     "HW"
    ],
@@ -22669,18 +22669,65 @@
    },
    "clauses": [
     {
-     "c": "s5-s7",
+     "c": "4",
+     "acts": {
+      "P1": [
+       "RSK.plan"
+      ],
+      "P2": [],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "5",
      "acts": {
       "P1": [],
       "P2": [
-       "RSK.analyze"
+       "RSK.analyze",
+       "RSK.ivd"
       ],
       "P3": [],
       "P4": []
      }
     },
     {
-     "c": "s8",
+     "c": "5.3",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "BIO.setup"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "6",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "RSK.analyze",
+       "RSK.ivd"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "7",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "RSK.analyze",
+       "RSK.ivd"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "8",
      "acts": {
       "P1": [],
       "P2": [
@@ -22691,7 +22738,18 @@
      }
     },
     {
-     "c": "s10; MDR Art 83-86",
+     "c": "9",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "RSK.report"
+      ],
+      "P3": [],
+      "P4": []
+     }
+    },
+    {
+     "c": "10",
      "acts": {
       "P1": [],
       "P2": [],
@@ -22699,20 +22757,6 @@
       "P4": [
        "RSK.postmarket"
       ]
-     }
-    },
-    {
-     "c": "(general)",
-     "acts": {
-      "P1": [
-       "RSK.plan"
-      ],
-      "P2": [
-       "RSK.ivd",
-       "BIO.setup"
-      ],
-      "P3": [],
-      "P4": []
      }
     }
    ]
@@ -22976,6 +23020,7 @@
     ],
     "P3": [],
     "P4": [
+     "RSK.postmarket",
      "CLE.report",
      "TEF.file",
      "TEF.certify.stage1",
@@ -23074,6 +23119,17 @@
       ],
       "P3": [],
       "P4": []
+     }
+    },
+    {
+     "c": "Art 83-86",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "RSK.postmarket"
+      ]
      }
     },
     {
