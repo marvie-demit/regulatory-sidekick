@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s · Regulatory Sidekick",
   },
   description:
-    "A guided, step-by-step quality management system for ISO 13485, EU MDR and IVDR, plus key FDA QMSR (21 CFR 820) — for medical-device teams. Your regulatory sidekick.",
+    "A stepwise implementation for EU MDR and IVDR — including setting up your QMS under ISO 13485 and key FDA QMSR (21 CFR 820) — made for medical-device manufacturers. Your regulatory sidekick.",
 };
 
 export default function RootLayout({
