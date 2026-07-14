@@ -29,7 +29,15 @@ export type Activity = {
   clause?: string;
   records?: string[];
   tips?: string[];
-  lean?: { start: string; evolve: string } | null;
+  lean?: {
+    start: string;
+    evolve: string;
+    // Detailed, concrete bullets for the lean starting point — the specific
+    // artefacts/steps that make up the minimum-viable version. Optional so
+    // activities authored before this field still render (summary line only).
+    startDetail?: string[];
+    evolveDetail?: string[];
+  } | null;
   mods?: string[];
   reg?: string[]; // regulatory route: ["MDR"] | ["IVDR"] | ["MDR","IVDR"] | [] (common)
   documents?: string;

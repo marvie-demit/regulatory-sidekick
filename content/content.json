@@ -169,8 +169,21 @@
     "Build the design history file AS you go. Reconstructing it from memory and scattered emails before an audit is the single most painful task in a device project."
    ],
    "lean": {
-    "start": "A traceable inputs->outputs->V&V table and dated design-review notes. The traceability matters more than the tooling.",
-    "evolve": "Add formal design-review boards, a structured design history file and ALM tooling as the design grows."
+    "start": "A one-page D&D procedure, a single inputs → outputs → V&V traceability table, and dated design-review notes. The traceability matters more than the tooling.",
+    "evolve": "Add formal review boards, a structured design history file and ALM tooling as the design grows.",
+    "startDetail": [
+     "A one-page design-control procedure (DEV-SOP-01) naming the stages, who approves each, and where verification, validation and design transfer sit.",
+     "A single traceability table linking each design input → design output → verification/validation evidence → the risk it controls.",
+     "Design inputs captured and approved: user needs, intended use, the applicable standards, and regulatory/performance requirements.",
+     "A design-review record — even dated meeting notes — at each major stage, listing attendees, decisions and actions.",
+     "A named design history file location (a folder is fine) where every version and review is retained.",
+     "Entry/exit criteria for design transfer written down, so 'done' is defined before you build."
+    ],
+    "evolveDetail": [
+     "Formal design-review boards with defined membership and recorded minutes at each stage gate.",
+     "A structured, indexed design history file replacing the ad-hoc folder.",
+     "Application-lifecycle-management (ALM) tooling for live requirements-to-test traceability."
+    ]
    },
    "subs": [
     {
@@ -497,8 +510,20 @@
     "Verification and validation are not the same word twice: verification = met the spec; validation = met the user's actual need. Auditors check you know the difference and did both."
    ],
    "lean": {
-    "start": "A short design plan: the stages, the reviews, and where V&V happens. One page can do it for a simple device.",
-    "evolve": "Add detailed stage gates, formal review boards and a full software development plan as complexity grows."
+    "start": "A written intended-purpose statement, a short list of stakeholder needs, and a one-page design & development plan. One page each is enough for a simple device.",
+    "evolve": "Grow the plan, the needs and the reviews into a formal, traceable design-control system as complexity rises.",
+    "startDetail": [
+     "Intended-purpose statement: what the device does, the medical indication, the patient population, the intended user, the use environment, and its operating principle.",
+     "The boundaries written down — what the device is explicitly NOT for — to keep scope and classification tight.",
+     "A plain-language list of stakeholder and user needs (clinicians, patients, your own team), each phrased so it can later become a traceable design input.",
+     "A one-page D&D plan: the stages (planning → inputs → outputs → verification → validation → transfer), who owns each, and where the review and V&V gates sit.",
+     "An early note of the regulation and standards you already expect to apply (MDR/IVDR class, key harmonised standards), so classification is not a late surprise."
+    ],
+    "evolveDetail": [
+     "Expand the plan into formal stage gates with a review board and recorded design-review minutes.",
+     "Grow user needs into a managed requirements set with full traceability to inputs, outputs, V&V and risk.",
+     "Add dedicated software/AI development, interface and human-factors/usability plans as the device grows."
+    ]
    },
    "subs": [
     {
@@ -758,8 +783,21 @@
     "Traceability from input to output to verification is the spine a reviewer follows."
    ],
    "lean": {
-    "start": "A reviewed product requirements spec covering intended use, key GSPR and risk controls, with outputs traceable to it.",
-    "evolve": "Full bidirectional traceability across inputs, outputs, verification and validation."
+    "start": "A reviewed product-requirements spec covering intended use, key GSPR and risk controls, with each output traceable back to it.",
+    "evolve": "Grow to full bidirectional traceability across inputs, outputs, verification and validation.",
+    "startDetail": [
+     "Design inputs captured from the intended purpose, stakeholder needs, applicable GSPR and the risk controls — each stated so it is verifiable.",
+     "A single product-requirements specification, reviewed and approved, as the controlled input baseline.",
+     "Design outputs (specifications, drawings, requirements) produced to meet the inputs.",
+     "A traceability line from each input → the output(s) that satisfy it.",
+     "Ambiguous or unverifiable inputs flagged and reworded before they are baselined.",
+     "Acceptance criteria noted for each input, so verification later has something to test against."
+    ],
+    "evolveDetail": [
+     "Bidirectional traceability (input ↔ output ↔ verification ↔ validation) maintained in a tool.",
+     "Requirements baselined and change-controlled with impact analysis.",
+     "Standards and GSPR mapped item-by-item to the requirements that satisfy them."
+    ]
    },
    "subs": [
     {
@@ -886,7 +924,19 @@
    ],
    "lean": {
     "start": "Verification of the key requirements with records, then a documented design freeze.",
-    "evolve": "Full requirement-by-requirement verification traceability feeding the technical file."
+    "evolve": "Full requirement-by-requirement verification traceability feeding the technical file.",
+    "startDetail": [
+     "A verification plan naming what will be tested, the method, and the acceptance criteria per requirement.",
+     "Verification executed against the product requirements, with dated results and pass/fail recorded.",
+     "Verification findings triaged and closed (or risk-accepted) before freeze.",
+     "A design-freeze record fixing the baseline that validation and transfer will build on.",
+     "Traceability from each verified requirement to its evidence."
+    ],
+    "evolveDetail": [
+     "Complete requirement-by-requirement verification coverage with no gaps.",
+     "Automated regression so re-verification is cheap after changes.",
+     "Verification evidence indexed straight into the technical file."
+    ]
    },
    "subs": [
     {
@@ -1015,7 +1065,19 @@
    ],
    "lean": {
     "start": "Validation against user needs on representative product, referencing your clinical/usability evidence, then a controlled release.",
-    "evolve": "Full transfer verification and release records, with post-market feedback re-validating over time."
+    "evolve": "Full transfer verification and release records, with post-market feedback re-validating over time.",
+    "startDetail": [
+     "A validation plan tying user needs and intended use to the evidence that will demonstrate them.",
+     "Validation performed on representative (production-equivalent) product, not prototypes.",
+     "Clinical/performance and summative-usability evidence drawn in as validation inputs.",
+     "Design-transfer verification: production can reproducibly build to spec.",
+     "A product-development release record signed once validation, risk and transfer are all closed."
+    ],
+    "evolveDetail": [
+     "Formal transfer protocols with process capability demonstrated before release.",
+     "Release governed by a gate that checks risk, V&V and transfer are complete.",
+     "Post-market feedback loops that re-open validation when real-world use shifts."
+    ]
    },
    "subs": [
     {
@@ -1102,7 +1164,7 @@
    "qse": "Process Management",
    "statement": "Intended purpose (IVD)",
    "why": "An in-vitro diagnostic is developed around its intended purpose and its analytical and clinical performance - what it measures, in whom, and how well. This activity stands up the IVD-specific design process so your performance claims are designed in and provable, not bolted on.",
-   "what": "Run the IVD design & development process: define the intended purpose and performance specification, design the assay/system under design controls, and plan the analytical and clinical performance studies.",
+   "what": "Run the IVD design & development process under design controls: state the intended purpose, the intended-use population and setting; define the performance specification (the analytical and clinical claims you will prove); design the assay/system to meet it; and plan the analytical and clinical performance studies that generate the IVDR Annex XIII evidence.",
    "how": "",
    "who": "R&D / Quality",
    "documents": "DEV-TPL-03",
@@ -1188,8 +1250,20 @@
     "Specimen handling and stability are part of the design, not an afterthought."
    ],
    "lean": {
-    "start": "A clear intended-purpose statement and an analytical performance plan tied to your design inputs.",
-    "evolve": "Add full clinical performance studies and broader matrix/interference coverage as the assay matures."
+    "start": "A clear intended-purpose statement and a performance specification, with an analytical performance plan tied to your design inputs.",
+    "evolve": "Add full clinical performance studies and broader matrix/interference coverage as the assay matures.",
+    "startDetail": [
+     "Intended-purpose statement: the analyte measured, the clinical condition/indication, the specimen type, the target population, and the intended user/setting (lab, near-patient, self-test).",
+     "A performance specification listing the analytical and clinical claims you intend to prove (e.g. sensitivity, specificity, measuring range).",
+     "The measurand and measurement principle documented, with the reference method/material where one exists.",
+     "An analytical performance plan tied to design inputs: precision, trueness, LoD/LoQ, interferences and stability.",
+     "A note of the IVDR class expectation and whether a companion-diagnostic or self-test claim raises the evidence burden."
+    ],
+    "evolveDetail": [
+     "Prospective clinical performance studies to establish clinical sensitivity/specificity in the intended population.",
+     "Broader interference, cross-reactivity and matrix-comparison panels.",
+     "Method-comparison against a reference or predicate, plus commutability and metrological traceability work."
+    ]
    },
    "subs": [
     {
@@ -1372,7 +1446,19 @@
    ],
    "lean": {
     "start": "An IVD design plan and assay specification traceable to the intended purpose, with design reviews.",
-    "evolve": "Full IVD design controls with freeze/transfer/release feeding the performance evaluation."
+    "evolve": "Full IVD design controls with freeze/transfer/release feeding the performance evaluation.",
+    "startDetail": [
+     "An IVD design plan covering the assay/system stages, reviews and where performance studies sit.",
+     "Product requirements and a design specification for the assay, traceable to the intended purpose.",
+     "Design reviews at the key stages with recorded decisions.",
+     "Freeze / transfer / release records geared to feed the IVDR performance evaluation.",
+     "The analytical and clinical performance evidence needs identified against each claim."
+    ],
+    "evolveDetail": [
+     "Complete design-control traceability from intended purpose to performance evidence.",
+     "Lot-to-lot and stability considerations designed in and verified.",
+     "Transfer and manufacturing controls validated for reproducible assay performance."
+    ]
    },
    "subs": [
     {
@@ -1575,8 +1661,22 @@
     "Risk management is lifelong, not a phase. Every complaint, change and field signal should be able to reopen the risk file - build that loop now."
    ],
    "lean": {
-    "start": "A risk plan with your acceptability criteria and a single risk table (hazard, severity, probability, control). A spreadsheet is fine to start.",
-    "evolve": "Add security and AI risk branches, FMEA depth, and a live link to production and post-market data as the device matures."
+    "start": "A one-page risk-management plan, your acceptability criteria written down, and a single risk table seeded with your first hazards. A spreadsheet is enough to begin.",
+    "evolve": "Deepen the method and connect the risk file to live data as the device and organisation mature.",
+    "startDetail": [
+     "Risk-management plan (1 page): name the person responsible, the scope (this device and its intended use), and when risk activities happen in each design phase.",
+     "Acceptability criteria, written before you score anything: a simple severity × probability matrix (3×3 is fine) with a clear accept / reduce-further / unacceptable threshold.",
+     "One risk table (a spreadsheet tab): hazard → hazardous situation → harm, severity, probability, risk level, control measure, residual severity/probability, residual level.",
+     "Plain-language definitions of your severity and probability scales, so two people score the same risk the same way.",
+     "A seed list of 10–20 hazards brainstormed from the intended use, users and environment — energy, biological/chemical, usability, data/software, environmental.",
+     "A rule for risks you cannot reduce further: record the benefit-risk rationale rather than leaving the cell blank."
+    ],
+    "evolveDetail": [
+     "Add dedicated risk branches for cybersecurity (AAMI TIR57) and for AI/ML behaviour where they apply.",
+     "Move from a single table to structured FMEA or fault-tree analysis for the highest-severity hazards.",
+     "Wire the risk file to production and post-market data so probabilities are revisited with real evidence, not estimates.",
+     "Formalise sign-off: a risk-management review and report gate before each design review and before release."
+    ]
    },
    "subs": [
     {
@@ -1867,7 +1967,20 @@
    ],
    "lean": {
     "start": "A risk table covering the main hazards with evaluated risks and design-first controls.",
-    "evolve": "Full hazard coverage with use and security inputs, traceable to control verification."
+    "evolve": "Full hazard coverage with use and security inputs, traceable to control verification.",
+    "startDetail": [
+     "Hazards and hazardous situations identified from the intended use, users and environment.",
+     "Each risk estimated (severity × probability) and evaluated against your acceptability criteria.",
+     "Risk controls chosen in the ISO 14971 priority order: inherently safe design → protective measures → information for safety.",
+     "Controls implemented and recorded in the risk file, with residual risk re-evaluated.",
+     "Use-related and (where relevant) security-related hazards included, not just hardware failures.",
+     "Any new risk introduced by a control captured and assessed."
+    ],
+    "evolveDetail": [
+     "Comprehensive hazard analysis with structured methods (FMEA/FTA) for the worst cases.",
+     "Each control traced to the verification that proves it works.",
+     "Use-error and cybersecurity risk analyses integrated into the one risk file."
+    ]
    },
    "subs": [
     {
@@ -2011,7 +2124,19 @@
    ],
    "lean": {
     "start": "An RM report concluding acceptable overall residual risk and benefit-risk, signed by management.",
-    "evolve": "Kept current from post-market data, consistent with the CER/PER."
+    "evolve": "Kept current from post-market data, consistent with the CER/PER.",
+    "startDetail": [
+     "Confirmation that the risk-management plan was implemented as written.",
+     "The overall residual risk evaluated across all individual risks together, not just item-by-item.",
+     "The overall benefit-risk judged acceptable, with the rationale recorded.",
+     "Consistency checks against the CER/PER and the intended-purpose claims.",
+     "Sign-off by the responsible person/management before release."
+    ],
+    "evolveDetail": [
+     "Scheduled RM-report updates fed by PMS and complaint data.",
+     "Benefit-risk re-assessed when new hazards or field data emerge.",
+     "Version alignment maintained across the risk file, CER/PER and technical file."
+    ]
    },
    "subs": [
     {
@@ -2082,7 +2207,7 @@
    "qse": "Process Management",
    "statement": "Risk management (IVD variant)",
    "why": "IVDs carry a particular risk: a wrong result leads to a wrong clinical decision. IVD risk management (ISO 14971 applied to diagnostics) makes you think through false positives and negatives and the harm they cause downstream, not just device failure.",
-   "what": "Set up IVD-specific risk management: identify diagnostic hazards (incorrect or delayed results), assess the clinical consequence, and control them through design and information.",
+   "what": "Set up IVD-specific risk management to ISO 14971: identify diagnostic hazards — chiefly incorrect (false positive/negative) or delayed results and the clinical decisions they drive — assess the resulting clinical consequence and its probability, and control them through assay design, software checks and information for the user, recorded in the IVD risk file.",
    "how": "",
    "who": "Quality / R&D",
    "documents": "RSK-SOP-02; RSK-SOP-03; RSK-TPL-06; RSK-TPL-07",
@@ -2148,7 +2273,19 @@
    ],
    "lean": {
     "start": "One risk table focused on incorrect/delayed results and their clinical harm, with the obvious controls.",
-    "evolve": "Add quantitative risk estimation, interference depth and live links to post-market performance."
+    "evolve": "Add quantitative risk estimation, interference depth and live links to post-market performance.",
+    "startDetail": [
+     "Diagnostic hazards framed as wrong-result modes: false positive, false negative, delayed or uninterpretable result.",
+     "The clinical consequence of each wrong result traced to the decision it drives (missed diagnosis, wrong treatment).",
+     "Risk estimated from the severity of that clinical consequence and the likelihood of the error.",
+     "Controls chosen design-first: assay/cut-off design, internal QC and flags, then information for the user (IFU limitations).",
+     "Interference and specimen-quality failure modes included as hazard sources."
+    ],
+    "evolveDetail": [
+     "Quantitative error-rate estimates tied to analytical/clinical performance data.",
+     "Deeper interference, cross-reactivity and specimen-integrity hazard coverage.",
+     "Live links from post-market performance (PMPF) back into the risk file."
+    ]
    },
    "subs": [
     {
@@ -2433,7 +2570,20 @@
    ],
    "lean": {
     "start": "A routine review of complaints/PMS against the risk file, updating residual risk and benefit-risk.",
-    "evolve": "A closed loop where PMS/vigilance/PMCF systematically drive risk, CER and design updates."
+    "evolve": "A closed loop where PMS/vigilance/PMCF systematically drive risk, CER and design updates.",
+    "startDetail": [
+     "A scheduled review pulling PMS reports, complaints, vigilance and PMCF/PMPF into the risk process.",
+     "Hazards and probabilities re-assessed against what the field data actually shows.",
+     "Residual risk and overall benefit-risk re-confirmed (or challenged) with real numbers.",
+     "New hazards or higher-than-expected occurrence rates captured as new risk-file entries.",
+     "Triggers into CAPA, field action and CER/PER updates when the picture changes.",
+     "The risk file versioned so the change history is auditable."
+    ],
+    "evolveDetail": [
+     "Automated signal detection feeding the risk file.",
+     "Benefit-risk re-assessed on a defined cadence and on trigger events.",
+     "Design improvements driven by post-market risk trends."
+    ]
    },
    "subs": [
     {
@@ -2563,8 +2713,21 @@
     "The plan is the map a reviewer follows to check you did what you said."
    ],
    "lean": {
-    "start": "A software plan with the safety class assigned and basic config management and problem resolution.",
-    "evolve": "Full lifecycle planning with segregation analysis and security planning."
+    "start": "A software development plan with the IEC 62304 safety class assigned, plus basic configuration management and problem resolution. The safety class drives everything else.",
+    "evolve": "Add architecture/segregation analysis and a security plan as the software grows.",
+    "startDetail": [
+     "The IEC 62304 software safety class (A/B/C) assigned and justified from the worst-case harm of a software failure.",
+     "A software development plan (SWD-PLAN-01): lifecycle model, activities, deliverables and responsibilities scaled to the class.",
+     "A configuration-management approach: version control, baselines, and how releases are identified.",
+     "A problem-resolution process: how anomalies are logged, triaged and closed.",
+     "The list of SOUP / third-party components you expect to use, captured for later evaluation.",
+     "The interface to the risk file noted, so software-contributed risks flow into risk management."
+    ],
+    "evolveDetail": [
+     "Software architecture and segregation analysis to isolate high-class items and reduce the rigour needed elsewhere.",
+     "A security plan and secure-development practices (threat modelling, SBOM) integrated with the lifecycle.",
+     "Automated CI pipelines with traceable builds, tests and release evidence."
+    ]
    },
    "subs": [
     {
@@ -2757,8 +2920,21 @@
     "Anomalies you found and fixed are evidence of a healthy process, not something to hide. An empty bug log looks more suspicious to an auditor than a managed one."
    ],
    "lean": {
-    "start": "A requirements->test trace, a one-page architecture note with your SOUP list, and a tracked issue log - scaled to your safety class.",
-    "evolve": "Add formal configuration management, automated CI/test pipelines and deeper documentation as the software grows."
+    "start": "A requirements → test trace, a one-page architecture note with your SOUP list, and a tracked issue log — scaled to your safety class.",
+    "evolve": "Add formal configuration management, automated CI/test pipelines and deeper documentation as the software grows.",
+    "startDetail": [
+     "Software requirements written to be testable and traceable back to system/design inputs.",
+     "A software architecture note showing the main components and their interfaces.",
+     "A SOUP / third-party inventory with the version and intended function of each item.",
+     "Implementation with unit verification on the safety-relevant units.",
+     "Integration and system testing planned against the requirements.",
+     "Supporting processes running — configuration management, problem resolution and software risk management — each producing records."
+    ],
+    "evolveDetail": [
+     "Formal configuration management with baselines and controlled releases.",
+     "Automated CI with traceable test execution and coverage.",
+     "Detailed design documentation and interface specs as complexity rises."
+    ]
    },
    "subs": [
     {
@@ -3016,7 +3192,19 @@
    ],
    "lean": {
     "start": "Configuration-controlled code with reviews on the safety-relevant modules, traceable to requirements.",
-    "evolve": "Full review coverage, unit verification and integration testing across the software system."
+    "evolve": "Full review coverage, unit verification and integration testing across the software system.",
+    "startDetail": [
+     "Code held under version control with identifiable baselines.",
+     "Code and software-design reviews on the safety-relevant modules, with review records.",
+     "Implementation traceable to the architecture and requirements.",
+     "Every defect routed through the problem-resolution process, not fixed silently.",
+     "Coding / secure-coding standards applied to the extent the safety class warrants."
+    ],
+    "evolveDetail": [
+     "Review and unit-test coverage extended across the whole codebase.",
+     "Continuous integration running the test suite on every change.",
+     "Static analysis and security scanning wired into the pipeline."
+    ]
    },
    "subs": [
     {
@@ -3147,7 +3335,19 @@
    ],
    "lean": {
     "start": "System testing traceable to the key requirements plus validation against intended use, with anomalies logged.",
-    "evolve": "Full unit/integration/system verification traceability and automated regression."
+    "evolve": "Full unit/integration/system verification traceability and automated regression.",
+    "startDetail": [
+     "A verification plan spanning unit, integration and system testing, scaled to the safety class.",
+     "Tests executed and results recorded, each traceable to the requirement it checks.",
+     "Software validation against requirements and intended use (does it do the clinical job).",
+     "Anomalies logged, assessed for risk, and either fixed or justified.",
+     "The software file compiled: plan, requirements, architecture, tests, anomalies, release."
+    ],
+    "evolveDetail": [
+     "Complete traceability from every requirement to its verifying test.",
+     "Automated regression suites so re-verification is fast and repeatable.",
+     "Coverage metrics tracked and gated at release."
+    ]
    },
    "subs": [
     {
@@ -3297,7 +3497,19 @@
    ],
    "lean": {
     "start": "A release record with verification complete and known anomalies assessed, plus a basic SBOM and threat model.",
-    "evolve": "Full cybersecurity documentation and a consolidated software report maintained across versions."
+    "evolve": "Full cybersecurity documentation and a consolidated software report maintained across versions.",
+    "startDetail": [
+     "A release record per IEC 62304 §5.8: verification complete, version archived and controlled.",
+     "Residual/known anomalies listed and each assessed for safety and security impact.",
+     "A software bill of materials (SBOM) listing components and versions.",
+     "A threat model and the security testing performed (at least the basics).",
+     "A consolidated software report pulled together for the technical file."
+    ],
+    "evolveDetail": [
+     "Complete cybersecurity file: threat model, controls, pen-test, vulnerability management.",
+     "A coordinated vulnerability-disclosure and patch process defined and run.",
+     "Release evidence and SBOM regenerated and archived per version."
+    ]
    },
    "subs": [
     {
@@ -3447,7 +3659,19 @@
    ],
    "lean": {
     "start": "A description of the model, its data and provenance, performance and limitations on a version-controlled model.",
-    "evolve": "Add monitoring, bias evaluation and a PCCP, and integrate with the AI/ML lifecycle governance."
+    "evolve": "Add monitoring, bias evaluation and a PCCP, and integrate with the AI/ML lifecycle governance.",
+    "startDetail": [
+     "The model architecture and its intended function within the device.",
+     "Training / validation / test data described with provenance and representativeness.",
+     "Performance metrics and the conditions under which they hold — plus stated limitations.",
+     "Version control over the model artefact, data and code so a result is reproducible.",
+     "The controls that keep it safe: monitoring hooks and the change-control approach."
+    ],
+    "evolveDetail": [
+     "Sub-group and bias evaluation with documented mitigations.",
+     "Production monitoring for drift with defined thresholds and responses.",
+     "A predetermined change-control plan (PCCP) governing retraining, tied to the AI/ML lifecycle."
+    ]
    },
    "subs": [
     {
@@ -3577,7 +3801,19 @@
    ],
    "lean": {
     "start": "A DiGAV requirements checklist mapping data-protection, security, interoperability and usability to your evidence.",
-    "evolve": "Complete the positive-effect study and move from provisional to permanent directory listing."
+    "evolve": "Complete the positive-effect study and move from provisional to permanent directory listing.",
+    "startDetail": [
+     "A DiGAV / BfArM requirements checklist covering the CE baseline plus the DiGA-specific criteria.",
+     "Data-protection and security requirements mapped to your evidence (GDPR, BSI, C5 as applicable).",
+     "Interoperability requirements addressed (standard data formats / interfaces).",
+     "Usability evidence aligned to the DiGA expectations.",
+     "The positive-healthcare-effect study designed or scoped for the directory listing."
+    ],
+    "evolveDetail": [
+     "A completed comparative study demonstrating the positive healthcare effect.",
+     "The move from provisional (fast-track) to permanent BfArM directory listing.",
+     "Ongoing security and data-protection re-assessment to keep the listing."
+    ]
    },
    "subs": [
     {
@@ -3758,7 +3994,20 @@
    ],
    "lean": {
     "start": "A short use specification, the safety-related tasks listed, and a few informal formative tests.",
-    "evolve": "Add a formal user-interface specification and a full summative validation study as the device nears market."
+    "evolve": "Add a formal user-interface specification and a full summative validation study as the device nears market.",
+    "startDetail": [
+     "A use specification: the intended users, the use environment(s), and the tasks they perform.",
+     "The safety-related (hazard-related) tasks identified — the ones where a use error could cause harm.",
+     "A first user-interface description (screens, controls, labels, alarms).",
+     "Use-related hazards captured and routed into the risk file.",
+     "A couple of informal formative tests with representative users to find early problems.",
+     "A usability engineering file started and linked to risk management."
+    ],
+    "evolveDetail": [
+     "A formal UI specification under design control.",
+     "Structured formative rounds until the interface is ready for summative validation.",
+     "A summative validation study demonstrating safe use on the frozen design."
+    ]
    },
    "subs": [
     {
@@ -3979,7 +4228,19 @@
    ],
    "lean": {
     "start": "A few formative sessions with representative users on the risky tasks, feeding fixes into design and risk.",
-    "evolve": "Structured, repeated formative rounds across the UI until it is ready for summative validation."
+    "evolve": "Structured, repeated formative rounds across the UI until it is ready for summative validation.",
+    "startDetail": [
+     "Formative sessions run against the use specification with representative users.",
+     "Use problems and use-related hazards captured in the usability engineering file.",
+     "Findings routed to design (fix the UI) and to risk analysis (new/changed hazards).",
+     "The hazard-related tasks prioritised over cosmetic issues.",
+     "Iteration until the interface is stable enough for summative validation."
+    ],
+    "evolveDetail": [
+     "Formative testing across all task flows, not just the riskiest.",
+     "A documented iteration history showing problems found and resolved.",
+     "Exit criteria defined for moving to summative validation."
+    ]
    },
    "subs": [
     {
@@ -4127,7 +4388,20 @@
    ],
    "lean": {
     "start": "A summative study on the frozen design covering the critical, hazard-related tasks with representative users.",
-    "evolve": "Broaden scenarios/users and integrate the residual use-risk conclusion into the risk file and CER/PER."
+    "evolve": "Broaden scenarios/users and integrate the residual use-risk conclusion into the risk file and CER/PER.",
+    "startDetail": [
+     "A summative validation plan targeting the hazard-related tasks and realistic use scenarios.",
+     "Representative users from each distinct user group, on the frozen design.",
+     "Test conditions that reflect the real use environment.",
+     "Use errors and difficulties recorded and analysed for residual risk.",
+     "A clear conclusion on whether safe use is demonstrated.",
+     "A UOUP evaluation where a user interface of unknown provenance is involved."
+    ],
+    "evolveDetail": [
+     "Wider scenario and user-group coverage.",
+     "Residual use-risk conclusions folded into the risk file and CER/PER.",
+     "Post-market usability signals fed back into the usability file."
+    ]
    },
    "subs": [
     {
@@ -4312,8 +4586,21 @@
     "'The AI recommended it' is not a defence. Build genuine human oversight - a person who can understand, question and override the AI - and prove it."
    ],
    "lean": {
-    "start": "Documented data governance, a validation report with sub-group performance, and a clear human-oversight design.",
-    "evolve": "Add an AI management system (ISO 42001), drift monitoring and a predetermined change-control plan as the model evolves."
+    "start": "Documented data governance, a validation report with sub-group performance, and a clear human-oversight design — the AI Act high-risk essentials, done at pilot scale.",
+    "evolve": "Add an AI management system (ISO/IEC 42001), drift monitoring and a predetermined change-control plan as the model evolves.",
+    "startDetail": [
+     "A data-governance record: data sources, relevance/representativeness, quality checks, and how bias was examined.",
+     "A model card / validation report stating the metrics, the test data, and performance broken down by relevant sub-groups.",
+     "A human-oversight design: where a person can review, override or stop the model, and what they see to do so.",
+     "The model's intended use and known limitations written down (inputs, operating range, failure modes).",
+     "Logging designed in: what the system records at inference so behaviour can be audited later.",
+     "The interface to the device risk file and technical documentation, treating model risks (drift, bias, opacity) explicitly."
+    ],
+    "evolveDetail": [
+     "An ISO/IEC 42001 AI management system governing the model lifecycle across products.",
+     "Live drift and performance monitoring in production with alert thresholds.",
+     "A predetermined change-control plan (PCCP) so retraining stays inside an agreed envelope."
+    ]
    },
    "subs": [
     {
@@ -4583,7 +4870,19 @@
    ],
    "lean": {
     "start": "Clear instructions and limitations, a working human-override, and logging switched on.",
-    "evolve": "Add formal Annex IV documentation depth and registration workflows as the AI nears market."
+    "evolve": "Add formal Annex IV documentation depth and registration workflows as the AI nears market.",
+    "startDetail": [
+     "Transparency information and instructions finalised: what the AI does, its limits, how to interpret outputs.",
+     "Human-oversight measures implemented — a real ability to review, override or stop the system.",
+     "Automatic logging / record-keeping switched on and retained for the required period.",
+     "The intended purpose and operating envelope communicated to users.",
+     "The EU-database registration and Annex IV technical documentation prepared for the AI system."
+    ],
+    "evolveDetail": [
+     "Full Annex IV technical-documentation depth.",
+     "Registration workflows and conformity declarations completed.",
+     "Oversight and logging reviewed against real-world use."
+    ]
    },
    "subs": [
     {
@@ -4801,7 +5100,19 @@
    ],
    "lean": {
     "start": "A PCCP defining bounded permitted changes plus the core AI Act Annex IV documentation.",
-    "evolve": "Full high-risk-AI documentation with monitoring, bias evaluation and post-market model governance."
+    "evolve": "Full high-risk-AI documentation with monitoring, bias evaluation and post-market model governance.",
+    "startDetail": [
+     "A predetermined change-control plan (PCCP): which model changes are pre-authorised and how each is validated.",
+     "The bounds of permitted change stated (data, retraining, performance envelope).",
+     "The EU AI Act Annex IV technical documentation compiled for the AI system.",
+     "The validation protocol for changes made inside the PCCP.",
+     "The link to risk management and post-market monitoring for out-of-bounds changes."
+    ],
+    "evolveDetail": [
+     "A complete high-risk-AI documentation set maintained across versions.",
+     "Ongoing bias evaluation and performance monitoring.",
+     "Post-market model governance tying drift/retraining back to the PCCP."
+    ]
    },
    "subs": [
     {
@@ -4872,7 +5183,7 @@
    "qse": "Process Management",
    "statement": "Release & deployment plan.",
    "why": "Getting software safely from 'done' to 'in the field' - and keeping it safe through updates - is its own controlled process. IEC 62304 covers release, deployment and maintenance so that what users run is the version you verified, and updates do not introduce new risk.",
-   "what": "Establish software release, deployment and maintenance: controlled builds and release records, deployment to users, and a maintenance process for updates and patches.",
+   "what": "Establish software release, deployment and maintenance: controlled, reproducible builds with release records; a defined way to deploy to users (and to stage or roll back); and a maintenance process for updates, patches and end-of-support — all under configuration control and traceable to the released version.",
    "how": "",
    "who": "Software / Quality",
    "documents": "DEP-SOP-01; DEP-TPL-01; DEP-TPL-02; DEP-TPL-03",
@@ -4942,7 +5253,19 @@
    ],
    "lean": {
     "start": "A release checklist, a version/build record, and a simple way to deliver and roll back updates.",
-    "evolve": "Add CI/CD pipelines, staged rollouts and automated update monitoring as the product and user base grow."
+    "evolve": "Add CI/CD pipelines, staged rollouts and automated update monitoring as the product and user base grow.",
+    "startDetail": [
+     "A release checklist gating what must be true before a build ships (tests, anomalies, approvals).",
+     "Reproducible, version-stamped builds with a release record per version.",
+     "A defined deployment path to users, with a rollback plan if a release misbehaves.",
+     "A maintenance process for updates and patches, tied to problem resolution and risk.",
+     "Change communication so users know what changed and any action needed."
+    ],
+    "evolveDetail": [
+     "CI/CD pipelines producing traceable, signed releases.",
+     "Staged / canary rollouts with health monitoring and automated rollback.",
+     "Update-adoption and post-deployment monitoring across the fleet."
+    ]
    },
    "subs": [
     {
@@ -5123,7 +5446,19 @@
    ],
    "lean": {
     "start": "A release checklist with defined criteria and a version-history log.",
-    "evolve": "Automated, staged deployment with rollback and full release traceability."
+    "evolve": "Automated, staged deployment with rollback and full release traceability.",
+    "startDetail": [
+     "Release acceptance criteria defined: verification complete, anomalies assessed, security clear, change control closed.",
+     "A release approval by the right role against those criteria.",
+     "Controlled deployment with a rollback path if the release misbehaves.",
+     "A version-history log recording what shipped, when, and what changed.",
+     "Traceability from the release back to the tested/verified baseline."
+    ],
+    "evolveDetail": [
+     "Automated, staged (canary) deployment with health checks.",
+     "One-click rollback and release attestations.",
+     "Full release traceability from commit to deployed version."
+    ]
    },
    "subs": [
     {
@@ -5306,8 +5641,21 @@
     "The CER is never 'finished' - it's a living document fed by PMS and PMCF. Build the update loop now, because the Notified Body checks it's maintained."
    ],
    "lean": {
-    "start": "A clinical/performance evaluation plan and a documented literature search and appraisal against your claims.",
-    "evolve": "Add your own clinical/performance studies and continuous CER/PER updates from PMS as evidence accumulates."
+    "start": "A clinical (or performance) evaluation plan and a documented, reproducible literature search appraised against your claims. The plan and search protocol come first.",
+    "evolve": "Add your own clinical/performance studies and continuous CER updates from PMS as evidence accumulates.",
+    "startDetail": [
+     "A clinical evaluation plan (CEP): the intended purpose and claims to substantiate, the clinical questions, and the acceptance criteria for the benefit-risk.",
+     "A written literature-search protocol: databases, search terms, inclusion/exclusion criteria — reproducible and dated.",
+     "A state-of-the-art section: the current standard of care, the alternatives, and the standards/CS the device is judged against.",
+     "An appraisal method for weighing each source's relevance and quality — not just a reading list.",
+     "An equivalence rationale if you rely on another device's data — clinical, technical and biological characteristics compared.",
+     "The link forward to PMS/PMCF so the evaluation is planned as a living document, not a one-off."
+    ],
+    "evolveDetail": [
+     "Your own clinical investigation(s) to ISO 14155 where literature and equivalence are insufficient.",
+     "Scheduled CER updates driven by PMS and PMCF findings.",
+     "A structured evidence-appraisal database rather than a manual literature table."
+    ]
    },
    "subs": [
     {
@@ -5533,7 +5881,19 @@
    ],
    "lean": {
     "start": "A protocol-driven literature search and appraisal against your claims, with declared appraisers.",
-    "evolve": "Add or retire equivalence as data allows, and keep the search live as new literature appears."
+    "evolve": "Add or retire equivalence as data allows, and keep the search live as new literature appears.",
+    "startDetail": [
+     "A systematic, protocol-driven literature search executed and documented (reproducible).",
+     "An appraisal of each source for relevance and quality against your claims.",
+     "Where equivalence is claimed: the equivalent device's technical, biological and clinical characteristics compared, with justification and data access.",
+     "Appraisers' declarations of interest recorded.",
+     "The evidence weighed to a conclusion on safety, performance and benefit-risk for the claims."
+    ],
+    "evolveDetail": [
+     "Equivalence claims strengthened or dropped as your own data accumulates.",
+     "Scheduled literature re-runs so the evidence base stays current.",
+     "Appraisal captured in a structured, auditable evidence database."
+    ]
    },
    "subs": [
     {
@@ -5671,7 +6031,20 @@
    ],
    "lean": {
     "start": "Only if required: a feasibility/pilot investigation with approvals, then a CIP designed to your claims.",
-    "evolve": "Run the pivotal investigation to ISO 14155 and feed the CIR into the CER; continue evidence via PMCF."
+    "evolve": "Run the pivotal investigation to ISO 14155 and feed the CIR into the CER; continue evidence via PMCF.",
+    "startDetail": [
+     "A justified decision on whether a clinical investigation is needed (gaps left by literature/equivalence).",
+     "A clinical investigation plan (CIP) designed to answer the specific claims/endpoints.",
+     "An investigator's brochure and informed-consent materials prepared.",
+     "Ethics / competent-authority approvals obtained before enrolment.",
+     "Conduct to GCP / ISO 14155 with the data captured for the clinical investigation report.",
+     "The CIR written to feed the CER."
+    ],
+    "evolveDetail": [
+     "A pivotal, adequately-powered investigation for the primary claims.",
+     "The CIR integrated into the CER and technical file.",
+     "Continued evidence generation through PMCF after launch."
+    ]
    },
    "subs": [
     {
@@ -5847,8 +6220,21 @@
     "Set the update frequency by risk class now (implantables / class III at least annually). The NB checks the CER is maintained, not just that it once existed."
    ],
    "lean": {
-    "start": "A CER that concludes benefit-risk against your claims from the plan, literature appraisal and any early clinical data - even while evidence is still accumulating.",
-    "evolve": "Add your own clinical / PMCF data each cycle, keep the SSCP in step, and let PMS trends drive scheduled CER revisions."
+    "start": "A CER that concludes benefit-risk against your claims from the plan, literature appraisal and any early clinical data — even while evidence is still accumulating.",
+    "evolve": "Add your own clinical / PMCF data each cycle, keep the SSCP in step, and let PMS trends drive scheduled CER revisions.",
+    "startDetail": [
+     "The CER consolidating the CEP, literature appraisal, any investigations and equivalence data.",
+     "A benefit-risk conclusion stated against each intended-purpose claim.",
+     "The state-of-the-art and acceptance criteria from the plan carried through to the conclusion.",
+     "An SSCP where the device is implantable or class III.",
+     "An update cycle defined so PMS/PMCF refresh the CER (and SSCP) on schedule.",
+     "Consistency with the risk file and the labelling checked."
+    ],
+    "evolveDetail": [
+     "Your own clinical/PMCF data folded in each cycle.",
+     "The SSCP kept in step with the CER and validated by the NB.",
+     "PMS-trend-driven scheduled CER revisions."
+    ]
    },
    "subs": [
     {
@@ -5953,7 +6339,7 @@
    "qse": "Assessment",
    "statement": "Performance evaluation plan.",
    "why": "An IVD's CE evidence is its performance evaluation - the proof of scientific validity, analytical performance and clinical performance for the intended purpose. It is the IVDR equivalent of clinical evaluation, and it is what a notified body scrutinises hardest.",
-   "what": "Compile the IVD performance evaluation: the plan, the three pillars of evidence, and the performance evaluation report, kept live through post-market performance follow-up.",
+   "what": "Compile the IVD performance evaluation: the performance evaluation plan (PEP), the three pillars of evidence — scientific validity, analytical performance and clinical performance — and the performance evaluation report (PER) that feeds the technical file, kept live through post-market performance follow-up (PMPF).",
    "how": "",
    "who": "RA / Clinical",
    "documents": "PEV-SOP-01; PEV-TPL-01; PEV-FOR-01",
@@ -6036,8 +6422,21 @@
     "Plan PMPF now - the evaluation is a living document, not a one-off."
    ],
    "lean": {
-    "start": "A plan and a report that lean on robust analytical data plus literature/scientific validity, with clinical performance scoped to your claims.",
-    "evolve": "Add prospective clinical performance studies and continuous PMPF data as the device stays on the market."
+    "start": "A performance evaluation plan that leans on robust analytical data plus literature/scientific validity, with clinical performance scoped to your claims.",
+    "evolve": "Add prospective clinical performance studies and continuous PMPF data as the device stays on the market.",
+    "startDetail": [
+     "A performance evaluation plan (PEP) naming the three pillars and how each will be met for your intended purpose.",
+     "The scientific-validity basis identified (literature/consensus for the analyte-condition association).",
+     "An analytical performance plan: precision, trueness, LoD/LoQ, linearity, interferences, specimen types and stability.",
+     "A clinical-performance approach scoped to your claims (own study, literature, or routine-diagnostic data).",
+     "Acceptance criteria set before testing, and the link to the risk file and intended-purpose claims.",
+     "The PMPF link so the PER is maintained after launch."
+    ],
+    "evolveDetail": [
+     "Prospective clinical-performance studies in the intended population and setting.",
+     "Continuous PMPF data feeding scheduled PER updates.",
+     "Expanded interference/matrix and method-comparison coverage."
+    ]
    },
    "subs": [
     {
@@ -6219,8 +6618,20 @@
     "SV is the foundation; if it is weak, no amount of analytical or clinical performance rescues the claim."
    ],
    "lean": {
-    "start": "A documented analyte-condition association from literature/consensus in a scientific validity report.",
-    "evolve": "Strengthen with additional evidence as it accumulates; keep current with new literature."
+    "start": "A documented analyte-condition association from literature or consensus, captured in a scientific-validity report.",
+    "evolve": "Strengthen with additional evidence as it accumulates and keep current with new literature.",
+    "startDetail": [
+     "A defined review question: which analyte, which clinical condition or physiological state, in which population.",
+     "A reproducible literature-search protocol (databases, terms, inclusion/exclusion) with a dated results log.",
+     "An appraisal of the retrieved evidence for quality and relevance — not just a citation list.",
+     "A scientific-validity report concluding the strength of the analyte-condition association.",
+     "Any prior in-house or predicate data referenced where it supports the association."
+    ],
+    "evolveDetail": [
+     "Scheduled literature re-runs so the association stays current.",
+     "Incorporation of your own accumulating clinical data.",
+     "Alignment with any common specifications or reference methods that emerge."
+    ]
    },
    "subs": [
     {
@@ -6356,7 +6767,19 @@
    ],
    "lean": {
     "start": "A short proof-of-concept confirming the assay measures the analyte, with preliminary LoD/precision to set the pivotal acceptance criteria.",
-    "evolve": "Formalise into a staged performance-evaluation plan where feasibility gates the pivotal analytical then clinical studies."
+    "evolve": "Formalise into a staged performance-evaluation plan where feasibility gates the pivotal analytical then clinical studies.",
+    "startDetail": [
+     "A proof-of-concept study on a representative (not necessarily final) design.",
+     "Confirmation that the assay actually measures the intended analyte (technical viability).",
+     "Preliminary analytical performance — e.g. LoD and precision — to size the pivotal studies.",
+     "Results fed back to refine design inputs, intended purpose and risk.",
+     "The pivotal analytical and clinical performance studies scoped from what feasibility showed."
+    ],
+    "evolveDetail": [
+     "A staged PEP where feasibility gates the pivotal analytical study.",
+     "Pre-set acceptance criteria carried from feasibility into the pivotal design.",
+     "Design changes from feasibility folded back through design control and risk."
+    ]
    },
    "subs": [
     {
@@ -6509,7 +6932,20 @@
    ],
    "lean": {
     "start": "An analytical performance plan and the core studies (precision, trueness, LoD, key interferents) against pre-set acceptance criteria.",
-    "evolve": "Complete the full parameter set and real-time stability, and fold results into the Performance Evaluation Report."
+    "evolve": "Complete the full parameter set and real-time stability, and fold results into the Performance Evaluation Report.",
+    "startDetail": [
+     "An analytical performance plan referencing recognised protocols (CLSI / ISO) per parameter.",
+     "The core studies executed on the near-final design: precision, trueness/bias, LoD/LoQ, linearity.",
+     "Key interferences and cross-reactants tested across the real specimen matrix.",
+     "Pre-set acceptance criteria stated before testing, and results judged against them.",
+     "Specimen types and stability conditions covered as the intended purpose requires.",
+     "An analytical performance report documenting outcome vs criteria."
+    ],
+    "evolveDetail": [
+     "The full IVDR analytical parameter set completed.",
+     "Real-time (not just accelerated) stability data accumulated.",
+     "Results folded into the Performance Evaluation Report."
+    ]
    },
    "subs": [
     {
@@ -6654,7 +7090,19 @@
    ],
    "lean": {
     "start": "A software analytical performance plan and evaluation against a defined reference on a version-controlled build.",
-    "evolve": "Add input-space/edge-case coverage and bias evaluation, and link to the AI lifecycle where applicable."
+    "evolve": "Add input-space/edge-case coverage and bias evaluation, and link to the AI lifecycle where applicable.",
+    "startDetail": [
+     "A plan defining the reference standard, datasets and metrics for the algorithm.",
+     "Precision / reproducibility evaluated on a pinned, version-controlled software build.",
+     "Edge cases and input-range behaviour tested, not just the happy path.",
+     "Results reported against pre-set acceptance criteria.",
+     "The exact software version recorded so the result is reproducible."
+    ],
+    "evolveDetail": [
+     "Broader input-space and edge-case coverage.",
+     "Sub-group bias evaluation where the algorithm affects clinical decisions.",
+     "Linkage to the AI/ML lifecycle (PCCP, monitoring) where applicable."
+    ]
    },
    "subs": [
     {
@@ -6804,7 +7252,20 @@
    ],
    "lean": {
     "start": "A justified clinical-performance route and, if needed, a study plan with pre-set acceptance criteria against a reference method.",
-    "evolve": "Complete the study, feed results into the PER, and continue via post-market performance follow-up (PMPF)."
+    "evolve": "Complete the study, feed results into the PER, and continue via post-market performance follow-up (PMPF).",
+    "startDetail": [
+     "A documented, justified route: existing data/literature vs a new clinical performance study.",
+     "Where a study is needed: a plan to ISO 20916 on the final device in the intended population.",
+     "A reference method / comparator defined for diagnostic accuracy.",
+     "Pre-set acceptance criteria for sensitivity, specificity and the other endpoints.",
+     "Approvals and specimen/data governance in place before running.",
+     "Diagnostic performance reported against the criteria."
+    ],
+    "evolveDetail": [
+     "The clinical performance study completed in the intended population and setting.",
+     "Results integrated into the Performance Evaluation Report.",
+     "Ongoing PMPF sustaining the clinical-performance evidence."
+    ]
    },
    "subs": [
     {
@@ -6954,7 +7415,20 @@
    ],
    "lean": {
     "start": "A PER consolidating SV/AP/CP with a benefit-risk conclusion, plus a PMPF plan.",
-    "evolve": "SSP for class C/D and continuous PMPF-driven PER updates."
+    "evolve": "SSP for class C/D and continuous PMPF-driven PER updates.",
+    "startDetail": [
+     "The PER built from the three pillars: scientific validity, analytical performance, clinical performance.",
+     "A benefit-risk conclusion against the intended-purpose claims.",
+     "The Summary of Safety and Performance (SSP) for class C/D devices.",
+     "A PMPF plan/report loop defined to keep the PER current.",
+     "Consistency with the risk file and labelling verified.",
+     "Acceptance criteria from the PEP carried through to the conclusion."
+    ],
+    "evolveDetail": [
+     "The SSP maintained and NB-validated for class C/D.",
+     "Continuous PMPF data driving scheduled PER updates.",
+     "Method-comparison and stability evidence extended over time."
+    ]
    },
    "subs": [
     {
@@ -7100,8 +7574,20 @@
     "The class drives NB involvement, clinical depth and timeline - settle it before you plan anything else."
    ],
    "lean": {
-    "start": "A documented classification with the governing rule and the resulting route (self-cert vs NB).",
-    "evolve": "Re-confirm on any intended-purpose change; classification is revisited whenever claims change."
+    "start": "A documented classification with the governing Annex VIII rule and the resulting route (self-cert vs Notified Body).",
+    "evolve": "Re-confirm on any intended-purpose change; classification is revisited whenever claims change.",
+    "startDetail": [
+     "The intended purpose, duration of use (transient/short/long-term) and degree of invasiveness written down — the inputs to the rules.",
+     "A rule-by-rule walk through MDR Annex VIII's 22 rules, recording why each does or doesn't apply.",
+     "The resulting class (I / IIa / IIb / III) with the single governing rule that drives it.",
+     "The conformity-assessment route that follows: self-declaration (class I) vs Notified Body (IIa+), noting the Is/Im/Ir special cases.",
+     "A note of the implications for clinical-evidence depth and technical-file scope at that class."
+    ],
+    "evolveDetail": [
+     "A change-control trigger so any claim change re-opens classification.",
+     "Borderline/qualification questions logged with rationale (MDCG guidance, device vs medicinal).",
+     "Alignment with the Notified Body's view early to avoid a late reclassification."
+    ]
    },
    "subs": [
     {
@@ -7230,8 +7716,21 @@
     "Companion diagnostics are class C by rule; near-patient and self-testing raise the class - check the intended user."
    ],
    "lean": {
-    "start": "A documented A/B/C/D classification with the governing rule and the route it implies.",
-    "evolve": "Re-confirm on intended-purpose changes and factor class D reference-lab timelines into the plan."
+    "start": "A documented A/B/C/D classification with the governing Annex VIII rule and the route it implies.",
+    "evolve": "Re-confirm on intended-purpose changes and factor class D reference-lab timelines into the plan.",
+    "startDetail": [
+     "The intended purpose framed for the rules: what is detected/measured, for what clinical decision, and the risk to individual and public health.",
+     "A walk through IVDR Annex VIII's 7 rules, recording the rationale for the class reached.",
+     "The class (A / B / C / D) with the governing rule and any higher-rule override.",
+     "The route it implies: self-declaration (class A, non-sterile) vs Notified Body (B/C/D).",
+     "For class D: the EU reference-laboratory involvement and batch-verification timelines flagged into the plan.",
+     "The likely up-classification versus the old IVDD noted, so NB capacity and lead-time are planned early."
+    ],
+    "evolveDetail": [
+     "A change trigger linking claim changes back to classification.",
+     "Early NB and (for class D) EU reference-lab engagement given capacity constraints.",
+     "Tracking of new common specifications that affect the class or its evidence."
+    ]
    },
    "subs": [
     {
@@ -7304,7 +7803,7 @@
    "qse": "Customer Focus",
    "statement": "GSPR conformity checklist — MDR.",
    "why": "Selling in the USA means FDA, not CE. You have to determine the right pathway (510(k), De Novo, PMA or exempt), make the submission, and only distribute once cleared or approved - with US-specific QMSR and UDI obligations on top.",
-   "what": "Establish the US market route: determine the FDA pathway, compile and submit the application, and confirm cleared/approved status with registration, listing, QMSR and UDI in place.",
+   "what": "Complete the MDR Annex I GSPR (General Safety and Performance Requirements) conformity checklist: go through each requirement, mark it applicable or not with justification, and map every applicable requirement to the specific evidence, standard or document that satisfies it — the backbone index of the technical file.",
    "how": "",
    "who": "RA Manager",
    "documents": "TEF-FOR-01; TEF-FOR-09",
@@ -7378,8 +7877,20 @@
     "A significant change can require a new 510(k) - build that check into change control."
    ],
    "lean": {
-    "start": "A clear pathway determination and a well-organised submission, with registration and listing ready to file on clearance.",
-    "evolve": "Add a US agent relationship, pre-submission (Q-Sub) meetings and a portfolio submission strategy as you scale."
+    "start": "A GSPR checklist covering the applicable Annex I requirements, each mapped to the evidence, standard or harmonised standard that satisfies it.",
+    "evolve": "Keep the GSPR index synchronised with the evolving technical file and standards.",
+    "startDetail": [
+     "The MDR Annex I GSPR checklist populated: every requirement marked applicable / not applicable with a short justification.",
+     "Each applicable requirement mapped to the specific evidence, document or test that satisfies it.",
+     "The harmonised standards (or common specifications) you rely on listed against the requirements they cover.",
+     "Gaps flagged where evidence is not yet available, so they become work items.",
+     "The checklist kept as a living index that points into the rest of the technical file."
+    ],
+    "evolveDetail": [
+     "The GSPR index re-synchronised whenever a document or standard version changes.",
+     "State-of-the-art alignment: presumption of conformity confirmed against current harmonised standards.",
+     "Reviewer-ready cross-references so a Notified Body can navigate the evidence quickly."
+    ]
    },
    "subs": [
     {
@@ -7567,7 +8078,20 @@
    ],
    "lean": {
     "start": "A GSPR checklist covering the applicable Annex I requirements with evidence references, plus a clear system overview.",
-    "evolve": "Complete Annex II/III checklists and keep the GSPR index synchronised with the evolving technical file."
+    "evolve": "Complete Annex II/III checklists and keep the GSPR index synchronised with the evolving technical file.",
+    "startDetail": [
+     "The IVDR Annex I GSPR checklist populated: each requirement applicable / not applicable with justification.",
+     "Every applicable requirement mapped to the specific evidence that satisfies it.",
+     "A device/system overview describing the components and how they work together.",
+     "For legacy products: an IVDD-to-IVDR gap analysis identifying what is newly required.",
+     "The Annex II/III technical-documentation checklists started.",
+     "Gaps flagged as work items feeding the rest of the technical file."
+    ],
+    "evolveDetail": [
+     "Annex II/III technical-documentation checklists completed.",
+     "The GSPR index kept synchronised as documents and standards change.",
+     "Common specifications tracked and reflected in the checklist."
+    ]
    },
    "subs": [
     {
@@ -7710,7 +8234,20 @@
    ],
    "lean": {
     "start": "A technical file assembled to Annex II/III with a completeness check and a DoC drawn from it.",
-    "evolve": "A living, indexed technical file kept synchronised with every document change."
+    "evolve": "A living, indexed technical file kept synchronised with every document change.",
+    "startDetail": [
+     "The technical documentation assembled to Annex II/III from all the upstream evidence.",
+     "A completeness check against the technical-documentation checklist — no gaps.",
+     "The GSPR checklist linked from each requirement to the evidence in the file.",
+     "The EU Declaration of Conformity drawn up, referencing the applied route and standards.",
+     "An index so a reviewer (and you) can navigate the file quickly.",
+     "The file placed under change control so it stays coherent after launch."
+    ],
+    "evolveDetail": [
+     "The file re-synchronised automatically as documents change versions.",
+     "A reviewer-ready index with cross-references throughout.",
+     "Per-market technical-file variants managed from one core."
+    ]
    },
    "subs": [
     {
@@ -7885,7 +8422,20 @@
    ],
    "lean": {
     "start": "A well-organised submission and fast, honest responses to the reviewer.",
-    "evolve": "Build an ongoing relationship with your Notified Body and a smooth surveillance-audit rhythm."
+    "evolve": "Build an ongoing relationship with your Notified Body and a smooth surveillance-audit rhythm.",
+    "startDetail": [
+     "The QMS documentation and technical documentation submitted in the NB's required structure.",
+     "A readiness self-check against the NB's Stage-1 expectations before you submit.",
+     "The documentation review hosted, with the right people available to answer.",
+     "Nonconformities and observations logged, with root cause and correction.",
+     "Findings closed with evidence, ahead of Stage 2.",
+     "A single point of contact managing the NB relationship."
+    ],
+    "evolveDetail": [
+     "A steady NB relationship with predictable communication.",
+     "A smooth surveillance-audit rhythm year on year.",
+     "Pre-submission alignment on significant changes."
+    ]
    },
    "subs": [
     {
@@ -8110,7 +8660,20 @@
    ],
    "lean": {
     "start": "Demonstrate the real, everyday system honestly and close findings promptly to earn the certificate.",
-    "evolve": "Settle into a sustained operate-and-maintain rhythm: PMS, vigilance, surveillance audits and recertification."
+    "evolve": "Settle into a sustained operate-and-maintain rhythm: PMS, vigilance, surveillance audits and recertification.",
+    "startDetail": [
+     "The QMS demonstrated in operation on site — records, not just procedures.",
+     "The technical documentation defended against the reviewer's questions.",
+     "Nonconformities closed with corrections and, where needed, CAPA.",
+     "The certificate obtained and the Declaration of Conformity finalised.",
+     "CE marking affixed per the applied route.",
+     "Transition into operate-and-maintain: PMS, vigilance and surveillance audits."
+    ],
+    "evolveDetail": [
+     "A sustained operate-and-maintain cadence across the QMS.",
+     "Surveillance audits passed with minimal findings.",
+     "Recertification planned well ahead of certificate expiry."
+    ]
    },
    "subs": [
     {
@@ -8341,8 +8904,21 @@
     "Don't sign the Declaration of Conformity until the evidence genuinely supports it. It's a legal statement with real liability, not a formality to rush at the end."
    ],
    "lean": {
-    "start": "The Annex II/III structure populated, with your GSPR checklist linked to evidence. Organised beats exhaustive.",
-    "evolve": "Deepen the evidence, add manufacturing detail, and keep the file live through change control after launch."
+    "start": "Conformity demonstrated, the EU Declaration of Conformity signed, CE marking affixed, and registration ready.",
+    "evolve": "Deepen the evidence, add manufacturing detail, and keep the file live through change control after launch.",
+    "startDetail": [
+     "Conformity assessment completed for the device's class (self-declared, or NB certificate in hand).",
+     "The EU Declaration of Conformity signed, listing the device, the route and the standards applied.",
+     "CE marking affixed correctly, with the Notified Body number where a NB is involved.",
+     "Manufacturer, device and UDI registration in EUDAMED prepared/submitted.",
+     "Authorised-representative and importer/distributor obligations covered.",
+     "Post-market obligations (PMS, vigilance) switched on at launch."
+    ],
+    "evolveDetail": [
+     "Evidence and manufacturing detail deepened for surveillance audits.",
+     "Multi-market placement with the right per-market registrations.",
+     "The technical file kept live through change control after launch."
+    ]
    },
    "subs": [
     {
@@ -8503,7 +9079,7 @@
    "qse": "Process Management",
    "statement": "Place the IVD on the market under IVDR.",
    "why": "Placing on the market is the final regulatory gate: with the technical documentation complete, the Notified Body certificate (class B/C/D) in hand, the Declaration of Conformity signed and the CE mark affixed, you register the device and actors in EUDAMED and place it on the EU market. It also activates the ongoing obligations - PMS, PMPF, vigilance - so it is a start, not an end.",
-   "what": "Complete IVDR market placement: confirm certification and DoC, affix CE marking, register the device/UDI and manufacturer in EUDAMED, and activate the post-market obligations.",
+   "what": "Complete IVDR market placement: confirm the Notified Body certificate (class B/C/D) and sign the EU Declaration of Conformity, affix CE marking, register the manufacturer, device and UDI in EUDAMED, appoint the authorised representative where needed, and switch on the post-market obligations (PMS, PMPF, vigilance).",
    "how": "1. Compile the technical file (Annex II/III); confirm classification & GSPR.\n2. Issue the DoC; assign UDI & register (LBL); release.",
    "who": "Regulatory Affairs Lead",
    "documents": "TEF-SOP-03",
@@ -8556,7 +9132,20 @@
    ],
    "lean": {
     "start": "Certification and DoC confirmed, CE affixed, and EUDAMED/UDI registration complete.",
-    "evolve": "Multi-market placement with actor registrations and post-market obligations fully operational."
+    "evolve": "Multi-market placement with actor registrations and post-market obligations fully operational.",
+    "startDetail": [
+     "The NB certificate confirmed (class B/C/D), or self-declaration completed (class A non-sterile).",
+     "The EU Declaration of Conformity signed for the IVD.",
+     "CE marking affixed correctly, with the NB number where applicable.",
+     "Manufacturer, device and UDI registered in EUDAMED.",
+     "Authorised-representative / importer obligations covered.",
+     "Post-market obligations (PMS, PMPF, vigilance) activated at launch."
+    ],
+    "evolveDetail": [
+     "Multi-market placement with per-market actor registrations.",
+     "For class D: EU reference-lab and batch-verification steps operational.",
+     "Post-market performance follow-up fully running."
+    ]
    },
    "subs": [
     {
@@ -8682,7 +9271,20 @@
    ],
    "lean": {
     "start": "Route determined, the appropriate submission cleared/approved, and establishment registration + listing done.",
-    "evolve": "US post-market (MDR reporting, recalls) operational alongside EU obligations."
+    "evolve": "US post-market (MDR reporting, recalls) operational alongside EU obligations.",
+    "startDetail": [
+     "The FDA route determined: 510(k), De Novo or PMA (or exempt).",
+     "The submission prepared and cleared/approved, with a predicate for 510(k) where used.",
+     "Establishment registration and device listing completed (21 CFR 807).",
+     "The QMSR (21 CFR 820, harmonised with ISO 13485) operating.",
+     "UDI assigned and submitted to GUDID.",
+     "A US agent appointed where the manufacturer is outside the US."
+    ],
+    "evolveDetail": [
+     "US MDR adverse-event reporting operational.",
+     "Corrections & removals (recall) process running.",
+     "Global vigilance harmonised across US and EU obligations."
+    ]
    },
    "subs": [
     {
@@ -8809,8 +9411,20 @@
     "Decide eIFU eligibility policy at process level, not per device."
    ],
    "lean": {
-    "start": "A labeling SOP, a UDI assignment approach and an ISO 15223-1 symbol library.",
-    "evolve": "Full UDI lifecycle management and translation/eIFU processes across the portfolio."
+    "start": "A labelling SOP, a UDI assignment approach and an ISO 15223-1 symbol library.",
+    "evolve": "Full UDI lifecycle management and translation/eIFU processes across the portfolio.",
+    "startDetail": [
+     "A labelling SOP defining how labels, IFUs and packaging text are drafted, reviewed and approved.",
+     "A UDI assignment approach: issuing agency chosen, UDI-DI/PI structure, and where the carrier is placed.",
+     "An ISO 15223-1 symbol library so the same approved symbols are reused consistently.",
+     "The mandatory label content per MDR/IVDR Annex I checked off (manufacturer, UDI, warnings, etc.).",
+     "A review step confirming label claims match the intended purpose and the technical file."
+    ],
+    "evolveDetail": [
+     "UDI lifecycle management with EUDAMED submission and change tracking.",
+     "Controlled translation and electronic-IFU (eIFU) processes per market.",
+     "A portfolio-wide label/symbol change-control process."
+    ]
    },
    "subs": [
     {
@@ -8945,7 +9559,20 @@
    ],
    "lean": {
     "start": "A compliant label with symbols and UDI carrier, an assigned UDI, and an IFU matching the intended purpose.",
-    "evolve": "Full identifier management for EUDAMED, translations, and eIFU where permitted."
+    "evolve": "Full identifier management for EUDAMED, translations, and eIFU where permitted.",
+    "startDetail": [
+     "The label and UDI-carrier layout produced to Annex I Chapter III.",
+     "UDI-DI/PI assigned and recorded against the device.",
+     "Where GS1 is your issuing agency, the Data Matrix / GTIN applied for the UDI carrier.",
+     "ISO 15223-1 symbols used for information-for-safety.",
+     "An IFU (paper or eIFU where permitted) matching the intended purpose and claims.",
+     "The label/IFU reviewed against the technical file and the risk-derived warnings."
+    ],
+    "evolveDetail": [
+     "Full UDI/identifier management synced to EUDAMED.",
+     "Controlled translations per target market.",
+     "An eIFU platform where the device and market permit it."
+    ]
    },
    "subs": [
     {
@@ -9133,7 +9760,20 @@
    ],
    "lean": {
     "start": "A PMS plan and a simple log of complaints, field data and literature, reviewed on a schedule.",
-    "evolve": "Add proactive surveys, registries, structured PSURs and PMCF/PMPF studies as the device spends longer in the field."
+    "evolve": "Add proactive surveys, registries, structured PSURs and PMCF/PMPF studies as the device spends longer in the field.",
+    "startDetail": [
+     "A PMS plan naming the data sources, the review cadence, and the reactive/proactive methods.",
+     "A single log collecting complaints, field data, returns and relevant literature.",
+     "A trend-analysis step to spot signals, not just record events.",
+     "A PMS report / PSUR template scaled to the device class and its update cycle.",
+     "Defined outputs that flow into vigilance, the risk file, the CER/PER and CAPA.",
+     "The PMCF/PMPF link so proactive follow-up is planned, not bolted on."
+    ],
+    "evolveDetail": [
+     "Proactive surveys and registry participation for real-world evidence.",
+     "Structured PSURs on the regulatory cycle with authority/NB review.",
+     "Formal PMCF/PMPF studies feeding the clinical/performance evaluation."
+    ]
    },
    "subs": [
     {
@@ -9357,7 +9997,20 @@
    ],
    "lean": {
     "start": "A PMS plan-driven review of complaints and literature with a PMS report / PSUR at the required frequency.",
-    "evolve": "Systematic multi-source surveillance with trend analysis feeding CER, risk and CAPA."
+    "evolve": "Systematic multi-source surveillance with trend analysis feeding CER, risk and CAPA.",
+    "startDetail": [
+     "Data gathered per the PMS plan: complaints, vigilance, returns, literature and market data.",
+     "The data analysed for safety and performance signals, not just filed.",
+     "Conclusions drawn and recorded on whether safety and performance still hold.",
+     "A PMS report or PSUR produced at the class-driven frequency.",
+     "Outputs fed into the CER/PER, the risk file and CAPA.",
+     "Signals escalated into vigilance where a serious incident emerges."
+    ],
+    "evolveDetail": [
+     "Multi-source surveillance (registries, real-world data) systematised.",
+     "Statistical trend analysis with defined signal thresholds.",
+     "A closed-loop feed into CER/PER, risk and CAPA."
+    ]
    },
    "subs": [
     {
@@ -9444,7 +10097,7 @@
    "qse": "Customer Focus",
    "statement": "Post-market surveillance (IVD variant)",
    "why": "Once your IVD is in use, real-world performance can differ from the lab. Post-market surveillance and performance follow-up (PMPF) catch drift, misuse and rare failures and feed them back into your evidence and risk file - an IVDR legal duty.",
-   "what": "Stand up IVD post-market surveillance and PMPF: collect field performance data on a plan, analyse it, and update the performance evaluation and risk file.",
+   "what": "Stand up IVD post-market surveillance and post-market performance follow-up (PMPF): collect real-world performance data (field results, complaints, external QA / proficiency data, literature) to a plan, analyse it for performance drift or new failure modes, and feed the findings back into the performance evaluation, the risk file and CAPA.",
    "how": "",
    "who": "RA / Quality",
    "documents": "PMS-SOP-02; PMS-TPL-05; PMS-TPL-06; PMS-TPL-07",
@@ -9505,7 +10158,19 @@
    ],
    "lean": {
     "start": "A PMPF plan and a simple log of field performance and complaints, reviewed on schedule and fed back.",
-    "evolve": "Add registries, proactive performance studies and structured periodic reports as the install base grows."
+    "evolve": "Add registries, proactive performance studies and structured periodic reports as the install base grows.",
+    "startDetail": [
+     "A PMPF plan defining what performance data is collected and how often it is reviewed.",
+     "A log capturing field performance signals, complaints and external QA/proficiency results.",
+     "Analysis for performance drift, new interferences or population shifts.",
+     "Findings fed back into the performance evaluation (PER) and the IVD risk file.",
+     "A trigger from adverse signals into vigilance and CAPA."
+    ],
+    "evolveDetail": [
+     "Registry participation and proactive performance studies.",
+     "Structured periodic performance reports on a defined cycle.",
+     "Lot-performance monitoring across the growing install base."
+    ]
    },
    "subs": [
     {
@@ -9686,7 +10351,20 @@
    ],
    "lean": {
     "start": "A PMCF plan with at least one proactive activity tied to a residual uncertainty, and a schedule.",
-    "evolve": "A programme of registries/studies generating continuous clinical data for the CER."
+    "evolve": "A programme of registries/studies generating continuous clinical data for the CER.",
+    "startDetail": [
+     "The residual uncertainties and open claims that PMCF must address, listed.",
+     "At least one proactive activity per uncertainty (survey, registry, study, structured literature).",
+     "Objectives for each activity tied back to those uncertainties and claims.",
+     "Methods and a schedule per MDCG 2020-7.",
+     "The feed defined into the PMCF report, CER and PSUR.",
+     "Success/stopping criteria so each activity has a defined endpoint."
+    ],
+    "evolveDetail": [
+     "A registry/study programme producing continuous clinical data.",
+     "PMCF objectives revised as evidence and claims evolve.",
+     "Integration with PMS so signals shape the PMCF programme."
+    ]
    },
    "subs": [
     {
@@ -9823,7 +10501,20 @@
    ],
    "lean": {
     "start": "A PMCF plan with at least one proactive activity, and a report feeding the CER and PSUR.",
-    "evolve": "Registries / studies generating ongoing clinical data that continuously refines the benefit-risk."
+    "evolve": "Registries / studies generating ongoing clinical data that continuously refines the benefit-risk.",
+    "startDetail": [
+     "The PMCF plan executed and the clinical data collected (registries, surveys, studies, literature).",
+     "Data analysed against the plan's objectives — did it close the uncertainties?",
+     "The benefit-risk and clinical claims updated from what PMCF found.",
+     "The PMCF evaluation report written and fed into the CER and PSUR.",
+     "New findings routed into the risk file and, where needed, CAPA/field action.",
+     "The next PMCF cycle's objectives refined from the results."
+    ],
+    "evolveDetail": [
+     "Ongoing registries/studies feeding each evaluation cycle.",
+     "Continuous benefit-risk refinement from accumulating data.",
+     "Claims and labelling updated as evidence matures."
+    ]
    },
    "subs": [
     {
@@ -9954,7 +10645,20 @@
    ],
    "lean": {
     "start": "A vigilance SOP with the reportability decision and the deadline clocks, plus the report forms.",
-    "evolve": "Trend/periodic reporting and FSCA management integrated with PMS and risk."
+    "evolve": "Trend/periodic reporting and FSCA management integrated with PMS and risk.",
+    "startDetail": [
+     "A vigilance SOP: how a potential serious incident is captured and triaged.",
+     "A reportability decision aid distinguishing reportable serious incidents from non-reportable events.",
+     "The reporting deadline clocks understood (immediate / 2 / 10 / 15-day) and how they start.",
+     "The manufacturer incident report (MIR) form and the route (EUDAMED where available).",
+     "The field-safety-corrective-action (FSCA) and field-safety-notice (FSN) process.",
+     "The links into PMS, the risk file and CAPA."
+    ],
+    "evolveDetail": [
+     "Trend and periodic summary reporting to authorities.",
+     "A managed FSCA/recall process with effectiveness checks.",
+     "Vigilance fully integrated with PMS signal detection and the risk file."
+    ]
    },
    "subs": [
     {
@@ -10028,7 +10732,7 @@
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Incident reporting & recall (US FDA)",
    "why": "Once on the US market you must report serious adverse events (MDR, 21 CFR 803) on the clock and manage corrections and removals (recalls, 21 CFR 806). Miss a reporting deadline and you have a regulatory violation, regardless of the underlying event.",
-   "what": "Establish US adverse-event reporting and field-action management: assess reportability, file MDRs on time, and run corrections/removals with FDA notification.",
+   "what": "Establish US adverse-event reporting and field-action management under 21 CFR 803/806: assess each event for reportability, file Medical Device Reports (MDRs, via eMDR) within the deadlines, and run corrections and removals (recalls) with FDA notification where required — feeding the risk file and CAPA.",
    "how": "",
    "who": "RA Manager",
    "documents": "VIG-SOP-01; VIG-FOR-01",
@@ -10098,7 +10802,20 @@
    ],
    "lean": {
     "start": "A reportability decision aid, a tracked MDR log, and a simple field-action procedure.",
-    "evolve": "Add eMDR automation, trend-based signal detection and integrated global vigilance as volume grows."
+    "evolve": "Add eMDR automation, trend-based signal detection and integrated global vigilance as volume grows.",
+    "startDetail": [
+     "A reportability decision aid for 21 CFR 803 (death / serious injury / malfunction).",
+     "An MDR log tracking each report and its deadline (30-day / 5-day).",
+     "The eMDR submission route set up with FDA.",
+     "A corrections-and-removals (recall) procedure with the 21 CFR 806 notification trigger.",
+     "The link from events into the risk file and CAPA.",
+     "Complaint intake wired so US-reportable events are caught."
+    ],
+    "evolveDetail": [
+     "eMDR automation reducing manual filing effort.",
+     "Trend-based signal detection across the complaint base.",
+     "Integrated global vigilance harmonising US and EU reporting."
+    ]
    },
    "subs": [
     {
@@ -10332,8 +11049,21 @@
     "Even pre-market, set the reporting criteria now. Manufacturers get into serious trouble for LATE vigilance reports far more often than for the underlying issue."
    ],
    "lean": {
-    "start": "One inbox/log for complaints, and a simple quarantine area plus a form for nonconforming product.",
-    "evolve": "Add triage workflows, trend analysis, reportability decision trees and integration with vigilance as volume grows."
+    "start": "One inbox/log for complaints with a reportability check and a route into CAPA.",
+    "evolve": "Add triage workflows, trend analysis, reportability decision trees and integration with vigilance as volume grows.",
+    "startDetail": [
+     "A single complaint intake channel and log — every complaint captured, none lost in inboxes.",
+     "A definition of what counts as a complaint (vs feedback / queries) so triage is consistent.",
+     "An evaluation step: investigate, contain, and disposition each complaint.",
+     "A reportability check linking serious-incident complaints to vigilance and its deadlines.",
+     "A route from complaints into CAPA and trend analysis.",
+     "Acknowledgement and closure back to the complainant where appropriate."
+    ],
+    "evolveDetail": [
+     "Triage workflows and SLAs as complaint volume grows.",
+     "Trend analysis across complaints to surface systemic issues.",
+     "Reportability decision trees integrated with the vigilance system."
+    ]
    },
    "subs": [
     {
@@ -10578,7 +11308,20 @@
    ],
    "lean": {
     "start": "One CAPA log with root-cause and an effectiveness check. Reserve CAPA for systemic issues; fix small things on the spot.",
-    "evolve": "Add trend analysis, formal root-cause methods and integrated security-incident/breach workflows as volume grows."
+    "evolve": "Add trend analysis, formal root-cause methods and integrated security-incident/breach workflows as volume grows.",
+    "startDetail": [
+     "A single CAPA log with intake from complaints, nonconformities, audits and trends.",
+     "An investigation and root-cause step — not jumping straight to a fix.",
+     "Corrective and, where warranted, preventive actions with owners and due dates.",
+     "An effectiveness check that confirms the action actually worked before closing.",
+     "A threshold so CAPA is reserved for systemic issues, with on-the-spot correction for one-offs.",
+     "Basic security-incident and GDPR-breach handling (72-hour clock) wired in."
+    ],
+    "evolveDetail": [
+     "Trend analysis feeding preventive actions proactively.",
+     "Formal root-cause methods (5-whys, fishbone, fault tree) applied consistently.",
+     "Integrated security-incident and breach workflows with defined escalation."
+    ]
    },
    "subs": [
     {
@@ -10802,7 +11545,20 @@
    ],
    "lean": {
     "start": "A running CAPA log with root-cause investigation and effectiveness checks on the significant issues.",
-    "evolve": "Trend-driven preventive action and CAPA metrics governed through management review."
+    "evolve": "Trend-driven preventive action and CAPA metrics governed through management review.",
+    "startDetail": [
+     "CAPA inputs triaged as they arrive (complaints, nonconformities, audit findings, trends).",
+     "Root-cause investigation driven on the significant issues, not just symptom fixes.",
+     "Corrective and preventive actions taken, with owners and due dates tracked to closure.",
+     "Effectiveness checks confirming each action worked before the CAPA is closed.",
+     "CAPA metrics (open/overdue, recurrence, time-to-close) reported into management review.",
+     "A shift over time from reactive fixes toward trend-driven prevention."
+    ],
+    "evolveDetail": [
+     "Proactive preventive actions triggered by trends before failures occur.",
+     "CAPA KPIs trended and governed at management review.",
+     "Cross-linking of CAPA with risk, PMS and supplier data."
+    ]
    },
    "subs": [
     {
@@ -10995,7 +11751,20 @@
    ],
    "lean": {
     "start": "A single change-request log with an impact check before each change.",
-    "evolve": "Add formal change boards, significant-change assessment workflows and configuration baselines as the device and team grow."
+    "evolve": "Add formal change boards, significant-change assessment workflows and configuration baselines as the device and team grow.",
+    "startDetail": [
+     "A change-request log capturing what is proposed and why.",
+     "An impact assessment before approval: effect on safety, performance, regulatory status and validation.",
+     "A significant-change assessment — does this change the regulatory route or need NB notification?",
+     "Review and approval by the right roles before implementation.",
+     "Implementation with verification that the change did what was intended.",
+     "Configuration management so document/software versions stay coherent."
+    ],
+    "evolveDetail": [
+     "A change control board with defined membership for higher-impact changes.",
+     "Structured significant-change / substantial-modification workflows.",
+     "Configuration baselines and release management across products."
+    ]
    },
    "subs": [
     {
@@ -11266,8 +12035,21 @@
     "Even pre-market, set the reporting criteria now. Manufacturers get into serious trouble for LATE vigilance reports far more often than for the underlying issue."
    ],
    "lean": {
-    "start": "One inbox/log for complaints, and a simple quarantine area plus a form for nonconforming product.",
-    "evolve": "Add triage workflows, trend analysis, reportability decision trees and integration with vigilance as volume grows."
+    "start": "A quarantine area and a nonconforming-product form, so suspect product can't be used by mistake.",
+    "evolve": "Add trend analysis, formal disposition boards and links to supplier and production controls as volume grows.",
+    "startDetail": [
+     "A clear definition of nonconformity: product or material that fails to meet requirements.",
+     "A physical or system quarantine so nonconforming product is segregated and can't be used.",
+     "A nonconformity record capturing what, where and how much.",
+     "A disposition decision: rework, repair, use-as-is (justified), scrap or return.",
+     "Escalation into CAPA when the nonconformity points to a systemic cause.",
+     "A concession/authorisation step, with sign-off, where use-as-is is proposed."
+    ],
+    "evolveDetail": [
+     "Trend analysis across nonconformities to find recurring causes.",
+     "A material-review board for disposition decisions.",
+     "Links from nonconformities back into supplier control and production."
+    ]
    },
    "subs": [
     {
@@ -11552,8 +12334,21 @@
     "Resist 'certify first, build later'. The certificate is the by-product of a system that genuinely runs - fake it and the Stage 2 audit will find out."
    ],
    "lean": {
-    "start": "A short kick-off note recording leadership's commitment, a named QMR, and a simple timeline. Commitment can be one page.",
-    "evolve": "Formalise management responsibilities, add a resource plan and a regular leadership review cadence as the organisation grows."
+    "start": "A short kick-off note recording leadership's commitment, a named QMR, a one-line quality policy and a simple timeline. Commitment can be one page.",
+    "evolve": "Formalise management responsibilities, add a resource plan and a regular leadership-review cadence as the organisation grows.",
+    "startDetail": [
+     "A one-page management-commitment note signed by top management, committing resources to the QMS.",
+     "A named Management Representative (QMR) with written authority over the QMS.",
+     "A short quality policy (a few sentences) and 3–5 measurable quality objectives.",
+     "A quality-manual stub: the QMS scope, any excluded/non-applicable clauses, and the process-map reference.",
+     "A shared implementation timeline agreed with the team (the four-phase roadmap in a tracker).",
+     "The team having read the implementation handbook so everyone shares the same mental model."
+    ],
+    "evolveDetail": [
+     "A responsibility/authority matrix across all QMS roles.",
+     "A resource plan tied to the objectives and a scheduled management-review cadence.",
+     "Objectives tracked with KPIs and reviewed at each management review."
+    ]
    },
    "subs": [
     {
@@ -12081,8 +12876,21 @@
     "Don't let it become an annual panic. A standing agenda and data you already collect makes the review a 90-minute routine, not a week of scrambling."
    ],
    "lean": {
-    "start": "A short, data-driven review meeting with minutes and actions - quarterly is fine to start.",
-    "evolve": "Add richer dashboards, KPI trending and structured input packs as the system grows."
+    "start": "A short, data-driven review meeting with minutes and actions — quarterly is fine to start.",
+    "evolve": "Add richer dashboards, KPI trending and structured input packs as the system grows.",
+    "startDetail": [
+     "The management-review inputs defined (audits, complaints, CAPA, PMS, NC, objectives, changes, feedback).",
+     "Data collected and analysed on QMS and product performance ahead of the meeting.",
+     "The review held at planned intervals with the right attendees, including top management.",
+     "Minutes recording decisions on the suitability, adequacy and effectiveness of the QMS.",
+     "Outputs captured as actions: improvements, resource needs and changes, with owners.",
+     "Actions tracked to closure and revisited at the next review."
+    ],
+    "evolveDetail": [
+     "Live dashboards and KPI trending feeding the review.",
+     "A standard, structured input pack prepared each cycle.",
+     "Objective/target tracking with escalation on misses."
+    ]
    },
    "subs": [
     {
@@ -12351,7 +13159,20 @@
    ],
    "lean": {
     "start": "A simple annual audit plan and a checklist-based audit of each process, by someone not auditing their own work.",
-    "evolve": "Add risk-based scheduling, trained lead auditors and deeper sampling as the QMS matures."
+    "evolve": "Add risk-based scheduling, trained lead auditors and deeper sampling as the QMS matures.",
+    "startDetail": [
+     "An audit programme/schedule covering every process and applicable requirement over a cycle.",
+     "Independent auditors — no one audits their own work.",
+     "An audit procedure covering planning, conduct, reporting and follow-up.",
+     "Checklists per process so audits are consistent and evidence-based.",
+     "Findings classified and routed to correction and CAPA.",
+     "Follow-up that verifies findings are actually closed."
+    ],
+    "evolveDetail": [
+     "Risk-based scheduling so higher-risk processes are audited more often.",
+     "Trained/certified lead auditors and auditor-competence records.",
+     "Deeper sampling and process-based (vs clause-based) auditing."
+    ]
    },
    "subs": [
     {
@@ -12720,8 +13541,20 @@
     "Standards have transition periods. When a harmonised standard updates you usually have a window - track the deadline so you're not caught using a withdrawn version."
    ],
    "lean": {
-    "start": "A watch-list of your standards and regulations, scanned quarterly and logged in one place.",
-    "evolve": "Add formal impact assessments and horizon-scanning subscriptions as your markets expand."
+    "start": "A watch-list of your standards and regulations, a named PRRC/EU-rep, scanned quarterly and logged in one place.",
+    "evolve": "Add formal impact assessments and horizon-scanning subscriptions as your markets expand.",
+    "startDetail": [
+     "A watch-list of the regulations, harmonised standards and guidance that apply to your device and markets.",
+     "A named PRRC (Person Responsible for Regulatory Compliance) with the required qualification, and an EU/UK authorised representative where needed.",
+     "A quarterly scan routine with a single log of what changed and the assessed impact.",
+     "A medical-device-file index per device type so conformity evidence stays findable and current.",
+     "A link into change management so regulatory changes trigger controlled updates."
+    ],
+    "evolveDetail": [
+     "Formal, recorded impact assessments for each relevant change.",
+     "Standards/regulatory horizon-scanning subscriptions and alerts.",
+     "Per-market regulatory intelligence as you add geographies."
+    ]
    },
    "subs": [
     {
@@ -13037,7 +13870,20 @@
    ],
    "lean": {
     "start": "A shared drive split into 'Released' and 'Drafts', a one-page DOC-SOP-01, and the master templates. That is already a compliant document system.",
-    "evolve": "Add an eQMS, granular access roles, automated version control and formal periodic document reviews as your document count and team grow."
+    "evolve": "Add an eQMS, granular access roles, automated version control and formal periodic document reviews as your document count and team grow.",
+    "startDetail": [
+     "A naming scheme giving every document a unique ID, a type (SOP/WI/TPL/FOR…) and one named owner.",
+     "A controlled store that separates 'Released' from 'Drafts' and limits who can edit released files.",
+     "DOC-SOP-01 (Control of Documents & Records): review/approval before use, revision status, and withdrawal of obsolete versions.",
+     "Record-retention rules per record type — how long each is kept and where.",
+     "The master templates every future document is built from, so creating a controlled doc is a five-minute routine.",
+     "A document/register index so nothing is invisible to an auditor."
+    ],
+    "evolveDetail": [
+     "An eQMS with enforced review/approval workflows and audit trails.",
+     "Granular role-based access and automated version control.",
+     "Scheduled periodic document reviews so content doesn't silently age."
+    ]
    },
    "subs": [
     {
@@ -13453,7 +14299,19 @@
    ],
    "lean": {
     "start": "A current process map and an external-documents register listing the applicable standards/regulations.",
-    "evolve": "Change-monitoring on external documents feeding impact assessment and CAPA."
+    "evolve": "Change-monitoring on external documents feeding impact assessment and CAPA.",
+    "startDetail": [
+     "A process map showing the QMS processes and how they interact, matching how you really work.",
+     "An external-documents register listing the applicable standards, regulations and guidance (with versions).",
+     "A routine to flag when an external document changes.",
+     "The process map kept current as processes evolve, not left to drift.",
+     "A link from external-document changes into impact assessment and change control."
+    ],
+    "evolveDetail": [
+     "Active change-monitoring/subscriptions on your key standards and regulations.",
+     "Structured impact assessments when an external document changes.",
+     "Process-map versioning tied to the QMS change log."
+    ]
    },
    "subs": [
     {
@@ -13636,8 +14494,20 @@
     "For tiny teams, be honest about single points of failure. If only one person can do a critical task, that's a competence AND a business-continuity risk."
    ],
    "lean": {
-    "start": "A simple role/competence table and a folder holding CVs and training certificates.",
-    "evolve": "Add structured competence assessment, training-effectiveness checks and a formal training matrix as the team grows."
+    "start": "A simple role/competence table and a folder holding CVs and training certificates. That already meets ISO 13485 clause 6.2.",
+    "evolve": "Add structured competence assessment, training-effectiveness checks and a formal training matrix as the team grows.",
+    "startDetail": [
+     "A role-and-competence table: each QMS role and the education/training/skills/experience it requires.",
+     "Job descriptions for the quality-critical roles, including the PRRC where applicable.",
+     "A training-needs list mapping people to the procedures and skills they must be trained on.",
+     "A personnel/training record folder holding CVs, qualifications and dated training evidence.",
+     "A record of who has been trained on each released procedure — the start of your evidence trail."
+    ],
+    "evolveDetail": [
+     "A live training matrix linking roles → required training → status per person.",
+     "Competence assessment and training-effectiveness checks (not just attendance).",
+     "Onboarding and periodic re-training cycles tied to document changes."
+    ]
    },
    "subs": [
     {
@@ -13927,7 +14797,19 @@
    ],
    "lean": {
     "start": "A quick check that training worked and an up-to-date competence table.",
-    "evolve": "Add periodic re-assessment, development plans and succession cover as the team grows."
+    "evolve": "Add periodic re-assessment, development plans and succession cover as the team grows.",
+    "startDetail": [
+     "An effectiveness check on training already delivered (did competence actually improve?).",
+     "Competence reassessed against current role requirements, not just the original ones.",
+     "Gaps identified and addressed with targeted training or reassignment.",
+     "Awareness refreshed where procedures or risks have changed.",
+     "The training records and competence matrix brought fully up to date."
+    ],
+    "evolveDetail": [
+     "Periodic competence re-assessment on a defined cycle.",
+     "Individual development plans linked to role progression.",
+     "Succession/backup cover for critical roles (e.g. PRRC)."
+    ]
    },
    "subs": [
     {
@@ -14196,8 +15078,20 @@
     "Cloud / SaaS tools still need control - you can often leverage the vendor's evidence, but you must decide and document that, not just assume it."
    ],
    "lean": {
-    "start": "A spreadsheet of your equipment and software with owner and criticality.",
-    "evolve": "Add maintenance/calibration schedules, validation status and full asset-lifecycle tracking as operations scale."
+    "start": "A spreadsheet of your equipment and software with owner and criticality. The inventory is the prerequisite for maintenance and CSV.",
+    "evolve": "Add maintenance/calibration schedules, validation status and full asset-lifecycle tracking as operations scale.",
+    "startDetail": [
+     "An asset/system inventory: equipment, utilities, IT systems and QMS/production software.",
+     "For each entry: owner, purpose, and criticality to product quality or data integrity.",
+     "A flag for whether maintenance/calibration and/or validation (CSV) is required.",
+     "The work-environment conditions that affect product quality identified (e.g. cleanliness, ESD).",
+     "Basic backup and access arrangements for systems holding QMS records."
+    ],
+    "evolveDetail": [
+     "Scheduled maintenance and calibration with due-date tracking.",
+     "Recorded validation status (CSV) against each computerised system.",
+     "Full asset-lifecycle management from acquisition to retirement."
+    ]
    },
    "subs": [
     {
@@ -14467,8 +15361,21 @@
     "Software updates can silently invalidate your validation. Have a change-control trigger so a vendor's auto-update doesn't quietly break a validated state."
    ],
    "lean": {
-    "start": "Validate only the systems that affect product quality or data, to a depth matched to their risk - leverage vendor evidence.",
-    "evolve": "Add periodic revalidation, audit trails and Part 11 controls as your computerised systems multiply."
+    "start": "Validate only the systems that affect product quality or data, to a depth matched to their risk — leverage vendor evidence.",
+    "evolve": "Add periodic revalidation, audit trails and Part 11 controls as your computerised systems multiply.",
+    "startDetail": [
+     "The systems from the inventory that affect product quality or data integrity identified as in-scope.",
+     "A risk-based validation plan: more rigour for higher-impact systems, less for low-risk.",
+     "Per-system intended-use and requirements captured as the basis for testing.",
+     "Installation / operational / performance testing (IQ/OQ/PQ) or an equivalent, leveraging vendor evidence.",
+     "Data-integrity (ALCOA+) and, where applicable, Part 11 controls checked.",
+     "Change control so validated systems stay validated."
+    ],
+    "evolveDetail": [
+     "Periodic revalidation on a risk-based schedule.",
+     "Audit trails and access controls hardened across systems.",
+     "Full Part 11 / Annex 11 compliance where records are regulated."
+    ]
    },
    "subs": [
     {
@@ -14708,7 +15615,19 @@
    ],
    "lean": {
     "start": "A spreadsheet of the few instruments that affect product, with due dates, plus their calibration certificates in a folder.",
-    "evolve": "Add calibration-management software, automated due-date alerts and in-house calibration capability as the equipment base grows."
+    "evolve": "Add calibration-management software, automated due-date alerts and in-house calibration capability as the equipment base grows.",
+    "startDetail": [
+     "A list of the measuring/monitoring equipment that affects product conformity.",
+     "Calibration against traceable reference standards on a defined schedule.",
+     "Due-date tracking so nothing drifts out of calibration unnoticed.",
+     "A rule for out-of-calibration findings: assess product measured since the last good calibration.",
+     "Calibration certificates and records retained and findable."
+    ],
+    "evolveDetail": [
+     "Calibration-management software with automated due-date alerts.",
+     "In-house calibration capability with its own traceability.",
+     "Measurement-systems analysis for critical measurements."
+    ]
    },
    "subs": [
     {
@@ -14942,7 +15861,20 @@
    ],
    "lean": {
     "start": "An approved-supplier list and a simple evaluation for your critical suppliers only.",
-    "evolve": "Add quality agreements, scorecards and on-site audits for critical suppliers as the supply chain grows."
+    "evolve": "Add quality agreements, scorecards and on-site audits for critical suppliers as the supply chain grows.",
+    "startDetail": [
+     "Criteria for evaluating and selecting suppliers, weighted to the risk each supplier carries.",
+     "An approved-supplier list — the controlled record of who you may buy from.",
+     "A first evaluation of the critical suppliers only (don't boil the ocean).",
+     "Defined purchasing information so suppliers know the exact requirements.",
+     "Verification of purchased product (incoming inspection or evidence review).",
+     "Quality / technical agreements for the critical suppliers, and a basis for ongoing monitoring."
+    ],
+    "evolveDetail": [
+     "Quality/technical agreements extended across critical suppliers.",
+     "Supplier scorecards and periodic performance review.",
+     "On-site supplier audits for the highest-risk suppliers."
+    ]
    },
    "subs": [
     {
@@ -15189,7 +16121,19 @@
    ],
    "lean": {
     "start": "A simple performance check on your critical suppliers and re-approval when they change.",
-    "evolve": "Add scorecards, scheduled re-audits and supplier-development programmes as the supply base grows."
+    "evolve": "Add scorecards, scheduled re-audits and supplier-development programmes as the supply base grows.",
+    "startDetail": [
+     "Supplier performance monitored against agreed metrics (quality, delivery, responsiveness).",
+     "Periodic re-evaluation or re-audit on a risk basis — critical suppliers more often.",
+     "Supplier changes and nonconformities managed and recorded.",
+     "Supplier status on the approved list updated from what surveillance shows.",
+     "A trigger to CAPA / re-qualification when a supplier's performance drops."
+    ],
+    "evolveDetail": [
+     "Supplier scorecards with quantified performance trends.",
+     "Scheduled re-audits driven by risk and performance.",
+     "Supplier-development programmes for strategic suppliers."
+    ]
    },
    "subs": [
     {
@@ -15410,7 +16354,19 @@
    ],
    "lean": {
     "start": "A simple order/contract review to confirm you can deliver, plus one channel for customer feedback.",
-    "evolve": "Add tender processes, advisory-notice workflows and structured aftermarket support as sales grow."
+    "evolve": "Add tender processes, advisory-notice workflows and structured aftermarket support as sales grow.",
+    "startDetail": [
+     "An order/contract review confirming product, regulatory and customer requirements can be met before acceptance.",
+     "A tender-review step where you bid, so commitments aren't made you can't meet.",
+     "A controlled customer-communication channel (enquiries, advisory notices, feedback).",
+     "A single feedback channel that routes into complaints, PMS and CAPA.",
+     "Aftermarket-support expectations defined for the customer."
+    ],
+    "evolveDetail": [
+     "Formal tender / bid processes with requirement traceability.",
+     "Advisory-notice and FSN customer-communication workflows.",
+     "Structured aftermarket support with SLAs and feedback analysis."
+    ]
    },
    "subs": [
     {
@@ -15592,7 +16548,19 @@
    ],
    "lean": {
     "start": "A servicing SOP with requirements and records, and a path from support into complaints/PMS.",
-    "evolve": "Analysed service data driving design improvements and preventive action."
+    "evolve": "Analysed service data driving design improvements and preventive action.",
+    "startDetail": [
+     "Service requirements and instructions defined for the device.",
+     "Competent servicing performed, with service records kept.",
+     "A feedback path routing support/service findings into complaints, PMS and risk.",
+     "A way to tell a complaint apart from routine service, so reportable events aren't missed.",
+     "Spare-parts / configuration control where servicing changes the device."
+    ],
+    "evolveDetail": [
+     "Service data analysed for recurring failures feeding design improvement.",
+     "Preventive-maintenance programmes where applicable.",
+     "Field-service performance metrics and trend review."
+    ]
    },
    "subs": [
     {
@@ -15781,8 +16749,21 @@
     "Don't bolt security on at the end. Threat-model during design - retrofitting security into a finished product is far more expensive and far less effective."
    ],
    "lean": {
-    "start": "A short security policy, a basic risk assessment, and an SBOM - a lean ISMS scoped to what matters.",
-    "evolve": "Add the full Statement of Applicability, threat-modelling depth and certification (ISO 27001 / SOC 2) as you scale."
+    "start": "A short security policy, a basic risk assessment, and an SBOM — a lean ISMS scoped to what matters.",
+    "evolve": "Add the full Statement of Applicability, threat-modelling depth and certification (ISO 27001 / SOC 2) as you scale.",
+    "startDetail": [
+     "An ISMS scope and a short information-security policy.",
+     "A basic information-security risk assessment over your key assets and data.",
+     "A Statement of Applicability listing the controls you apply (and why others don't).",
+     "Access control, backups and the other foundational controls in place.",
+     "An SBOM and the start of product-security activities (threat modelling, secure design).",
+     "The link into design controls and risk management so security risks reach the risk file."
+    ],
+    "evolveDetail": [
+     "A complete, maintained Statement of Applicability.",
+     "Deeper threat modelling and secure-development verification.",
+     "External certification (ISO 27001 / SOC 2) as customers demand it."
+    ]
    },
    "subs": [
     {
@@ -16011,7 +16992,20 @@
    ],
    "lean": {
     "start": "An SBOM, a threat model with controls, and a basic security risk assessment plus a disclosure route.",
-    "evolve": "Full security risk management, penetration testing and a mature CVD process feeding post-market surveillance."
+    "evolve": "Full security risk management, penetration testing and a mature CVD process feeding post-market surveillance.",
+    "startDetail": [
+     "An SBOM / SOUP list of the components in the product.",
+     "A threat model identifying the attack surface and the controls that mitigate it.",
+     "A security risk assessment feeding into the safety risk file.",
+     "Security testing appropriate to the product (at least basic penetration testing).",
+     "A coordinated vulnerability-disclosure route so researchers can report safely.",
+     "Secure-design requirements captured as design inputs."
+    ],
+    "evolveDetail": [
+     "Full product-security risk management integrated with safety risk.",
+     "Regular penetration testing and vulnerability management.",
+     "A mature coordinated-vulnerability-disclosure process feeding PMS and patching."
+    ]
    },
    "subs": [
     {
@@ -16145,7 +17139,20 @@
    ],
    "lean": {
     "start": "A surveillance plan monitoring the SBOM for new vulnerabilities and a route to patch under change control.",
-    "evolve": "A mature PSIRT with coordinated disclosure, exploitability triage and safety-linked patch governance."
+    "evolve": "A mature PSIRT with coordinated disclosure, exploitability triage and safety-linked patch governance.",
+    "startDetail": [
+     "A security-surveillance plan: the threat-intelligence and vulnerability feeds you watch.",
+     "New vulnerabilities matched against the SBOM to see what actually affects your product.",
+     "Exploitability assessed and prioritised — not every CVE is urgent.",
+     "A coordinated vulnerability-disclosure route kept open for external reporters.",
+     "Security updates deployed under change control, with regression/verification.",
+     "Safety-relevant vulnerabilities fed into risk and, where needed, vigilance."
+    ],
+    "evolveDetail": [
+     "A product security incident response team (PSIRT) with defined SLAs.",
+     "Automated SBOM-to-CVE matching and exploitability triage.",
+     "Safety-linked patch governance tying security fixes to risk and vigilance."
+    ]
    },
    "subs": [
     {
@@ -16335,7 +17342,19 @@
    ],
    "lean": {
     "start": "A list of the personal data you hold, basic access control and backups, and a short staff awareness session.",
-    "evolve": "Build the full records of processing, DPIAs, processor agreements and a full ISMS as data and connectivity grow."
+    "evolve": "Build the full records of processing, DPIAs, processor agreements and a full ISMS as data and connectivity grow.",
+    "startDetail": [
+     "A data inventory: what personal/health data is processed, where it lives, and the legal basis.",
+     "Foundational security controls over that data (access control, encryption, backups).",
+     "A privacy notice telling data subjects what you do with their data.",
+     "Retention rules — how long each data type is kept and when it is deleted.",
+     "A short staff privacy/security awareness session, with a record of attendance."
+    ],
+    "evolveDetail": [
+     "Complete records of processing activities (ROPA).",
+     "DPIAs for high-risk processing and Art 28 processor agreements.",
+     "A full ISMS and privacy management system as data use scales."
+    ]
    },
    "subs": [
     {
@@ -16604,7 +17623,19 @@
    ],
    "lean": {
     "start": "Records of processing and processor agreements for your actual data flows, plus a DPIA where it is clearly needed.",
-    "evolve": "Add automated data-subject-request handling, privacy-by-design checklists and a privacy management system as data use grows."
+    "evolve": "Add automated data-subject-request handling, privacy-by-design checklists and a privacy management system as data use grows.",
+    "startDetail": [
+     "Records of processing activities (ROPA) maintained for your real data flows.",
+     "A DPIA for any high-risk processing (health data, profiling, large scale).",
+     "Art 28 controller/processor agreements with your data processors.",
+     "A data-subject-rights process (access, rectification, erasure) that actually responds.",
+     "Privacy-by-design considerations embedded into the product and processes."
+    ],
+    "evolveDetail": [
+     "Automated data-subject-request intake and tracking.",
+     "Privacy-by-design checklists in the design process.",
+     "A managed privacy programme with periodic review."
+    ]
    },
    "subs": [
     {
@@ -16828,7 +17859,20 @@
    ],
    "lean": {
     "start": "A response plan with roles and phases, an incident register, and a post-incident review step.",
-    "evolve": "Tested playbooks, tabletop exercises and reporting integrated with vigilance and privacy."
+    "evolve": "Tested playbooks, tabletop exercises and reporting integrated with vigilance and privacy.",
+    "startDetail": [
+     "An incident-response plan defining roles, phases (detect → contain → eradicate → recover) and escalation.",
+     "An incident register capturing every incident and its handling.",
+     "Reporting forms and the criteria for when an incident must be escalated.",
+     "A severity classification so response effort matches impact.",
+     "A post-incident review that turns lessons into improvements.",
+     "The links to vigilance and privacy where an incident is also reportable."
+    ],
+    "evolveDetail": [
+     "Scenario playbooks tested through tabletop exercises.",
+     "Automated detection / alerting feeding the register.",
+     "Reporting fully integrated with vigilance and breach notification."
+    ]
    },
    "subs": [
     {
@@ -16956,7 +18000,19 @@
    ],
    "lean": {
     "start": "A breach assessment and notification form with the Art 33/34 decision path and the 72h clock understood.",
-    "evolve": "Drilled process integrated with incident response and vigilance, with template notifications ready."
+    "evolve": "Drilled process integrated with incident response and vigilance, with template notifications ready.",
+    "startDetail": [
+     "A breach-assessment step: is personal data involved and what is the risk to individuals?",
+     "The Art 33 authority-notification path with the 72-hour clock and what starts it.",
+     "The Art 34 data-subject-notification trigger for high-risk breaches.",
+     "A breach-notification form capturing the required content.",
+     "Integration with incident response so a security incident escalates to a privacy breach when needed."
+    ],
+    "evolveDetail": [
+     "A drilled breach process rehearsed against realistic scenarios.",
+     "Pre-drafted notification templates ready to send inside the deadline.",
+     "Breach handling integrated with incident response and vigilance."
+    ]
    },
    "subs": [
     {
@@ -17130,7 +18186,20 @@
    ],
    "lean": {
     "start": "Tested backups and a one-page 'what we do if X goes down' plan for your critical systems.",
-    "evolve": "Add a full business-impact analysis, RTO/RPO targets and regular continuity exercises as you scale."
+    "evolve": "Add a full business-impact analysis, RTO/RPO targets and regular continuity exercises as you scale.",
+    "startDetail": [
+     "The critical processes and systems identified (a lightweight business-impact analysis).",
+     "Backups in place — and actually restore-tested, not just assumed.",
+     "A one-page continuity/recovery plan per critical system: who does what if it fails.",
+     "Recovery objectives sketched (how fast you must be back, how much data you can lose).",
+     "Redundancy/failover for the few things that truly can't go down.",
+     "The plan reviewed and, ideally, walked through once."
+    ],
+    "evolveDetail": [
+     "A full business-impact analysis across the organisation.",
+     "Formal RTO/RPO targets per system with monitoring.",
+     "Regular continuity exercises and post-exercise improvements."
+    ]
    },
    "subs": [
     {
@@ -17364,7 +18433,19 @@
    ],
    "lean": {
     "start": "For a low-energy device: the applicable standard's required tests run once at an accredited lab, plus the declaration, filed.",
-    "evolve": "Add in-house pre-compliance testing and broader particular-standard coverage as the product range grows."
+    "evolve": "Add in-house pre-compliance testing and broader particular-standard coverage as the product range grows.",
+    "startDetail": [
+     "The applicable standards identified: IEC 60601-1 plus the relevant collateral (-1-2 EMC, -1-11 home use…) and particular standards.",
+     "A test plan mapping each required test to your device's features and energy sources.",
+     "Testing run at an accredited lab (for a low-energy device, typically one pass).",
+     "The test report and declaration filed in the technical file as design-verification evidence.",
+     "Any deviations or applied justifications recorded against the standard clauses."
+    ],
+    "evolveDetail": [
+     "In-house pre-compliance testing to catch failures before the accredited lab.",
+     "Broader collateral / particular-standard coverage as features expand.",
+     "Re-test triggers tied to change control for design changes."
+    ]
    },
    "subs": [
     {
@@ -17559,7 +18640,20 @@
    ],
    "lean": {
     "start": "An evaluation plan that leans on material data and literature, testing only the genuine gaps.",
-    "evolve": "Add chemical characterisation, toxicological risk assessment and broader endpoint coverage as materials and claims expand."
+    "evolve": "Add chemical characterisation, toxicological risk assessment and broader endpoint coverage as materials and claims expand.",
+    "startDetail": [
+     "The nature and duration of body contact categorised per ISO 10993-1 (skin / mucosa / blood / tissue; transient / prolonged / permanent).",
+     "The applicable biological endpoints identified for that contact category.",
+     "Existing material data, master files and literature gathered to close endpoints without new testing.",
+     "A biological evaluation plan that tests only where a real data gap remains.",
+     "The conclusion recorded in a biological evaluation report feeding the risk file.",
+     "A justified 'no patient contact → not applicable' record where that is the case."
+    ],
+    "evolveDetail": [
+     "Chemical characterisation (extractables/leachables) per ISO 10993-18.",
+     "A toxicological risk assessment on the identified chemicals.",
+     "Broader endpoint testing as materials, processing or claims change."
+    ]
    },
    "subs": [
     {
@@ -17684,7 +18778,7 @@
    "qse": "Process Management",
    "statement": "Drug-device combination design.",
    "why": "If your device incorporates a medicinal substance (a drug-device combination), you carry extra obligations - the medicinal part must be assessed, often with a medicines authority consulted. Skip this and your conformity route is invalid.",
-   "what": "Identify the combination-product status, apply the right controls for the medicinal constituent, and manage the consultation/assessment route (e.g. EU MDR Article 117).",
+   "what": "Determine the combination-product status and apply the right controls to the medicinal constituent: characterise the substance and its role (ancillary vs principal mode of action), apply the medicinal-quality controls it needs, and manage the consultation/assessment route with a medicines authority or notified body (e.g. the EU MDR Article 117 opinion), keeping the evidence in the technical file.",
    "how": "",
    "who": "RA / Quality",
    "documents": "CMB-SOP-01; CMB-TPL-01; CMB-FOR-01",
@@ -17749,7 +18843,19 @@
    ],
    "lean": {
     "start": "A clear classification record and the consultation dossier for the medicinal part, prepared with specialist input.",
-    "evolve": "Add deeper stability, interaction and combined-use evidence as the product matures."
+    "evolve": "Add deeper stability, interaction and combined-use evidence as the product matures.",
+    "startDetail": [
+     "A combination-product status decision: is the medicinal part ancillary (device route) or principal (medicines route)?",
+     "The medicinal constituent characterised: identity, quality, safety, and its role in the device.",
+     "The Article 117 (or equivalent) consultation route identified, with a competent authority / NB opinion planned.",
+     "The consultation dossier prepared, ideally with pharmaceutical/regulatory specialist input.",
+     "The interaction and compatibility between drug and device considered in design and risk."
+    ],
+    "evolveDetail": [
+     "Stability and shelf-life data for the combined product.",
+     "Drug-device interaction and combined-use performance studies.",
+     "Lifecycle management of the medicinal-part evidence and authority interactions."
+    ]
    },
    "subs": [
     {
@@ -17874,7 +18980,7 @@
    "qse": "Process Management",
    "statement": "Custom-made / patient-matched devices.",
    "why": "If you make devices to a specific practitioner's prescription for an individual patient (custom-made or patient-matched), you follow a distinct conformity route with its own statement and records - not the standard CE route. Using the wrong route is a compliance failure.",
-   "what": "Set up the custom-made device controls: prescription handling, the Annex XIII statement, per-device records and patient traceability.",
+   "what": "Set up the custom-made device controls under the distinct conformity route: capture and control the practitioner's prescription, draw up the Annex XIII statement issued with each device (in place of a CE mark), keep the per-device design and manufacturing records, and maintain patient/device traceability and the retention the regulation requires.",
    "how": "",
    "who": "Production / RA",
    "documents": "CMD-SOP-01; CMD-TPL-01; CMD-FOR-01; CMD-LIS-01",
@@ -17939,7 +19045,20 @@
    ],
    "lean": {
     "start": "A prescription-capture form, a statement template and a simple per-device log, retained per the rules.",
-    "evolve": "Add digital prescription workflows and patient-matched design automation as volume grows."
+    "evolve": "Add digital prescription workflows and patient-matched design automation as volume grows.",
+    "startDetail": [
+     "A prescription-capture form recording the practitioner, the patient, and the specific characteristics prescribed.",
+     "The MDR Annex XIII statement template issued with each custom-made device.",
+     "Per-device design and manufacturing records tied to that prescription.",
+     "Patient/device traceability so each unit can be linked to its recipient.",
+     "The documentation-retention period applied per the regulation.",
+     "A check that the custom-made route genuinely applies (not a way to avoid CE-marking a series device)."
+    ],
+    "evolveDetail": [
+     "Digital prescription intake and validation workflows.",
+     "Patient-matched design automation with parametric controls.",
+     "Trend and outcome analysis across custom-made devices."
+    ]
    },
    "subs": [
     {
@@ -18152,7 +19271,20 @@
    ],
    "lean": {
     "start": "One clear work instruction and a one-page device-history record per build, with lot/serial traceability. That is already a controlled production process.",
-    "evolve": "Add MES/ERP tooling, statistical process control, automated traceability and supplier scorecards as volume and the number of products grow."
+    "evolve": "Add MES/ERP tooling, statistical process control, automated traceability and supplier scorecards as volume and the number of products grow.",
+    "startDetail": [
+     "A production SOP adapted to how you actually manufacture (in-house or via a contract manufacturer).",
+     "Work instructions for the build steps, at the detail an operator needs.",
+     "A device history record (DHR) capturing what was built, by whom, to which spec/version.",
+     "Lot/serial traceability from incoming materials through to the finished unit.",
+     "In-process checks and a final release check before product ships.",
+     "Process validation (IQ/OQ/PQ) for any process whose output can't be fully verified afterward."
+    ],
+    "evolveDetail": [
+     "MES/ERP tooling replacing paper travellers.",
+     "Statistical process control on the critical parameters.",
+     "Automated traceability and supplier scorecards across the supply chain."
+    ]
    },
    "subs": [
     {
@@ -18380,7 +19512,7 @@
    "qse": "Process Management",
    "statement": "Sterilization & packaging validation.",
    "why": "If your device is supplied sterile, sterility and the sterile barrier are safety-critical and cannot be inspected into the product - they have to be validated and controlled every batch. This activity only applies if you actually sterilize; if you don't, record that as a justified non-application and move on.",
-   "what": "Adopt your sterilization and packaging controls, validate the sterilization process and the sterile-barrier packaging, and control every routine cycle with release records.",
+   "what": "Adopt your sterilization and sterile-barrier packaging controls: choose and validate the sterilization process (e.g. EO to ISO 11135, radiation to ISO 11137, moist heat to ISO 17665) and the packaging (ISO 11607), then control every routine cycle with parametric or dosimetric release records — because sterility can't be inspected into the product after the fact.",
    "how": "",
    "who": "Production / Quality",
    "documents": "STE-SOP-01; STE-TPL-01; STE-TPL-02; STE-FOR-01",
@@ -18463,7 +19595,20 @@
    ],
    "lean": {
     "start": "If you outsource sterilization: a quality agreement, the contractor's validation, and release on their cycle records. That is a controlled sterile process.",
-    "evolve": "Bring monitoring in-house, add dosimetric release and richer ageing studies as volume and product range grow."
+    "evolve": "Bring monitoring in-house, add dosimetric release and richer ageing studies as volume and product range grow.",
+    "startDetail": [
+     "The sterilization method chosen and the standard it validates to (EO / radiation / moist heat).",
+     "A validated sterilization process, or the contractor's validation under a quality agreement.",
+     "Sterile-barrier packaging validated to ISO 11607, including seal integrity and ageing.",
+     "Routine-cycle control with release records (parametric or dosimetric) per batch.",
+     "Bioburden and, where relevant, sterility-assurance-level considerations documented.",
+     "A justified 'not sterile → not applicable' record where you don't sterilize."
+    ],
+    "evolveDetail": [
+     "In-house cycle monitoring and bioburden testing.",
+     "Dosimetric release for radiation sterilization.",
+     "Extended real-time ageing and packaging-robustness studies."
+    ]
    },
    "subs": [
     {
@@ -18588,7 +19733,7 @@
    "qse": "Facilities & Safety",
    "statement": "Control of contaminated products.",
    "why": "Sooner or later something contaminated turns up - a return from the field, a spill, a suspected-infected unit. You need a safe, pre-agreed way to contain it so it protects people and can never quietly re-enter usable stock. Without it, a single contaminated return can put staff at risk and pollute good inventory.",
-   "what": "Adopt a procedure to identify, segregate and safely handle contaminated or suspect product, decide its disposition, and stop it re-entering use.",
+   "what": "Adopt a procedure to identify, segregate and safely handle contaminated or suspect product — most often a return from the field or a spill: contain it so it protects staff, decide its disposition (decontaminate, quarantine, destroy), record it, and make sure it can never quietly re-enter usable stock, feeding any signal into complaints and CAPA.",
    "how": "",
    "who": "QC / QMR",
    "documents": "PSA-SOP-01",
@@ -18657,7 +19802,20 @@
    ],
    "lean": {
     "start": "A labelled quarantine bin/area and a one-page rule for receiving and handling a suspect return safely.",
-    "evolve": "Add decontamination validation, dedicated handling areas and trend analysis of contamination events as field volume grows."
+    "evolve": "Add decontamination validation, dedicated handling areas and trend analysis of contamination events as field volume grows.",
+    "startDetail": [
+     "A labelled, segregated quarantine area or bin for contaminated/suspect product.",
+     "A one-page rule for receiving a suspect return: PPE, containment, and who is notified.",
+     "A record of each contaminated item — what it is, where it came from, and why it is suspect.",
+     "A disposition decision: decontaminate, hold, or destroy, with sign-off.",
+     "A hard barrier stopping contaminated product re-entering usable stock.",
+     "A link into complaints/PMS where a return signals a device problem."
+    ],
+    "evolveDetail": [
+     "Validated decontamination procedures where product is recovered.",
+     "Dedicated handling areas and equipment for contaminated returns.",
+     "Trend analysis of contamination events feeding preventive action."
+    ]
    },
    "subs": [
     {

@@ -136,19 +136,43 @@ export default async function ActivityPage({
 
           {a.lean && (
             <Section label="Start lean">
-              <div className="space-y-2">
-                <p>
-                  <span className="mr-2 rounded bg-[#e7f0ec] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-teal-600">
-                    Minimum to start
-                  </span>
-                  {a.lean.start}
-                </p>
-                <p>
-                  <span className="mr-2 rounded bg-cream2 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#8a5a2b]">
-                    Evolve as you grow
-                  </span>
-                  {a.lean.evolve}
-                </p>
+              <div className="space-y-4">
+                <div>
+                  <p>
+                    <span className="mr-2 rounded bg-[#e7f0ec] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-teal-600">
+                      Minimum to start
+                    </span>
+                    {a.lean.start}
+                  </p>
+                  {a.lean.startDetail && a.lean.startDetail.length > 0 && (
+                    <ul className="mt-2.5 space-y-1.5">
+                      {a.lean.startDetail.map((d, i) => (
+                        <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <p>
+                    <span className="mr-2 rounded bg-cream2 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#8a5a2b]">
+                      Evolve as you grow
+                    </span>
+                    {a.lean.evolve}
+                  </p>
+                  {a.lean.evolveDetail && a.lean.evolveDetail.length > 0 && (
+                    <ul className="mt-2.5 space-y-1.5">
+                      {a.lean.evolveDetail.map((d, i) => (
+                        <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c8a26a]" />
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             </Section>
           )}
