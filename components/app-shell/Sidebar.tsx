@@ -31,17 +31,6 @@ const NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
-    group: "Track",
-    items: [
-      {
-        label: "Knowledge checks",
-        href: "/knowledge-checks",
-        match: "/knowledge-checks",
-        ready: true,
-      },
-    ],
-  },
-  {
     group: "Workspace",
     items: [
       {

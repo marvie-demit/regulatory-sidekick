@@ -44,6 +44,11 @@ const SECTIONS: { group: string; items: Item[] }[] = [
     group: "Implement",
     items: [
       {
+        label: "Device profile",
+        href: "/profile",
+        body: "Start here. Set your device's characteristics, applicable regulations and target markets — this is what scopes the entire plan. Once set it's fixed for the project; changing it re-scopes everything.",
+      },
+      {
         label: "Dashboard",
         href: "/dashboard",
         body: "Your at-a-glance status — overall completion, per-phase progress and how much of the plan is in your device's scope.",
@@ -77,21 +82,6 @@ const SECTIONS: { group: string; items: Item[] }[] = [
         label: "Process map",
         href: "/process-map",
         body: "The full ISO 13485 §4.1.2 process landscape — every process across the four phases, each maturing from lean to certified, with every document mapped to the step that creates it.",
-      },
-    ],
-  },
-  {
-    group: "Track",
-    items: [
-      {
-        label: "Knowledge checks",
-        href: "/knowledge-checks",
-        body: "Short self-tests to confirm your team understands each phase. You're told whether an answer is right and why; your best score per phase is saved.",
-      },
-      {
-        label: "Device profile",
-        href: "/profile",
-        body: "Set your device's characteristics, applicable regulations and target markets. This is what scopes the entire plan — revisit it whenever things change.",
       },
     ],
   },
