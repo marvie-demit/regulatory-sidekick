@@ -144,7 +144,8 @@ export async function createOrg(
     secure: process.env.NODE_ENV === "production",
     maxAge: 60 * 60 * 24 * 365,
   });
-  redirect("/dashboard");
+  // New workspaces start at the device profile — it scopes everything else.
+  redirect("/profile");
 }
 
 // ---- Account settings (any authenticated user) -----------------------------

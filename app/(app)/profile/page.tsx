@@ -19,10 +19,11 @@ export default function ProfilePage() {
         Device profile
       </h1>
       <p className="lead mt-3">
-        Tell us what kind of device you are building - we tailor the roadmap,
-        checklist, matrix and library to the modules that apply.{" "}
-        <b>ISO 13485 (Core) always applies.</b> Change it anytime; your saved
-        status is kept.
+        Start here. Tell us what kind of device you are building — we tailor the
+        roadmap, checklist, matrix and library to what applies.{" "}
+        <b>ISO 13485 (Core) always applies.</b> Once set, your profile is fixed
+        for the project; changing it re-scopes everything (your saved status is
+        kept).
       </p>
       <ProfileSelector
         modules={content.modules}

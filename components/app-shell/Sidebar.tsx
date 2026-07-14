@@ -11,6 +11,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
   {
     group: "Implement",
     items: [
+      { label: "Device profile", href: "/profile", match: "/profile", ready: true },
       { label: "Dashboard", href: "/dashboard", ready: true },
       { label: "Roadmap", href: "/roadmap/1", match: "/roadmap", ready: true },
       { label: "Checklist", href: "/checklist", match: "/checklist", ready: true },
@@ -38,7 +39,6 @@ const NAV: { group: string; items: NavItem[] }[] = [
         match: "/knowledge-checks",
         ready: true,
       },
-      { label: "Device profile", href: "/profile", match: "/profile", ready: true },
     ],
   },
   {

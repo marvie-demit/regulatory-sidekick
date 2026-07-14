@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import type { ModuleDef } from "@/lib/content/types";
 import { actInScope, docInScope, euRoute } from "@/lib/content/scope";
@@ -22,6 +23,11 @@ export function ProfileSelector({
   totalActs: number;
 }) {
   const { profile, setProfile } = useOrgState();
+  // Locked once set: a configured profile opens read-only; "Change" re-opens it
+  // so the device profile is fixed for the project unless deliberately changed.
+  const [editing, setEditing] = useState(
+    () => !(profile && Object.keys(profile).length > 0),
+  );
 
   // characteristics only — the EU route (MDR/IVDR) and FDA market are their own
   // controls, so IVD/FDA are pulled out of the generic module grid.
@@ -56,8 +62,13 @@ export function ProfileSelector({
   }
   function toggleChar(code: string) {
     const p = base();
-    if (p[code]) delete p[code];
-    else p[code] = 1;
+    if (p[code]) {
+      delete p[code];
+      if (code === "SW") delete p.AI; // AI can't exist without software
+    } else {
+      p[code] = 1;
+      if (code === "AI") p.SW = 1; // an AI/ML component implies software
+    }
     setProfile(p);
   }
 
@@ -87,14 +98,56 @@ export function ProfileSelector({
         {totalActs} activities in scope
       </div>
 
+      {!editing && (
+        <div className="mt-6 rounded-xl border-2 border-teal-700 bg-[#eef5f2] p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
+              Device profile · locked for this project
+            </span>
+            <button
+              type="button"
+              className="btn ghost"
+              onClick={() => setEditing(true)}
+            >
+              Change device profile
+            </button>
+          </div>
+          <p className="mt-2 text-[13px] text-muted">
+            Your device profile is set. Changing it re-scopes the roadmap,
+            checklist, matrix and library for everyone on your team.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-teal-700 bg-card px-3 py-1 text-[12px] font-medium text-teal-800">
+              {route ? `EU ${route}` : "No EU route"}
+            </span>
+            {fdaOn ? (
+              <span className="rounded-full border border-line bg-card px-3 py-1 text-[12px] font-medium text-teal-800">
+                US FDA
+              </span>
+            ) : null}
+            {charModules
+              .filter((m) => profile && profile[m.code])
+              .map((m) => (
+                <span
+                  key={m.code}
+                  className="rounded-full border border-line bg-card px-3 py-1 text-[12px] font-medium text-teal-800"
+                >
+                  {m.label}
+                </span>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {editing && (
+        <>
       {/* --- Regulatory route (EU) --- */}
       <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
         EU regulatory route
       </h2>
       <p className="mt-1 text-[13px] text-muted">
         A product is regulated under one route — pick the one that applies. It
-        decides Clinical Evaluation (MDR) vs Performance Evaluation (IVDR),
-        classification, GSPR and market access.
+        decides classification, technical documentation and market access.
       </p>
       <div className="mt-3 flex flex-wrap gap-3">
         <button
@@ -106,7 +159,7 @@ export function ProfileSelector({
         >
           <div className="font-medium text-teal-900">EU MDR</div>
           <div className="text-[12px] text-muted">
-            Medical device (2017/745) → Clinical Evaluation
+            Medical device (Regulation 2017/745)
           </div>
         </button>
         <button
@@ -118,7 +171,7 @@ export function ProfileSelector({
         >
           <div className="font-medium text-teal-900">EU IVDR</div>
           <div className="text-[12px] text-muted">
-            In-vitro diagnostic (2017/746) → Performance Evaluation
+            In-vitro diagnostic (Regulation 2017/746)
           </div>
         </button>
       </div>
@@ -176,6 +229,7 @@ export function ProfileSelector({
                 {m.q && <span className="text-[12px] text-muted">{m.q}</span>}
                 <span className="mt-1 text-[11px] text-muted">
                   {m.std} · {modCounts[m.code] || 0} documents
+                  {m.code === "AI" ? " · requires Software" : ""}
                 </span>
               </span>
             </button>
@@ -184,6 +238,15 @@ export function ProfileSelector({
       </div>
 
       <div className="mt-5 flex flex-wrap items-center gap-2">
+        {profile && Object.keys(profile).length > 0 ? (
+          <button
+            type="button"
+            className="rounded-full bg-coral px-5 py-2 text-sm font-semibold text-white transition hover:brightness-95"
+            onClick={() => setEditing(false)}
+          >
+            Done — lock profile
+          </button>
+        ) : null}
         {profile ? (
           <button
             type="button"
@@ -200,6 +263,8 @@ export function ProfileSelector({
         scopes the roadmap, checklist, matrix and library for everyone on your
         team. <b>ISO 13485 (Core) always applies.</b>
       </p>
+        </>
+      )}
     </>
   );
 }
