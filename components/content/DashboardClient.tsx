@@ -92,50 +92,30 @@ export function DashboardClient({
       <h1 className="font-display text-3xl font-semibold tracking-tight text-teal-900">
         Dashboard
       </h1>
-      <p className="lead">
-        Your Medical Device Stepwise Implementation - a lean, audit-ready QMS
-        toward ISO 13485, EU MDR/IVDR, ISO 27001/42001 and GDPR, implemented
-        step by step on the WHO LQSI model.
-      </p>
-
       {profile ? (
-        <div className="profbar on">
-          <div className="pbi">
-            <b>Profile:</b> Core
+        <p className="mt-2 mb-1 text-sm text-muted">
+          <b className="text-teal-800">
+            Core
             {activeMods.length
               ? " · " + activeMods.map((m) => m.code).join(" · ")
-              : " only"}{" "}
-            — {docsInScope} of {totalDocs} documents · {actsInScope} of{" "}
-            {acts.length} activities in scope
-          </div>
-          <Link className="btn ghost" href="/profile">
-            Edit →
+              : ""}
+          </b>{" "}
+          — {docsInScope}/{totalDocs} documents · {actsInScope}/{acts.length}{" "}
+          activities in your scope ·{" "}
+          <Link href="/profile" className="font-medium text-coral hover:underline">
+            device profile
           </Link>
-        </div>
+        </p>
       ) : (
-        <div className="profbar">
-          <div className="pbi">
-            <b>Tailor this to your device.</b> Set a device profile and we scope
-            the plan to the modules that apply - software, AI, IVD, hardware,
-            security, privacy, FDA.
-          </div>
-          <Link className="btn" href="/profile">
-            Set device profile →
-          </Link>
-        </div>
+        <p className="mt-2 mb-1 text-sm text-muted">
+          <Link href="/profile" className="font-semibold text-coral hover:underline">
+            Set your device profile →
+          </Link>{" "}
+          to scope the plan to your device.
+        </p>
       )}
 
-      <div className="leanprinciple">
-        <span className="lpi">▲</span>
-        <div>
-          <b>Start lean, then evolve.</b> These are starting points to trim and
-          grow, not binders to fill - ISO 13485 wants a QMS proportionate to
-          your size and risk. Every activity shows its <b>minimum to start
-          today</b> and how to mature it as your team, volume and risk grow.
-        </div>
-      </div>
-
-      <div className="kpis">
+      <div className="kpis mt-4">
         {kpis.map((k, i) => (
           <div key={i} className={"kpi" + (k.accent ? " accent" : "")}>
             <div className="kl">{k.l}</div>
@@ -145,85 +125,24 @@ export function DashboardClient({
         ))}
       </div>
 
-      <div className="sect-h">Getting started</div>
-      <div className="rounded-2xl border border-line bg-card p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="max-w-2xl text-sm text-muted">
-            New to Regulatory Sidekick? These four steps are the whole loop — the
-            full guide explains every section in detail.
-          </p>
-          <Link
-            href="/guide"
-            className="shrink-0 text-sm font-semibold text-coral hover:underline"
-          >
-            Open the full guide →
-          </Link>
-        </div>
-        <ol className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              n: 1,
-              t: "Set your device profile",
-              d: "We scope the plan to what applies to your device.",
-              href: "/profile",
-            },
-            {
-              n: 2,
-              t: "Work the roadmap",
-              d: "Tackle each phase in the recommended start order.",
-              href: "/roadmap/1",
-            },
-            {
-              n: 3,
-              t: "Track status as you go",
-              d: "Set activity status and tick off checklist items.",
-              href: "/checklist",
-            },
-            {
-              n: 4,
-              t: "Attach evidence & reference",
-              d: "Upload proof; pull templates from the library.",
-              href: "/library",
-            },
-          ].map((s) => (
-            <li key={s.n}>
-              <Link
-                href={s.href}
-                className="group block h-full rounded-xl border border-line bg-bg p-3 transition hover:border-coral"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-800 text-xs font-bold text-white">
-                    {s.n}
-                  </span>
-                  <span className="text-sm font-semibold text-teal-900">
-                    {s.t}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-[12px] leading-snug text-muted">
-                  {s.d}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </div>
-
       <div className="sect-h">Phase progress</div>
       <div className="pgrid">
         {phases.map((p, i) => {
           const pg = phaseProg(p.n);
           const pc = pg.total ? Math.round((pg.done / pg.total) * 100) : 0;
+          const short = p.focus.split(/:| - /)[0].trim();
           return (
             <Link
               key={p.n}
               href={`/roadmap/${p.n}`}
               className="pgcard"
-              aria-label={`Phase ${p.n}: ${p.focus}, ${pg.done} of ${pg.total} done`}
+              title={p.focus}
+              aria-label={`Phase ${p.n}: ${short}, ${pg.done} of ${pg.total} done`}
             >
               <div className="bar" style={{ background: PC[i] }} />
               <div className="bd">
                 <div className="ph">PHASE {p.n}</div>
-                <h3>{p.focus}</h3>
+                <h3>{short}</h3>
                 <div className="pgbar">
                   <i style={{ width: pc + "%" }} />
                 </div>
@@ -236,23 +155,6 @@ export function DashboardClient({
         })}
       </div>
 
-      <div className="sect-h">Process map</div>
-      <Link
-        href="/process-map"
-        className="block rounded-2xl border border-line bg-card p-5 transition hover:border-coral"
-      >
-        <div className="font-display text-lg font-semibold text-teal-900">
-          See how every process interacts across the 4 phases
-        </div>
-        <p className="mt-1 max-w-2xl text-sm text-muted">
-          The full ISO 13485 §4.1.2 process landscape — each process maturing
-          from lean to certified, with every controlled document mapped to the
-          step that creates it.
-        </p>
-        <span className="mt-3 inline-block text-sm font-semibold text-coral">
-          Open the process map →
-        </span>
-      </Link>
     </main>
   );
 }
