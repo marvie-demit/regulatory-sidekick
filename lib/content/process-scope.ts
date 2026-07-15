@@ -18,7 +18,7 @@ export type PStep = {
 export type PProc = {
   id: string;
   name: string;
-  tier: "management" | "core" | "support";
+  workstream: "qms" | "tf";
   standards: string[];
   steps: PStep[];
 };
@@ -31,7 +31,7 @@ export type MatrixCell = { steps: PStep[] };
 export type MatrixRow = {
   id: string;
   name: string;
-  tier: PProc["tier"];
+  workstream: PProc["workstream"];
   standards: string[];
   cells: MatrixCell[]; // index 0..3 → phases 1..4
   docCount: number;
@@ -44,10 +44,9 @@ export const PHASE_LABELS: Record<number, string> = {
   4: "Certify, launch & improve",
 };
 
-export const TIERS: { key: PProc["tier"]; label: string }[] = [
-  { key: "management", label: "Management & steering" },
-  { key: "core", label: "Core realization" },
-  { key: "support", label: "Support & enabling" },
+export const WORKSTREAMS: { key: PProc["workstream"]; label: string }[] = [
+  { key: "qms", label: "Quality Management System" },
+  { key: "tf", label: "Technical File" },
 ];
 
 export const MATURITY_STYLE: Record<string, string> = {

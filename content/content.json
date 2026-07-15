@@ -375,11 +375,11 @@
    "sid": "DEV.establish",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 0
+   "ord": 0,
+   "workstream": "qms"
   },
   {
    "id": "DEV.intended",
@@ -713,11 +713,11 @@
    "sid": "DEV.intended",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 1
+   "ord": 1,
+   "workstream": "tf"
   },
   {
    "id": "DEV.inputs",
@@ -855,11 +855,11 @@
    "sid": "DEV.inputs",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 2
+   "ord": 2,
+   "workstream": "tf"
   },
   {
    "id": "DEV.verify",
@@ -994,11 +994,11 @@
    "sid": "DEV.verify",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 3
+   "ord": 3,
+   "workstream": "tf"
   },
   {
    "id": "DEV.validate",
@@ -1151,11 +1151,11 @@
    "sid": "DEV.validate",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 4
+   "ord": 4,
+   "workstream": "tf"
   },
   {
    "id": "DEV.intended.ivd",
@@ -1375,11 +1375,11 @@
    "sid": "DEV.intended.ivd",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 5
+   "ord": 5,
+   "workstream": "tf"
   },
   {
    "id": "DEV.ivd",
@@ -1516,11 +1516,11 @@
    "sid": "DEV.ivd",
    "proc": "DEV",
    "procName": "Design & development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 6
+   "ord": 6,
+   "workstream": "tf"
   },
   {
    "id": "RSK.plan",
@@ -1895,11 +1895,11 @@
    "sid": "RSK.plan",
    "proc": "RSK",
    "procName": "Risk management",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 7
+   "ord": 7,
+   "workstream": "tf"
   },
   {
    "id": "RSK.analyze",
@@ -2054,11 +2054,11 @@
    "sid": "RSK.analyze",
    "proc": "RSK",
    "procName": "Risk management",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 8
+   "ord": 8,
+   "workstream": "tf"
   },
   {
    "id": "RSK.report",
@@ -2194,11 +2194,11 @@
    "sid": "RSK.report",
    "proc": "RSK",
    "procName": "Risk management",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 9
+   "ord": 9,
+   "workstream": "tf"
   },
   {
    "id": "RSK.ivd",
@@ -2499,11 +2499,11 @@
    "sid": "RSK.ivd",
    "proc": "RSK",
    "procName": "Risk management",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 10
+   "ord": 10,
+   "workstream": "tf"
   },
   {
    "id": "RSK.postmarket",
@@ -2641,11 +2641,11 @@
    "sid": "RSK.postmarket",
    "proc": "RSK",
    "procName": "Risk management",
-   "tier": "core",
    "maturity": "sustain",
    "reg": [],
    "authored": true,
-   "ord": 11
+   "ord": 11,
+   "workstream": "tf"
   },
   {
    "id": "SWD.plan",
@@ -2785,11 +2785,11 @@
    "sid": "SWD.plan",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 12
+   "ord": 12,
+   "workstream": "tf"
   },
   {
    "id": "SWD.design",
@@ -3121,11 +3121,11 @@
    "sid": "SWD.design",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 13
+   "ord": 13,
+   "workstream": "tf"
   },
   {
    "id": "SWD.build",
@@ -3262,11 +3262,11 @@
    "sid": "SWD.build",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 14
+   "ord": 14,
+   "workstream": "tf"
   },
   {
    "id": "SWD.verify",
@@ -3421,11 +3421,11 @@
    "sid": "SWD.verify",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 15
+   "ord": 15,
+   "workstream": "tf"
   },
   {
    "id": "SWD.release",
@@ -3583,11 +3583,11 @@
    "sid": "SWD.release",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 16
+   "ord": 16,
+   "workstream": "tf"
   },
   {
    "id": "SWD.ml",
@@ -3729,11 +3729,11 @@
    "sid": "SWD.ml",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 17
+   "ord": 17,
+   "workstream": "tf"
   },
   {
    "id": "SWD.diga",
@@ -3871,11 +3871,11 @@
    "sid": "SWD.diga",
    "proc": "SWD",
    "procName": "Software development",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 18
+   "ord": 18,
+   "workstream": "tf"
   },
   {
    "id": "HUF.plan",
@@ -4157,11 +4157,11 @@
    "sid": "HUF.plan",
    "proc": "HUF",
    "procName": "Usability engineering",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 19
+   "ord": 19,
+   "workstream": "tf"
   },
   {
    "id": "HUF.formative",
@@ -4298,11 +4298,11 @@
    "sid": "HUF.formative",
    "proc": "HUF",
    "procName": "Usability engineering",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 20
+   "ord": 20,
+   "workstream": "tf"
   },
   {
    "id": "HUF.summative",
@@ -4459,11 +4459,11 @@
    "sid": "HUF.summative",
    "proc": "HUF",
    "procName": "Usability engineering",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 21
+   "ord": 21,
+   "workstream": "tf"
   },
   {
    "id": "AIM.plan",
@@ -4751,11 +4751,11 @@
    "sid": "AIM.plan",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
-   "tier": "core",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 22
+   "ord": 22,
+   "workstream": "tf"
   },
   {
    "id": "AIM.build",
@@ -5030,11 +5030,11 @@
    "sid": "AIM.build",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 23
+   "ord": 23,
+   "workstream": "tf"
   },
   {
    "id": "AIM.compliance",
@@ -5170,11 +5170,11 @@
    "sid": "AIM.compliance",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 24
+   "ord": 24,
+   "workstream": "tf"
   },
   {
    "id": "DEP.plan",
@@ -5377,11 +5377,11 @@
    "sid": "DEP.plan",
    "proc": "DEP",
    "procName": "Release & deployment",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 25
+   "ord": 25,
+   "workstream": "tf"
   },
   {
    "id": "DEP.release",
@@ -5516,11 +5516,11 @@
    "sid": "DEP.release",
    "proc": "DEP",
    "procName": "Release & deployment",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 26
+   "ord": 26,
+   "workstream": "tf"
   },
   {
    "id": "CLE.plan",
@@ -5801,13 +5801,13 @@
    "sid": "CLE.plan",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 27
+   "ord": 27,
+   "workstream": "tf"
   },
   {
    "id": "CLE.evidence",
@@ -5951,13 +5951,13 @@
    "sid": "CLE.evidence",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 28
+   "ord": 28,
+   "workstream": "tf"
   },
   {
    "id": "CLE.investigation",
@@ -6118,13 +6118,13 @@
    "sid": "CLE.investigation",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 29
+   "ord": 29,
+   "workstream": "tf"
   },
   {
    "id": "CLE.report",
@@ -6324,13 +6324,13 @@
    "sid": "CLE.report",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 30
+   "ord": 30,
+   "workstream": "tf"
   },
   {
    "id": "PEV.plan",
@@ -6548,13 +6548,13 @@
    "sid": "PEV.plan",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 31
+   "ord": 31,
+   "workstream": "tf"
   },
   {
    "id": "PEV.sv",
@@ -6689,13 +6689,13 @@
    "sid": "PEV.sv",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 32
+   "ord": 32,
+   "workstream": "tf"
   },
   {
    "id": "PEV.feasibility",
@@ -6837,13 +6837,13 @@
    "sid": "PEV.feasibility",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 33
+   "ord": 33,
+   "workstream": "tf"
   },
   {
    "id": "PEV.ap",
@@ -7019,13 +7019,13 @@
    "sid": "PEV.ap",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 34
+   "ord": 34,
+   "workstream": "tf"
   },
   {
    "id": "PEV.ap.sw",
@@ -7160,13 +7160,13 @@
    "sid": "PEV.ap.sw",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 35
+   "ord": 35,
+   "workstream": "tf"
   },
   {
    "id": "PEV.cp",
@@ -7339,13 +7339,13 @@
    "sid": "PEV.cp",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 36
+   "ord": 36,
+   "workstream": "tf"
   },
   {
    "id": "PEV.report",
@@ -7502,13 +7502,13 @@
    "sid": "PEV.report",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 37
+   "ord": 37,
+   "workstream": "tf"
   },
   {
    "id": "TEF.classify.mdr",
@@ -7645,13 +7645,13 @@
    "sid": "TEF.classify.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 38
+   "ord": 38,
+   "workstream": "tf"
   },
   {
    "id": "TEF.classify.ivdr",
@@ -7788,13 +7788,13 @@
    "sid": "TEF.classify.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "lean",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 39
+   "ord": 39,
+   "workstream": "tf"
   },
   {
    "id": "TEF.gspr.mdr",
@@ -8003,13 +8003,13 @@
    "sid": "TEF.gspr.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 40
+   "ord": 40,
+   "workstream": "tf"
   },
   {
    "id": "TEF.gspr.ivdr",
@@ -8165,13 +8165,13 @@
    "sid": "TEF.gspr.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 41
+   "ord": 41,
+   "workstream": "tf"
   },
   {
    "id": "TEF.file",
@@ -8321,11 +8321,11 @@
    "sid": "TEF.file",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 42
+   "ord": 42,
+   "workstream": "tf"
   },
   {
    "id": "TEF.certify.stage1",
@@ -8547,14 +8547,14 @@
    "sid": "TEF.certify.stage1",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "govern",
    "reg": [
     "MDR",
     "IVDR"
    ],
    "authored": true,
-   "ord": 43
+   "ord": 43,
+   "workstream": "tf"
   },
   {
    "id": "TEF.certify.stage2",
@@ -8785,14 +8785,14 @@
    "sid": "TEF.certify.stage2",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "govern",
    "reg": [
     "MDR",
     "IVDR"
    ],
    "authored": true,
-   "ord": 44
+   "ord": 44,
+   "workstream": "tf"
   },
   {
    "id": "TEF.market.mdr",
@@ -9064,13 +9064,13 @@
    "sid": "TEF.market.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 45
+   "ord": 45,
+   "workstream": "tf"
   },
   {
    "id": "TEF.market.ivdr",
@@ -9203,13 +9203,13 @@
    "sid": "TEF.market.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "IVDR"
    ],
    "authored": true,
-   "ord": 46
+   "ord": 46,
+   "workstream": "tf"
   },
   {
    "id": "TEF.market.fda",
@@ -9342,11 +9342,11 @@
    "sid": "TEF.market.fda",
    "proc": "TEF",
    "procName": "Technical file & market access",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 47
+   "ord": 47,
+   "workstream": "tf"
   },
   {
    "id": "LBL.setup",
@@ -9482,11 +9482,11 @@
    "sid": "LBL.setup",
    "proc": "LBL",
    "procName": "Labeling & UDI",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 48
+   "ord": 48,
+   "workstream": "qms"
   },
   {
    "id": "LBL.produce",
@@ -9646,11 +9646,11 @@
    "sid": "LBL.produce",
    "proc": "LBL",
    "procName": "Labeling & UDI",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 49
+   "ord": 49,
+   "workstream": "tf"
   },
   {
    "id": "PMS.plan",
@@ -9919,11 +9919,11 @@
    "sid": "PMS.plan",
    "proc": "PMS",
    "procName": "Post-market surveillance",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 50
+   "ord": 50,
+   "workstream": "qms"
   },
   {
    "id": "PMS.operate",
@@ -10084,11 +10084,11 @@
    "sid": "PMS.operate",
    "proc": "PMS",
    "procName": "Post-market surveillance",
-   "tier": "core",
    "maturity": "sustain",
    "reg": [],
    "authored": true,
-   "ord": 51
+   "ord": 51,
+   "workstream": "qms"
   },
   {
    "id": "PMS.ivd",
@@ -10282,11 +10282,11 @@
    "sid": "PMS.ivd",
    "proc": "PMS",
    "procName": "Post-market surveillance",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 52
+   "ord": 52,
+   "workstream": "qms"
   },
   {
    "id": "PCF.plan",
@@ -10422,13 +10422,13 @@
    "sid": "PCF.plan",
    "proc": "PCF",
    "procName": "Post-market clinical follow-up",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 53
+   "ord": 53,
+   "workstream": "tf"
   },
   {
    "id": "PCF.report",
@@ -10572,13 +10572,13 @@
    "sid": "PCF.report",
    "proc": "PCF",
    "procName": "Post-market clinical follow-up",
-   "tier": "core",
    "maturity": "sustain",
    "reg": [
     "MDR"
    ],
    "authored": true,
-   "ord": 54
+   "ord": 54,
+   "workstream": "tf"
   },
   {
    "id": "VIG.eu",
@@ -10716,14 +10716,14 @@
    "sid": "VIG.eu",
    "proc": "VIG",
    "procName": "Vigilance",
-   "tier": "core",
    "maturity": "full",
    "reg": [
     "MDR",
     "IVDR"
    ],
    "authored": true,
-   "ord": 55
+   "ord": 55,
+   "workstream": "qms"
   },
   {
    "id": "VIG.us",
@@ -10927,11 +10927,11 @@
    "sid": "VIG.us",
    "proc": "VIG",
    "procName": "Vigilance",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 56
+   "ord": 56,
+   "workstream": "qms"
   },
   {
    "id": "CMP.setup",
@@ -11181,11 +11181,11 @@
    "sid": "CMP.setup",
    "proc": "CMP",
    "procName": "Complaint handling",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 57
+   "ord": 57,
+   "workstream": "qms"
   },
   {
    "id": "CAP.setup",
@@ -11468,11 +11468,11 @@
    "sid": "CAP.setup",
    "proc": "CAP",
    "procName": "Corrective & preventive action",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 58
+   "ord": 58,
+   "workstream": "qms"
   },
   {
    "id": "CAP.operate",
@@ -11632,11 +11632,11 @@
    "sid": "CAP.operate",
    "proc": "CAP",
    "procName": "Corrective & preventive action",
-   "tier": "support",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 59
+   "ord": 59,
+   "workstream": "qms"
   },
   {
    "id": "CHG.setup",
@@ -11913,11 +11913,11 @@
    "sid": "CHG.setup",
    "proc": "CHG",
    "procName": "Change management",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 60
+   "ord": 60,
+   "workstream": "qms"
   },
   {
    "id": "NCP.setup",
@@ -12195,11 +12195,11 @@
    "sid": "NCP.setup",
    "proc": "NCP",
    "procName": "Nonconforming product",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 61
+   "ord": 61,
+   "workstream": "qms"
   },
   {
    "id": "QMN.establish",
@@ -12758,11 +12758,11 @@
    "sid": "QMN.establish",
    "proc": "QMN",
    "procName": "Quality management & planning",
-   "tier": "management",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 62
+   "ord": 62,
+   "workstream": "qms"
   },
   {
    "id": "MRV.establish",
@@ -13037,11 +13037,11 @@
    "sid": "MRV.establish",
    "proc": "MRV",
    "procName": "Management review & data analysis",
-   "tier": "management",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 63
+   "ord": 63,
+   "workstream": "qms"
   },
   {
    "id": "AUD.establish",
@@ -13420,11 +13420,11 @@
    "sid": "AUD.establish",
    "proc": "AUD",
    "procName": "Internal audit",
-   "tier": "management",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 64
+   "ord": 64,
+   "workstream": "qms"
   },
   {
    "id": "REG.establish",
@@ -13700,11 +13700,11 @@
    "sid": "REG.establish",
    "proc": "REG",
    "procName": "Regulatory affairs & monitoring",
-   "tier": "management",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 65
+   "ord": 65,
+   "workstream": "qms"
   },
   {
    "id": "DOC.establish",
@@ -14234,11 +14234,11 @@
    "sid": "DOC.establish",
    "proc": "DOC",
    "procName": "Document & record control",
-   "tier": "support",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 66
+   "ord": 66,
+   "workstream": "qms"
   },
   {
    "id": "DOC.maintain",
@@ -14369,11 +14369,11 @@
    "sid": "DOC.maintain",
    "proc": "DOC",
    "procName": "Document & record control",
-   "tier": "support",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 67
+   "ord": 67,
+   "workstream": "qms"
   },
   {
    "id": "HRT.establish",
@@ -14692,11 +14692,11 @@
    "sid": "HRT.establish",
    "proc": "HRT",
    "procName": "HR & training",
-   "tier": "support",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 68
+   "ord": 68,
+   "workstream": "qms"
   },
   {
    "id": "HRT.mature",
@@ -14955,11 +14955,11 @@
    "sid": "HRT.mature",
    "proc": "HRT",
    "procName": "HR & training",
-   "tier": "support",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 69
+   "ord": 69,
+   "workstream": "qms"
   },
   {
    "id": "INF.establish",
@@ -15243,11 +15243,11 @@
    "sid": "INF.establish",
    "proc": "INF",
    "procName": "Infrastructure & CSV",
-   "tier": "support",
    "maturity": "lean",
    "reg": [],
    "authored": true,
-   "ord": 70
+   "ord": 70,
+   "workstream": "qms"
   },
   {
    "id": "INF.csv",
@@ -15521,11 +15521,11 @@
    "sid": "INF.csv",
    "proc": "INF",
    "procName": "Infrastructure & CSV",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 71
+   "ord": 71,
+   "workstream": "qms"
   },
   {
    "id": "INF.metrology",
@@ -15739,11 +15739,11 @@
    "sid": "INF.metrology",
    "proc": "INF",
    "procName": "Infrastructure & CSV",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 72
+   "ord": 72,
+   "workstream": "qms"
   },
   {
    "id": "PUR.establish",
@@ -16020,11 +16020,11 @@
    "sid": "PUR.establish",
    "proc": "PUR",
    "procName": "Purchasing & supplier",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 73
+   "ord": 73,
+   "workstream": "qms"
   },
   {
    "id": "PUR.surveil",
@@ -16245,11 +16245,11 @@
    "sid": "PUR.surveil",
    "proc": "PUR",
    "procName": "Purchasing & supplier",
-   "tier": "support",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 74
+   "ord": 74,
+   "workstream": "qms"
   },
   {
    "id": "SAL.setup",
@@ -16478,11 +16478,11 @@
    "sid": "SAL.setup",
    "proc": "SAL",
    "procName": "Tendering & sales",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 75
+   "ord": 75,
+   "workstream": "qms"
   },
   {
    "id": "SUP.setup",
@@ -16618,11 +16618,11 @@
    "sid": "SUP.setup",
    "proc": "SUP",
    "procName": "Support & servicing",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 76
+   "ord": 76,
+   "workstream": "qms"
   },
   {
    "id": "ISM.establish",
@@ -16920,11 +16920,11 @@
    "sid": "ISM.establish",
    "proc": "ISM",
    "procName": "Information security (ISMS)",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 77
+   "ord": 77,
+   "workstream": "qms"
   },
   {
    "id": "SEC.establish",
@@ -17063,11 +17063,11 @@
    "sid": "SEC.establish",
    "proc": "SEC",
    "procName": "Product security",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 78
+   "ord": 78,
+   "workstream": "tf"
   },
   {
    "id": "SEC.postmarket",
@@ -17210,11 +17210,11 @@
    "sid": "SEC.postmarket",
    "proc": "SEC",
    "procName": "Product security",
-   "tier": "core",
    "maturity": "sustain",
    "reg": [],
    "authored": true,
-   "ord": 79
+   "ord": 79,
+   "workstream": "qms"
   },
   {
    "id": "DPR.establish",
@@ -17504,11 +17504,11 @@
    "sid": "DPR.establish",
    "proc": "DPR",
    "procName": "Data protection & privacy",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 80
+   "ord": 80,
+   "workstream": "qms"
   },
   {
    "id": "DPR.assess",
@@ -17787,11 +17787,11 @@
    "sid": "DPR.assess",
    "proc": "DPR",
    "procName": "Data protection & privacy",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 81
+   "ord": 81,
+   "workstream": "qms"
   },
   {
    "id": "IRP.establish",
@@ -17930,11 +17930,11 @@
    "sid": "IRP.establish",
    "proc": "IRP",
    "procName": "Incident & breach response",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 82
+   "ord": 82,
+   "workstream": "qms"
   },
   {
    "id": "IRP.privacy",
@@ -18070,11 +18070,11 @@
    "sid": "IRP.privacy",
    "proc": "IRP",
    "procName": "Incident & breach response",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 83
+   "ord": 83,
+   "workstream": "qms"
   },
   {
    "id": "BCP.establish",
@@ -18345,11 +18345,11 @@
    "sid": "BCP.establish",
    "proc": "BCP",
    "procName": "Business continuity",
-   "tier": "support",
    "maturity": "govern",
    "reg": [],
    "authored": true,
-   "ord": 84
+   "ord": 84,
+   "workstream": "qms"
   },
   {
    "id": "AES.setup",
@@ -18557,11 +18557,11 @@
    "sid": "AES.setup",
    "proc": "AES",
    "procName": "Active & electrical safety",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 85
+   "ord": 85,
+   "workstream": "tf"
   },
   {
    "id": "BIO.setup",
@@ -18765,11 +18765,11 @@
    "sid": "BIO.setup",
    "proc": "BIO",
    "procName": "Biological evaluation",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 86
+   "ord": 86,
+   "workstream": "tf"
   },
   {
    "id": "CMB.setup",
@@ -18967,11 +18967,11 @@
    "sid": "CMB.setup",
    "proc": "CMB",
    "procName": "Combination products",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 87
+   "ord": 87,
+   "workstream": "tf"
   },
   {
    "id": "CMD.setup",
@@ -19170,11 +19170,11 @@
    "sid": "CMD.setup",
    "proc": "CMD",
    "procName": "Custom-made devices",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 88
+   "ord": 88,
+   "workstream": "tf"
   },
   {
    "id": "PRO.setup",
@@ -19499,11 +19499,11 @@
    "sid": "PRO.setup",
    "proc": "PRO",
    "procName": "Production",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 89
+   "ord": 89,
+   "workstream": "qms"
   },
   {
    "id": "STE.setup",
@@ -19720,11 +19720,11 @@
    "sid": "STE.setup",
    "proc": "STE",
    "procName": "Sterilization & packaging",
-   "tier": "core",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 90
+   "ord": 90,
+   "workstream": "qms"
   },
   {
    "id": "PSA.setup",
@@ -20029,11 +20029,11 @@
    "sid": "PSA.setup",
    "proc": "PSA",
    "procName": "Contaminated products",
-   "tier": "support",
    "maturity": "full",
    "reg": [],
    "authored": true,
-   "ord": 91
+   "ord": 91,
+   "workstream": "qms"
   }
  ],
  "documents": [

@@ -20,7 +20,7 @@ export type TAct = {
   statement: string;
   proc: string;
   procName: string;
-  tier: string;
+  workstream: string;
   dur: number;
   es: number; // earliest start (working day from project start)
   ef: number; // earliest finish
@@ -30,10 +30,9 @@ export type TAct = {
   wave: string; // "W1".."Wn" — per-phase dependency level
 };
 
-const TIERS: { key: string; label: string }[] = [
-  { key: "management", label: "Management & steering" },
-  { key: "core", label: "Core realization" },
-  { key: "support", label: "Support & enabling" },
+const WORKSTREAMS: { key: string; label: string }[] = [
+  { key: "qms", label: "Quality Management System" },
+  { key: "tf", label: "Technical File" },
 ];
 
 const GUTTER = 168; // sticky process-label column
@@ -139,8 +138,7 @@ export function RoadmapGrid({
     );
   };
 
-  const Lane = ({ proc }: { proc: string }) => {
-    const kids = groups[proc];
+  const Lane = ({ kids }: { kids: TAct[] }) => {
     const byCol: Record<number, TAct[]> = {};
     kids.forEach((a) => {
       const r = rankFor(a);
@@ -252,33 +250,42 @@ export function RoadmapGrid({
             </div>
           </div>
 
-          {TIERS.map((tier) => {
+          {WORKSTREAMS.map((ws) => {
             const procs = order
-              .filter((p) => groups[p][0].tier === tier.key)
+              .filter((p) => groups[p].some((a) => a.workstream === ws.key))
               .sort(
                 (a, b) => minRank(a) - minRank(b) || order.indexOf(a) - order.indexOf(b),
               );
             if (!procs.length) return null;
-            const isOpen = !collapsed[tier.key];
-            const stepCount = procs.reduce((n, p) => n + groups[p].length, 0);
+            const isOpen = !collapsed[ws.key];
+            const stepCount = procs.reduce(
+              (n, p) => n + groups[p].filter((a) => a.workstream === ws.key).length,
+              0,
+            );
             return (
-              <div key={tier.key}>
+              <div key={ws.key}>
                 <button
                   type="button"
                   onClick={() =>
-                    setCollapsed((c) => ({ ...c, [tier.key]: !c[tier.key] }))
+                    setCollapsed((c) => ({ ...c, [ws.key]: !c[ws.key] }))
                   }
                   aria-expanded={isOpen}
                   className="sticky left-0 z-20 mt-3 mb-1 flex items-center gap-2 bg-bg py-1 pr-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-800 transition hover:text-teal-950"
                 >
                   <span className="text-[9px]">{isOpen ? "▾" : "▸"}</span>
-                  {tier.label}
+                  {ws.label}
                   <span className="font-normal normal-case tracking-normal text-muted">
                     {procs.length} process{procs.length === 1 ? "" : "es"} ·{" "}
                     {stepCount} step{stepCount === 1 ? "" : "s"}
                   </span>
                 </button>
-                {isOpen && procs.map((p) => <Lane key={p} proc={p} />)}
+                {isOpen &&
+                  procs.map((p) => (
+                    <Lane
+                      key={p}
+                      kids={groups[p].filter((a) => a.workstream === ws.key)}
+                    />
+                  ))}
               </div>
             );
           })}

@@ -19,14 +19,14 @@ export function getProcessModel(): ProcessModel {
   }
 }
 
-const TIER_ORDER: Record<string, number> = { management: 0, core: 1, support: 2 };
+const WS_ORDER: Record<string, number> = { qms: 0, tf: 1 };
 
 // One row per process, cells grouped by phase (1..4).
 export function phaseMatrix(): MatrixRow[] {
   const m = getProcessModel();
   return m.processes
     .slice()
-    .sort((a, b) => TIER_ORDER[a.tier] - TIER_ORDER[b.tier])
+    .sort((a, b) => WS_ORDER[a.workstream] - WS_ORDER[b.workstream])
     .map((p) => {
       const cells: MatrixCell[] = [
         { steps: [] },
@@ -42,7 +42,7 @@ export function phaseMatrix(): MatrixRow[] {
       return {
         id: p.id,
         name: p.name,
-        tier: p.tier,
+        workstream: p.workstream,
         standards: p.standards,
         cells,
         docCount,

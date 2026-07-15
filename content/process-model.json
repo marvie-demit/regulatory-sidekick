@@ -10,7 +10,6 @@
     {
       "id": "DEV",
       "name": "Design & development",
-      "tier": "core",
       "standards": [
         "ISO 13485 7.3"
       ],
@@ -155,12 +154,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "RSK",
       "name": "Risk management",
-      "tier": "core",
       "standards": [
         "ISO 14971"
       ],
@@ -262,12 +261,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "SWD",
       "name": "Software development",
-      "tier": "core",
       "standards": [
         "IEC 62304",
         "IEC 81001-5-1"
@@ -415,12 +414,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "HUF",
       "name": "Usability engineering",
-      "tier": "core",
       "standards": [
         "IEC 62366-1"
       ],
@@ -483,12 +482,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "AIM",
       "name": "AI/ML lifecycle",
-      "tier": "core",
       "standards": [
         "EU AI Act",
         "ISO/IEC 42001"
@@ -554,12 +553,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "DEP",
       "name": "Release & deployment",
-      "tier": "core",
       "standards": [
         "ISO 13485 7.5"
       ],
@@ -606,12 +605,12 @@
             "PMS.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "CLE",
       "name": "Clinical evaluation (MDR)",
-      "tier": "core",
       "standards": [
         "MDR Annex XIV",
         "MEDDEV 2.7/1"
@@ -708,12 +707,12 @@
             "PCF.plan"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "PEV",
       "name": "Performance evaluation (IVDR)",
-      "tier": "core",
       "standards": [
         "IVDR Annex XIII"
       ],
@@ -858,12 +857,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "TEF",
       "name": "Technical file & market access",
-      "tier": "core",
       "standards": [
         "MDR/IVDR Annex II/III"
       ],
@@ -1064,12 +1063,12 @@
             "VIG.us"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "LBL",
       "name": "Labeling & UDI",
-      "tier": "core",
       "standards": [
         "ISO 15223-1",
         "UDI"
@@ -1106,12 +1105,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "PMS",
       "name": "Post-market surveillance",
-      "tier": "core",
       "standards": [
         "MDR Art 83-86",
         "ISO/TR 20416"
@@ -1172,12 +1171,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "PCF",
       "name": "Post-market clinical follow-up",
-      "tier": "core",
       "standards": [
         "MDR Annex XIV Part B"
       ],
@@ -1221,12 +1220,12 @@
             "CLE.report"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "VIG",
       "name": "Vigilance",
-      "tier": "core",
       "standards": [
         "MDR Art 87-92"
       ],
@@ -1271,12 +1270,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "CMP",
       "name": "Complaint handling",
-      "tier": "support",
       "standards": [
         "ISO 13485 8.2.2"
       ],
@@ -1297,12 +1296,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "CAP",
       "name": "Corrective & preventive action",
-      "tier": "support",
       "standards": [
         "ISO 13485 8.5"
       ],
@@ -1338,12 +1337,12 @@
             "CHG.setup"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "CHG",
       "name": "Change management",
-      "tier": "support",
       "standards": [
         "ISO 13485 7.3.9",
         "MDCG 2020-3"
@@ -1365,12 +1364,12 @@
             "DEV.verify"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "NCP",
       "name": "Nonconforming product",
-      "tier": "support",
       "standards": [
         "ISO 13485 8.3"
       ],
@@ -1390,12 +1389,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "QMN",
       "name": "Quality management & planning",
-      "tier": "management",
       "standards": [
         "ISO 13485 4.1/5"
       ],
@@ -1417,12 +1416,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "MRV",
       "name": "Management review & data analysis",
-      "tier": "management",
       "standards": [
         "ISO 13485 5.6/8.4"
       ],
@@ -1443,12 +1442,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "AUD",
       "name": "Internal audit",
-      "tier": "management",
       "standards": [
         "ISO 13485 8.2.4"
       ],
@@ -1471,12 +1470,12 @@
             "CAP.operate"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "REG",
       "name": "Regulatory affairs & monitoring",
-      "tier": "management",
       "standards": [
         "MDR/IVDR Art 15"
       ],
@@ -1499,12 +1498,12 @@
             "TEF.classify.ivdr"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "DOC",
       "name": "Document & record control",
-      "tier": "support",
       "standards": [
         "ISO 13485 4.2"
       ],
@@ -1544,12 +1543,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "HRT",
       "name": "HR & training",
-      "tier": "support",
       "standards": [
         "ISO 13485 6.2"
       ],
@@ -1582,12 +1581,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "INF",
       "name": "Infrastructure & CSV",
-      "tier": "support",
       "standards": [
         "ISO 13485 6.3/7.5.6"
       ],
@@ -1644,12 +1643,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "PUR",
       "name": "Purchasing & supplier",
-      "tier": "support",
       "standards": [
         "ISO 13485 7.4"
       ],
@@ -1683,12 +1682,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "SAL",
       "name": "Tendering & sales",
-      "tier": "support",
       "standards": [
         "ISO 13485 7.2"
       ],
@@ -1706,12 +1705,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "SUP",
       "name": "Support & servicing",
-      "tier": "support",
       "standards": [
         "ISO 13485 7.5.3/7.5.4"
       ],
@@ -1732,12 +1731,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "ISM",
       "name": "Information security (ISMS)",
-      "tier": "support",
       "standards": [
         "ISO/IEC 27001"
       ],
@@ -1763,12 +1762,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "SEC",
       "name": "Product security",
-      "tier": "core",
       "standards": [
         "IEC 81001-5-1",
         "AAMI TIR57"
@@ -1814,12 +1813,12 @@
             "VIG.eu"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "DPR",
       "name": "Data protection & privacy",
-      "tier": "support",
       "standards": [
         "GDPR",
         "HIPAA"
@@ -1864,12 +1863,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "IRP",
       "name": "Incident & breach response",
-      "tier": "support",
       "standards": [
         "ISO 27035",
         "GDPR Art 33/34"
@@ -1913,12 +1912,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "BCP",
       "name": "Business continuity",
-      "tier": "support",
       "standards": [
         "ISO 22301"
       ],
@@ -1943,12 +1942,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "AES",
       "name": "Active & electrical safety",
-      "tier": "core",
       "standards": [
         "IEC 60601-1"
       ],
@@ -1974,12 +1973,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "BIO",
       "name": "Biological evaluation",
-      "tier": "core",
       "standards": [
         "ISO 10993-1"
       ],
@@ -2006,12 +2005,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "CMB",
       "name": "Combination products",
-      "tier": "core",
       "standards": [
         "MDR Art 117"
       ],
@@ -2036,12 +2035,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "CMD",
       "name": "Custom-made devices",
-      "tier": "core",
       "standards": [
         "MDR Annex XIII"
       ],
@@ -2065,12 +2064,12 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "tf"
     },
     {
       "id": "PRO",
       "name": "Production",
-      "tier": "core",
       "standards": [
         "ISO 13485 7.5"
       ],
@@ -2101,12 +2100,12 @@
             "STE.setup"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "STE",
       "name": "Sterilization & packaging",
-      "tier": "core",
       "standards": [
         "ISO 11135/37/65",
         "ISO 11607"
@@ -2133,12 +2132,12 @@
             "TEF.file"
           ]
         }
-      ]
+      ],
+      "workstream": "qms"
     },
     {
       "id": "PSA",
       "name": "Contaminated products",
-      "tier": "support",
       "standards": [
         "ISO 13485 7.5"
       ],
@@ -2159,7 +2158,8 @@
           "consumes": [],
           "handoffTo": []
         }
-      ]
+      ],
+      "workstream": "qms"
     }
   ]
 }

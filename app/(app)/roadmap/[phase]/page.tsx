@@ -28,7 +28,7 @@ export default async function RoadmapPage({
     statement: a.statement,
     proc: (a as { proc?: string }).proc || "",
     procName: (a as { procName?: string }).procName || "Other",
-    tier: (a as { tier?: string }).tier || "core",
+    workstream: (a as { workstream?: string }).workstream || "tf",
     dur: a.dur || 0,
     es: a.es || 0,
     ef: a.ef || 0,
