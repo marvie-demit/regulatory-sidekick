@@ -78,10 +78,10 @@ export function profileToScope(profile: Record<string, unknown> | null): Scope {
   if (has("SEC")) chars.add("security");
   if (has("PRIV")) chars.add("privacy");
   if (has("FDA")) markets.add("US-FDA");
+  // Physical/hardware base — the characteristics common to any manufactured
+  // device. "active" and "sterile" are split out into their own toggles below.
   if (has("HW"))
     [
-      "active",
-      "sterile",
       "biocompatibility",
       "production",
       "metrology",
@@ -89,6 +89,8 @@ export function profileToScope(profile: Record<string, unknown> | null): Scope {
       "combination",
       "servicing",
     ].forEach((c) => chars.add(c));
+  if (has("ACT")) chars.add("active"); // active / electrical device (IEC 60601)
+  if (has("STE")) chars.add("sterile"); // supplied sterile
   return { regulation, characteristics: [...chars], markets: [...markets] };
 }
 

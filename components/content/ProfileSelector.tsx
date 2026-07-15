@@ -65,9 +65,14 @@ export function ProfileSelector({
     if (p[code]) {
       delete p[code];
       if (code === "SW") delete p.AI; // AI can't exist without software
+      if (code === "HW") {
+        delete p.ACT; // a non-physical device can't be active or sterile
+        delete p.STE;
+      }
     } else {
       p[code] = 1;
       if (code === "AI") p.SW = 1; // an AI/ML component implies software
+      if (code === "ACT" || code === "STE") p.HW = 1; // active/sterile imply a physical device
     }
     setProfile(p);
   }
@@ -230,6 +235,9 @@ export function ProfileSelector({
                 <span className="mt-1 text-[11px] text-muted">
                   {m.std} · {modCounts[m.code] || 0} documents
                   {m.code === "AI" ? " · requires Software" : ""}
+                  {m.code === "ACT" || m.code === "STE"
+                    ? " · requires Physical device"
+                    : ""}
                 </span>
               </span>
             </button>

@@ -18366,7 +18366,7 @@
    "leads": "TEF.file",
    "clause": "EU MDR Annex I",
    "mods": [
-    "HW"
+    "ACT"
    ],
    "deep": 1,
    "how2": [
@@ -19520,7 +19520,7 @@
    "leads": "TEF.file",
    "clause": "ISO 13485 7.5.7",
    "mods": [
-    "HW"
+    "STE"
    ],
    "deep": 1,
    "how2": [
@@ -23283,7 +23283,7 @@
    "title": "IEC 60601 Test Report",
    "cls": "FOR",
    "domain": "AES",
-   "module": "HW",
+   "module": "ACT",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23293,7 +23293,7 @@
    "title": "Applicable Standards List",
    "cls": "LIS",
    "domain": "AES",
-   "module": "HW",
+   "module": "ACT",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23303,7 +23303,7 @@
    "title": "Active & Electrical Device Safety",
    "cls": "SOP",
    "domain": "AES",
-   "module": "HW",
+   "module": "ACT",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23313,7 +23313,7 @@
    "title": "Safety & Essential-Performance Specification",
    "cls": "TPL",
    "domain": "AES",
-   "module": "HW",
+   "module": "ACT",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23573,7 +23573,7 @@
    "title": "Sterilization Release Record",
    "cls": "FOR",
    "domain": "STE",
-   "module": "HW",
+   "module": "STE",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23583,7 +23583,7 @@
    "title": "Sterilization & Packaging",
    "cls": "SOP",
    "domain": "STE",
-   "module": "HW",
+   "module": "STE",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23593,7 +23593,7 @@
    "title": "Sterilization Validation Plan & Report",
    "cls": "TPL",
    "domain": "STE",
-   "module": "HW",
+   "module": "STE",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -23603,7 +23603,7 @@
    "title": "Packaging Validation",
    "cls": "TPL",
    "domain": "STE",
-   "module": "HW",
+   "module": "STE",
    "status": "Drafted",
    "page": true,
    "reg": []
@@ -26730,9 +26730,21 @@
   },
   {
    "code": "HW",
-   "label": "Hardware / physical",
-   "q": "Has physical hardware (sterile, implant, electrical, production)?",
-   "std": "Production & sterilisation"
+   "label": "Physical / hardware device",
+   "q": "Has physical hardware (production, patient contact, servicing)?",
+   "std": "ISO 13485 production"
+  },
+  {
+   "code": "ACT",
+   "label": "Active / electrical",
+   "q": "Is it active or electrically powered?",
+   "std": "IEC 60601"
+  },
+  {
+   "code": "STE",
+   "label": "Sterile",
+   "q": "Supplied sterile?",
+   "std": "ISO 11135 / 11137 / 11607"
   },
   {
    "code": "SEC",
@@ -26757,7 +26769,9 @@
   "AI": 9,
   "Core": 132,
   "FDA": 3,
-  "HW": 33,
+  "ACT": 4,
+  "HW": 25,
+  "STE": 4,
   "IVD": 40,
   "PRIV": 8,
   "SEC": 22,
