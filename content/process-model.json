@@ -153,6 +153,46 @@
           "handoffTo": [
             "TEF.file"
           ]
+        },
+        {
+          "id": "DEV.transfer",
+          "title": "Transfer the design to production",
+          "phase": 4,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "DEV.ddplan",
+          "title": "Create the design & development plan",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "DEV.vvplan",
+          "title": "Create the verification & validation plan",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "DEV.trace",
+          "title": "Finalise the design traceability matrix",
+          "phase": 3,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -260,6 +300,26 @@
           "handoffTo": [
             "CAP.operate"
           ]
+        },
+        {
+          "id": "RSK.proc",
+          "title": "Define the risk-management procedure",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "RSK.signoff",
+          "title": "Sign off the risk-management report",
+          "phase": 4,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -706,6 +766,20 @@
             "TEF.file",
             "PCF.plan"
           ]
+        },
+        {
+          "id": "CLE.sota",
+          "title": "Perform the state-of-the-art literature search",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "MDR"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -856,6 +930,34 @@
           "handoffTo": [
             "TEF.file"
           ]
+        },
+        {
+          "id": "PEV.proc",
+          "title": "Define the performance-evaluation procedure",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "PEV.applan",
+          "title": "Create the analytical-performance plan",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -1062,6 +1164,36 @@
           "handoffTo": [
             "VIG.us"
           ]
+        },
+        {
+          "id": "TEF.nb",
+          "title": "Engage a Notified Body: contract and review slot",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "TEF.regstrat",
+          "title": "Develop the regulatory strategy",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "TEF.stdlist",
+          "title": "List the applicable legislation and standards",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -1415,6 +1547,26 @@
           ],
           "consumes": [],
           "handoffTo": []
+        },
+        {
+          "id": "QMN.objectives",
+          "title": "Set and cascade the quality objectives",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "QMN.qmr",
+          "title": "Appoint the management representative (QMR)",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "qms"
@@ -1497,6 +1649,16 @@
             "TEF.classify.mdr",
             "TEF.classify.ivdr"
           ]
+        },
+        {
+          "id": "REG.register",
+          "title": "Establish the device & actor registration procedure",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "qms"
@@ -1640,6 +1802,16 @@
             "INF-LIS-03",
             "INF-FOR-01"
           ],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "INF.csvproc",
+          "title": "Establish the computerised-system validation procedure",
+          "phase": 1,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
           "consumes": [],
           "handoffTo": []
         }
@@ -2004,6 +2176,20 @@
           "handoffTo": [
             "TEF.file"
           ]
+        },
+        {
+          "id": "BIO.report",
+          "title": "Finalise the biological-evaluation report",
+          "phase": 3,
+          "maturity": "lean",
+          "appliesWhen": {
+            "characteristics": [
+              "hw"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"

@@ -393,7 +393,7 @@
    "who": "Project / Software Lead",
    "documents": "DEV-TPL-01; DEV-TPL-02; DEV-FOR-01; DEV-TPL-07",
    "depends": "DEV.establish",
-   "leads": "DEV.inputs, RSK.plan, SWD.plan, AIM.plan, CLE.plan, PEV.plan, TEF.classify.mdr, TEF.classify.ivdr",
+   "leads": "DEV.inputs, RSK.plan, SWD.plan, AIM.plan, CLE.plan, PEV.plan, TEF.classify.mdr, TEF.classify.ivdr, TEF.regstrat, DEV.ddplan",
    "clause": "ISO 13485 7.3.2 / IEC 62304 5.1",
    "mods": [
     "Core"
@@ -731,7 +731,7 @@
    "who": "Design & Development Lead",
    "documents": "DEV-TPL-08; DEV-TPL-09",
    "depends": "DEV.intended, RSK.plan",
-   "leads": "DEV.verify, SWD.plan",
+   "leads": "DEV.verify, SWD.plan, DEV.vvplan",
    "clause": "ISO 13485 7.3.3-7.3.4; MDR Annex I",
    "mods": [
     "Core"
@@ -873,7 +873,7 @@
    "who": "Design & Development Lead",
    "documents": "DEV-FOR-07",
    "depends": "DEV.inputs, CHG.setup",
-   "leads": "DEV.validate",
+   "leads": "DEV.validate, DEV.trace",
    "clause": "ISO 13485 7.3.6; MDR Annex I",
    "mods": [
     "Core"
@@ -1012,7 +1012,7 @@
    "who": "Design & Development Lead",
    "documents": "DEV-FOR-08; DEV-FOR-09",
    "depends": "DEV.verify, RSK.report, HUF.summative",
-   "leads": "TEF.file",
+   "leads": "TEF.file, DEV.transfer",
    "clause": "ISO 13485 7.3.7 & 7.3.8",
    "mods": [
     "Core"
@@ -2072,7 +2072,7 @@
    "who": "Risk Manager",
    "documents": "RSK-TPL-04; RSK-TPL-05; RSK-FOR-03",
    "depends": "RSK.analyze",
-   "leads": "DEV.validate, RSK.postmarket, CLE.report, PEV.report, TEF.file",
+   "leads": "DEV.validate, RSK.postmarket, CLE.report, PEV.report, TEF.file, RSK.signoff",
    "clause": "ISO 14971 8/9",
    "mods": [
     "Core"
@@ -5534,7 +5534,7 @@
    "who": "Clinical / Performance Lead",
    "documents": "CLE-SOP-01; CLE-TPL-02; CLE-TPL-08; CLE-TPL-04; CLE-WI-01",
    "depends": "DEV.intended",
-   "leads": "CLE.evidence",
+   "leads": "CLE.evidence, CLE.sota",
    "clause": "MDR Art 61 / IVDR Annex XIII",
    "mods": [
     "Core"
@@ -6344,7 +6344,7 @@
    "who": "RA / Clinical",
    "documents": "PEV-SOP-01; PEV-TPL-01; PEV-FOR-01",
    "depends": "DEV.intended, DEV.intended.ivd",
-   "leads": "PEV.sv, PEV.feasibility",
+   "leads": "PEV.sv, PEV.feasibility, PEV.applan",
    "clause": "IVDR Annex XIII",
    "mods": [
     "Core"
@@ -7522,7 +7522,7 @@
    "who": "Regulatory Affairs Lead",
    "documents": "TEF-FOR-02",
    "depends": "DEV.intended, REG.establish",
-   "leads": "TEF.gspr.mdr",
+   "leads": "TEF.gspr.mdr, TEF.nb, TEF.stdlist",
    "clause": "MDR Art 51 & Annex VIII",
    "mods": [
     "Core"
@@ -12213,7 +12213,7 @@
    "who": "Top Management",
    "documents": "QMN-MAN-01; QMN-POL-01; QMN-LIS-01; QMN-MAN-02; QMN-MAN-03; QMN-LIS-02",
    "depends": "DOC.establish",
-   "leads": "-",
+   "leads": "QMN.objectives, QMN.qmr, RSK.proc, PEV.proc",
    "clause": "ISO 13485 5.1/5.5",
    "mods": [
     "Core"
@@ -13438,7 +13438,7 @@
    "who": "RA Manager",
    "documents": "REG-SOP-01; REG-LIS-01; REG-TPL-01; REG-TPL-02",
    "depends": "-",
-   "leads": "TEF.classify.mdr, TEF.classify.ivdr",
+   "leads": "TEF.classify.mdr, TEF.classify.ivdr, REG.register",
    "clause": "ISO 13485 4.2.3",
    "mods": [
     "Core"
@@ -14973,7 +14973,7 @@
    "who": "Infrastructure Owner",
    "documents": "INF-SOP-04; INF-LIS-05; INF-SOP-03; INF-TPL-06",
    "depends": "-",
-   "leads": "INF.csv",
+   "leads": "INF.csv, INF.csvproc",
    "clause": "ISO 13485 6.3",
    "mods": [
     "Core"
@@ -18575,7 +18575,7 @@
    "who": "R&D / Quality",
    "documents": "BIO-SOP-01; BIO-TPL-01; BIO-TPL-02; BIO-FOR-01; BIO-LIS-01",
    "depends": "-",
-   "leads": "TEF.file",
+   "leads": "TEF.file, BIO.report",
    "clause": "ISO 14971 5.3",
    "mods": [
     "HW"
@@ -20034,6 +20034,1754 @@
    "authored": true,
    "ord": 91,
    "workstream": "qms"
+  },
+  {
+   "id": "QMN.objectives",
+   "phase": "P1",
+   "wave": "W3",
+   "qse": "Organisation",
+   "statement": "Set and cascade the quality objectives.",
+   "why": "Measurable quality objectives turn the quality policy into targets the whole QMS is steered by. ISO 13485 clause 5.4.1 requires objectives that are measurable and consistent with the quality policy, established at the relevant functions and levels; management review then tracks them. Without them the QMS has direction but no way to tell whether it is working.",
+   "what": "Derive a small set of measurable quality objectives from the quality policy and the organisation's risks, assign an owner and a target to each, and set the cadence — reviewed and re-baselined at management review.",
+   "how": "",
+   "who": "Top management / QMR",
+   "documents": "",
+   "depends": "QMN.establish",
+   "leads": "-",
+   "clause": "ISO 13485 5.4.1 quality objectives",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Set the objectives",
+     "steps": [
+      {
+       "t": "Derive from the policy & risks",
+       "d": "Turn the quality policy and top risks into 3-5 measurable objectives."
+      },
+      {
+       "t": "Assign owners & targets",
+       "d": "Each objective gets a named owner, a target and a baseline."
+      }
+     ]
+    },
+    {
+     "role": "Govern them",
+     "steps": [
+      {
+       "t": "Set the cadence",
+       "d": "Review and re-baseline the objectives at each management review."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "Objectives are measurable, owned and consistent with the quality policy.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "5.4.1 quality objectives",
+      "5.6 management review"
+     ]
+    }
+   ],
+   "records": [
+    "Quality objectives register",
+    "Objective owners & targets"
+   ],
+   "tips": [
+    "Keep it to a handful - five objectives you actually track beat twenty you don't.",
+    "Objectives must be measurable; 'improve quality' is not an objective.",
+    "Tie each objective to the policy and a real risk, or it becomes a vanity metric."
+   ],
+   "lean": {
+    "start": "A one-page set of 3-5 measurable objectives with an owner and target each, reviewed at every management review.",
+    "startDetail": [
+     "3-5 objectives derived from the quality policy and your top risks (e.g. on-time CAPA closure, audit findings, complaint rate).",
+     "A measurable target and a named owner for each objective.",
+     "A baseline value so progress can be judged.",
+     "The review cadence set, so they are tracked at each management review.",
+     "Objectives written to be consistent with the quality policy, not vanity metrics."
+    ],
+    "evolve": "Cascade objectives to functions and processes and drive them with KPI dashboards as the organisation grows.",
+    "evolveDetail": [
+     "Objectives cascaded to each function or process with local targets.",
+     "KPI dashboards trending each objective between reviews.",
+     "Objectives re-baselined annually from management-review outcomes."
+    ]
+   },
+   "dur": 2,
+   "es": 8,
+   "ef": 10,
+   "sid": "QMN.objectives",
+   "proc": "QMN",
+   "procName": "Quality management & planning",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 92,
+   "workstream": "qms"
+  },
+  {
+   "id": "TEF.nb",
+   "phase": "P1",
+   "wave": "W4",
+   "qse": "Process Management",
+   "statement": "Engage a Notified Body: contract and review slot.",
+   "why": "For any device above class I (MDR) or class A (IVDR) a Notified Body must assess your conformity, and NB capacity is scarce - contracts and review slots are booked far in advance. Engaging early protects your launch timeline; leaving it late is the single most common cause of missed CE deadlines. Typical lead times are a contract in about 3 months and the review within about 9 months.",
+   "what": "Shortlist Notified Bodies designated for your device's codes, request and compare quotes, sign a contract, and book the documentation-review slot - feeding the realistic launch date back into the plan.",
+   "how": "",
+   "who": "RA / Management",
+   "documents": "",
+   "depends": "TEF.classify.mdr",
+   "leads": "-",
+   "clause": "EU MDR Art 52 conformity assessment",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Choose the Notified Body",
+     "steps": [
+      {
+       "t": "Shortlist designated NBs",
+       "d": "Filter NANDO for NBs designated for your MDR/IVDR codes and class."
+      },
+      {
+       "t": "Request and compare quotes",
+       "d": "Scope, price, lead time and capacity."
+      }
+     ]
+    },
+    {
+     "role": "Contract & book",
+     "steps": [
+      {
+       "t": "Sign the contract",
+       "d": "Expect about 3 months to a signed contract."
+      },
+      {
+       "t": "Book the review slot",
+       "d": "Reserve the documentation-review slot; expect the review within about 9 months."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A Notified Body is under contract with a booked review slot, and the lead time is in the plan.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Art 52 conformity assessment",
+      "Annex VII Notified Bodies"
+     ]
+    },
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Art 48 conformity assessment"
+     ]
+    }
+   ],
+   "records": [
+    "Notified Body contract",
+    "Booked review slot / timeline"
+   ],
+   "tips": [
+    "Book early - NB capacity is the top hidden bottleneck; slots go months out.",
+    "Check the NB is actually designated for YOUR device codes on NANDO, not just 'MDR'.",
+    "Build the ~3-month-contract, ~9-month-review lead times into your launch date from day one."
+   ],
+   "lean": {
+    "start": "A shortlist of designated Notified Bodies, a signed contract, and a booked review slot with the lead times built into your plan.",
+    "startDetail": [
+     "A shortlist of NBs designated for your device's MDR/IVDR codes and risk class (via NANDO).",
+     "Quotes requested and compared on scope, price, lead time and capacity.",
+     "A signed contract with the chosen NB (expect ~3 months to contract).",
+     "A booked documentation-review slot (expect the review within ~9 months).",
+     "The NB lead times fed back into the launch plan so the date is realistic."
+    ],
+    "evolve": "Build an ongoing NB relationship with a predictable surveillance and change-notification rhythm.",
+    "evolveDetail": [
+     "A steady relationship with a single NB contact and predictable communication.",
+     "Significant changes pre-aligned with the NB before submission.",
+     "A smooth surveillance-audit and recertification cadence."
+    ]
+   },
+   "dur": 5,
+   "es": 26,
+   "ef": 31,
+   "sid": "TEF.nb",
+   "proc": "TEF",
+   "procName": "Technical file & market access",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 93,
+   "workstream": "tf"
+  },
+  {
+   "id": "QMN.qmr",
+   "phase": "P1",
+   "wave": "W3",
+   "qse": "Organisation",
+   "statement": "Appoint the management representative (QMR).",
+   "why": "ISO 13485 clause 5.5.2 requires top management to appoint a member of management as the management representative, with defined authority to ensure the QMS is established, maintained and reported on. In a small company this is often a founder wearing two hats - fine early, but the role and its authority must be explicit, or QMS ownership quietly falls through the cracks.",
+   "what": "Formally appoint a named management representative (QMR), write their authority and responsibilities, and record the appointment - so one person is unambiguously accountable for the QMS and for reporting its performance to top management.",
+   "how": "",
+   "who": "Top management",
+   "documents": "",
+   "depends": "QMN.establish",
+   "leads": "-",
+   "clause": "ISO 13485 5.5.2 management representative",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Appoint",
+     "steps": [
+      {
+       "t": "Name the QMR",
+       "d": "Top management appoints a member of management in writing."
+      },
+      {
+       "t": "Define the authority",
+       "d": "Establish, maintain and report on the QMS; raise awareness of requirements."
+      }
+     ]
+    },
+    {
+     "role": "Record & communicate",
+     "steps": [
+      {
+       "t": "Record the appointment",
+       "d": "Keep the signed appointment; communicate it to the team."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A management representative is appointed in writing with defined authority.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "5.5.2 management representative"
+     ]
+    },
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Art 15 PRRC (related, distinct role)"
+     ]
+    }
+   ],
+   "records": [
+    "QMR appointment record",
+    "QMR authority & responsibilities"
+   ],
+   "tips": [
+    "A founder can be QMR early - just make the role and authority explicit.",
+    "Don't let the QMR approve their own work; separate the role as you grow.",
+    "The QMR is not the PRRC - different roles a small team may combine, but should name both."
+   ],
+   "lean": {
+    "start": "A one-line appointment record naming the QMR and their authority. A founder can hold the role early on.",
+    "startDetail": [
+     "A named individual appointed as management representative in writing.",
+     "Their authority defined: establish, maintain and report on the QMS; raise awareness of requirements.",
+     "The appointment recorded and communicated to the team.",
+     "A reporting line to top management for QMS performance.",
+     "A note of who covers the role if the QMR is unavailable."
+    ],
+    "evolve": "Separate the QMR from conflicting operational roles and add deputy cover as the organisation grows.",
+    "evolveDetail": [
+     "The QMR role separated from roles it would otherwise audit or approve.",
+     "A named deputy QMR for continuity.",
+     "The QMR's authority reflected in the org chart and job descriptions."
+    ]
+   },
+   "dur": 1,
+   "es": 8,
+   "ef": 9,
+   "sid": "QMN.qmr",
+   "proc": "QMN",
+   "procName": "Quality management & planning",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 96,
+   "workstream": "qms"
+  },
+  {
+   "id": "INF.csvproc",
+   "phase": "P1",
+   "wave": "W2",
+   "qse": "Equipment",
+   "statement": "Establish the computerised-system validation procedure.",
+   "why": "Software used in the QMS or in production must be validated for its intended use (ISO 13485 4.1.6). Before you validate anything you need the procedure - a risk-based method that says which systems get validated, to what depth, and how the validated state is maintained. Setting it early means every later system slots into a repeatable routine instead of an ad-hoc scramble.",
+   "what": "Write the risk-based computerised-system validation (CSV) procedure: how systems are inventoried and risk-ranked, the validation depth expected at each risk level, the data-integrity (ALCOA+) and Part 11 expectations, and how change control keeps systems validated.",
+   "how": "",
+   "who": "Quality / IT",
+   "documents": "",
+   "depends": "INF.establish",
+   "leads": "-",
+   "clause": "ISO 13485 4.1.6 validation of software",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the procedure",
+     "steps": [
+      {
+       "t": "Set the risk-based method",
+       "d": "How systems are inventoried, risk-ranked and validated to a matched depth."
+      },
+      {
+       "t": "Set the data-integrity rules",
+       "d": "ALCOA+ and Part 11 / Annex 11 expectations."
+      }
+     ]
+    },
+    {
+     "role": "Wire it in",
+     "steps": [
+      {
+       "t": "Link to change control",
+       "d": "So a change re-triggers validation where needed."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A risk-based CSV procedure exists and names the in-scope systems.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "4.1.6 validation of software",
+      "6.3 infrastructure"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR Part 11",
+     "refs": [
+      "Electronic records & signatures"
+     ]
+    }
+   ],
+   "records": [
+    "CSV procedure (SOP)",
+    "In-scope systems list"
+   ],
+   "tips": [
+    "Validate to the risk, not to the maximum - lean CSV leverages vendor evidence.",
+    "Write the procedure before you validate the first system, or you'll redo it.",
+    "Data integrity (ALCOA+) is what auditors probe hardest on computerised systems."
+   ],
+   "lean": {
+    "start": "A one-page CSV procedure: risk-rank systems, match validation depth to risk, and leverage vendor evidence.",
+    "startDetail": [
+     "A short CSV SOP stating the risk-based approach (more rigour for higher-impact systems).",
+     "The rule for which systems are in scope (those affecting product quality or data integrity).",
+     "The validation depth expected per risk level, and where vendor evidence can be leveraged.",
+     "Data-integrity (ALCOA+) expectations, and Part 11 / Annex 11 where records are regulated.",
+     "A link to change control so validated systems stay validated."
+    ],
+    "evolve": "Add a validation master plan, periodic-revalidation triggers and audit-trail review as systems multiply.",
+    "evolveDetail": [
+     "A validation master plan across all computerised systems.",
+     "Periodic-revalidation triggers on a risk basis.",
+     "Routine audit-trail review for regulated records."
+    ]
+   },
+   "dur": 2,
+   "es": 4,
+   "ef": 6,
+   "sid": "INF.csvproc",
+   "proc": "INF",
+   "procName": "Infrastructure & CSV",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 97,
+   "workstream": "qms"
+  },
+  {
+   "id": "REG.register",
+   "phase": "P1",
+   "wave": "W2",
+   "qse": "Continual Improvement",
+   "statement": "Establish the device & actor registration procedure.",
+   "why": "Manufacturers, their authorised representatives and importers, and each device, must be registered with the authorities (EUDAMED under MDR/IVDR; FDA establishment registration & listing) before or at market placement. A defined procedure means registrations are complete, correct and renewed on time - missing or lapsed registrations block market access and are a common inspection finding.",
+   "what": "Write the registration procedure: which actors and devices must be registered in which systems (EUDAMED, national registers, FDA), who owns each, the data required (SRN, Basic UDI-DI, UDI-DI), the trigger points, and how registrations are kept current.",
+   "how": "",
+   "who": "RA",
+   "documents": "",
+   "depends": "REG.establish",
+   "leads": "-",
+   "clause": "EU MDR Art 29 device registration",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Define the registrations",
+     "steps": [
+      {
+       "t": "List required registrations",
+       "d": "Actors and devices, per market (EUDAMED, national, FDA)."
+      },
+      {
+       "t": "Assign owners & data",
+       "d": "Who owns each and the data it needs (SRN, UDI-DI)."
+      }
+     ]
+    },
+    {
+     "role": "Keep them current",
+     "steps": [
+      {
+       "t": "Set triggers & renewals",
+       "d": "Before market placement, on significant change, and on renewal."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A registration procedure lists every required registration with an owner and trigger.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Art 29 device registration",
+      "Art 31 actor registration (SRN)"
+     ]
+    },
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Art 26/28 registration"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 807",
+     "refs": [
+      "Establishment registration & listing"
+     ]
+    }
+   ],
+   "records": [
+    "Registration procedure",
+    "Registration tracker"
+   ],
+   "tips": [
+    "Register early where the system allows - a lapsed registration blocks market access.",
+    "Basic UDI-DI is the key that ties your registrations and technical documentation together.",
+    "Actor registration (SRN) usually comes before device registration - sequence them."
+   ],
+   "lean": {
+    "start": "A one-page procedure listing the registrations you need, who owns each, and when they're due.",
+    "startDetail": [
+     "A list of the actor and device registrations required for your markets (EUDAMED, national, FDA).",
+     "The data each needs (SRN / Basic UDI-DI / UDI-DI, establishment registration).",
+     "A named owner and a due date for each registration.",
+     "The trigger points (before placing on market; on significant change).",
+     "A renewal / update routine so registrations don't lapse."
+    ],
+    "evolve": "Automate registration tracking and multi-market renewals as the portfolio and geographies grow.",
+    "evolveDetail": [
+     "A registration tracker across devices and markets with renewal alerts.",
+     "Per-market registration workflows as geographies expand.",
+     "Integration with UDI and labelling so identifiers stay consistent."
+    ]
+   },
+   "dur": 2,
+   "es": 4,
+   "ef": 6,
+   "sid": "REG.register",
+   "proc": "REG",
+   "procName": "Regulatory affairs & monitoring",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 98,
+   "workstream": "qms"
+  },
+  {
+   "id": "RSK.proc",
+   "phase": "P2",
+   "wave": "W1",
+   "qse": "Continual Improvement",
+   "statement": "Define the risk-management procedure.",
+   "why": "ISO 14971 requires risk management to run to a defined process across the whole lifecycle. The procedure is the QMS artefact that says how you do risk management - the acceptability criteria, the method, the roles, and how the risk file is maintained - separate from the device-specific risk file it governs. Defining it once means every product's risk work is consistent and auditable.",
+   "what": "Write the risk-management procedure (SOP) to ISO 14971: the risk policy and acceptability criteria, the analysis/evaluation/control method, the roles, and how the risk file and benefit-risk are maintained and reviewed across the lifecycle.",
+   "how": "",
+   "who": "Quality / RA",
+   "documents": "",
+   "depends": "QMN.establish",
+   "leads": "-",
+   "clause": "ISO 14971 4 risk management process",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the SOP",
+     "steps": [
+      {
+       "t": "Set the policy & criteria",
+       "d": "Risk policy and acceptability criteria before any scoring."
+      },
+      {
+       "t": "Define the method & roles",
+       "d": "ISO 14971 analysis/evaluation/control and who does what."
+      }
+     ]
+    },
+    {
+     "role": "Wire it in",
+     "steps": [
+      {
+       "t": "Link to the lifecycle",
+       "d": "Design, CAPA and post-market feed the risk file."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A risk-management procedure with acceptability criteria and a defined method exists.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 14971",
+     "refs": [
+      "4 risk management process",
+      "4.2 risk management plan"
+     ]
+    },
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.1 risk management in realization"
+     ]
+    }
+   ],
+   "records": [
+    "Risk-management procedure (SOP)",
+    "Risk acceptability criteria"
+   ],
+   "tips": [
+    "Set acceptability criteria in the procedure, before you score any risk, so bias can't creep in.",
+    "The procedure (how you do risk) is separate from the risk file (this device's risks) - both are needed.",
+    "Reference ISO 14971:2019 and TR 24971 for the method - don't reinvent it."
+   ],
+   "lean": {
+    "start": "A one-page risk-management SOP: your acceptability criteria, the ISO 14971 method, and how the risk file is kept live.",
+    "startDetail": [
+     "The risk policy and acceptability criteria (the severity x probability thresholds).",
+     "The ISO 14971 method: analysis, evaluation, control in priority order, residual and overall risk.",
+     "Roles and responsibilities for risk management.",
+     "How the risk file is maintained and reviewed across the lifecycle, including post-market.",
+     "The link to design, CAPA and post-market surveillance."
+    ],
+    "evolve": "Add security- and AI-risk branches and quantitative methods (FMEA/FTA) as products and risks grow.",
+    "evolveDetail": [
+     "Dedicated cybersecurity (AAMI TIR57) and AI-risk method branches.",
+     "Quantitative methods (FMEA, fault-tree) for the highest-severity hazards.",
+     "Integration with post-market data so probabilities are evidence-based."
+    ]
+   },
+   "dur": 3,
+   "es": 33,
+   "ef": 36,
+   "sid": "RSK.proc",
+   "proc": "RSK",
+   "procName": "Risk management",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 99,
+   "workstream": "qms"
+  },
+  {
+   "id": "PEV.proc",
+   "phase": "P2",
+   "wave": "W1",
+   "qse": "Assessment",
+   "statement": "Define the performance-evaluation procedure.",
+   "why": "IVDR requires performance evaluation to follow a defined, continuous process. The procedure is the QMS artefact that says how you plan, gather and appraise the three pillars of evidence (scientific validity, analytical and clinical performance) and how the PER is maintained - separate from the device-specific performance evaluation it governs.",
+   "what": "Write the performance-evaluation procedure (SOP) to IVDR Annex XIII: how the PEP is written, how each pillar of evidence is gathered and appraised, acceptance-criteria rules, and how the PER and PMPF keep it current.",
+   "how": "",
+   "who": "RA / Clinical",
+   "documents": "",
+   "depends": "QMN.establish",
+   "leads": "-",
+   "clause": "EU IVDR Annex XIII performance evaluation",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the SOP",
+     "steps": [
+      {
+       "t": "Set the three-pillar method",
+       "d": "How SV, AP and CP evidence is gathered and appraised."
+      },
+      {
+       "t": "Set acceptance-criteria rules",
+       "d": "Criteria fixed before testing; claims matched to evidence."
+      }
+     ]
+    },
+    {
+     "role": "Keep it living",
+     "steps": [
+      {
+       "t": "Link PER to PMPF",
+       "d": "So the evaluation is maintained after launch."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A performance-evaluation procedure covering the three pillars and the PER exists.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Annex XIII performance evaluation",
+      "Art 56 performance evaluation"
+     ]
+    },
+    {
+     "std": "ISO 20916",
+     "refs": [
+      "Clinical performance studies"
+     ]
+    }
+   ],
+   "records": [
+    "Performance-evaluation procedure (SOP)"
+   ],
+   "tips": [
+    "The procedure is IVDR-specific - it governs the three pillars, not a single study.",
+    "Fix acceptance criteria in the SOP before any testing to avoid moving the goalposts.",
+    "Plan PMPF into the procedure - the PER is a living document."
+   ],
+   "lean": {
+    "start": "A one-page performance-evaluation SOP covering the three pillars, appraisal method, and how the PER stays live via PMPF.",
+    "startDetail": [
+     "The method for writing the performance evaluation plan (PEP).",
+     "How each pillar is gathered and appraised: scientific validity, analytical and clinical performance.",
+     "Acceptance-criteria rules, set before testing.",
+     "How the performance evaluation report (PER) is compiled and concluded against claims.",
+     "The PMPF link that keeps the PER current after launch."
+    ],
+    "evolve": "Add prospective-study governance and continuous PMPF-driven updates as evidence accumulates.",
+    "evolveDetail": [
+     "Governance for prospective clinical-performance studies (ISO 20916).",
+     "Continuous PMPF data feeding scheduled PER updates.",
+     "A structured evidence-appraisal database."
+    ]
+   },
+   "dur": 3,
+   "es": 33,
+   "ef": 36,
+   "sid": "PEV.proc",
+   "proc": "PEV",
+   "procName": "Performance evaluation (IVDR)",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 100,
+   "workstream": "qms"
+  },
+  {
+   "id": "DEV.transfer",
+   "phase": "P4",
+   "wave": "W1",
+   "qse": "Process Management",
+   "statement": "Transfer the design to production.",
+   "why": "Design transfer is where the verified, validated design becomes something production can build repeatably. ISO 13485 7.3.8 requires design outputs to be verified as suitable for manufacturing before they become production specifications - skip a controlled transfer and you ship a product that differs from what you designed and validated.",
+   "what": "Verify that design outputs are correctly translated into production specifications, work instructions and acceptance criteria; confirm production can reproducibly build to spec; and record the design transfer before routine manufacturing begins.",
+   "how": "",
+   "who": "R&D / Operations",
+   "documents": "",
+   "depends": "DEV.validate",
+   "leads": "-",
+   "clause": "ISO 13485 7.3.8 design and development transfer",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Translate the design",
+     "steps": [
+      {
+       "t": "Produce production specs & instructions",
+       "d": "From the verified/validated design outputs."
+      },
+      {
+       "t": "Set acceptance criteria",
+       "d": "Incoming, in-process and final checks."
+      }
+     ]
+    },
+    {
+     "role": "Confirm & record",
+     "steps": [
+      {
+       "t": "Confirm reproducibility",
+       "d": "A first-article or pilot run builds to spec."
+      },
+      {
+       "t": "Record the transfer",
+       "d": "Sign the design-transfer record before routine production."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A signed design-transfer record confirms production can build the validated design.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3.8 design and development transfer"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 820",
+     "refs": [
+      "820.30(h) design transfer"
+     ]
+    }
+   ],
+   "records": [
+    "Design-transfer record",
+    "Production specifications & work instructions"
+   ],
+   "tips": [
+    "Transfer is a gate, not a formality - production must prove it can build the validated design.",
+    "Define acceptance criteria before the first production run, not after.",
+    "A pilot / first-article run catches transfer gaps before they become field failures."
+   ],
+   "lean": {
+    "start": "A design-transfer record confirming production specs, work instructions and acceptance criteria match the validated design.",
+    "startDetail": [
+     "Design outputs translated into production specifications and work instructions.",
+     "Acceptance criteria defined for incoming, in-process and final checks.",
+     "A confirmation that production can reproducibly build to the validated spec (first-article / pilot run).",
+     "A design-transfer record signed before routine manufacturing.",
+     "Any process validation (IQ/OQ/PQ) needs identified and scheduled."
+    ],
+    "evolve": "Add formal transfer protocols with demonstrated process capability and a controlled ramp to volume.",
+    "evolveDetail": [
+     "Formal transfer protocols with statistical process-capability evidence.",
+     "A controlled ramp from pilot to full-volume production.",
+     "Feedback from early production folded back into design and risk."
+    ]
+   },
+   "dur": 5,
+   "es": 168,
+   "ef": 173,
+   "sid": "DEV.transfer",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 101,
+   "workstream": "qms"
+  },
+  {
+   "id": "TEF.regstrat",
+   "phase": "P1",
+   "wave": "W3",
+   "qse": "Process Management",
+   "statement": "Develop the regulatory strategy.",
+   "why": "The regulatory strategy turns an intended purpose into a route to market: which regulation and class, which markets and in what order, the conformity path, the evidence you'll need and the timeline. Getting it explicit early aligns the whole project and cost; leaving it implicit means late, expensive surprises about class, evidence or notified-body involvement.",
+   "what": "Document the device-specific regulatory strategy: applicable regulation(s) and expected class, target markets and sequence, the conformity-assessment route, the evidence plan (clinical/performance, standards), and the timeline to CE / clearance.",
+   "how": "",
+   "who": "RA / Management",
+   "documents": "",
+   "depends": "DEV.intended",
+   "leads": "-",
+   "clause": "EU MDR Art 52 conformity assessment",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Set the route",
+     "steps": [
+      {
+       "t": "Fix regulation, class & markets",
+       "d": "From the intended purpose; the order of market entry."
+      },
+      {
+       "t": "Choose the conformity route",
+       "d": "Self-declaration vs NB; FDA pathway where relevant."
+      }
+     ]
+    },
+    {
+     "role": "Plan the evidence & timeline",
+     "steps": [
+      {
+       "t": "Scope the evidence",
+       "d": "Clinical/performance, standards, biocompatibility the route implies."
+      },
+      {
+       "t": "Build the timeline",
+       "d": "Including Notified-Body lead times."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A regulatory strategy states the route, markets, evidence and timeline.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Art 52 conformity assessment",
+      "Annex VIII classification"
+     ]
+    },
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Art 48 conformity assessment"
+     ]
+    }
+   ],
+   "records": [
+    "Regulatory strategy",
+    "Target-market & route plan"
+   ],
+   "tips": [
+    "Decide markets and their order early - it changes your evidence and timeline.",
+    "Classification drives everything downstream; get it and the route agreed before you build.",
+    "Notified-Body lead time is usually the critical path - put it in the strategy."
+   ],
+   "lean": {
+    "start": "A one-to-two-page regulatory strategy: regulation and class, target markets, route to market, and the evidence and timeline it implies.",
+    "startDetail": [
+     "The applicable regulation(s) and the expected risk class from the intended purpose.",
+     "Target markets and the order you'll enter them (EU, US, others).",
+     "The conformity-assessment route (self-declaration vs Notified Body; FDA pathway).",
+     "The evidence the route implies (clinical/performance, standards, biocompatibility).",
+     "A realistic timeline to CE / clearance, including Notified-Body lead times."
+    ],
+    "evolve": "Expand into per-market regulatory intelligence and a maintained roadmap as the portfolio and geographies grow.",
+    "evolveDetail": [
+     "Per-market regulatory intelligence and roadmaps.",
+     "A maintained strategy re-visited on every significant change.",
+     "Reimbursement and market-access strategy alongside the regulatory one."
+    ]
+   },
+   "dur": 4,
+   "es": 23,
+   "ef": 27,
+   "sid": "TEF.regstrat",
+   "proc": "TEF",
+   "procName": "Technical file & market access",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 102,
+   "workstream": "tf"
+  },
+  {
+   "id": "DEV.ddplan",
+   "phase": "P2",
+   "wave": "W1",
+   "qse": "Process Management",
+   "statement": "Create the design & development plan.",
+   "why": "ISO 13485 7.3.2 requires a design & development plan that defines the stages, the reviews, verification, validation and transfer, and the responsibilities and interfaces. It's the map for the whole build - without it, design work drifts, reviews are missed, and the design history file has holes a Notified Body will find.",
+   "what": "Write the device-specific design & development plan: the stages and their deliverables, where design reviews and V&V happen, the responsibilities and interfaces between groups, and how the plan is kept current as the design evolves.",
+   "how": "",
+   "who": "R&D / Quality",
+   "documents": "",
+   "depends": "DEV.intended",
+   "leads": "-",
+   "clause": "ISO 13485 7.3.2 design and development planning",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Plan the stages",
+     "steps": [
+      {
+       "t": "Define stages & deliverables",
+       "d": "Each stage and what it produces."
+      },
+      {
+       "t": "Place the review & V&V gates",
+       "d": "Where reviews, verification and validation happen."
+      }
+     ]
+    },
+    {
+     "role": "Assign & link",
+     "steps": [
+      {
+       "t": "Assign responsibilities & interfaces",
+       "d": "Between R&D, quality, clinical and software."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A D&D plan defines the stages, gates, responsibilities and interfaces.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3.2 design and development planning"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 820",
+     "refs": [
+      "820.30(b) design and development planning"
+     ]
+    }
+   ],
+   "records": [
+    "Design & development plan"
+   ],
+   "tips": [
+    "Plan the reviews and V&V gates up front - they're where evidence is generated.",
+    "Name the interfaces between groups; missed hand-offs are where designs slip.",
+    "Keep the plan live - update it through change control as the design moves."
+   ],
+   "lean": {
+    "start": "A one-page D&D plan: the stages, the review and V&V gates, and who owns each.",
+    "startDetail": [
+     "The design stages and the deliverable(s) at each.",
+     "Where design reviews sit, and where verification and validation happen.",
+     "Responsibilities and the interfaces between groups (R&D, quality, clinical, software).",
+     "The link to risk management and the design history file.",
+     "How the plan is updated as the design evolves."
+    ],
+    "evolve": "Grow into formal stage gates with a review board and integrated software/usability sub-plans.",
+    "evolveDetail": [
+     "Formal stage gates with a design-review board.",
+     "Integrated software (62304) and usability (62366) sub-plans.",
+     "Live plan updates tracked through change control."
+    ]
+   },
+   "dur": 3,
+   "es": 33,
+   "ef": 36,
+   "sid": "DEV.ddplan",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 103,
+   "workstream": "tf"
+  },
+  {
+   "id": "DEV.vvplan",
+   "phase": "P2",
+   "wave": "W3",
+   "qse": "Process Management",
+   "statement": "Create the verification & validation plan.",
+   "why": "Verification proves the design outputs meet the inputs; validation proves the device meets user needs and intended use. The V&V plan decides, up front, what will be tested, how, and against which acceptance criteria - so V&V generates defensible evidence rather than ad-hoc testing a reviewer can pick apart.",
+   "what": "Write the verification & validation plan: the requirements to be verified and the methods and acceptance criteria for each, the validation approach against user needs (drawing on clinical/performance and usability), and the traceability that ties evidence back to requirements.",
+   "how": "",
+   "who": "R&D / Quality",
+   "documents": "",
+   "depends": "DEV.inputs",
+   "leads": "-",
+   "clause": "ISO 13485 7.3.6 design verification",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Plan verification",
+     "steps": [
+      {
+       "t": "Map requirements to methods",
+       "d": "Each requirement gets a verification method and acceptance criteria."
+      }
+     ]
+    },
+    {
+     "role": "Plan validation",
+     "steps": [
+      {
+       "t": "Define the validation approach",
+       "d": "Against user needs, drawing on clinical/performance and usability."
+      },
+      {
+       "t": "Establish traceability",
+       "d": "Every result ties back to a requirement."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A V&V plan defines methods, acceptance criteria and traceability for verification and validation.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3.6 design verification",
+      "7.3.7 design validation"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 820",
+     "refs": [
+      "820.30(f)(g) verification & validation"
+     ]
+    }
+   ],
+   "records": [
+    "Verification & validation plan",
+    "Requirements-to-test traceability"
+   ],
+   "tips": [
+    "Set acceptance criteria in the plan, before testing, so results are judged not negotiated.",
+    "Verification (outputs vs inputs) and validation (device vs user needs) are different - plan both.",
+    "Traceability is what turns a pile of test reports into defensible evidence."
+   ],
+   "lean": {
+    "start": "A V&V plan mapping the key requirements to a test method and acceptance criteria, plus the validation approach against user needs.",
+    "startDetail": [
+     "Each requirement mapped to a verification method and acceptance criteria.",
+     "The validation approach against user needs and intended use.",
+     "How clinical/performance and summative-usability evidence feed validation.",
+     "Traceability tying every V&V result back to a requirement.",
+     "The order: verification before validation; freeze before validation where needed."
+    ],
+    "evolve": "Add automated regression, full requirement-by-requirement coverage and a validation master plan.",
+    "evolveDetail": [
+     "Full requirement-by-requirement verification coverage.",
+     "Automated regression so re-verification is cheap.",
+     "A validation master plan spanning design, process and software."
+    ]
+   },
+   "dur": 3,
+   "es": 53,
+   "ef": 56,
+   "sid": "DEV.vvplan",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 104,
+   "workstream": "tf"
+  },
+  {
+   "id": "TEF.stdlist",
+   "phase": "P2",
+   "wave": "W1",
+   "qse": "Customer Focus",
+   "statement": "List the applicable legislation and standards.",
+   "why": "Conformity is demonstrated against specific legislation, harmonised standards and common specifications. A maintained list of what applies - and which version - is the backbone of the GSPR checklist and the technical file: it's how you claim presumption of conformity, and it's the first thing a reviewer checks. An out-of-date standards list is a classic finding.",
+   "what": "Compile and maintain the list of applicable legislation, harmonised standards and common specifications for your device, with the version and how each is applied - feeding the GSPR checklist and the technical file.",
+   "how": "",
+   "who": "RA",
+   "documents": "",
+   "depends": "TEF.classify.mdr",
+   "leads": "-",
+   "clause": "EU MDR Art 8 harmonised standards",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Compile the list",
+     "steps": [
+      {
+       "t": "Identify applicable legislation",
+       "d": "Regulation(s) and any delegated/implementing acts."
+      },
+      {
+       "t": "Identify standards & CS",
+       "d": "Harmonised standards and common specifications, with versions."
+      }
+     ]
+    },
+    {
+     "role": "Maintain it",
+     "steps": [
+      {
+       "t": "Assign owner & review trigger",
+       "d": "So the list tracks new/updated standards."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A versioned list of applicable legislation and standards exists and maps to how each is used.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Art 8 harmonised standards",
+      "Annex I GSPR"
+     ]
+    },
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Art 8 harmonised standards"
+     ]
+    }
+   ],
+   "records": [
+    "List of applicable legislation & standards"
+   ],
+   "tips": [
+    "Record the exact version - 'IEC 60601-1' without an edition is not enough.",
+    "Only harmonised standards give presumption of conformity; note which are harmonised.",
+    "This list feeds the GSPR checklist directly - keep them in sync."
+   ],
+   "lean": {
+    "start": "A single list of the legislation and standards that apply, with versions, mapped to how you use each.",
+    "startDetail": [
+     "The applicable regulation(s) and any delegated/implementing acts.",
+     "The harmonised standards and common specifications for your device type.",
+     "The version/edition of each, and whether you apply it in full or in part.",
+     "How each is used (which requirement or GSPR it supports).",
+     "An owner and a review trigger so the list stays current."
+    ],
+    "evolve": "Add standards-monitoring and presumption-of-conformity tracking as the portfolio grows.",
+    "evolveDetail": [
+     "Standards-monitoring subscriptions with change alerts.",
+     "Presumption-of-conformity tracking as harmonisation changes.",
+     "Per-product standards lists managed from one master."
+    ]
+   },
+   "dur": 2,
+   "es": 33,
+   "ef": 35,
+   "sid": "TEF.stdlist",
+   "proc": "TEF",
+   "procName": "Technical file & market access",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 105,
+   "workstream": "tf"
+  },
+  {
+   "id": "CLE.sota",
+   "phase": "P2",
+   "wave": "W2",
+   "qse": "Process Management",
+   "statement": "Perform the state-of-the-art literature search.",
+   "why": "The state of the art defines the benchmark your device is judged against: the current standard of care, the alternatives, and the accepted safety and performance. A reproducible, protocol-driven literature search establishes it - and underpins the clinical evaluation, the benefit-risk and the GSPR. A weak or non-reproducible search is one of the most common CER findings.",
+   "what": "Run the state-of-the-art literature search to a written protocol: databases, terms and inclusion/exclusion criteria; appraise the results for relevance and quality; and document the current standard of care and benchmarks the clinical evaluation is judged against.",
+   "how": "",
+   "who": "Clinical / RA",
+   "documents": "",
+   "depends": "CLE.plan",
+   "leads": "-",
+   "clause": "EU MDR Annex XIV clinical evaluation",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Search",
+     "steps": [
+      {
+       "t": "Write the search protocol",
+       "d": "Databases, terms, inclusion/exclusion criteria - reproducible."
+      },
+      {
+       "t": "Run and log the search",
+       "d": "Dated, so it can be re-run and audited."
+      }
+     ]
+    },
+    {
+     "role": "Appraise",
+     "steps": [
+      {
+       "t": "Appraise the results",
+       "d": "For relevance and quality; document the standard of care and benchmarks."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A reproducible SOTA search documents the current standard of care and benchmarks.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Annex XIV clinical evaluation",
+      "MDCG 2020-6"
+     ]
+    },
+    {
+     "std": "ISO 14971",
+     "refs": [
+      "State of the art (benefit-risk)"
+     ]
+    }
+   ],
+   "records": [
+    "SOTA literature-search protocol",
+    "SOTA search & appraisal report"
+   ],
+   "tips": [
+    "Write the protocol before you search - a non-reproducible search is a top CER finding.",
+    "State of the art is the benchmark you're judged against; get it right or the whole CER wobbles.",
+    "Log every search dated so it can be re-run - reviewers will ask."
+   ],
+   "lean": {
+    "start": "A protocol-driven literature search that documents the current standard of care and the benchmarks your device is judged against.",
+    "startDetail": [
+     "A written, reproducible search protocol (databases, terms, inclusion/exclusion criteria).",
+     "A dated search log so the search can be re-run and audited.",
+     "An appraisal of the results for relevance and quality (not just a citation list).",
+     "The current standard of care, alternatives and accepted safety/performance benchmarks.",
+     "The output feeding the clinical evaluation plan and the GSPR."
+    ],
+    "evolve": "Schedule periodic re-runs and manage the evidence in a structured appraisal database.",
+    "evolveDetail": [
+     "Scheduled re-runs so the state of the art stays current.",
+     "A structured evidence-appraisal database.",
+     "Alignment with any applicable common specifications."
+    ]
+   },
+   "dur": 5,
+   "es": 48,
+   "ef": 53,
+   "sid": "CLE.sota",
+   "proc": "CLE",
+   "procName": "Clinical evaluation (MDR)",
+   "maturity": "lean",
+   "reg": [
+    "MDR"
+   ],
+   "authored": true,
+   "ord": 106,
+   "workstream": "tf"
+  },
+  {
+   "id": "PEV.applan",
+   "phase": "P2",
+   "wave": "W2",
+   "qse": "Process Management",
+   "statement": "Create the analytical-performance plan.",
+   "why": "Analytical performance - how accurately and reliably the assay measures the analyte - is the first tier of IVD evidence you generate yourself. The plan decides, to recognised protocols (CLSI/ISO), which parameters you'll establish, on what design, across which specimen matrix, and against which acceptance criteria - so the studies produce defensible data rather than numbers a notified body can challenge.",
+   "what": "Write the analytical-performance plan to CLSI/ISO protocols: the parameters to establish (precision, trueness, LoD/LoQ, linearity, interferences, specimen types, stability), the study designs, the specimen matrix, and the pre-set acceptance criteria.",
+   "how": "",
+   "who": "RA / Lab",
+   "documents": "",
+   "depends": "PEV.plan",
+   "leads": "-",
+   "clause": "EU IVDR Annex XIII analytical performance",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Plan the studies",
+     "steps": [
+      {
+       "t": "Choose parameters & protocols",
+       "d": "Precision, trueness, LoD/LoQ, linearity, interferences - to CLSI/ISO."
+      },
+      {
+       "t": "Set acceptance criteria",
+       "d": "Pre-set, before testing, per parameter."
+      }
+     ]
+    },
+    {
+     "role": "Scope the matrix",
+     "steps": [
+      {
+       "t": "Cover specimen types & stability",
+       "d": "As the intended purpose requires."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "An analytical-performance plan names the parameters, protocols and pre-set acceptance criteria.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Annex XIII analytical performance"
+     ]
+    },
+    {
+     "std": "CLSI / ISO",
+     "refs": [
+      "EP05/EP17; ISO 5725"
+     ]
+    }
+   ],
+   "records": [
+    "Analytical-performance plan"
+   ],
+   "tips": [
+    "Pre-set acceptance criteria per parameter - deciding them after you see data is a finding.",
+    "Use recognised CLSI/ISO protocols; bespoke methods invite challenge.",
+    "Cover the real specimen matrix and interferents, not just clean samples."
+   ],
+   "lean": {
+    "start": "An analytical-performance plan naming the core parameters, their study designs and pre-set acceptance criteria.",
+    "startDetail": [
+     "The parameters to establish: precision, trueness/bias, LoD/LoQ, linearity, interferences.",
+     "The recognised protocol (CLSI/ISO) for each parameter.",
+     "The specimen types and matrix, and stability conditions to cover.",
+     "Pre-set acceptance criteria for each parameter.",
+     "The near-final design the studies run on, and the link to the PER."
+    ],
+    "evolve": "Extend to the full IVDR parameter set and real-time stability as the assay matures.",
+    "evolveDetail": [
+     "The full IVDR analytical parameter set.",
+     "Real-time (not just accelerated) stability data.",
+     "Method-comparison and commutability work."
+    ]
+   },
+   "dur": 3,
+   "es": 48,
+   "ef": 51,
+   "sid": "PEV.applan",
+   "proc": "PEV",
+   "procName": "Performance evaluation (IVDR)",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 107,
+   "workstream": "tf"
+  },
+  {
+   "id": "BIO.report",
+   "phase": "P3",
+   "wave": "W1",
+   "qse": "Process Management",
+   "statement": "Finalise the biological-evaluation report.",
+   "why": "The biological evaluation report is the ISO 10993-1 conclusion that patient-contacting materials are biologically safe. It closes the plan: it states each endpoint's conclusion from the data - existing material data, chemical characterisation and any testing - and the residual biological risk. An incomplete or unjustified BER is a top technical-file gap for any device with body contact.",
+   "what": "Compile the biological evaluation report: conclude each applicable biological endpoint from material data, literature, chemical characterisation and testing; state the residual biological risk; and feed it into the risk file and GSPR.",
+   "how": "",
+   "who": "R&D / Toxicology",
+   "documents": "",
+   "depends": "BIO.setup",
+   "leads": "-",
+   "clause": "ISO 10993-1 Biological evaluation within risk management",
+   "mods": [
+    "HW"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Conclude the endpoints",
+     "steps": [
+      {
+       "t": "Assess from data first",
+       "d": "Close endpoints from material data and literature."
+      },
+      {
+       "t": "Test the genuine gaps",
+       "d": "Chemical characterisation / toxicological assessment where needed."
+      }
+     ]
+    },
+    {
+     "role": "Report & link",
+     "steps": [
+      {
+       "t": "State residual biological risk",
+       "d": "Feed it into the risk file and GSPR."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A biological evaluation report concludes each endpoint and states residual risk.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 10993-1",
+     "refs": [
+      "Biological evaluation within risk management"
+     ]
+    },
+    {
+     "std": "ISO 10993-18",
+     "refs": [
+      "Chemical characterisation"
+     ]
+    }
+   ],
+   "records": [
+    "Biological evaluation report (BER)"
+   ],
+   "tips": [
+    "Conclude from existing data first - only test the genuine gaps.",
+    "The BER must address every applicable endpoint for your contact category, or it's incomplete.",
+    "Chemical characterisation often closes endpoints faster than biological testing."
+   ],
+   "lean": {
+    "start": "A biological evaluation report that concludes each endpoint from data, testing only the genuine gaps, with residual risk stated.",
+    "startDetail": [
+     "Each applicable endpoint (per the contact category) concluded from data or testing.",
+     "Existing material data, master files and literature used to close endpoints without new testing.",
+     "Chemical characterisation / toxicological assessment where a real gap remained.",
+     "The residual biological risk stated and fed into the risk file.",
+     "The BER cross-referenced from the GSPR checklist."
+    ],
+    "evolve": "Extend characterisation and endpoint coverage as materials, processing or claims change.",
+    "evolveDetail": [
+     "Deeper extractables/leachables and toxicological assessment.",
+     "Re-evaluation triggered by material or process changes.",
+     "Broader endpoint coverage as claims expand."
+    ]
+   },
+   "dur": 4,
+   "es": 98,
+   "ef": 102,
+   "sid": "BIO.report",
+   "proc": "BIO",
+   "procName": "Biological evaluation",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 108,
+   "workstream": "tf"
+  },
+  {
+   "id": "DEV.trace",
+   "phase": "P3",
+   "wave": "W2",
+   "qse": "Process Management",
+   "statement": "Finalise the design traceability matrix.",
+   "why": "Traceability is what proves the design is complete and controlled: every user need flows to a design input, to an output, to verification and validation, and to the risks it controls. A finalised, bidirectional traceability matrix is the reviewer's map of the whole design - gaps in it read as gaps in the design itself.",
+   "what": "Complete the bidirectional traceability matrix linking user needs to design inputs to outputs to verification and validation to risk controls, and confirm there are no orphans or gaps before the technical file is compiled.",
+   "how": "",
+   "who": "R&D / Quality",
+   "documents": "",
+   "depends": "DEV.verify",
+   "leads": "-",
+   "clause": "ISO 13485 7.3 design traceability",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Complete the matrix",
+     "steps": [
+      {
+       "t": "Link the chain",
+       "d": "Needs to inputs to outputs to V&V to risk controls."
+      },
+      {
+       "t": "Check for orphans",
+       "d": "Anything untraced is a gap to close."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A complete, orphan-free traceability matrix links needs to V&V and risk controls.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3 design traceability"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 820",
+     "refs": [
+      "820.30 design controls"
+     ]
+    }
+   ],
+   "records": [
+    "Design traceability matrix"
+   ],
+   "tips": [
+    "An orphan in the matrix is a gap in the design - close it before you compile the file.",
+    "Bidirectional matters: forward (need to V&V) AND backward (test to requirement).",
+    "Trace risk controls too - it's how you prove each control is verified."
+   ],
+   "lean": {
+    "start": "A single traceability matrix linking needs to inputs to outputs to V&V to risk controls, checked for orphans.",
+    "startDetail": [
+     "Every user need traced to a design input.",
+     "Every input traced to an output and to its verification.",
+     "Validation traced to user needs and intended use.",
+     "Each risk control traced to the requirement and the evidence that it works.",
+     "A check for orphans (anything untraced) before the technical file is compiled."
+    ],
+    "evolve": "Maintain live bidirectional traceability in an ALM tool with change-impact analysis.",
+    "evolveDetail": [
+     "Live traceability maintained in an ALM tool.",
+     "Change-impact analysis from the matrix.",
+     "Standards/GSPR traced item-by-item into the matrix."
+    ]
+   },
+   "dur": 2,
+   "es": 113,
+   "ef": 115,
+   "sid": "DEV.trace",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 109,
+   "workstream": "tf"
+  },
+  {
+   "id": "RSK.signoff",
+   "phase": "P4",
+   "wave": "W1",
+   "qse": "Continual Improvement",
+   "statement": "Sign off the risk-management report.",
+   "why": "Before release, ISO 14971 requires the responsible person to review the risk management and conclude that the overall residual risk and overall benefit-risk are acceptable. This final sign-off - after V&V, clinical/performance and any early post-market data - is the gate that says the device is safe enough to place on the market. It's the conclusion a Notified Body looks for.",
+   "what": "Review the completed risk management file, confirm the plan was executed, evaluate the overall residual risk and overall benefit-risk against the acceptability criteria, and sign off the risk management report before release - keeping it live from post-market data.",
+   "how": "",
+   "who": "Quality / Management",
+   "documents": "",
+   "depends": "RSK.report",
+   "leads": "-",
+   "clause": "ISO 14971 8 overall residual risk evaluation",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Review & conclude",
+     "steps": [
+      {
+       "t": "Confirm plan implementation",
+       "d": "The risk-management plan was executed."
+      },
+      {
+       "t": "Evaluate overall risk",
+       "d": "Overall residual and overall benefit-risk against the criteria."
+      }
+     ]
+    },
+    {
+     "role": "Sign off",
+     "steps": [
+      {
+       "t": "Sign the report",
+       "d": "The responsible person signs off before release."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A signed risk-management report concludes acceptable overall residual and benefit-risk.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 14971",
+     "refs": [
+      "8 overall residual risk evaluation",
+      "9 risk management review & report"
+     ]
+    },
+    {
+     "std": "EU MDR",
+     "refs": [
+      "Annex I GSPR 1-8 benefit-risk"
+     ]
+    }
+   ],
+   "records": [
+    "Signed risk-management report",
+    "Overall benefit-risk conclusion"
+   ],
+   "tips": [
+    "The sign-off is a real gate - don't release until overall benefit-risk is concluded acceptable.",
+    "Evaluate overall residual risk, not just each risk individually - they add up.",
+    "Keep it living - post-market data can change the benefit-risk and needs a re-sign."
+   ],
+   "lean": {
+    "start": "A signed risk-management report concluding acceptable overall residual and benefit-risk, before release.",
+    "startDetail": [
+     "Confirmation the risk-management plan was implemented as written.",
+     "The overall residual risk evaluated across all risks together.",
+     "The overall benefit-risk judged acceptable against the criteria, with rationale.",
+     "Consistency checked against the CER/PER and the intended-purpose claims.",
+     "Sign-off by the responsible person/management before release."
+    ],
+    "evolve": "Keep the report live from post-market data, re-signing when the benefit-risk picture changes.",
+    "evolveDetail": [
+     "Scheduled updates from PMS, complaints and PMCF/PMPF.",
+     "Benefit-risk re-assessed and re-signed on new hazards or field data.",
+     "Version alignment across the risk file, CER/PER and technical file."
+    ]
+   },
+   "dur": 2,
+   "es": 168,
+   "ef": 170,
+   "sid": "RSK.signoff",
+   "proc": "RSK",
+   "procName": "Risk management",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 110,
+   "workstream": "tf"
   }
  ],
  "documents": [
