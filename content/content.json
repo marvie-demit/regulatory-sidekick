@@ -722,7 +722,7 @@
   {
    "id": "DEV.inputs",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Turn stakeholder needs into design inputs and outputs.",
    "why": "Design inputs translate the intended purpose, user needs, regulatory and risk requirements into concrete, verifiable requirements; design outputs are the specifications that meet them and enable production. ISO 13485 7.3.3-7.3.4 require inputs to be complete, unambiguous and reviewed, and outputs to be verifiable against them. Weak inputs are the root cause of most late design problems and verification failures.",
@@ -1003,7 +1003,7 @@
   {
    "id": "DEV.validate",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Validate against user needs, transfer to production, release.",
    "why": "Design validation confirms the device meets user needs and intended use under actual or simulated use conditions - that you built the right device. ISO 13485 7.3.7 requires validation on representative product before release; for many devices this is where clinical / performance evidence and summative usability land. Design transfer (7.3.8) then verifies the design is correctly translated into production, and the product is released for market once validation, risk and transfer are complete.",
@@ -1384,7 +1384,7 @@
   {
    "id": "DEV.ivd",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Run the IVD design & development (assay-specific).",
    "why": "IVD design and development follows the same design-control discipline but with assay-specific inputs and outputs: the intended purpose and analyte, the assay design, reagents and specimen requirements, and the design plan geared to the IVDR performance-evaluation evidence. Getting the IVD design right and traceable is what makes the analytical and clinical performance studies meaningful.",
@@ -1904,7 +1904,7 @@
   {
    "id": "RSK.analyze",
    "phase": "P2",
-   "wave": "W3",
+   "wave": "W6",
    "qse": "Continual Improvement",
    "statement": "Analyse & evaluate risks; implement controls in priority order.",
    "why": "This is the analytical heart of risk management. ISO 14971 requires you to identify hazards and foreseeable sequences of events, estimate and evaluate the associated risks against your acceptability criteria, and implement risk controls in the priority order: inherent safety by design first, then protective measures, then information for safety. Use-related hazards from formative usability and security threats feed in here. The risk management table/file is the living record a Notified Body reads closely.",
@@ -2203,7 +2203,7 @@
   {
    "id": "RSK.ivd",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Risk management (IVD variant)",
    "why": "IVDs carry a particular risk: a wrong result leads to a wrong clinical decision. IVD risk management (ISO 14971 applied to diagnostics) makes you think through false positives and negatives and the harm they cause downstream, not just device failure.",
@@ -2508,7 +2508,7 @@
   {
    "id": "RSK.postmarket",
    "phase": "P4",
-   "wave": "W8",
+   "wave": "W9",
    "qse": "Process Management",
    "statement": "Feed post-market data back into the risk file & benefit-risk.",
    "why": "Risk management does not stop at market. ISO 14971 section 10 requires production and post-production information to be collected and fed back into the risk file: new hazards, changed probabilities, real-world severity. PMS, complaints, vigilance and PMCF/PMPF data can shift the benefit-risk - and if it turns unfavourable you must act (field action, CER/PER update, design change). This closes the loop the whole system depends on.",
@@ -2650,7 +2650,7 @@
   {
    "id": "SWD.plan",
    "phase": "P2",
-   "wave": "W3",
+   "wave": "W6",
    "qse": "Process Management",
    "statement": "Plan the software lifecycle & assign the 62304 safety class.",
    "why": "IEC 62304 starts with planning and, critically, software safety classification (Class A/B/C) based on the possible harm from a software failure. The class sets how much rigour the whole lifecycle needs. The plan defines the lifecycle model, activities, configuration management and problem resolution. Getting the safety class and plan right up front avoids under- or over-engineering the entire software effort.",
@@ -2794,7 +2794,7 @@
   {
    "id": "SWD.design",
    "phase": "P2",
-   "wave": "W4",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "SW requirements & architecture.",
    "why": "For software - SaMD or embedded - IEC 62304 defines the lifecycle that makes software safe: requirements, architecture, detailed design, implementation, integration and system testing, plus maintenance, configuration management and problem resolution, all scaled to the software safety class. Skipping these steps leaves software that cannot be shown to be safe or maintainable, and the technical file cannot stand.",
@@ -3130,7 +3130,7 @@
   {
    "id": "SWD.build",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W8",
    "qse": "Process Management",
    "statement": "Implement the software with reviews under the IEC 62304 lifecycle.",
    "why": "Implementation is where the software architecture becomes code under the IEC 62304 lifecycle. For anything above Class A, 62304 requires defined implementation with unit verification, code and design reviews and configuration control, all traceable to the software requirements and architecture. Disciplined reviews here catch defects - and safety issues - far more cheaply than in verification or in the field.",
@@ -3271,7 +3271,7 @@
   {
    "id": "SWD.verify",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Verify & validate the software; compile the software file.",
    "why": "Software verification (unit, integration and system testing) confirms the software meets its requirements; software validation confirms it meets user needs in the intended environment. IEC 62304 s5.5-s5.7 require planned testing traceable to requirements, with results and anomalies recorded. This is where defects are caught before release, and it is the evidence a reviewer traces requirement by requirement.",
@@ -3430,7 +3430,7 @@
   {
    "id": "SWD.release",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Release the software with anomalies assessed + cybersecurity docs.",
    "why": "Software release under IEC 62304 5.8 requires that verification is complete, known anomalies are documented and their risk assessed, and the released version is under configuration control with an archived, reproducible build. Cybersecurity documentation (IEC 81001-5-1, MDCG 2019-16) - SBOM, threat model, security testing - is now expected in the technical file for connected and software devices. The software full report consolidates the lifecycle evidence.",
@@ -3738,7 +3738,7 @@
   {
    "id": "SWD.diga",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Meet the DiGA fast-track requirements (German market).",
    "why": "DiGA (Digitale Gesundheitsanwendungen) is the German fast-track for reimbursable digital health applications, run by BfArM under the DVG and DiGAV. Beyond CE marking (class I / IIa), it demands specific requirements: data protection and security (including a security assessment), interoperability, usability, and evidence of a positive healthcare effect. It is a distinct, additional pathway for the German market, not a replacement for MDR conformity.",
@@ -4166,7 +4166,7 @@
   {
    "id": "HUF.formative",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Run iterative formative usability evaluations that feed risk & design.",
    "why": "Formative evaluation is the iterative, in-design usability work: you test the evolving user interface with representative users to find and fix use problems before design freeze. Its purpose is improvement, not proof. Crucially, use errors and hazard-related use scenarios found here feed the risk analysis (the IEC 62366-1 / ISO 14971 interface) and drive design changes - doing this late means expensive rework or an unsafe device.",
@@ -4468,7 +4468,7 @@
   {
    "id": "AIM.plan",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "AI/ML lifecycle & data-governance plan.",
    "why": "An AI/ML component adds obligations on top of the device rules: under the EU AI Act a medical-device AI is typically high-risk, requiring a risk-management system, data and data governance, technical documentation, transparency, human oversight and demonstrated accuracy, robustness and cybersecurity. ISO/IEC 42001 provides the AI management system to govern it. Treating AI like ordinary software misses these duties and the model-specific risks of drift, bias and opacity.",
@@ -4760,7 +4760,7 @@
   {
    "id": "AIM.build",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W6",
    "qse": "Information Management",
    "statement": "Model validation, oversight & logging.",
    "why": "For an AI medical device, the EU AI Act adds obligations that culminate near market entry: record-keeping and logging (Art 12), transparency and instructions for use (Art 13), human-oversight design (Art 14), and registration plus the Annex IV technical documentation. Completing these makes the AI conformant and traceable, and is checked at conformity assessment.",
@@ -5039,7 +5039,7 @@
   {
    "id": "AIM.compliance",
    "phase": "P2",
-   "wave": "W3",
+   "wave": "W7",
    "qse": "Information Management",
    "statement": "Produce the PCCP + EU AI Act technical documentation.",
    "why": "AI-enabled devices carry extra documentation duties. A Predetermined Change Control Plan (PCCP) lets you pre-authorise defined model updates (retraining within bounds) without re-certifying each time - both FDA and EU frameworks recognise it. The EU AI Act additionally requires technical documentation (Annex IV) for high-risk AI systems: system description, data governance, risk management, human oversight, accuracy/robustness and logging. This is what makes an AI device maintainable and compliant post-market.",
@@ -5179,7 +5179,7 @@
   {
    "id": "DEP.plan",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Release & deployment plan.",
    "why": "Getting software safely from 'done' to 'in the field' - and keeping it safe through updates - is its own controlled process. IEC 62304 covers release, deployment and maintenance so that what users run is the version you verified, and updates do not introduce new risk.",
@@ -6559,7 +6559,7 @@
   {
    "id": "PEV.sv",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W5",
    "qse": "Assessment",
    "statement": "Establish scientific validity - the analyte-condition association.",
    "why": "Scientific validity is the first tier of the IVDR evidence pyramid: the association of the analyte with the clinical condition or physiological state. It is established from the scientific literature, expert consensus or prior data - not usually from your own study - and it underpins everything above it: without a sound analyte-condition link, analytical and clinical performance are meaningless. It is established early, from the research that the device came out of.",
@@ -6848,7 +6848,7 @@
   {
    "id": "PEV.ap",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Establish analytical performance (analytical validity) - the IVD's verification.",
    "why": "Analytical performance is the verification evidence for an IVD: it demonstrates the assay measures the analyte correctly. IVDR Annex XIII 1.2.2 and Annex I(9) require analytical sensitivity and specificity, trueness, precision (repeatability and reproducibility), limit of blank / detection / quantitation, measuring range and linearity, interference and cross-reactivity, specimen types and stability. This is the 'analytical validity' that must be solid before you spend on clinical performance - a weak AP dossier sinks the whole evaluation.",
@@ -7030,7 +7030,7 @@
   {
    "id": "PEV.ap.sw",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Establish analytical performance of the software / algorithm.",
    "why": "For software- and algorithm-driven IVDs (including SaMD and AI-based devices) analytical performance also covers the computational output - the algorithm's measurement or classification performance against a reference, its precision/reproducibility and its behaviour across the input space. It complements the wet-lab analytical performance and is scrutinised for reproducibility, dataset provenance and version control.",
@@ -7171,7 +7171,7 @@
   {
    "id": "PEV.cp",
    "phase": "P3",
-   "wave": "W3",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Establish clinical performance (clinical validity) - the IVD's validation.",
    "why": "Clinical performance is the validation evidence: the device yields results correlated with the clinical condition in the intended population - diagnostic sensitivity/specificity, PPV/NPV, likelihood ratios and expected values. IVDR Annex XIII 1.2.3 requires it; where it cannot be shown from existing data or literature it comes from a clinical performance study to ISO 20916, on the frozen device, in the intended-use setting. It is CONDITIONAL: for well-established analytes, scientific validity + analytical performance + existing clinical data may suffice - the route must be justified in the plan.",
@@ -7799,7 +7799,7 @@
   {
    "id": "TEF.gspr.mdr",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Customer Focus",
    "statement": "GSPR conformity checklist — MDR.",
    "why": "Selling in the USA means FDA, not CE. You have to determine the right pathway (510(k), De Novo, PMA or exempt), make the submission, and only distribute once cleared or approved - with US-specific QMSR and UDI obligations on top.",
@@ -8014,7 +8014,7 @@
   {
    "id": "TEF.gspr.ivdr",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Complete the IVDR Annex I GSPR checklist + system overview.",
    "why": "The General Safety and Performance Requirements (IVDR Annex I) are the substantive requirements the device must meet; the GSPR conformity checklist maps each applicable requirement to the evidence that satisfies it and is the backbone a Notified Body assesses. Legacy IVDD devices also need an IVDD-to-IVDR gap analysis. The system overview (device description) and the Annex II/III technical-documentation checklists frame the whole technical file.",
@@ -8176,7 +8176,7 @@
   {
    "id": "TEF.file",
    "phase": "P4",
-   "wave": "W3",
+   "wave": "W4",
    "qse": "Customer Focus",
    "statement": "Compile the technical documentation & draw up the DoC.",
    "why": "The technical documentation (MDR/IVDR Annex II & III) is the complete evidence dossier demonstrating conformity - device description, design and manufacturing information, GSPR, risk, verification/validation, clinical/performance evaluation, labelling and PMS. Once complete and (for NB-route devices) assessed, you draw up the EU Declaration of Conformity (Art 19) and affix the CE mark. This is the compilation gate before conformity assessment and market.",
@@ -8330,7 +8330,7 @@
   {
    "id": "TEF.certify.stage1",
    "phase": "P4",
-   "wave": "W4",
+   "wave": "W5",
    "qse": "Assessment",
    "statement": "Notified Body Stage 1 — documentation readiness.",
    "why": "Conformity assessment under MDR/IVDR Annex IX is a two-stage Notified Body audit. Stage 1 reviews the QMS documentation and the technical documentation to confirm the system is in place and the device is ready for the full assessment. Passing Stage 1 - or closing its findings - is the gate to the on-site Stage 2.",
@@ -8559,7 +8559,7 @@
   {
    "id": "TEF.certify.stage2",
    "phase": "P4",
-   "wave": "W5",
+   "wave": "W6",
    "qse": "Assessment",
    "statement": "Notified Body Stage 2 — on-site audit & certification.",
    "why": "Stage 2 is the on-site Notified Body audit that confirms the QMS is implemented and effective in practice and that the device conforms - the final gate to the certificate and CE marking (MDR/IVDR Annex IX). Closing any Stage 2 nonconformities leads to issue of the certificate, after which the manufacturer may affix the CE mark and place the device on the market.",
@@ -8797,7 +8797,7 @@
   {
    "id": "TEF.market.mdr",
    "phase": "P4",
-   "wave": "W6",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Placing on the market — MDR.",
    "why": "The technical documentation is the dossier that demonstrates conformity, and the Declaration of Conformity is the manufacturer's legal statement that the device meets the regulation - MDR/IVDR Annex II/III define the technical-file content, and MDR Art 19 / IVDR Art 17 require the DoC. Assembling a complete, well-structured technical file is what the Notified Body reviews; gaps here stop certification.",
@@ -9075,7 +9075,7 @@
   {
    "id": "TEF.market.ivdr",
    "phase": "P4",
-   "wave": "W6",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Place the IVD on the market under IVDR.",
    "why": "Placing on the market is the final regulatory gate: with the technical documentation complete, the Notified Body certificate (class B/C/D) in hand, the Declaration of Conformity signed and the CE mark affixed, you register the device and actors in EUDAMED and place it on the EU market. It also activates the ongoing obligations - PMS, PMPF, vigilance - so it is a start, not an end.",
@@ -9214,7 +9214,7 @@
   {
    "id": "TEF.market.fda",
    "phase": "P4",
-   "wave": "W4",
+   "wave": "W5",
    "qse": "Customer Focus",
    "statement": "Release the product to the US market (FDA pathway).",
    "why": "The US pathway is separate from CE marking: most devices need a 510(k) clearance (substantial equivalence), some a De Novo, and high-risk devices a PMA approval, with establishment registration and device listing under 21 CFR 807. From 2026 the Quality System Regulation aligns to ISO 13485 as the QMSR. FDA product release means the US-specific submission is cleared/approved and the device is registered and listed.",
@@ -9491,7 +9491,7 @@
   {
    "id": "LBL.produce",
    "phase": "P4",
-   "wave": "W2",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Produce the label, UDI layout and IFU to Annex I Ch III.",
    "why": "Labelling and the instructions for use are regulated deliverables: MDR/IVDR Annex I Chapter III sets what the label and IFU must contain, and Art 27 requires UDI (unique device identification) to be assigned and, for higher classes, registered in EUDAMED. Errors here - missing symbols, wrong UDI, an unclear IFU - are common causes of nonconformity and field actions. eIFU is permitted for certain professional devices under specific conditions.",
@@ -9928,7 +9928,7 @@
   {
    "id": "PMS.operate",
    "phase": "P4",
-   "wave": "W7",
+   "wave": "W8",
    "qse": "Process Management",
    "statement": "Operate PMS - proactive surveillance, PMS report & PSUR.",
    "why": "PMS is the active, systematic collection and analysis of real-world data on your device once it is on the market. MDR Art 83 requires a PMS system run to the PMS plan; the outputs are the PMS report (class I) or the Periodic Safety Update Report (PSUR, class IIa and above), summarising findings, conclusions and any preventive/corrective actions, and feeding the CER, risk file and design. This is proactive surveillance, distinct from reactive vigilance reporting.",
@@ -10093,7 +10093,7 @@
   {
    "id": "PMS.ivd",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Customer Focus",
    "statement": "Post-market surveillance (IVD variant)",
    "why": "Once your IVD is in use, real-world performance can differ from the lab. Post-market surveillance and performance follow-up (PMPF) catch drift, misuse and rare failures and feed them back into your evidence and risk file - an IVDR legal duty.",
@@ -10291,7 +10291,7 @@
   {
    "id": "PCF.plan",
    "phase": "P4",
-   "wave": "W2",
+   "wave": "W3",
    "qse": "Continual Improvement",
    "statement": "Write the PMCF plan (proactive clinical follow-up).",
    "why": "The PMCF plan defines how you will proactively collect clinical data once the device is on the market - the activities (registries, surveys, studies, literature), their objectives and their schedule. MDR Annex XIV Part B requires it, and MDCG 2020-7 provides the template. A concrete PMCF plan is what turns 'we'll monitor' into an actual evidence-generation programme that keeps the CER current.",
@@ -10433,7 +10433,7 @@
   {
    "id": "PCF.report",
    "phase": "P4",
-   "wave": "W3",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Execute PMCF and write the PMCF evaluation report.",
    "why": "Post-Market Clinical Follow-up (PMCF) is the proactive, continuous collection of clinical data once the device is marketed, to confirm safety and performance over its lifetime and refine the benefit-risk. MDR Annex XIV Part B requires a PMCF plan and, following it, a PMCF evaluation report that feeds the CER and the PSUR. For IVDs the equivalent is PMPF (post-market performance follow-up). Where PMCF is not conducted, the absence must be justified.",
@@ -10583,7 +10583,7 @@
   {
    "id": "VIG.eu",
    "phase": "P4",
-   "wave": "W2",
+   "wave": "W3",
    "qse": "Continual Improvement",
    "statement": "Set up EU vigilance & incident reporting.",
    "why": "Vigilance is the reactive duty to report serious incidents and field safety corrective actions to competent authorities within strict deadlines. MDR Art 87-92 (IVDR Art 82-87) set what and when to report - a serious incident is generally reportable within 15 days (2 days for serious public-health threat, 10 for death/serious deterioration). This is distinct from proactive PMS; missing a vigilance deadline is a serious regulatory failure.",
@@ -10728,7 +10728,7 @@
   {
    "id": "VIG.us",
    "phase": "P4",
-   "wave": "W5",
+   "wave": "W6",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Incident reporting & recall (US FDA)",
    "why": "Once on the US market you must report serious adverse events (MDR, 21 CFR 803) on the clock and manage corrections and removals (recalls, 21 CFR 806). Miss a reporting deadline and you have a regulatory violation, regardless of the underlying event.",
@@ -10936,7 +10936,7 @@
   {
    "id": "CMP.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Complaint handling process + log.",
    "why": "From the moment anything is made or shipped, problems can occur - complaints from the field and nonconforming product internally - and you must be able to capture, evaluate and contain them, and decide whether they are reportable. ISO 13485 requires complaint handling (8.2.2), notification to authorities where applicable (8.2.3) and control of nonconforming product (8.3); the regulations add mandatory vigilance reporting. Standing this up early means no event is lost before the full CAPA and vigilance systems come online in Phase 2.",
@@ -11190,7 +11190,7 @@
   {
    "id": "CAP.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Establish CAPA process.",
    "why": "CAPA is the engine of improvement and the place auditors look hardest: ISO 13485 (8.5) requires corrective action to eliminate the causes of nonconformities and preventive action to address potential ones, with verification of effectiveness. Connected products add security-incident management (ISO 27001 A.5.24+) and GDPR breach notification (Art 33/34) on tight timelines. Making CAPA and incident response operational ties complaints, nonconformities, audit findings, security incidents and breaches into one closed-loop system.",
@@ -11477,7 +11477,7 @@
   {
    "id": "CAP.operate",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Operate & govern CAPA - run the loop, not just define it.",
    "why": "Establishing the CAPA process is not the same as running it. This is the ongoing governance: operating the CAPA system so problems from complaints, nonconformities, audits and PMS are investigated to root cause, effective actions are taken and verified, and management reviews CAPA health. A well-run CAPA loop is the single strongest signal to an auditor that the QMS is alive; a backlog of open, ineffective CAPAs is the strongest signal it is not.",
@@ -11922,7 +11922,7 @@
   {
    "id": "NCP.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Control of nonconforming product.",
    "why": "From the moment anything is made or shipped, problems can occur - complaints from the field and nonconforming product internally - and you must be able to capture, evaluate and contain them, and decide whether they are reportable. ISO 13485 requires complaint handling (8.2.2), notification to authorities where applicable (8.2.3) and control of nonconforming product (8.3); the regulations add mandatory vigilance reporting. Standing this up early means no event is lost before the full CAPA and vigilance systems come online in Phase 2.",
@@ -12767,7 +12767,7 @@
   {
    "id": "MRV.establish",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Organisation",
    "statement": "Management review & data analysis.",
    "why": "Management review is where Top Management judges whether the QMS is suitable, adequate and effective, using analysed data - audit results, complaints, CAPA, supplier and process performance, post-market and regulatory inputs - and decides on resources, changes and improvements (ISO 13485 5.6, 8.4). It is the formal closing of the loop and a mandatory record auditors always check.",
@@ -13046,7 +13046,7 @@
   {
    "id": "AUD.establish",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Assessment",
    "statement": "Internal audit programme, plan & report.",
    "why": "Internal audits are how the organisation checks itself before a Notified Body or the FDA does - ISO 13485 (8.2.4) requires planned audits at intervals based on status and importance, conducted by objective auditors, with findings driving correction and CAPA. A working internal-audit programme is direct evidence the QMS is monitored and improved, and it surfaces problems while they are still cheap to fix.",
@@ -14243,7 +14243,7 @@
   {
    "id": "DOC.maintain",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Continual Improvement",
    "statement": "Maintain the process map & external-documents register.",
    "why": "A QMS is a living set of interacting processes and controlled documents. ISO 13485 4.1.2 requires the process interactions to be defined and maintained, and 4.2.3-4.2.4 require control of documents and of external documents (standards, regulations, guidance). Keeping the process map current and the external-documents register up to date is how the QMS stays coherent and how you notice when a standard changes.",
@@ -14701,7 +14701,7 @@
   {
    "id": "HRT.mature",
    "phase": "P1",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Personnel",
    "statement": "Training effectiveness.",
    "why": "Competence is not a one-off - ISO 13485 (6.2) requires the organisation to evaluate the effectiveness of training and the ongoing competence of staff, and to maintain awareness. Maturing competence means moving from 'training delivered' to 'competence demonstrated and effective', which is what keeps quality stable as people and processes evolve.",
@@ -15252,7 +15252,7 @@
   {
    "id": "INF.csv",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Equipment",
    "statement": "Computerised system validation.",
    "why": "Computerised systems that run the QMS, design or production must do what they are supposed to, reliably and with data integrity. ISO 13485 requires validation of QMS software (4.1.6) and production / monitoring software (7.5.6, 7.6), and where electronic records or signatures are used, 21 CFR Part 11 applies. A risk-based CSV approach (IEC/TR 80002-2, GAMP 5) focuses effort where system failure would most affect product quality or data.",
@@ -15530,7 +15530,7 @@
   {
    "id": "INF.metrology",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Equipment",
    "statement": "Monitoring & measuring equipment.",
    "why": "If you make decisions about product on a measurement - a gauge, a tester, a calibrated jig - then a drifting instrument quietly passes bad product or rejects good product. Calibration is how you trust your own measurements, and auditors check it because it underpins every other check you make.",
@@ -16029,7 +16029,7 @@
   {
    "id": "PUR.surveil",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Purchasing",
    "statement": "Supplier surveillance & re-evaluation.",
    "why": "Approving a supplier once is not enough - ISO 13485 (7.4.1) requires suppliers to be monitored and re-evaluated, with action when they fail to meet requirements. Ongoing supplier surveillance catches drift in quality, change in ownership or process, and emerging supply risk before it reaches the product.",
@@ -16254,7 +16254,7 @@
   {
    "id": "SAL.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Customer Focus",
    "statement": "Tendering, sales & NDA.",
    "why": "Customer-related processes must be controlled too - ISO 13485 (7.2) requires the organisation to determine and review the requirements related to the product (including regulatory and customer requirements and the ability to meet them) before commitment, and to manage customer communication. Maturing sales, tendering and support ensures the organisation only commits to what it can lawfully and capably deliver, and that field feedback flows back.",
@@ -16487,7 +16487,7 @@
   {
    "id": "SUP.setup",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Customer Focus",
    "statement": "Establish support & servicing.",
    "why": "Support and servicing keep the device safe and performing in the field, and they are a controlled activity: ISO 13485 7.5.4 requires servicing to be planned and performed to specified requirements, with records. Servicing and support interactions are also a rich source of complaints, use problems and field data that must feed back into PMS, complaints and risk - so support is both a duty of care and a feedback channel.",
@@ -16627,7 +16627,7 @@
   {
    "id": "ISM.establish",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Information Management",
    "statement": "ISMS scope, risk assessment & access control.",
    "why": "Connected and software devices face cybersecurity threats that are both a security and a safety problem. ISO 27001 provides the management system to govern information-security risk, and IEC 81001-5-1 (with MDCG 2019-16) requires security activities built into the product lifecycle - threat modelling, secure design, verification and vulnerability handling. Without these, devices ship with exploitable weaknesses and the organisation cannot protect its own and patients' data.",
@@ -16929,7 +16929,7 @@
   {
    "id": "SEC.establish",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Information Management",
    "statement": "Establish product security: SBOM, threat model & pen-test.",
    "why": "Product security is now a safety requirement for connected and software devices. IEC 81001-5-1 and MDCG 2019-16 expect a security risk management process, a software bill of materials (SBOM) with SOUP/third-party components tracked, a threat model and security controls, penetration testing, and a coordinated vulnerability disclosure policy. Security weaknesses can become patient-safety hazards, so security and safety risk management must connect.",
@@ -17219,7 +17219,7 @@
   {
    "id": "DPR.establish",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Information Management",
    "statement": "Privacy notice, ROPA & retention.",
    "why": "A modern medical-device organisation processes personal and health data and runs connected systems, so data protection and information security are not optional add-ons - they are legal obligations under GDPR and, for connected or software devices, safety-relevant. Establishing a baseline now - the data you hold, foundational security controls and staff awareness - prevents breaches that would be both a regulatory and a safety problem, and seeds the full ISMS (P2.5) and data-protection operations (P2.6) built in Phase 2. GDPR requires security of processing (Art 32) and accountability (Art 24); ISO 27001 requires awareness (7.3) and a risk-based approach.",
@@ -17513,7 +17513,7 @@
   {
    "id": "DPR.assess",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W6",
    "qse": "Information Management",
    "statement": "DPIA & data-processing agreements.",
    "why": "Beyond the baseline (P1.9), GDPR imposes concrete operational duties when you process personal and health data: maintain records of processing (Art 30), run data protection impact assessments for high-risk processing such as health data (Art 35), put processor agreements in place (Art 28), and build data protection in by design and default (Art 25). Health data is a special category, so the bar is high; failing here risks fines and loss of trust.",
@@ -17796,7 +17796,7 @@
   {
    "id": "IRP.establish",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Establish the incident response plan & register.",
    "why": "When a security incident happens, an unprepared team improvises and makes it worse. An incident response plan defines roles, detection, containment, eradication, recovery and post-incident review, with an incident register and reporting forms. For devices, incidents can be safety-relevant (feeding vigilance) and, for in-scope operators, subject to NIS2 reporting timelines. Preparedness is what turns a crisis into a managed event.",
@@ -17939,7 +17939,7 @@
   {
    "id": "IRP.privacy",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Set up personal-data breach notification (GDPR).",
    "why": "A personal-data breach carries hard legal deadlines: GDPR Art 33 requires notifying the supervisory authority within 72 hours of becoming aware where there is a risk to individuals, and Art 34 requires notifying affected data subjects where the risk is high. Missing the clock or under-assessing the risk is a common source of fines. For a health device this intersects with security incident response and, sometimes, vigilance.",
@@ -18079,7 +18079,7 @@
   {
    "id": "BCP.establish",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Facilities & Safety",
    "statement": "BIA, BC/DR plan & backups.",
    "why": "If an outage, cyber-incident or disaster takes out the systems or premises the QMS and production depend on, the organisation must be able to keep operating or recover quickly - ISO 27001 (A.5.29-30) requires information-security continuity and ICT readiness for business continuity. For connected and software devices, continuity is also a patient-safety and obligation-to-supply concern.",
@@ -18354,7 +18354,7 @@
   {
    "id": "AES.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Active/electrical device safety & testing.",
    "why": "If your device is electrically active or connects to mains or patient circuits, electrical and energy safety is a basic essential requirement - get it wrong and you can harm a patient directly. This is design-verification work: you prove safety against the recognised standard before you ship.",
@@ -18566,7 +18566,7 @@
   {
    "id": "BIO.setup",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Biocompatibility evaluation.",
    "why": "If any part of your device touches the patient - skin, mucosa, blood, tissue - the materials themselves can cause harm. Biological evaluation is how you show, risk-based, that body contact is safe. It only applies if you have patient contact; if not, record that and move on.",
@@ -18774,7 +18774,7 @@
   {
    "id": "CMB.setup",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Drug-device combination design.",
    "why": "If your device incorporates a medicinal substance (a drug-device combination), you carry extra obligations - the medicinal part must be assessed, often with a medicines authority consulted. Skip this and your conformity route is invalid.",
@@ -18976,7 +18976,7 @@
   {
    "id": "CMD.setup",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Custom-made / patient-matched devices.",
    "why": "If you make devices to a specific practitioner's prescription for an individual patient (custom-made or patient-matched), you follow a distinct conformity route with its own statement and records - not the standard CE route. Using the wrong route is a compliance failure.",
@@ -19179,7 +19179,7 @@
   {
    "id": "PRO.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Production & process validation (IQ/OQ/PQ)",
    "why": "If you make physical product - in-house or through a contract manufacturer - you need a controlled, repeatable way to build every unit to the released specification, with full traceability. This is where your design becomes a real product, and where an auditor checks that what you ship is genuinely what you designed and validated.",
@@ -19508,7 +19508,7 @@
   {
    "id": "STE.setup",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Sterilization & packaging validation.",
    "why": "If your device is supplied sterile, sterility and the sterile barrier are safety-critical and cannot be inspected into the product - they have to be validated and controlled every batch. This activity only applies if you actually sterilize; if you don't, record that as a justified non-application and move on.",
@@ -19729,7 +19729,7 @@
   {
    "id": "PSA.setup",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Facilities & Safety",
    "statement": "Control of contaminated products.",
    "why": "Sooner or later something contaminated turns up - a return from the field, a spill, a suspected-infected unit. You need a safe, pre-agreed way to contain it so it protects people and can never quietly re-enter usable stock. Without it, a single contaminated return can put staff at risk and pollute good inventory.",
@@ -20556,7 +20556,7 @@
   {
    "id": "RSK.proc",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Continual Improvement",
    "statement": "Define the risk-management procedure.",
    "why": "ISO 14971 requires risk management to run to a defined process across the whole lifecycle. The procedure is the QMS artefact that says how you do risk management - the acceptability criteria, the method, the roles, and how the risk file is maintained - separate from the device-specific risk file it governs. Defining it once means every product's risk work is consistent and auditable.",
@@ -20659,7 +20659,7 @@
   {
    "id": "PEV.proc",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W5",
    "qse": "Assessment",
    "statement": "Define the performance-evaluation procedure.",
    "why": "IVDR requires performance evaluation to follow a defined, continuous process. The procedure is the QMS artefact that says how you plan, gather and appraise the three pillars of evidence (scientific validity, analytical and clinical performance) and how the PER is maintained - separate from the device-specific performance evaluation it governs.",
@@ -20763,7 +20763,7 @@
   {
    "id": "DEV.transfer",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Process Management",
    "statement": "Transfer the design to production.",
    "why": "Design transfer is where the verified, validated design becomes something production can build repeatably. ISO 13485 7.3.8 requires design outputs to be verified as suitable for manufacturing before they become production specifications - skip a controlled transfer and you ship a product that differs from what you designed and validated.",
@@ -20976,7 +20976,7 @@
   {
    "id": "DEV.ddplan",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Create the design & development plan.",
    "why": "ISO 13485 7.3.2 requires a design & development plan that defines the stages, the reviews, verification, validation and transfer, and the responsibilities and interfaces. It's the map for the whole build - without it, design work drifts, reviews are missed, and the design history file has holes a Notified Body will find.",
@@ -21077,7 +21077,7 @@
   {
    "id": "DEV.vvplan",
    "phase": "P2",
-   "wave": "W3",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Create the verification & validation plan.",
    "why": "Verification proves the design outputs meet the inputs; validation proves the device meets user needs and intended use. The V&V plan decides, up front, what will be tested, how, and against which acceptance criteria - so V&V generates defensible evidence rather than ad-hoc testing a reviewer can pick apart.",
@@ -21180,7 +21180,7 @@
   {
    "id": "TEF.stdlist",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W5",
    "qse": "Customer Focus",
    "statement": "List the applicable legislation and standards.",
    "why": "Conformity is demonstrated against specific legislation, harmonised standards and common specifications. A maintained list of what applies - and which version - is the backbone of the GSPR checklist and the technical file: it's how you claim presumption of conformity, and it's the first thing a reviewer checks. An out-of-date standards list is a classic finding.",
@@ -21282,7 +21282,7 @@
   {
    "id": "CLE.sota",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W6",
    "qse": "Process Management",
    "statement": "Perform the state-of-the-art literature search.",
    "why": "The state of the art defines the benchmark your device is judged against: the current standard of care, the alternatives, and the accepted safety and performance. A reproducible, protocol-driven literature search establishes it - and underpins the clinical evaluation, the benefit-risk and the GSPR. A weak or non-reproducible search is one of the most common CER findings.",
@@ -21387,7 +21387,7 @@
   {
    "id": "PEV.applan",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W6",
    "qse": "Process Management",
    "statement": "Create the analytical-performance plan.",
    "why": "Analytical performance - how accurately and reliably the assay measures the analyte - is the first tier of IVD evidence you generate yourself. The plan decides, to recognised protocols (CLSI/ISO), which parameters you'll establish, on what design, across which specimen matrix, and against which acceptance criteria - so the studies produce defensible data rather than numbers a notified body can challenge.",
@@ -21490,7 +21490,7 @@
   {
    "id": "BIO.report",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Finalise the biological-evaluation report.",
    "why": "The biological evaluation report is the ISO 10993-1 conclusion that patient-contacting materials are biologically safe. It closes the plan: it states each endpoint's conclusion from the data - existing material data, chemical characterisation and any testing - and the residual biological risk. An incomplete or unjustified BER is a top technical-file gap for any device with body contact.",
@@ -21591,7 +21591,7 @@
   {
    "id": "DEV.trace",
    "phase": "P3",
-   "wave": "W2",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Finalise the design traceability matrix.",
    "why": "Traceability is what proves the design is complete and controlled: every user need flows to a design input, to an output, to verification and validation, and to the risks it controls. A finalised, bidirectional traceability matrix is the reviewer's map of the whole design - gaps in it read as gaps in the design itself.",
@@ -21683,7 +21683,7 @@
   {
    "id": "RSK.signoff",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W2",
    "qse": "Continual Improvement",
    "statement": "Sign off the risk-management report.",
    "why": "Before release, ISO 14971 requires the responsible person to review the risk management and conclude that the overall residual risk and overall benefit-risk are acceptable. This final sign-off - after V&V, clinical/performance and any early post-market data - is the gate that says the device is safe enough to place on the market. It's the conclusion a Notified Body looks for.",

@@ -7,97 +7,42 @@
 
 export type WaveObjective = { title: string; hint: string };
 
+// Objectives are keyed by MODEL wave. Since activities are now spread across
+// columns by leverage (foundational-first) capped per column, each column's
+// objective describes the priority batch that lands there.
 export const WAVE_OBJECTIVES: Record<number, Record<number, WaveObjective>> = {
   1: {
-    1: {
-      title: "Set up the foundations",
-      hint: "Stand up the lean framework — D&D process, doc control, regulatory, roles, infrastructure.",
-    },
-    2: {
-      title: "Define the product & QMS",
-      hint: "Pin down the intended purpose and the quality manual everything hangs off.",
-    },
-    3: {
-      title: "Settle the gates & plan",
-      hint: "Classify the device and lay the risk, evaluation and AI plans.",
-    },
-    4: {
-      title: "Prove the concept",
-      hint: "First evidence — scientific validity — and the software safety class.",
-    },
+    1: { title: "Stand up the QMS core", hint: "The foundational SOPs — design-control process, document & record control, regulatory monitoring, roles and infrastructure." },
+    2: { title: "Define the product & QMS manual", hint: "Intended purpose, the quality manual, and the CSV and registration procedures." },
+    3: { title: "Classify & set the strategy", hint: "Device classification, quality objectives, the management representative and the regulatory strategy." },
+    4: { title: "Engage the Notified Body", hint: "Contract a Notified Body and book the review slot early — it's the usual bottleneck." },
   },
   2: {
-    1: {
-      title: "Kick off the parallel tracks",
-      hint: "Workstreams with no prerequisites — usability plan, ML description, labeling, PMS plan.",
-    },
-    2: {
-      title: "Stand up the QMS processes",
-      hint: "Operational SOPs — complaints, CAPA, change control, nonconformity, vigilance, purchasing.",
-    },
-    3: {
-      title: "Switch on the modules",
-      hint: "Specialist modules — information & product security, privacy, incident response, sales & support.",
-    },
-    4: {
-      title: "Production & specialist evidence",
-      hint: "Formative usability, computerised-system validation, biocompatibility, production & process validation.",
-    },
-    5: {
-      title: "Design inputs & build",
-      hint: "Turn needs into design inputs/outputs, analyse risk, build the model and the evidence base.",
-    },
-    6: {
-      title: "Verify & freeze the design",
-      hint: "Design verification & freeze, software architecture, risk report, AI Act & GSPR documentation.",
-    },
-    7: {
-      title: "Validate & implement",
-      hint: "Design validation & transfer, software implementation, analytical performance.",
-    },
-    8: {
-      title: "Prove performance",
-      hint: "Software verification & validation, and clinical performance.",
-    },
-    9: {
-      title: "Release & deploy",
-      hint: "Software release with cybersecurity docs, and the release & deployment plan.",
-    },
+    1: { title: "Write the master plans", hint: "The risk, clinical and performance-evaluation plans, the usability file, the ML description and change control." },
+    2: { title: "Scope the device & requirements", hint: "IVD design, the GSPR checklists, biocompatibility and the AI/ML lifecycle." },
+    3: { title: "Stand up the specialist tracks", hint: "Product security, privacy, incident response, deployment, combination products and DiGA." },
+    4: { title: "Set up the operational procedures", hint: "CSV, ISMS, supplier surveillance, breach notification, custom-made and the risk-management procedure." },
+    5: { title: "Turn plans into design inputs", hint: "Design inputs, formative usability, scientific validity, the D&D plan and the standards list." },
+    6: { title: "Analyse risk & start building", hint: "Risk analysis, the software plan, model validation, the DPIA, the SOTA search and the analytical-performance plan." },
+    7: { title: "Software design & the V&V plan", hint: "Software requirements and architecture, the PCCP, and the verification & validation plan." },
+    8: { title: "Implement the software", hint: "Build the software under the IEC 62304 lifecycle." },
   },
   3: {
-    1: {
-      title: "Run the management system",
-      hint: "Management review, internal audit, supplier surveillance, training effectiveness, continuity.",
-    },
-    2: {
-      title: "Close the improvement loop",
-      hint: "Operate and govern CAPA — run the loop, don't just define it.",
-    },
+    1: { title: "Verify & prove — first pass", hint: "Design verification, summative usability, the clinical evidence base and investigation, feasibility, and the interim risk report." },
+    2: { title: "Validate, make & run the QMS", hint: "Software V&V, analytical performance, complaints, CAPA, production and electrical-safety testing." },
+    3: { title: "Operational controls", hint: "Nonconforming product, process-map upkeep, metrology, sales, continuity and contaminated products." },
+    4: { title: "Complete the evidence", hint: "Design validation & release, analytical performance, CAPA operation, sterilization and the biological-evaluation report." },
+    5: { title: "Finalise performance & traceability", hint: "Clinical performance and the design traceability matrix." },
   },
   4: {
-    1: {
-      title: "Finalize evidence & reports",
-      hint: "Clinical/performance evaluation reports, labeling, release approval, post-market risk & security.",
-    },
-    2: {
-      title: "Assemble the technical file",
-      hint: "Compile the technical documentation & Declaration of Conformity; plan post-market clinical follow-up.",
-    },
-    3: {
-      title: "Submit for assessment",
-      hint: "Notified Body Stage 1 documentation readiness; US FDA release; PMCF report.",
-    },
-    4: {
-      title: "Pass the audit",
-      hint: "Notified Body Stage 2 on-site audit & certification; US incident reporting.",
-    },
-    5: {
-      title: "Go to market",
-      hint: "Place the device on the EU market (MDR / IVDR).",
-    },
-    6: {
-      title: "Operate post-market",
-      hint: "Run proactive post-market surveillance — PMS report & PSUR.",
-    },
+    1: { title: "Finalise the reports", hint: "Clinical and performance evaluation reports, labelling setup, the PMS plan, release approval and post-market security." },
+    2: { title: "Operate & transfer", hint: "Management review, internal audit, IVD PMS, servicing, design transfer and the risk-report sign-off." },
+    3: { title: "Label & plan follow-up", hint: "Produce the label, UDI and IFU, write the PMCF plan and set up EU vigilance." },
+    4: { title: "Compile the technical file", hint: "Assemble the technical documentation and execute PMCF." },
+    5: { title: "Submit & release (US)", hint: "Notified Body Stage 1 documentation readiness and the US FDA release." },
+    6: { title: "Pass the audit", hint: "Notified Body Stage 2 on-site audit, and US incident reporting." },
+    7: { title: "Go to market (EU)", hint: "Place the device on the EU market under MDR / IVDR." },
+    8: { title: "Operate post-market", hint: "Run proactive post-market surveillance — the PMS report and PSUR." },
+    9: { title: "Close the risk loop", hint: "Feed post-market data back into the risk file and benefit-risk." },
   },
 };
