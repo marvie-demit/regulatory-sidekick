@@ -1,10 +1,10 @@
 {
   "version": "0.1-realization-chain",
   "phases": {
-    "1": "Research & foundations",
+    "1": "Set the foundations",
     "2": "Develop under control",
-    "3": "Govern & lead",
-    "4": "Certify, launch & improve"
+    "3": "Verify, validate & make",
+    "4": "Certify, launch & operate"
   },
   "processes": [
     {
@@ -78,7 +78,7 @@
         {
           "id": "DEV.verify",
           "title": "Design verification & freeze",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -94,7 +94,7 @@
         {
           "id": "DEV.validate",
           "title": "Design validation, transfer & release",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -167,7 +167,7 @@
         {
           "id": "RSK.plan",
           "title": "RM plan + initial hazards",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {},
           "produces": [
@@ -207,7 +207,7 @@
         {
           "id": "RSK.report",
           "title": "Risk management report",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -275,7 +275,7 @@
         {
           "id": "SWD.plan",
           "title": "SW dev plan + safety classification",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "characteristics": [
@@ -339,7 +339,7 @@
         {
           "id": "SWD.verify",
           "title": "SW verification & validation",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -363,7 +363,7 @@
         {
           "id": "SWD.release",
           "title": "SW release + cybersecurity docs",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -465,7 +465,7 @@
         {
           "id": "HUF.summative",
           "title": "Summative usability validation",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -496,7 +496,7 @@
         {
           "id": "AIM.plan",
           "title": "AI/ML lifecycle & data-governance plan",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "characteristics": [
@@ -619,7 +619,7 @@
         {
           "id": "CLE.plan",
           "title": "Clinical evaluation plan + state of the art",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "regulation": [
@@ -643,7 +643,7 @@
         {
           "id": "CLE.evidence",
           "title": "Literature & equivalence evidence",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -664,7 +664,7 @@
         {
           "id": "CLE.investigation",
           "title": "Clinical investigation (if conducted)",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -720,7 +720,7 @@
         {
           "id": "PEV.plan",
           "title": "Performance evaluation plan",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "regulation": [
@@ -743,7 +743,7 @@
         {
           "id": "PEV.sv",
           "title": "Scientific validity (evidence tier 1)",
-          "phase": 1,
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "regulation": [
@@ -762,7 +762,7 @@
         {
           "id": "PEV.feasibility",
           "title": "Feasibility / proof-of-concept study",
-          "phase": 2,
+          "phase": 3,
           "maturity": "lean",
           "appliesWhen": {
             "regulation": [
@@ -778,7 +778,7 @@
         {
           "id": "PEV.ap",
           "title": "Analytical performance (evidence tier 2)",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -798,7 +798,7 @@
         {
           "id": "PEV.ap.sw",
           "title": "Analytical performance — software",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -820,7 +820,7 @@
         {
           "id": "PEV.cp",
           "title": "Clinical performance (evidence tier 3)",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -1077,7 +1077,7 @@
         {
           "id": "LBL.setup",
           "title": "UDI & labeling process + symbols",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1119,7 +1119,7 @@
         {
           "id": "PMS.plan",
           "title": "PMS plan + data search protocol",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1155,7 +1155,7 @@
         {
           "id": "PMS.ivd",
           "title": "Post-market surveillance (IVD variant)",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -1233,7 +1233,7 @@
         {
           "id": "VIG.eu",
           "title": "Vigilance & incident reporting (EU)",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {
             "regulation": [
@@ -1283,7 +1283,7 @@
         {
           "id": "CMP.setup",
           "title": "Complaint handling process + log",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1309,7 +1309,7 @@
         {
           "id": "CAP.setup",
           "title": "Establish CAPA process",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1377,7 +1377,7 @@
         {
           "id": "NCP.setup",
           "title": "Control of nonconforming product",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1429,7 +1429,7 @@
         {
           "id": "MRV.establish",
           "title": "Management review & data analysis",
-          "phase": 3,
+          "phase": 4,
           "maturity": "govern",
           "appliesWhen": {},
           "produces": [
@@ -1455,7 +1455,7 @@
         {
           "id": "AUD.establish",
           "title": "Internal audit programme, plan & report",
-          "phase": 3,
+          "phase": 4,
           "maturity": "govern",
           "appliesWhen": {},
           "produces": [
@@ -1572,7 +1572,7 @@
         {
           "id": "HRT.mature",
           "title": "Training effectiveness",
-          "phase": 3,
+          "phase": 1,
           "maturity": "govern",
           "appliesWhen": {},
           "produces": [
@@ -1628,7 +1628,7 @@
         {
           "id": "INF.metrology",
           "title": "Monitoring & measuring equipment",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -1656,7 +1656,7 @@
         {
           "id": "PUR.establish",
           "title": "Supplier evaluation, QAA & incoming goods",
-          "phase": 2,
+          "phase": 1,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1675,7 +1675,7 @@
         {
           "id": "PUR.surveil",
           "title": "Supplier surveillance & re-evaluation",
-          "phase": 3,
+          "phase": 2,
           "maturity": "govern",
           "appliesWhen": {},
           "produces": [],
@@ -1695,7 +1695,7 @@
         {
           "id": "SAL.setup",
           "title": "Tendering, sales & NDA",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
           "produces": [
@@ -1718,7 +1718,7 @@
         {
           "id": "SUP.setup",
           "title": "Support & servicing",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -1955,7 +1955,7 @@
         {
           "id": "AES.setup",
           "title": "Active/electrical device safety & testing",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -2077,7 +2077,7 @@
         {
           "id": "PRO.setup",
           "title": "Production & process validation (IQ/OQ/PQ)",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -2114,7 +2114,7 @@
         {
           "id": "STE.setup",
           "title": "Sterilization & packaging validation",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -2145,7 +2145,7 @@
         {
           "id": "PSA.setup",
           "title": "Control of contaminated products",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [

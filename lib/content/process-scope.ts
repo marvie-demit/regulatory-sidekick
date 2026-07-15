@@ -38,10 +38,10 @@ export type MatrixRow = {
 };
 
 export const PHASE_LABELS: Record<number, string> = {
-  1: "Research & foundations",
+  1: "Set the foundations",
   2: "Develop under control",
-  3: "Govern & lead",
-  4: "Certify, launch & improve",
+  3: "Verify, validate & make",
+  4: "Certify, launch & operate",
 };
 
 export const WORKSTREAMS: { key: PProc["workstream"]; label: string }[] = [
