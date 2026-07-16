@@ -193,6 +193,16 @@
           "produces": [],
           "consumes": [],
           "handoffTo": []
+        },
+        {
+          "id": "DEV.vvproc",
+          "title": "Define the verification & validation procedure",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -423,7 +433,7 @@
         {
           "id": "SWD.release",
           "title": "SW release + cybersecurity docs",
-          "phase": 3,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -471,6 +481,20 @@
           "produces": [
             "SWD-FOR-07"
           ],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "SWD.relproc",
+          "title": "Define the software release procedure",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "characteristics": [
+              "sw"
+            ]
+          },
+          "produces": [],
           "consumes": [],
           "handoffTo": []
         }
@@ -1847,7 +1871,7 @@
         {
           "id": "PUR.surveil",
           "title": "Supplier surveillance & re-evaluation",
-          "phase": 2,
+          "phase": 4,
           "maturity": "govern",
           "appliesWhen": {},
           "produces": [],
@@ -2181,6 +2205,20 @@
           "id": "BIO.report",
           "title": "Finalise the biological-evaluation report",
           "phase": 3,
+          "maturity": "lean",
+          "appliesWhen": {
+            "characteristics": [
+              "hw"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "BIO.proc",
+          "title": "Define the biological-evaluation procedure",
+          "phase": 2,
           "maturity": "lean",
           "appliesWhen": {
             "characteristics": [

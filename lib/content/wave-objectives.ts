@@ -18,8 +18,8 @@ export const WAVE_OBJECTIVES: Record<number, Record<number, WaveObjective>> = {
     4: { title: "Engage the Notified Body", hint: "Contract a Notified Body and book the review slot early — it's the usual bottleneck." },
   },
   2: {
-    1: { title: "Write the master plans", hint: "The risk, clinical and performance-evaluation plans, the usability file, the ML description and change control." },
-    2: { title: "Scope the device & requirements", hint: "IVD design, the GSPR checklists, biocompatibility and the AI/ML lifecycle." },
+    1: { title: "Define the procedures", hint: "The QMS procedures that govern development — risk management, performance evaluation and change control — plus the first master plans. Each procedure produces the records that follow." },
+    2: { title: "Procedures & device scoping", hint: "The V&V and biological-evaluation procedures, the GSPR checklists, IVD design and the AI/ML lifecycle." },
     3: { title: "Stand up the specialist tracks", hint: "Product security, privacy, incident response, deployment, combination products and DiGA." },
     4: { title: "Set up the operational procedures", hint: "CSV, ISMS, supplier surveillance, breach notification, custom-made and the risk-management procedure." },
     5: { title: "Turn plans into design inputs", hint: "Design inputs, formative usability, scientific validity, the D&D plan and the standards list." },

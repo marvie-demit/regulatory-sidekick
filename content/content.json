@@ -44,7 +44,7 @@
    "who": "Development team",
    "documents": "DEV-SOP-01; DEV-SOP-03; DEV-FOR-06; DEV-LIS-01",
    "depends": "-",
-   "leads": "DEV.intended, DEV.intended.ivd",
+   "leads": "DEV.intended, DEV.intended.ivd, DEV.ddplan, DEV.vvproc, BIO.proc",
    "clause": "ISO 13485 7.3.3-7.3.6",
    "mods": [
     "Core"
@@ -722,7 +722,7 @@
   {
    "id": "DEV.inputs",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W6",
    "qse": "Process Management",
    "statement": "Turn stakeholder needs into design inputs and outputs.",
    "why": "Design inputs translate the intended purpose, user needs, regulatory and risk requirements into concrete, verifiable requirements; design outputs are the specifications that meet them and enable production. ISO 13485 7.3.3-7.3.4 require inputs to be complete, unambiguous and reviewed, and outputs to be verifiable against them. Weak inputs are the root cause of most late design problems and verification failures.",
@@ -850,8 +850,8 @@
     }
    ],
    "dur": 10,
-   "es": 43,
-   "ef": 53,
+   "es": 46,
+   "ef": 56,
    "sid": "DEV.inputs",
    "proc": "DEV",
    "procName": "Design & development",
@@ -989,8 +989,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "DEV.verify",
    "proc": "DEV",
    "procName": "Design & development",
@@ -1146,8 +1146,8 @@
     }
    ],
    "dur": 15,
-   "es": 113,
-   "ef": 128,
+   "es": 116,
+   "ef": 131,
    "sid": "DEV.validate",
    "proc": "DEV",
    "procName": "Design & development",
@@ -1525,7 +1525,7 @@
   {
    "id": "RSK.plan",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W5",
    "qse": "Continual Improvement",
    "statement": "RM plan + initial hazards.",
    "why": "Risk management is the spine that runs through the entire device lifecycle - every design decision, software unit, security control and post-market signal connects back to it. ISO 14971 requires a planned process to identify hazards, estimate and evaluate risk, implement and verify risk controls, and judge overall residual risk, maintained from development through production and post-production. Integrating safety risk (ISO 14971) with security risk (AAMI TIR57) and, for AI, the AI Act's risk requirements avoids three disconnected risk systems and gives one coherent risk file that everything else feeds.",
@@ -1533,7 +1533,7 @@
    "how": "1. Complete the Risk Management Plan first (RSK-TPL-01): criteria & matrix.\n2. Start the risk table (RSK-TPL-03) with hazards/threats/AI risks.\n3. Define how security (TIR57) and AI (Art 9) risk branch into the same file.",
    "who": "Risk Manager",
    "documents": "RSK-SOP-01; RSK-TPL-01; RSK-FOR-01; RSK-FOR-04; RSK-FOR-05",
-   "depends": "DEV.intended",
+   "depends": "DEV.intended, RSK.proc",
    "leads": "DEV.inputs, RSK.analyze, SWD.plan",
    "clause": "ISO 14971 4 / TIR57 / AI Act 9",
    "mods": [
@@ -1890,8 +1890,8 @@
     }
    ],
    "dur": 10,
-   "es": 33,
-   "ef": 43,
+   "es": 36,
+   "ef": 46,
    "sid": "RSK.plan",
    "proc": "RSK",
    "procName": "Risk management",
@@ -2189,8 +2189,8 @@
     }
    ],
    "dur": 5,
-   "es": 98,
-   "ef": 103,
+   "es": 101,
+   "ef": 106,
    "sid": "RSK.report",
    "proc": "RSK",
    "procName": "Risk management",
@@ -2636,8 +2636,8 @@
     }
    ],
    "dur": 4,
-   "es": 235,
-   "ef": 239,
+   "es": 238,
+   "ef": 242,
    "sid": "RSK.postmarket",
    "proc": "RSK",
    "procName": "Risk management",
@@ -2650,7 +2650,7 @@
   {
    "id": "SWD.plan",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Plan the software lifecycle & assign the 62304 safety class.",
    "why": "IEC 62304 starts with planning and, critically, software safety classification (Class A/B/C) based on the possible harm from a software failure. The class sets how much rigour the whole lifecycle needs. The plan defines the lifecycle model, activities, configuration management and problem resolution. Getting the safety class and plan right up front avoids under- or over-engineering the entire software effort.",
@@ -2659,7 +2659,7 @@
    "who": "Software Lead",
    "documents": "SWD-SOP-01; SWD-TPL-01; SWD-TPL-02; SWD-FOR-06",
    "depends": "DEV.intended, DEV.inputs, RSK.plan",
-   "leads": "SWD.design",
+   "leads": "SWD.design, SWD.relproc",
    "clause": "IEC 62304 s4-s5.1",
    "mods": [
     "SW"
@@ -2780,8 +2780,8 @@
     }
    ],
    "dur": 5,
-   "es": 53,
-   "ef": 58,
+   "es": 56,
+   "ef": 61,
    "sid": "SWD.plan",
    "proc": "SWD",
    "procName": "Software development",
@@ -2794,7 +2794,7 @@
   {
    "id": "SWD.design",
    "phase": "P2",
-   "wave": "W7",
+   "wave": "W8",
    "qse": "Process Management",
    "statement": "SW requirements & architecture.",
    "why": "For software - SaMD or embedded - IEC 62304 defines the lifecycle that makes software safe: requirements, architecture, detailed design, implementation, integration and system testing, plus maintenance, configuration management and problem resolution, all scaled to the software safety class. Skipping these steps leaves software that cannot be shown to be safe or maintainable, and the technical file cannot stand.",
@@ -3116,8 +3116,8 @@
     }
    ],
    "dur": 20,
-   "es": 58,
-   "ef": 78,
+   "es": 61,
+   "ef": 81,
    "sid": "SWD.design",
    "proc": "SWD",
    "procName": "Software development",
@@ -3130,7 +3130,7 @@
   {
    "id": "SWD.build",
    "phase": "P2",
-   "wave": "W8",
+   "wave": "W9",
    "qse": "Process Management",
    "statement": "Implement the software with reviews under the IEC 62304 lifecycle.",
    "why": "Implementation is where the software architecture becomes code under the IEC 62304 lifecycle. For anything above Class A, 62304 requires defined implementation with unit verification, code and design reviews and configuration control, all traceable to the software requirements and architecture. Disciplined reviews here catch defects - and safety issues - far more cheaply than in verification or in the field.",
@@ -3257,8 +3257,8 @@
     }
    ],
    "dur": 20,
-   "es": 78,
-   "ef": 98,
+   "es": 81,
+   "ef": 101,
    "sid": "SWD.build",
    "proc": "SWD",
    "procName": "Software development",
@@ -3416,8 +3416,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "SWD.verify",
    "proc": "SWD",
    "procName": "Software development",
@@ -3429,16 +3429,16 @@
   },
   {
    "id": "SWD.release",
-   "phase": "P3",
-   "wave": "W4",
+   "phase": "P4",
+   "wave": "W1",
    "qse": "Process Management",
    "statement": "Release the software with anomalies assessed + cybersecurity docs.",
-   "why": "Software release under IEC 62304 5.8 requires that verification is complete, known anomalies are documented and their risk assessed, and the released version is under configuration control with an archived, reproducible build. Cybersecurity documentation (IEC 81001-5-1, MDCG 2019-16) - SBOM, threat model, security testing - is now expected in the technical file for connected and software devices. The software full report consolidates the lifecycle evidence.",
-   "what": "Release the software per 62304 5.8 (verification complete, residual anomalies assessed, version archived and controlled), and compile the cybersecurity documentation (SBOM, threat model, security testing) and the consolidated software report for the technical file.",
+   "why": "Software release is the gate where verified software becomes the thing you ship. IEC 62304 5.8 requires verification complete, residual anomalies assessed and the version archived. In practice the release belongs with market release — you should not release software you are not ready to register — though a design lock can be issued earlier, under the software release procedure, to run Phase III studies on a fixed build.",
+   "what": "Release the software per IEC 62304 5.8 alongside market release: confirm verification is complete, assess and document the residual anomalies, archive and identify the version, and compile the cybersecurity documentation (SBOM, threat model, security testing) for the technical file.",
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Software Lead / Security Lead",
    "documents": "SWD-FOR-03; SWD-TPL-09; SWD-TPL-10",
-   "depends": "SWD.verify",
+   "depends": "SWD.verify, SWD.relproc",
    "leads": "DEP.release",
    "clause": "IEC 62304 5.8; IEC 81001-5-1; MDCG 2019-16",
    "mods": [
@@ -3490,21 +3490,21 @@
     "Software Full Report"
    ],
    "tips": [
-    "Document known anomalies and their risk assessment at release - 62304 requires it, and hiding them fails audit.",
-    "Ship an SBOM - it is expected under MDCG 2019-16 and FDA, and you need it to respond to new vulnerabilities.",
-    "Archive the exact released build so it is reproducible - the release record must point to it.",
-    "Cybersecurity is a lifecycle, not a release-day checkbox - the threat model should have driven the design."
+    "Don't release software you aren't ready to register — lock a build for studies instead.",
+    "The design lock (Phase III studies) and the market release (Phase IV) are different acts.",
+    "Residual anomalies must be assessed for safety impact, not merely listed."
    ],
    "lean": {
-    "start": "A release record with verification complete and known anomalies assessed, plus a basic SBOM and threat model.",
-    "evolve": "Full cybersecurity documentation and a consolidated software report maintained across versions.",
+    "start": "A release record with verification complete and known anomalies assessed, plus a basic SBOM and threat model — issued with the market release.",
     "startDetail": [
-     "A release record per IEC 62304 §5.8: verification complete, version archived and controlled.",
+     "A release record per IEC 62304 5.8: verification complete, version archived and controlled.",
      "Residual/known anomalies listed and each assessed for safety and security impact.",
      "A software bill of materials (SBOM) listing components and versions.",
-     "A threat model and the security testing performed (at least the basics).",
-     "A consolidated software report pulled together for the technical file."
+     "A threat model and the security testing performed.",
+     "Issued together with market release — not before you are ready to register.",
+     "A design lock (not a market release) can be issued earlier for Phase III studies, under the software release procedure."
     ],
+    "evolve": "Full cybersecurity documentation and a consolidated software report maintained across versions.",
     "evolveDetail": [
      "Complete cybersecurity file: threat model, controls, pen-test, vulnerability management.",
      "A coordinated vulnerability-disclosure and patch process defined and run.",
@@ -3578,8 +3578,8 @@
     }
    ],
    "dur": 12,
-   "es": 113,
-   "ef": 125,
+   "es": 171,
+   "ef": 183,
    "sid": "SWD.release",
    "proc": "SWD",
    "procName": "Software development",
@@ -3738,7 +3738,7 @@
   {
    "id": "SWD.diga",
    "phase": "P2",
-   "wave": "W3",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Meet the DiGA fast-track requirements (German market).",
    "why": "DiGA (Digitale Gesundheitsanwendungen) is the German fast-track for reimbursable digital health applications, run by BfArM under the DVG and DiGAV. Beyond CE marking (class I / IIa), it demands specific requirements: data protection and security (including a security assessment), interoperability, usability, and evidence of a positive healthcare effect. It is a distinct, additional pathway for the German market, not a replacement for MDR conformity.",
@@ -4454,8 +4454,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "HUF.summative",
    "proc": "HUF",
    "procName": "Usability engineering",
@@ -4760,7 +4760,7 @@
   {
    "id": "AIM.build",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W5",
    "qse": "Information Management",
    "statement": "Model validation, oversight & logging.",
    "why": "For an AI medical device, the EU AI Act adds obligations that culminate near market entry: record-keeping and logging (Art 12), transparency and instructions for use (Art 13), human-oversight design (Art 14), and registration plus the Annex IV technical documentation. Completing these makes the AI conformant and traceable, and is checked at conformity assessment.",
@@ -5039,7 +5039,7 @@
   {
    "id": "AIM.compliance",
    "phase": "P2",
-   "wave": "W7",
+   "wave": "W6",
    "qse": "Information Management",
    "statement": "Produce the PCCP + EU AI Act technical documentation.",
    "why": "AI-enabled devices carry extra documentation duties. A Predetermined Change Control Plan (PCCP) lets you pre-authorise defined model updates (retraining within bounds) without re-certifying each time - both FDA and EU frameworks recognise it. The EU AI Act additionally requires technical documentation (Annex IV) for high-risk AI systems: system description, data governance, risk management, human oversight, accuracy/robustness and logging. This is what makes an AI device maintainable and compliant post-market.",
@@ -5386,7 +5386,7 @@
   {
    "id": "DEP.release",
    "phase": "P4",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Approve the release and record version history.",
    "why": "For software and connected devices, deployment is a controlled release, not a copy-to-server. A defined release approval (criteria met, verification complete, cybersecurity assessed, rollback ready) and a version-history log give traceability of exactly what was released, when and to whom - essential for support, incident response and regulatory traceability. Uncontrolled deployment is a common source of field problems.",
@@ -5511,8 +5511,8 @@
     }
    ],
    "dur": 5,
-   "es": 168,
-   "ef": 173,
+   "es": 183,
+   "ef": 188,
    "sid": "DEP.release",
    "proc": "DEP",
    "procName": "Release & deployment",
@@ -5946,8 +5946,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "CLE.evidence",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
@@ -6113,8 +6113,8 @@
     }
    ],
    "dur": 40,
-   "es": 98,
-   "ef": 138,
+   "es": 101,
+   "ef": 141,
    "sid": "CLE.investigation",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
@@ -6319,8 +6319,8 @@
     }
    ],
    "dur": 10,
-   "es": 168,
-   "ef": 178,
+   "es": 171,
+   "ef": 181,
    "sid": "CLE.report",
    "proc": "CLE",
    "procName": "Clinical evaluation (MDR)",
@@ -6335,7 +6335,7 @@
   {
    "id": "PEV.plan",
    "phase": "P2",
-   "wave": "W1",
+   "wave": "W5",
    "qse": "Assessment",
    "statement": "Performance evaluation plan.",
    "why": "An IVD's CE evidence is its performance evaluation - the proof of scientific validity, analytical performance and clinical performance for the intended purpose. It is the IVDR equivalent of clinical evaluation, and it is what a notified body scrutinises hardest.",
@@ -6343,7 +6343,7 @@
    "how": "",
    "who": "RA / Clinical",
    "documents": "PEV-SOP-01; PEV-TPL-01; PEV-FOR-01",
-   "depends": "DEV.intended, DEV.intended.ivd",
+   "depends": "DEV.intended, DEV.intended.ivd, PEV.proc",
    "leads": "PEV.sv, PEV.feasibility, PEV.applan",
    "clause": "IVDR Annex XIII",
    "mods": [
@@ -6543,8 +6543,8 @@
     }
    ],
    "dur": 15,
-   "es": 33,
-   "ef": 48,
+   "es": 36,
+   "ef": 51,
    "sid": "PEV.plan",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6559,7 +6559,7 @@
   {
    "id": "PEV.sv",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W6",
    "qse": "Assessment",
    "statement": "Establish scientific validity - the analyte-condition association.",
    "why": "Scientific validity is the first tier of the IVDR evidence pyramid: the association of the analyte with the clinical condition or physiological state. It is established from the scientific literature, expert consensus or prior data - not usually from your own study - and it underpins everything above it: without a sound analyte-condition link, analytical and clinical performance are meaningless. It is established early, from the research that the device came out of.",
@@ -6684,8 +6684,8 @@
     }
    ],
    "dur": 8,
-   "es": 48,
-   "ef": 56,
+   "es": 51,
+   "ef": 59,
    "sid": "PEV.sv",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -6832,8 +6832,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "PEV.feasibility",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7014,8 +7014,8 @@
     }
    ],
    "dur": 25,
-   "es": 113,
-   "ef": 138,
+   "es": 116,
+   "ef": 141,
    "sid": "PEV.ap",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7155,8 +7155,8 @@
     }
    ],
    "dur": 15,
-   "es": 98,
-   "ef": 113,
+   "es": 101,
+   "ef": 116,
    "sid": "PEV.ap.sw",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7334,8 +7334,8 @@
     }
    ],
    "dur": 30,
-   "es": 138,
-   "ef": 168,
+   "es": 141,
+   "ef": 171,
    "sid": "PEV.cp",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -7497,8 +7497,8 @@
     }
    ],
    "dur": 10,
-   "es": 168,
-   "ef": 178,
+   "es": 171,
+   "ef": 181,
    "sid": "PEV.report",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -8014,7 +8014,7 @@
   {
    "id": "TEF.gspr.ivdr",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W3",
    "qse": "Process Management",
    "statement": "Complete the IVDR Annex I GSPR checklist + system overview.",
    "why": "The General Safety and Performance Requirements (IVDR Annex I) are the substantive requirements the device must meet; the GSPR conformity checklist maps each applicable requirement to the evidence that satisfies it and is the backbone a Notified Body assesses. Legacy IVDD devices also need an IVDD-to-IVDR gap analysis. The system overview (device description) and the Annex II/III technical-documentation checklists frame the whole technical file.",
@@ -8316,8 +8316,8 @@
     }
    ],
    "dur": 12,
-   "es": 182,
-   "ef": 194,
+   "es": 185,
+   "ef": 197,
    "sid": "TEF.file",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8542,8 +8542,8 @@
     }
    ],
    "dur": 10,
-   "es": 194,
-   "ef": 204,
+   "es": 197,
+   "ef": 207,
    "sid": "TEF.certify.stage1",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8780,8 +8780,8 @@
     }
    ],
    "dur": 15,
-   "es": 204,
-   "ef": 219,
+   "es": 207,
+   "ef": 222,
    "sid": "TEF.certify.stage2",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9059,8 +9059,8 @@
     }
    ],
    "dur": 10,
-   "es": 219,
-   "ef": 229,
+   "es": 222,
+   "ef": 232,
    "sid": "TEF.market.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9198,8 +9198,8 @@
     }
    ],
    "dur": 5,
-   "es": 219,
-   "ef": 224,
+   "es": 222,
+   "ef": 227,
    "sid": "TEF.market.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9337,8 +9337,8 @@
     }
    ],
    "dur": 8,
-   "es": 194,
-   "ef": 202,
+   "es": 197,
+   "ef": 205,
    "sid": "TEF.market.fda",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9477,8 +9477,8 @@
     }
    ],
    "dur": 6,
-   "es": 168,
-   "ef": 174,
+   "es": 171,
+   "ef": 177,
    "sid": "LBL.setup",
    "proc": "LBL",
    "procName": "Labeling & UDI",
@@ -9641,8 +9641,8 @@
     }
    ],
    "dur": 8,
-   "es": 174,
-   "ef": 182,
+   "es": 177,
+   "ef": 185,
    "sid": "LBL.produce",
    "proc": "LBL",
    "procName": "Labeling & UDI",
@@ -9914,8 +9914,8 @@
     }
    ],
    "dur": 8,
-   "es": 168,
-   "ef": 176,
+   "es": 171,
+   "ef": 179,
    "sid": "PMS.plan",
    "proc": "PMS",
    "procName": "Post-market surveillance",
@@ -10079,8 +10079,8 @@
     }
    ],
    "dur": 6,
-   "es": 229,
-   "ef": 235,
+   "es": 232,
+   "ef": 238,
    "sid": "PMS.operate",
    "proc": "PMS",
    "procName": "Post-market surveillance",
@@ -10277,8 +10277,8 @@
     }
    ],
    "dur": 8,
-   "es": 168,
-   "ef": 176,
+   "es": 171,
+   "ef": 179,
    "sid": "PMS.ivd",
    "proc": "PMS",
    "procName": "Post-market surveillance",
@@ -10417,8 +10417,8 @@
     }
    ],
    "dur": 6,
-   "es": 178,
-   "ef": 184,
+   "es": 181,
+   "ef": 187,
    "sid": "PCF.plan",
    "proc": "PCF",
    "procName": "Post-market clinical follow-up",
@@ -10567,8 +10567,8 @@
     }
    ],
    "dur": 5,
-   "es": 184,
-   "ef": 189,
+   "es": 187,
+   "ef": 192,
    "sid": "PCF.report",
    "proc": "PCF",
    "procName": "Post-market clinical follow-up",
@@ -10711,8 +10711,8 @@
     }
    ],
    "dur": 5,
-   "es": 172,
-   "ef": 177,
+   "es": 175,
+   "ef": 180,
    "sid": "VIG.eu",
    "proc": "VIG",
    "procName": "Vigilance",
@@ -10922,8 +10922,8 @@
     }
    ],
    "dur": 6,
-   "es": 202,
-   "ef": 208,
+   "es": 205,
+   "ef": 211,
    "sid": "VIG.us",
    "proc": "VIG",
    "procName": "Vigilance",
@@ -11176,8 +11176,8 @@
     }
    ],
    "dur": 4,
-   "es": 98,
-   "ef": 102,
+   "es": 101,
+   "ef": 105,
    "sid": "CMP.setup",
    "proc": "CMP",
    "procName": "Complaint handling",
@@ -11463,8 +11463,8 @@
     }
    ],
    "dur": 6,
-   "es": 98,
-   "ef": 104,
+   "es": 101,
+   "ef": 107,
    "sid": "CAP.setup",
    "proc": "CAP",
    "procName": "Corrective & preventive action",
@@ -11627,8 +11627,8 @@
     }
    ],
    "dur": 6,
-   "es": 104,
-   "ef": 110,
+   "es": 107,
+   "ef": 113,
    "sid": "CAP.operate",
    "proc": "CAP",
    "procName": "Corrective & preventive action",
@@ -12190,8 +12190,8 @@
     }
    ],
    "dur": 4,
-   "es": 98,
-   "ef": 102,
+   "es": 101,
+   "ef": 105,
    "sid": "NCP.setup",
    "proc": "NCP",
    "procName": "Nonconforming product",
@@ -13032,8 +13032,8 @@
     }
    ],
    "dur": 4,
-   "es": 168,
-   "ef": 172,
+   "es": 171,
+   "ef": 175,
    "sid": "MRV.establish",
    "proc": "MRV",
    "procName": "Management review & data analysis",
@@ -13415,8 +13415,8 @@
     }
    ],
    "dur": 6,
-   "es": 168,
-   "ef": 174,
+   "es": 171,
+   "ef": 177,
    "sid": "AUD.establish",
    "proc": "AUD",
    "procName": "Internal audit",
@@ -14364,8 +14364,8 @@
     }
    ],
    "dur": 4,
-   "es": 98,
-   "ef": 102,
+   "es": 101,
+   "ef": 105,
    "sid": "DOC.maintain",
    "proc": "DOC",
    "procName": "Document & record control",
@@ -15260,7 +15260,7 @@
    "how": "1. Risk-assess each system (INF-TPL-01).\n2. Plan, test and report validation (INF-TPL-02/03/05).",
    "who": "System Owner",
    "documents": "INF-SOP-01; INF-LIS-01; INF-TPL-01; INF-TPL-02; INF-TPL-03; INF-TPL-05",
-   "depends": "INF.establish",
+   "depends": "INF.establish, INF.csvproc",
    "leads": "-",
    "clause": "ISO 13485 4.1.6 / 80002-2",
    "mods": [
@@ -15734,8 +15734,8 @@
     }
    ],
    "dur": 5,
-   "es": 98,
-   "ef": 103,
+   "es": 101,
+   "ef": 106,
    "sid": "INF.metrology",
    "proc": "INF",
    "procName": "Infrastructure & CSV",
@@ -16028,12 +16028,12 @@
   },
   {
    "id": "PUR.surveil",
-   "phase": "P2",
-   "wave": "W4",
+   "phase": "P4",
+   "wave": "W2",
    "qse": "Purchasing",
    "statement": "Supplier surveillance & re-evaluation.",
-   "why": "Approving a supplier once is not enough - ISO 13485 (7.4.1) requires suppliers to be monitored and re-evaluated, with action when they fail to meet requirements. Ongoing supplier surveillance catches drift in quality, change in ownership or process, and emerging supply risk before it reaches the product.",
-   "what": "Run ongoing supplier surveillance and re-evaluation: monitor supplier performance against agreed metrics, conduct periodic re-evaluation or audits on a risk basis, manage supplier changes and nonconformities, and update supplier status.",
+   "why": "Suppliers drift — a qualified supplier is only qualified at a point in time. ISO 13485 7.4.1 requires you to monitor and re-evaluate suppliers against the criteria you set. Once you are on the market this is a continuous, risk-based obligation, and the cycle depends on how critical the supplier is. A long development can also force a re-evaluation before you ever launch.",
+   "what": "Run ongoing supplier surveillance and re-evaluation: monitor performance against agreed metrics, re-evaluate on a risk-based cycle (critical suppliers roughly yearly, medium about every two years, low-risk only on cause), manage supplier changes and nonconformities, and keep the approved-supplier list status current.",
    "how": "1. Monitor supplier performance.\n2. Re-evaluate by criticality and update the list (PUR-LIS-01).",
    "who": "QMR",
    "documents": "-",
@@ -16114,24 +16114,24 @@
     "Supplier corrective-action and status updates"
    ],
    "tips": [
-    "Suppliers drift. The one that was excellent at qualification can slide - performance monitoring catches it before a bad batch reaches your device.",
-    "A supplier changing ownership or moving a factory is a classic trigger for quality problems. Make it a mandatory re-assessment, not an afterthought.",
-    "Match surveillance to risk. Your critical steriliser gets close attention; a low-risk supplier gets a light touch. Auditing all suppliers equally exhausts a small team for no benefit.",
-    "If a supplier keeps missing requirements, escalate - probation or removal. An approved list that never changes despite poor performance isn't a control."
+    "Re-evaluation is risk-based — don't put a stationery supplier on the same cycle as your sterilisation contractor.",
+    "If development runs longer than a year, your critical suppliers may fall due for re-evaluation before you even launch.",
+    "Surveillance is the ongoing half of supplier control; qualification (Phase I) is the entry gate."
    ],
    "lean": {
-    "start": "A simple performance check on your critical suppliers and re-approval when they change.",
-    "evolve": "Add scorecards, scheduled re-audits and supplier-development programmes as the supply base grows.",
+    "start": "A risk rating per supplier driving the re-evaluation cycle — critical yearly, medium about every two years, low only on cause.",
     "startDetail": [
-     "Supplier performance monitored against agreed metrics (quality, delivery, responsiveness).",
-     "Periodic re-evaluation or re-audit on a risk basis — critical suppliers more often.",
-     "Supplier changes and nonconformities managed and recorded.",
-     "Supplier status on the approved list updated from what surveillance shows.",
-     "A trigger to CAPA / re-qualification when a supplier's performance drops."
+     "A risk rating per supplier (critical / medium / low) that sets its re-evaluation cycle.",
+     "Critical suppliers re-evaluated roughly yearly; medium about every two years; low-risk only on cause.",
+     "Performance monitored against agreed metrics (quality, delivery, responsiveness).",
+     "Supplier changes and nonconformities recorded and assessed for impact.",
+     "Approved-supplier list status updated from what surveillance shows.",
+     "A trigger for long projects: if development runs beyond your cycle, critical suppliers need re-evaluating before launch, not after."
     ],
+    "evolve": "Add scorecards, scheduled re-audits and supplier-development programmes as the supply base grows.",
     "evolveDetail": [
      "Supplier scorecards with quantified performance trends.",
-     "Scheduled re-audits driven by risk and performance.",
+     "Scheduled re-audits driven by risk rating and performance.",
      "Supplier-development programmes for strategic suppliers."
     ]
    },
@@ -16240,8 +16240,8 @@
     }
    ],
    "dur": 4,
-   "es": 33,
-   "ef": 37,
+   "es": 171,
+   "ef": 175,
    "sid": "PUR.surveil",
    "proc": "PUR",
    "procName": "Purchasing & supplier",
@@ -16473,8 +16473,8 @@
     }
    ],
    "dur": 5,
-   "es": 98,
-   "ef": 103,
+   "es": 101,
+   "ef": 106,
    "sid": "SAL.setup",
    "proc": "SAL",
    "procName": "Tendering & sales",
@@ -16613,8 +16613,8 @@
     }
    ],
    "dur": 5,
-   "es": 168,
-   "ef": 173,
+   "es": 171,
+   "ef": 176,
    "sid": "SUP.setup",
    "proc": "SUP",
    "procName": "Support & servicing",
@@ -17205,8 +17205,8 @@
     }
    ],
    "dur": 4,
-   "es": 168,
-   "ef": 172,
+   "es": 171,
+   "ef": 175,
    "sid": "SEC.postmarket",
    "proc": "SEC",
    "procName": "Product security",
@@ -18340,8 +18340,8 @@
     }
    ],
    "dur": 6,
-   "es": 98,
-   "ef": 104,
+   "es": 101,
+   "ef": 107,
    "sid": "BCP.establish",
    "proc": "BCP",
    "procName": "Business continuity",
@@ -18362,7 +18362,7 @@
    "how": "",
    "who": "Engineering / Quality",
    "documents": "AES-SOP-01; AES-TPL-01; AES-FOR-01; AES-LIS-01",
-   "depends": "-",
+   "depends": "DEV.vvproc",
    "leads": "TEF.file",
    "clause": "EU MDR Annex I",
    "mods": [
@@ -18552,8 +18552,8 @@
     }
    ],
    "dur": 8,
-   "es": 98,
-   "ef": 106,
+   "es": 101,
+   "ef": 109,
    "sid": "AES.setup",
    "proc": "AES",
    "procName": "Active & electrical safety",
@@ -18566,7 +18566,7 @@
   {
    "id": "BIO.setup",
    "phase": "P2",
-   "wave": "W2",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Biocompatibility evaluation.",
    "why": "If any part of your device touches the patient - skin, mucosa, blood, tissue - the materials themselves can cause harm. Biological evaluation is how you show, risk-based, that body contact is safe. It only applies if you have patient contact; if not, record that and move on.",
@@ -18574,7 +18574,7 @@
    "how": "",
    "who": "R&D / Quality",
    "documents": "BIO-SOP-01; BIO-TPL-01; BIO-TPL-02; BIO-FOR-01; BIO-LIS-01",
-   "depends": "-",
+   "depends": "BIO.proc",
    "leads": "TEF.file, BIO.report",
    "clause": "ISO 14971 5.3",
    "mods": [
@@ -18760,8 +18760,8 @@
     }
    ],
    "dur": 10,
-   "es": 33,
-   "ef": 43,
+   "es": 35,
+   "ef": 45,
    "sid": "BIO.setup",
    "proc": "BIO",
    "procName": "Biological evaluation",
@@ -19494,8 +19494,8 @@
     }
    ],
    "dur": 12,
-   "es": 98,
-   "ef": 110,
+   "es": 101,
+   "ef": 113,
    "sid": "PRO.setup",
    "proc": "PRO",
    "procName": "Production",
@@ -19715,8 +19715,8 @@
     }
    ],
    "dur": 10,
-   "es": 110,
-   "ef": 120,
+   "es": 113,
+   "ef": 123,
    "sid": "STE.setup",
    "proc": "STE",
    "procName": "Sterilization & packaging",
@@ -20024,8 +20024,8 @@
     }
    ],
    "dur": 4,
-   "es": 98,
-   "ef": 102,
+   "es": 101,
+   "ef": 105,
    "sid": "PSA.setup",
    "proc": "PSA",
    "procName": "Contaminated products",
@@ -20353,7 +20353,7 @@
    "who": "Quality / IT",
    "documents": "",
    "depends": "INF.establish",
-   "leads": "-",
+   "leads": "INF.csv",
    "clause": "ISO 13485 4.1.6 validation of software",
    "mods": [
     "Core"
@@ -20556,7 +20556,7 @@
   {
    "id": "RSK.proc",
    "phase": "P2",
-   "wave": "W4",
+   "wave": "W1",
    "qse": "Continual Improvement",
    "statement": "Define the risk-management procedure.",
    "why": "ISO 14971 requires risk management to run to a defined process across the whole lifecycle. The procedure is the QMS artefact that says how you do risk management - the acceptability criteria, the method, the roles, and how the risk file is maintained - separate from the device-specific risk file it governs. Defining it once means every product's risk work is consistent and auditable.",
@@ -20565,7 +20565,7 @@
    "who": "Quality / RA",
    "documents": "",
    "depends": "QMN.establish",
-   "leads": "-",
+   "leads": "RSK.plan",
    "clause": "ISO 14971 4 risk management process",
    "mods": [
     "Core"
@@ -20659,7 +20659,7 @@
   {
    "id": "PEV.proc",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W1",
    "qse": "Assessment",
    "statement": "Define the performance-evaluation procedure.",
    "why": "IVDR requires performance evaluation to follow a defined, continuous process. The procedure is the QMS artefact that says how you plan, gather and appraise the three pillars of evidence (scientific validity, analytical and clinical performance) and how the PER is maintained - separate from the device-specific performance evaluation it governs.",
@@ -20668,7 +20668,7 @@
    "who": "RA / Clinical",
    "documents": "",
    "depends": "QMN.establish",
-   "leads": "-",
+   "leads": "PEV.plan",
    "clause": "EU IVDR Annex XIII performance evaluation",
    "mods": [
     "Core"
@@ -20855,8 +20855,8 @@
     ]
    },
    "dur": 5,
-   "es": 168,
-   "ef": 173,
+   "es": 171,
+   "ef": 176,
    "sid": "DEV.transfer",
    "proc": "DEV",
    "procName": "Design & development",
@@ -20976,7 +20976,7 @@
   {
    "id": "DEV.ddplan",
    "phase": "P2",
-   "wave": "W5",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Create the design & development plan.",
    "why": "ISO 13485 7.3.2 requires a design & development plan that defines the stages, the reviews, verification, validation and transfer, and the responsibilities and interfaces. It's the map for the whole build - without it, design work drifts, reviews are missed, and the design history file has holes a Notified Body will find.",
@@ -20984,7 +20984,7 @@
    "how": "",
    "who": "R&D / Quality",
    "documents": "",
-   "depends": "DEV.intended",
+   "depends": "DEV.intended, DEV.establish",
    "leads": "-",
    "clause": "ISO 13485 7.3.2 design and development planning",
    "mods": [
@@ -21085,7 +21085,7 @@
    "how": "",
    "who": "R&D / Quality",
    "documents": "",
-   "depends": "DEV.inputs",
+   "depends": "DEV.inputs, DEV.vvproc",
    "leads": "-",
    "clause": "ISO 13485 7.3.6 design verification",
    "mods": [
@@ -21166,8 +21166,8 @@
     ]
    },
    "dur": 3,
-   "es": 53,
-   "ef": 56,
+   "es": 56,
+   "ef": 59,
    "sid": "DEV.vvplan",
    "proc": "DEV",
    "procName": "Design & development",
@@ -21387,7 +21387,7 @@
   {
    "id": "PEV.applan",
    "phase": "P2",
-   "wave": "W6",
+   "wave": "W7",
    "qse": "Process Management",
    "statement": "Create the analytical-performance plan.",
    "why": "Analytical performance - how accurately and reliably the assay measures the analyte - is the first tier of IVD evidence you generate yourself. The plan decides, to recognised protocols (CLSI/ISO), which parameters you'll establish, on what design, across which specimen matrix, and against which acceptance criteria - so the studies produce defensible data rather than numbers a notified body can challenge.",
@@ -21474,8 +21474,8 @@
     ]
    },
    "dur": 3,
-   "es": 48,
-   "ef": 51,
+   "es": 51,
+   "ef": 54,
    "sid": "PEV.applan",
    "proc": "PEV",
    "procName": "Performance evaluation (IVDR)",
@@ -21498,7 +21498,7 @@
    "how": "",
    "who": "R&D / Toxicology",
    "documents": "",
-   "depends": "BIO.setup",
+   "depends": "BIO.setup, BIO.proc",
    "leads": "-",
    "clause": "ISO 10993-1 Biological evaluation within risk management",
    "mods": [
@@ -21577,8 +21577,8 @@
     ]
    },
    "dur": 4,
-   "es": 98,
-   "ef": 102,
+   "es": 101,
+   "ef": 105,
    "sid": "BIO.report",
    "proc": "BIO",
    "procName": "Biological evaluation",
@@ -21591,7 +21591,7 @@
   {
    "id": "DEV.trace",
    "phase": "P3",
-   "wave": "W5",
+   "wave": "W4",
    "qse": "Process Management",
    "statement": "Finalise the design traceability matrix.",
    "why": "Traceability is what proves the design is complete and controlled: every user need flows to a design input, to an output, to verification and validation, and to the risks it controls. A finalised, bidirectional traceability matrix is the reviewer's map of the whole design - gaps in it read as gaps in the design itself.",
@@ -21669,8 +21669,8 @@
     ]
    },
    "dur": 2,
-   "es": 113,
-   "ef": 115,
+   "es": 116,
+   "ef": 118,
    "sid": "DEV.trace",
    "proc": "DEV",
    "procName": "Design & development",
@@ -21683,7 +21683,7 @@
   {
    "id": "RSK.signoff",
    "phase": "P4",
-   "wave": "W2",
+   "wave": "W3",
    "qse": "Continual Improvement",
    "statement": "Sign off the risk-management report.",
    "why": "Before release, ISO 14971 requires the responsible person to review the risk management and conclude that the overall residual risk and overall benefit-risk are acceptable. This final sign-off - after V&V, clinical/performance and any early post-market data - is the gate that says the device is safe enough to place on the market. It's the conclusion a Notified Body looks for.",
@@ -21772,8 +21772,8 @@
     ]
    },
    "dur": 2,
-   "es": 168,
-   "ef": 170,
+   "es": 171,
+   "ef": 173,
    "sid": "RSK.signoff",
    "proc": "RSK",
    "procName": "Risk management",
@@ -21782,6 +21782,316 @@
    "authored": true,
    "ord": 110,
    "workstream": "tf"
+  },
+  {
+   "id": "DEV.vvproc",
+   "phase": "P2",
+   "wave": "W2",
+   "qse": "Process Management",
+   "statement": "Define the verification & validation procedure.",
+   "why": "Verification and validation generate the evidence a Notified Body scrutinises hardest, so how you run them can't be improvised per test. ISO 13485 7.3.6/7.3.7 require planned V&V with defined methods and acceptance criteria. The procedure is the QMS artefact that says how - separate from the device-specific V&V plan and results it governs - and every test activity, including electrical-safety and software V&V, runs under it.",
+   "what": "Write the verification & validation procedure (SOP): how V&V is planned, which methods and acceptance criteria are acceptable, how test protocols and reports are approved, how anomalies and deviations are handled, and how every result traces back to a requirement and the risk file.",
+   "how": "",
+   "who": "Quality / R&D",
+   "documents": "",
+   "depends": "DEV.establish",
+   "leads": "AES.setup, DEV.vvplan",
+   "clause": "ISO 13485 7.3.6 design verification",
+   "mods": [
+    "Core"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the SOP",
+     "steps": [
+      {
+       "t": "Set the planning rules",
+       "d": "How V&V is planned and which methods are acceptable per requirement type."
+      },
+      {
+       "t": "Fix the acceptance-criteria rule",
+       "d": "Criteria set and approved before testing starts."
+      }
+     ]
+    },
+    {
+     "role": "Control the evidence",
+     "steps": [
+      {
+       "t": "Define approval & anomaly handling",
+       "d": "Who approves protocols/reports; how deviations and failures are dispositioned."
+      },
+      {
+       "t": "Require traceability",
+       "d": "Every result ties to a requirement and its risk control."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A V&V procedure defines methods, acceptance criteria, approval and traceability.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3.6 design verification",
+      "7.3.7 design validation"
+     ]
+    },
+    {
+     "std": "FDA 21 CFR 820",
+     "refs": [
+      "820.30(f)(g)"
+     ]
+    }
+   ],
+   "records": [
+    "Verification & validation procedure (SOP)"
+   ],
+   "tips": [
+    "Acceptance criteria belong in the procedure's rules - set before testing, never after seeing data.",
+    "Active-device testing (IEC 60601) runs under this SOP; it isn't a standalone test campaign.",
+    "The SOP governs; the device's V&V plan and reports are the records it produces."
+   ],
+   "lean": {
+    "start": "A one-page V&V SOP: how methods and acceptance criteria are set and approved, and how results trace to requirements.",
+    "startDetail": [
+     "The rule that acceptance criteria are set and approved before testing starts.",
+     "Acceptable methods per requirement type (bench, standard-based, software, usability).",
+     "How test protocols and reports are reviewed and approved, and by whom.",
+     "How anomalies, deviations and failures are recorded and dispositioned.",
+     "Traceability: every result ties back to a requirement and, where relevant, a risk control."
+    ],
+    "evolve": "Add sampling/statistical rationale, automated regression and a validation master plan as the product range grows.",
+    "evolveDetail": [
+     "A documented sampling and statistical rationale for test design.",
+     "Automated regression so re-verification is cheap after changes.",
+     "A validation master plan spanning design, process and software."
+    ]
+   },
+   "dur": 3,
+   "es": 33,
+   "ef": 36,
+   "sid": "DEV.vvproc",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 128,
+   "workstream": "qms"
+  },
+  {
+   "id": "BIO.proc",
+   "phase": "P2",
+   "wave": "W2",
+   "qse": "Process Management",
+   "statement": "Define the biological-evaluation procedure.",
+   "why": "Biocompatibility conclusions must follow a defined, risk-based method - ISO 10993-1 places biological evaluation inside risk management, not as a standalone test campaign. The procedure says how you categorise body contact, select endpoints, use existing material data, and when you actually test, so every material decision is consistent and defensible. It can equally be integrated into the design & development procedure rather than standing alone.",
+   "what": "Write the biological-evaluation procedure (SOP) to ISO 10993-1: how body contact is categorised, how endpoints are selected, when existing material data and literature suffice versus testing, how chemical characterisation and toxicological assessment are used, and how conclusions feed the risk file.",
+   "how": "",
+   "who": "Quality / R&D",
+   "documents": "",
+   "depends": "DEV.establish",
+   "leads": "BIO.setup, BIO.report",
+   "clause": "ISO 10993-1 Biological evaluation within risk management",
+   "mods": [
+    "HW"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the SOP",
+     "steps": [
+      {
+       "t": "Define contact categorisation",
+       "d": "Nature and duration of body contact per ISO 10993-1."
+      },
+      {
+       "t": "Define endpoint selection & data-first rule",
+       "d": "Close endpoints from existing data; test only genuine gaps."
+      }
+     ]
+    },
+    {
+     "role": "Wire it into risk",
+     "steps": [
+      {
+       "t": "Link conclusions to the risk file",
+       "d": "Biological evaluation sits inside risk management, not beside it."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A biological-evaluation procedure (or D&D section) defines categorisation, endpoints and when to test.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "ISO 10993-1",
+     "refs": [
+      "Biological evaluation within risk management"
+     ]
+    },
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.1 risk management in realization"
+     ]
+    }
+   ],
+   "records": [
+    "Biological-evaluation procedure (SOP)"
+   ],
+   "tips": [
+    "ISO 10993-1 is a risk-based method, not a test list - the SOP must say when NOT to test.",
+    "It's legitimate to fold this into the D&D procedure rather than maintain a standalone SOP.",
+    "The SOP governs; the device's biological evaluation plan and report are the records."
+   ],
+   "lean": {
+    "start": "A one-page biological-evaluation SOP - or a section in the D&D procedure - covering contact categorisation, endpoint selection and when to test.",
+    "startDetail": [
+     "How body contact is categorised (nature and duration) per ISO 10993-1.",
+     "How the applicable endpoints follow from that category.",
+     "When existing material data, master files or literature close an endpoint without testing.",
+     "When chemical characterisation and toxicological assessment are used instead of biological testing.",
+     "How conclusions and residual biological risk feed the risk file.",
+     "The option to integrate this into the design & development procedure rather than a standalone SOP."
+    ],
+    "evolve": "Add supplier material-change triggers and a deeper extractables/leachables method as materials expand.",
+    "evolveDetail": [
+     "Material- or process-change triggers that re-open the evaluation.",
+     "A defined extractables/leachables and toxicological-risk method.",
+     "Endpoint coverage extended as claims and materials grow."
+    ]
+   },
+   "dur": 2,
+   "es": 33,
+   "ef": 35,
+   "sid": "BIO.proc",
+   "proc": "BIO",
+   "procName": "Biological evaluation",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 129,
+   "workstream": "qms"
+  },
+  {
+   "id": "SWD.relproc",
+   "phase": "P2",
+   "wave": "W8",
+   "qse": "Process Management",
+   "statement": "Define the software release procedure.",
+   "why": "When software may be released - and on what evidence - has to be decided once, in a procedure, not argued per release. IEC 62304 5.8 requires verification complete, residual anomalies assessed and the version archived before release. The procedure also lets you separate a design lock issued to run studies from the market release itself, a distinction that protects your timeline without ever shipping unverified software.",
+   "what": "Write the software release procedure (SOP): the release criteria (verification complete, residual anomalies assessed, cybersecurity documentation), who approves, how versions are identified and archived, and how a design lock for studies differs from a market release.",
+   "how": "",
+   "who": "Quality / Software",
+   "documents": "",
+   "depends": "SWD.plan",
+   "leads": "SWD.release",
+   "clause": "IEC 62304 5.8 software release",
+   "mods": [
+    "SW"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Write the SOP",
+     "steps": [
+      {
+       "t": "Set the release criteria",
+       "d": "Verification complete, anomalies assessed, version archived, cybersecurity docs ready."
+      },
+      {
+       "t": "Name the approver",
+       "d": "Who signs a release, and on what evidence."
+      }
+     ]
+    },
+    {
+     "role": "Separate lock from release",
+     "steps": [
+      {
+       "t": "Define the study design-lock",
+       "d": "A locked build for Phase III studies is not a market release."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A software release procedure defines the criteria, the approver, and the lock-vs-release distinction.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "IEC 62304",
+     "refs": [
+      "5.8 software release",
+      "9 problem resolution"
+     ]
+    },
+    {
+     "std": "ISO 13485",
+     "refs": [
+      "7.3.8 design transfer"
+     ]
+    }
+   ],
+   "records": [
+    "Software release procedure (SOP)"
+   ],
+   "tips": [
+    "Don't release software you aren't ready to register - lock a build for studies instead.",
+    "The design lock and the market release are different acts; say so in the SOP.",
+    "Residual anomalies must be assessed, not just listed - that's the 62304 bar."
+   ],
+   "lean": {
+    "start": "A one-page release SOP: the release criteria, who signs, and how a study design-lock differs from a market release.",
+    "startDetail": [
+     "The release criteria per IEC 62304 5.8: verification complete, residual anomalies assessed, version archived.",
+     "Who approves a release, and what evidence they see before signing.",
+     "How versions are identified and archived so any result is reproducible.",
+     "The distinction between a design lock (to run Phase III studies) and the market release itself.",
+     "The cybersecurity documentation required at release (SBOM, threat model, security testing)."
+    ],
+    "evolve": "Add automated release gates, signed builds and staged rollout as the product and user base grow.",
+    "evolveDetail": [
+     "Automated release gates enforcing the criteria in CI.",
+     "Signed, reproducible builds with release attestations.",
+     "Staged rollout with health monitoring and rollback."
+    ]
+   },
+   "dur": 2,
+   "es": 61,
+   "ef": 63,
+   "sid": "SWD.relproc",
+   "proc": "SWD",
+   "procName": "Software development",
+   "maturity": "lean",
+   "reg": [],
+   "authored": true,
+   "ord": 130,
+   "workstream": "qms"
   }
  ],
  "documents": [
