@@ -29,13 +29,24 @@ export function ProfileSelector({
     () => !(profile && Object.keys(profile).length > 0),
   );
 
-  // characteristics only — the EU route (MDR/IVDR) and FDA market are their own
-  // controls, so IVD/FDA are pulled out of the generic module grid.
-  const charModules = modules.filter(
-    (m) => m.code !== "IVD" && m.code !== "FDA",
-  );
   const route = euRoute(profile); // "MDR" | "IVDR" | null
   const fdaOn = !!profile?.FDA;
+
+  // characteristics only — the EU route (MDR/IVDR) and FDA market are their own
+  // controls, so IVD/FDA are pulled out of the generic module grid. The IVD
+  // sub-types are IVDR concepts, so they only appear on the IVDR route.
+  const IVDR_ONLY = ["SELF", "CDX"];
+  const charModules = modules.filter(
+    (m) =>
+      m.code !== "IVD" &&
+      m.code !== "FDA" &&
+      (!IVDR_ONLY.includes(m.code) || route === "IVDR"),
+  );
+
+  // A module's weight is its documents; the IVD sub-types carry activities
+  // instead, so show whichever is the honest number rather than "0 documents".
+  const actCount = (code: string) =>
+    acts.filter((a) => (a.mods || []).includes(code)).length;
 
   const docsInScope = docScopes.filter((d) => docInScope(d, profile)).length;
   const actsInScope = acts.filter((a) => actInScope(a, profile)).length;
@@ -51,6 +62,10 @@ export function ProfileSelector({
     if (r === "IVDR") {
       p.IVDR = 1;
       p.IVD = 1; // an IVDR device IS an IVD → enable IVD-specific content
+    }
+    if (r !== "IVDR") {
+      delete p.SELF; // the IVD sub-types are IVDR-only concepts
+      delete p.CDX;
     }
     setProfile(p);
   }
@@ -233,7 +248,10 @@ export function ProfileSelector({
                 <span className="font-medium text-teal-900">{m.label}</span>
                 {m.q && <span className="text-[12px] text-muted">{m.q}</span>}
                 <span className="mt-1 text-[11px] text-muted">
-                  {m.std} · {modCounts[m.code] || 0} documents
+                  {m.std} ·{" "}
+                  {modCounts[m.code]
+                    ? `${modCounts[m.code]} documents`
+                    : `${actCount(m.code)} ${actCount(m.code) === 1 ? "activity" : "activities"}`}
                   {m.code === "AI" ? " · requires Software" : ""}
                   {m.code === "ACT" || m.code === "STE"
                     ? " · requires Physical device"

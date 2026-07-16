@@ -203,6 +203,23 @@
           "produces": [],
           "consumes": [],
           "handoffTo": []
+        },
+        {
+          "id": "DEV.selftest",
+          "title": "Design for self-testing / near-patient use",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ],
+            "characteristics": [
+              "self"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -982,6 +999,40 @@
           "produces": [],
           "consumes": [],
           "handoffTo": []
+        },
+        {
+          "id": "PEV.selftest",
+          "title": "Validate performance with lay users",
+          "phase": 3,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ],
+            "characteristics": [
+              "self"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "PEV.cdx",
+          "title": "Establish the companion-diagnostic evidence",
+          "phase": 2,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ],
+            "characteristics": [
+              "cdx"
+            ]
+          },
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
         }
       ],
       "workstream": "tf"
@@ -1215,6 +1266,23 @@
           "phase": 2,
           "maturity": "lean",
           "appliesWhen": {},
+          "produces": [],
+          "consumes": [],
+          "handoffTo": []
+        },
+        {
+          "id": "TEF.cdx",
+          "title": "Companion diagnostic: medicinal-authority consultation",
+          "phase": 4,
+          "maturity": "lean",
+          "appliesWhen": {
+            "regulation": [
+              "IVDR"
+            ],
+            "characteristics": [
+              "cdx"
+            ]
+          },
           "produces": [],
           "consumes": [],
           "handoffTo": []

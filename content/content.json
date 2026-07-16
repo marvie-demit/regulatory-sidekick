@@ -263,40 +263,6 @@
      "refs": []
     },
     {
-     "t": "Build the traceability matrix",
-     "who": "Quality / R&D",
-     "why": "Traceability - inputs to outputs to verification to validation - is the single most powerful audit artefact you have. It proves nothing was forgotten and nothing was added without reason.",
-     "what": "Build and maintain a matrix linking each input to its output, verification and validation.",
-     "how": [
-      {
-       "t": "Link inputs -> outputs",
-       "d": "Every requirement maps to the design output(s) that satisfy it."
-      },
-      {
-       "t": "Link to verification & validation",
-       "d": "Every requirement maps to the test or evidence that proves it is met."
-      },
-      {
-       "t": "Tie in the risk controls",
-       "d": "Show where risk-control measures appear as requirements, outputs and tests."
-      },
-      {
-       "t": "Keep it live & complete",
-       "d": "Update it on every design change - a gap in the matrix is a gap in your evidence."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 13485",
-       "refs": [
-        "7.3 Design and development (traceability)"
-       ]
-      }
-     ],
-     "docs": "DEV-LIS-01",
-     "refs": []
-    },
-    {
      "t": "Verify the design",
      "who": "R&D / Quality",
      "why": "Verification asks 'did we build the device right?' - does each output meet its input. It is how you catch defects before they reach a patient.",
@@ -527,79 +493,6 @@
    },
    "subs": [
     {
-     "t": "Define the design & development stages",
-     "who": "R&D lead",
-     "why": "Design controls keep a product safe by structuring how it is developed. Defining the stages up front is what turns 'we built it' into 'we developed it under control'.",
-     "what": "Define the D&D stages and the gates between them, proportionate to your device.",
-     "how": [
-      {
-       "t": "Lay out the stages",
-       "d": "Inputs -> design -> verification -> validation -> design transfer to production."
-      },
-      {
-       "t": "Define the stage gates",
-       "d": "What must be true (and reviewed) to pass from one stage to the next."
-      },
-      {
-       "t": "Define deliverables per stage",
-       "d": "What each stage must produce before its gate."
-      },
-      {
-       "t": "Scale to your device & risk",
-       "d": "Lighter for a simple device, deeper for a complex or higher-risk one."
-      },
-      {
-       "t": "Capture it in the design plan",
-       "d": "A controlled document you keep updated as the design evolves."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 13485",
-       "refs": [
-        "7.3.2 Design and development planning"
-       ]
-      }
-     ],
-     "docs": "DEV-SOP-03; DEV-TPL-07",
-     "refs": []
-    },
-    {
-     "t": "Plan verification & validation",
-     "who": "R&D lead",
-     "why": "Verification shows you built it right; validation shows you built the right thing. Planning where each happens stops you discovering at the end that you cannot prove either.",
-     "what": "Plan where verification and validation occur and against what acceptance criteria.",
-     "how": [
-      {
-       "t": "Plan verification points",
-       "d": "Where design outputs are checked against design inputs."
-      },
-      {
-       "t": "Plan validation",
-       "d": "Where the device is shown to meet user needs and intended use, on representative product and users."
-      },
-      {
-       "t": "Set acceptance criteria up front",
-       "d": "Decide pass/fail before you test, not after seeing results."
-      },
-      {
-       "t": "Define methods & sample sizes",
-       "d": "How each test is run and on how many units, with a rationale."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 13485",
-       "refs": [
-        "7.3.6 Design verification",
-        "7.3.7 Design validation"
-       ]
-      }
-     ],
-     "docs": "DEV-SOP-03",
-     "refs": []
-    },
-    {
      "t": "Assign design responsibilities & interfaces",
      "who": "R&D lead",
      "why": "Design fails at the handoffs. Assigning responsibilities and managing the interfaces between functions (and suppliers) keeps things from falling through the cracks.",
@@ -731,7 +624,7 @@
    "who": "Design & Development Lead",
    "documents": "DEV-TPL-08; DEV-TPL-09",
    "depends": "DEV.intended, RSK.plan",
-   "leads": "DEV.verify, SWD.plan, DEV.vvplan",
+   "leads": "DEV.verify, SWD.plan, DEV.vvplan, DEV.selftest",
    "clause": "ISO 13485 7.3.3-7.3.4; MDR Annex I",
    "mods": [
     "Core"
@@ -1093,22 +986,6 @@
       {
        "t": "Use representative product",
        "d": "Production-equivalent, not prototypes."
-      }
-     ]
-    },
-    {
-     "t": "Verify design transfer",
-     "who": "Design / Ops",
-     "why": "A validated design still fails if production does not reproduce it.",
-     "what": "Confirm the design is correctly translated into manufacturing.",
-     "how": [
-      {
-       "t": "Check specs & processes",
-       "d": "Production specs match the design outputs."
-      },
-      {
-       "t": "Confirm training & controls",
-       "d": "Operators and controls in place."
       }
      ]
     },
@@ -2168,22 +2045,6 @@
       {
        "t": "Judge benefit-risk",
        "d": "Benefits outweigh the overall residual risk."
-      }
-     ]
-    },
-    {
-     "t": "Conclude & sign off",
-     "who": "Top Management",
-     "why": "Management ownership of the risk conclusion is required and audited.",
-     "what": "Conclude acceptability and obtain sign-off.",
-     "how": [
-      {
-       "t": "State the conclusion",
-       "d": "Acceptable, feeding CER/PER."
-      },
-      {
-       "t": "Management signature",
-       "d": "Documented ownership."
       }
      ]
     }
@@ -6344,7 +6205,7 @@
    "who": "RA / Clinical",
    "documents": "PEV-SOP-01; PEV-TPL-01; PEV-FOR-01",
    "depends": "DEV.intended, DEV.intended.ivd, PEV.proc",
-   "leads": "PEV.sv, PEV.feasibility, PEV.applan",
+   "leads": "PEV.sv, PEV.feasibility, PEV.applan, PEV.cdx",
    "clause": "IVDR Annex XIII",
    "mods": [
     "Core"
@@ -8185,7 +8046,7 @@
    "who": "Regulatory Affairs Lead",
    "documents": "TEF-TPL-01; TEF-LIS-01",
    "depends": "DEV.validate, DEV.ivd, RSK.report, RSK.ivd, HUF.summative, AIM.compliance, CLE.report, PEV.report, TEF.gspr.mdr, TEF.gspr.ivdr, LBL.produce, AES.setup, BIO.setup, CMB.setup, STE.setup",
-   "leads": "TEF.certify.stage1, TEF.market.fda",
+   "leads": "TEF.certify.stage1, TEF.market.fda, TEF.cdx",
    "clause": "MDR/IVDR Annex II & III; Art 19 (DoC)",
    "mods": [
     "Core"
@@ -10939,8 +10800,8 @@
    "wave": "W2",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Complaint handling process + log.",
-   "why": "From the moment anything is made or shipped, problems can occur - complaints from the field and nonconforming product internally - and you must be able to capture, evaluate and contain them, and decide whether they are reportable. ISO 13485 requires complaint handling (8.2.2), notification to authorities where applicable (8.2.3) and control of nonconforming product (8.3); the regulations add mandatory vigilance reporting. Standing this up early means no event is lost before the full CAPA and vigilance systems come online in Phase 2.",
-   "what": "Establish the intake and handling of complaints and the control of nonconforming product: how each is captured, evaluated, contained, dispositioned and escalated, including the trigger for regulatory reporting. The output is working complaint-capture and nonconforming-product controls that feed CAPA and vigilance.",
+   "why": "A complaint is the field telling you something is wrong - and under MDR/IVDR it is also what starts the vigilance clock. ISO 13485 8.2.2 requires a documented complaint-handling process: every complaint captured, evaluated, investigated where warranted, and assessed for reportability. Lose complaints in an inbox and you lose both your earliest safety signal and your ability to report on time.",
+   "what": "Establish complaint handling: a single intake channel and log, a clear definition of what counts as a complaint, evaluation and investigation, the reportability check that feeds vigilance, and the route into CAPA and trend analysis.",
    "how": "1. Open the complaint log (CMP-LIS-01) and define intake.\n2. Define how nonconforming product/output is identified and segregated (NCP-SOP-01).",
    "who": "QMR",
    "documents": "CMP-SOP-01; CMP-LIS-01",
@@ -11925,8 +11786,8 @@
    "wave": "W3",
    "qse": "Nonconforming-Event Mgmt",
    "statement": "Control of nonconforming product.",
-   "why": "From the moment anything is made or shipped, problems can occur - complaints from the field and nonconforming product internally - and you must be able to capture, evaluate and contain them, and decide whether they are reportable. ISO 13485 requires complaint handling (8.2.2), notification to authorities where applicable (8.2.3) and control of nonconforming product (8.3); the regulations add mandatory vigilance reporting. Standing this up early means no event is lost before the full CAPA and vigilance systems come online in Phase 2.",
-   "what": "Establish the intake and handling of complaints and the control of nonconforming product: how each is captured, evaluated, contained, dispositioned and escalated, including the trigger for regulatory reporting. The output is working complaint-capture and nonconforming-product controls that feed CAPA and vigilance.",
+   "why": "Product that does not meet requirements must never reach a patient by accident. ISO 13485 8.3 requires nonconforming product to be identified, segregated and dispositioned by authorised people, with a record of the decision - and a documented justification whenever you use it as-is. Without a real barrier, suspect product quietly re-enters stock, which is how recalls start.",
+   "what": "Establish control of nonconforming product: how nonconformity is identified and recorded, how product is segregated so it cannot be used by mistake, who may disposition it (rework, repair, use-as-is with justification, scrap or return), and when it escalates into CAPA.",
    "how": "1. Open the complaint log (CMP-LIS-01) and define intake.\n2. Define how nonconforming product/output is identified and segregated (NCP-SOP-01).",
    "who": "QMR",
    "documents": "NCP-SOP-01; NCP-LIS-01",
@@ -12394,43 +12255,6 @@
      ]
     },
     {
-     "t": "Appoint the management representative (QMR)",
-     "who": "Top management",
-     "why": "Someone needs clear, delegated authority to own the QMS day to day and to speak for it to management - otherwise responsibility is everywhere and nowhere. ISO 13485 and MDR both require this role.",
-     "what": "Appoint a management representative in writing, with authority to establish, implement and maintain the QMS and to report on its performance to top management.",
-     "how": [
-      {
-       "t": "Choose the person",
-       "d": "Someone with enough standing and access to management to actually drive change."
-      },
-      {
-       "t": "Document their authority",
-       "d": "Maintaining the QMS, raising quality issues, reporting performance."
-      },
-      {
-       "t": "Give them a direct line",
-       "d": "They can escalate quality concerns to top management without a filter."
-      },
-      {
-       "t": "Announce the appointment",
-       "d": "Tell staff who the QMR is and what they own."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 13485",
-       "refs": [
-        "5.5.1 Responsibility and authority",
-        "5.5.2 Management representative"
-       ]
-      }
-     ],
-     "docs": "QMN-MAN-01",
-     "refs": [
-      "ISO 13485 cl. 5.5.2 - Management representative"
-     ]
-    },
-    {
      "t": "Form the quality & regulatory project team",
      "who": "Management representative",
      "why": "Implementing a QMS touches design, production, suppliers, software and clinical work - far too much for one person. A small cross-functional team spreads the load and keeps the system grounded in how the company actually works.",
@@ -12638,40 +12462,6 @@
        "std": "ISO 13485",
        "refs": [
         "5.3 Quality policy"
-       ]
-      }
-     ],
-     "docs": "QMN-MAN-01",
-     "refs": []
-    },
-    {
-     "t": "Set measurable quality objectives",
-     "who": "Management representative",
-     "why": "Objectives turn the policy into something measurable. Without them, 'quality' is just a word and you have nothing to review progress against.",
-     "what": "Define a small set of measurable, relevant quality objectives.",
-     "how": [
-      {
-       "t": "Derive them from the policy",
-       "d": "Objectives should make the quality policy concrete and measurable."
-      },
-      {
-       "t": "Pick a few that matter",
-       "d": "Three solid objectives beat ten vanity metrics; tie them to product quality and the QMS."
-      },
-      {
-       "t": "Make each measurable & time-bound",
-       "d": "A number and a deadline, set at relevant functions and levels."
-      },
-      {
-       "t": "Assign owners & track them",
-       "d": "One owner per objective, reviewed at the quality meeting and in management review."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 13485",
-       "refs": [
-        "5.4.1 Quality objectives"
        ]
       }
      ],
@@ -18723,40 +18513,6 @@
      ],
      "docs": "BIO-FOR-01",
      "refs": []
-    },
-    {
-     "t": "Compile the evaluation report",
-     "who": "R&D / Quality",
-     "why": "The biological evaluation report is the conclusion that body contact is safe - and a key technical-file document.",
-     "what": "Compile the biological evaluation report and log the studies.",
-     "how": [
-      {
-       "t": "Write the biological evaluation report",
-       "d": "Conclude that body contact is biologically safe (BIO-TPL-02)."
-      },
-      {
-       "t": "Justify any untested endpoints",
-       "d": "The rationale for closing them from data."
-      },
-      {
-       "t": "Log the studies",
-       "d": "In BIO-LIS-01."
-      },
-      {
-       "t": "Tie it to change control",
-       "d": "A material or process change reopens the evaluation."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "ISO 14971",
-       "refs": [
-        "Biological risk"
-       ]
-      }
-     ],
-     "docs": "BIO-TPL-02",
-     "refs": []
     }
    ],
    "dur": 10,
@@ -21591,7 +21347,7 @@
   {
    "id": "DEV.trace",
    "phase": "P3",
-   "wave": "W4",
+   "wave": "W5",
    "qse": "Process Management",
    "statement": "Finalise the design traceability matrix.",
    "why": "Traceability is what proves the design is complete and controlled: every user need flows to a design input, to an output, to verification and validation, and to the risks it controls. A finalised, bidirectional traceability matrix is the reviewer's map of the whole design - gaps in it read as gaps in the design itself.",
@@ -22092,6 +21848,434 @@
    "authored": true,
    "ord": 130,
    "workstream": "qms"
+  },
+  {
+   "id": "DEV.selftest",
+   "phase": "P2",
+   "wave": "W7",
+   "qse": "Process Management",
+   "statement": "Design for self-testing / near-patient use.",
+   "why": "A device a lay person uses at home, or a nurse uses at the bedside, carries risks a lab device does not: no trained operator, no controlled environment, and a result the user may act on alone. IVDR Annex I 9.4 requires self-test devices to be designed so a lay user can operate them correctly at every step and interpret the result safely, with information they actually understand. Self-testing also drives classification upward (usually class C under Rule 4) and pulls the Notified Body into your design.",
+   "what": "Design the device and its information for lay or near-patient use per IVDR Annex I 9.4: minimise use error at every step, make the result unambiguous, state the limits of the result and when to see a clinician, and write the instructions at the lay user's reading level.",
+   "how": "",
+   "who": "R&D / Usability",
+   "documents": "",
+   "depends": "DEV.inputs",
+   "leads": "PEV.selftest",
+   "clause": "EU IVDR Annex I 9.4 devices for self-testing",
+   "mods": [
+    "SELF"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Specify the lay use",
+     "steps": [
+      {
+       "t": "Name the user & environment",
+       "d": "Who uses it, where, and what they will get wrong."
+      },
+      {
+       "t": "Design out use error",
+       "d": "Each step - sample, timing, reading - minimises the chance of error."
+      }
+     ]
+    },
+    {
+     "role": "Make the result safe",
+     "steps": [
+      {
+       "t": "Make the result unambiguous",
+       "d": "And state plainly what it does not mean."
+      },
+      {
+       "t": "Write for the lay reader",
+       "d": "IFU at their reading level, comprehension-checked."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "The design and IFU meet Annex I 9.4 for lay / near-patient use.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Annex I 9.4 devices for self-testing",
+      "Annex VIII Rule 4"
+     ]
+    },
+    {
+     "std": "IEC 62366-1",
+     "refs": [
+      "Usability engineering"
+     ]
+    }
+   ],
+   "records": [
+    "Lay-user use specification",
+    "Self-test IFU & comprehension check"
+   ],
+   "tips": [
+    "Self-testing usually lifts you to class C (Rule 4) - check classification before you design.",
+    "The lay user has no training and no supervision; assume every ambiguity becomes a use error.",
+    "'Near-patient' isn't 'lab' - the operator may be a clinician, but the environment isn't controlled."
+   ],
+   "lean": {
+    "start": "A use specification naming the lay user and their environment, plus an IFU written and comprehension-checked at their reading level.",
+    "startDetail": [
+     "A use specification naming the lay / near-patient user, their environment and their likely mistakes.",
+     "Design controls that reduce use error at each step - sample collection, timing, reading the result.",
+     "An unambiguous result presentation, and what the user should do with it.",
+     "The limits stated plainly: what the result does NOT mean, and when to see a clinician.",
+     "Instructions written and comprehension-checked at the lay user's reading level.",
+     "A note that self-testing usually pushes the IVDR class up (Rule 4) and brings the Notified Body into the design."
+    ],
+    "evolve": "Add iterative lay-user formative rounds and human-factors depth as the interface matures.",
+    "evolveDetail": [
+     "Iterative formative rounds with real lay users, not proxies.",
+     "Human-factors engineering integrated with the risk file for use-related hazards.",
+     "Comprehension testing across the languages and markets you sell into."
+    ]
+   },
+   "dur": 6,
+   "es": 56,
+   "ef": 62,
+   "sid": "DEV.selftest",
+   "proc": "DEV",
+   "procName": "Design & development",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 151,
+   "workstream": "tf"
+  },
+  {
+   "id": "PEV.selftest",
+   "phase": "P3",
+   "wave": "W4",
+   "qse": "Process Management",
+   "statement": "Validate performance with lay users.",
+   "why": "For a self-test, performance in a lab tells you almost nothing - what matters is whether a lay user, unsupervised, gets the right answer. IVDR requires the performance evaluation to reflect the intended user, so a lay-user study is the evidence that your analytical and clinical performance survive contact with a real user. It is also where the Notified Body looks hardest on a self-test device.",
+   "what": "Run the lay-user performance study: representative, untrained lay (or near-patient) users following only the IFU in a realistic setting - comparing their results against the reference method and capturing where and why they went wrong.",
+   "how": "",
+   "who": "Clinical / Usability",
+   "documents": "",
+   "depends": "DEV.selftest",
+   "leads": "-",
+   "clause": "EU IVDR Annex I 9.4",
+   "mods": [
+    "SELF"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Design the study",
+     "steps": [
+      {
+       "t": "Recruit representative lay users",
+       "d": "Untrained, matching the intended population - not staff."
+      },
+      {
+       "t": "Give them only the IFU",
+       "d": "No coaching, and a realistic setting."
+      }
+     ]
+    },
+    {
+     "role": "Measure & learn",
+     "steps": [
+      {
+       "t": "Compare against the reference",
+       "d": "Quantify lay-user performance against the reference method."
+      },
+      {
+       "t": "Capture use errors",
+       "d": "Trace each one back to the design and the risk file."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A lay-user study shows untrained users get correct, correctly-understood results.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Annex I 9.4",
+      "Annex XIII performance evaluation"
+     ]
+    },
+    {
+     "std": "IEC 62366-1",
+     "refs": [
+      "Summative evaluation"
+     ]
+    }
+   ],
+   "records": [
+    "Lay-user performance study protocol & report"
+   ],
+   "tips": [
+    "Don't test with staff or trained users - it invalidates the whole point.",
+    "A lay user misreading a correct result is still a device failure; test comprehension, not just accuracy.",
+    "This is the study the Notified Body scrutinises hardest on a self-test."
+   ],
+   "lean": {
+    "start": "A lay-user study on the final design: untrained users, IFU only, results compared against the reference.",
+    "startDetail": [
+     "Representative lay users - untrained, not staff, matching the intended population.",
+     "The IFU as the only instruction: no coaching, no demonstration.",
+     "A realistic setting (home / near-patient), not a supervised lab bench.",
+     "Results compared against the reference method to quantify lay-user performance.",
+     "Use errors captured and traced back to the design and the risk file.",
+     "Comprehension of the result and its limits checked, not just the measurement."
+    ],
+    "evolve": "Broaden the user population and settings, and feed real-world self-test data back through PMPF.",
+    "evolveDetail": [
+     "Wider user populations (age, literacy, dexterity, language).",
+     "More settings and specimen-collection variability.",
+     "Real-world self-test performance fed back via PMPF."
+    ]
+   },
+   "dur": 10,
+   "es": 101,
+   "ef": 111,
+   "sid": "PEV.selftest",
+   "proc": "PEV",
+   "procName": "Performance evaluation (IVDR)",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 152,
+   "workstream": "tf"
+  },
+  {
+   "id": "PEV.cdx",
+   "phase": "P2",
+   "wave": "W7",
+   "qse": "Assessment",
+   "statement": "Establish the companion-diagnostic evidence.",
+   "why": "A companion diagnostic is not judged on its own - it is judged on whether it correctly identifies the patients who will benefit from (or be harmed by) a specific medicinal product. That ties your intended purpose, your scientific validity and your performance evidence to a named drug and its label. IVDR makes this a class C device (Annex VIII Rule 3f) and requires a scientific opinion from EMA or a national medicines authority before certification.",
+   "what": "Build the companion-diagnostic evidence: name the medicinal product in the intended purpose, establish the scientific validity of the biomarker-drug association, and generate the clinical performance showing the device selects the patient population the drug's label defines.",
+   "how": "",
+   "who": "RA / Clinical",
+   "documents": "",
+   "depends": "PEV.plan",
+   "leads": "TEF.cdx",
+   "clause": "EU IVDR Annex VIII Rule 3(f) companion diagnostics",
+   "mods": [
+    "CDX"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Tie it to the drug",
+     "steps": [
+      {
+       "t": "Name the medicinal product",
+       "d": "In the intended purpose - a CDx is defined by the drug it serves."
+      },
+      {
+       "t": "Evidence the biomarker-drug link",
+       "d": "Scientific validity from the drug's development data and literature."
+      }
+     ]
+    },
+    {
+     "role": "Prove patient selection",
+     "steps": [
+      {
+       "t": "Show it selects the label population",
+       "d": "Clinical performance against the drug's label-defined population."
+      },
+      {
+       "t": "Justify the cut-off",
+       "d": "Against the clinical decision the label drives."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "The intended purpose names the drug, and performance shows correct patient selection.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Annex VIII Rule 3(f) companion diagnostics",
+      "Annex XIII performance evaluation",
+      "Art 48(3)"
+     ]
+    }
+   ],
+   "records": [
+    "CDx intended purpose naming the medicinal product",
+    "Biomarker-drug scientific validity",
+    "CDx clinical performance report"
+   ],
+   "tips": [
+    "A companion diagnostic is class C by Rule 3(f) - plan the Notified Body route from day one.",
+    "Your intended purpose must name the medicinal product; a generic biomarker claim isn't a CDx.",
+    "The drug's label is your benchmark - if it changes, your evidence has to follow."
+   ],
+   "lean": {
+    "start": "An intended purpose naming the medicinal product, the biomarker-drug association evidenced, and clinical performance tied to the drug's label population.",
+    "startDetail": [
+     "The intended purpose names the specific medicinal product (or group) it is companion to.",
+     "The scientific validity of the biomarker-drug association evidenced from the drug's development data and literature.",
+     "Clinical performance showing the device selects the population the drug's label defines.",
+     "Alignment with the medicinal product's label / SmPC wording.",
+     "Cut-offs justified against the clinical decision the label drives.",
+     "The class C route acknowledged (Rule 3f) and the EMA / national-authority consultation planned."
+    ],
+    "evolve": "Extend to additional medicinal products and keep the evidence aligned as the drug's label evolves.",
+    "evolveDetail": [
+     "Additional medicinal products added to the intended purpose, each evidenced.",
+     "Evidence re-aligned when the drug's label or indication changes.",
+     "Real-world concordance data via PMPF."
+    ]
+   },
+   "dur": 8,
+   "es": 51,
+   "ef": 59,
+   "sid": "PEV.cdx",
+   "proc": "PEV",
+   "procName": "Performance evaluation (IVDR)",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 153,
+   "workstream": "tf"
+  },
+  {
+   "id": "TEF.cdx",
+   "phase": "P4",
+   "wave": "W5",
+   "qse": "Assessment",
+   "statement": "Companion diagnostic: medicinal-authority consultation.",
+   "why": "For a companion diagnostic the Notified Body cannot certify alone - IVDR Art 48(3) requires it to seek a scientific opinion from the EMA (for centrally-authorised products) or a national medicines authority on the device's suitability for the medicinal product concerned. That consultation is a real, scheduled step with its own clock, and it sits squarely on the critical path to your certificate.",
+   "what": "Support the Notified Body's consultation with EMA or the relevant national medicines authority: supply the dossier tying the device to the medicinal product, respond to the authority's questions, and fold the resulting scientific opinion into the conformity assessment.",
+   "how": "",
+   "who": "RA",
+   "documents": "",
+   "depends": "PEV.cdx, TEF.file",
+   "leads": "-",
+   "clause": "EU IVDR Art 48(3) consultation",
+   "mods": [
+    "CDX"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Prepare",
+     "steps": [
+      {
+       "t": "Identify the authority",
+       "d": "EMA for centrally-authorised products; otherwise the national medicines authority."
+      },
+      {
+       "t": "Assemble the dossier",
+       "d": "The device-to-drug evidence the Notified Body will submit."
+      }
+     ]
+    },
+    {
+     "role": "Run the consultation",
+     "steps": [
+      {
+       "t": "Answer questions fast",
+       "d": "A named owner; the clock is on the critical path."
+      },
+      {
+       "t": "Fold in the opinion",
+       "d": "Into the conformity assessment and the technical file."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A scientific opinion from EMA / the national authority is in the conformity assessment.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "EU IVDR",
+     "refs": [
+      "Art 48(3) consultation",
+      "Annex IX 5.2"
+     ]
+    }
+   ],
+   "records": [
+    "CDx consultation dossier",
+    "Scientific opinion from EMA / national authority"
+   ],
+   "tips": [
+    "This consultation is on your critical path - it is not a formality you can leave to the end.",
+    "EMA vs national authority depends on how the drug was authorised; confirm it early.",
+    "Budget real calendar time - the authority's clock is not yours to control."
+   ],
+   "lean": {
+    "start": "The CDx dossier ready for the Notified Body to send to EMA / the national authority, with the consultation time in your launch plan.",
+    "startDetail": [
+     "The consultation route identified: EMA for centrally-authorised products, otherwise the national medicines authority.",
+     "The dossier tying the device to the medicinal product, assembled for the Notified Body to submit.",
+     "The consultation timeline built into the launch plan - it is on the critical path.",
+     "A named owner to answer the authority's questions quickly.",
+     "The scientific opinion folded into the conformity assessment and the technical file."
+    ],
+    "evolve": "Build a repeatable consultation pack and relationship as you add medicinal products.",
+    "evolveDetail": [
+     "A reusable consultation dossier template across products.",
+     "Early informal engagement with the authority before formal submission.",
+     "Re-consultation planned when the drug's label changes."
+    ]
+   },
+   "dur": 10,
+   "es": 197,
+   "ef": 207,
+   "sid": "TEF.cdx",
+   "proc": "TEF",
+   "procName": "Technical file & market access",
+   "maturity": "lean",
+   "reg": [
+    "IVDR"
+   ],
+   "authored": true,
+   "ord": 154,
+   "workstream": "tf"
   }
  ],
  "documents": [
@@ -27037,6 +27221,18 @@
    "label": "In-vitro diagnostic",
    "q": "Is an in-vitro diagnostic (IVD)?",
    "std": "IVDR"
+  },
+  {
+   "code": "SELF",
+   "label": "Self-testing / near-patient",
+   "q": "Used by a lay person, or at the bedside?",
+   "std": "IVDR Annex I 9.4"
+  },
+  {
+   "code": "CDX",
+   "label": "Companion diagnostic",
+   "q": "Selects patients for a specific medicinal product?",
+   "std": "IVDR Rule 3(f), Art 48(3)"
   },
   {
    "code": "HW",

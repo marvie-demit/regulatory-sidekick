@@ -91,6 +91,9 @@ export function profileToScope(profile: Record<string, unknown> | null): Scope {
     ].forEach((c) => chars.add(c));
   if (has("ACT")) chars.add("active"); // active / electrical device (IEC 60601)
   if (has("STE")) chars.add("sterile"); // supplied sterile
+  // IVDR sub-types — only meaningful on the IVDR route
+  if (has("SELF")) chars.add("self"); // self-testing / near-patient (Annex I 9.4)
+  if (has("CDX")) chars.add("cdx"); // companion diagnostic (Rule 3f, Art 48(3))
   return { regulation, characteristics: [...chars], markets: [...markets] };
 }
 
