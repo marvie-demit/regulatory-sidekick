@@ -7,13 +7,18 @@ import { actInScope, docInScope } from "@/lib/content/scope";
 
 type Act = {
   id: string;
+  statement: string;
   phaseN: number;
+  wave: number;
+  depends: string;
+  workstream: string;
   qse: string;
   dur: number;
   es: number;
   ef: number;
   mods: string[];
   reg?: string[];
+  ord: number;
 };
 type DocScope = { module: string; reg?: string[] };
 
@@ -58,6 +63,44 @@ export function DashboardClient({
   const actsInScope = scoped.length;
   const activeMods = profile ? modules.filter((m) => profile[m.code]) : [];
 
+  // ---- Next up: what can actually be started now ----------------------------
+  // "Ready" = not started, in the current phase, and every in-scope dependency
+  // is closed. Scoping to the current phase matters: a dependency-free Phase-4
+  // activity is technically unblocked but is not what to do today.
+  const inScopeIds = new Set(scoped.map((a) => a.id));
+  const closed = (id: string) => status[id] === "Done" || status[id] === "N-A";
+  const notStarted = (id: string) => !status[id] || status[id] === "Not started";
+  const blockersOf = (a: Act) =>
+    (a.depends || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter((d) => d && d !== "-" && inScopeIds.has(d) && !closed(d));
+
+  // current phase = the earliest phase that still has unfinished work
+  const currentPhase =
+    [1, 2, 3, 4].find((n) =>
+      scoped.some((a) => a.phaseN === n && !closed(a.id)),
+    ) ?? 4;
+
+  const recommended = scoped
+    .filter((a) => a.phaseN === currentPhase && notStarted(a.id))
+    .sort((x, y) => x.wave - y.wave || x.ord - y.ord)
+    .map((a) => ({ a, blockers: blockersOf(a) }));
+  const readyList = recommended.filter((r) => !r.blockers.length);
+  const blockedList = recommended.filter((r) => r.blockers.length);
+  const nextUp = [...readyList.slice(0, 6), ...blockedList.slice(0, 2)];
+
+  // workstream progress — the system you operate vs the dossier the NB reviews
+  const wsRows = [
+    { key: "qms", label: "Quality Management System", bar: "var(--t6)" },
+    { key: "tf", label: "Technical File", bar: "var(--coral)" },
+  ].map((w) => {
+    const items = scoped.filter((a) => a.workstream === w.key);
+    const d = items.filter((a) => status[a.id] === "Done").length;
+    const t = items.filter((a) => status[a.id] !== "N-A").length;
+    return { ...w, done: d, total: t, pct: t ? Math.round((d / t) * 100) : 0 };
+  });
+
   function phaseProg(n: number) {
     const pa = scoped.filter((a) => a.phaseN === n);
     const d = pa.filter((a) => status[a.id] === "Done").length;
@@ -71,15 +114,13 @@ export function DashboardClient({
     return e - s;
   }
 
+  // "Activities in scope" is already in the profile line above — this slot earns
+  // its place better as the number that drives action.
   const kpis = [
     { l: "Implementation", v: pct + "%", s: "of applicable activities", accent: true },
+    { l: "Ready to start", v: readyList.length, s: "no blockers — start today", hi: true },
     { l: "Done", v: done, s: "activities complete" },
     { l: "In progress", v: inprog, s: "activities underway" },
-    {
-      l: "Activities",
-      v: actsInScope,
-      s: profile ? "in your scope" : "across 4 phases",
-    },
     {
       l: "Controlled documents",
       v: docsInScope,
@@ -119,7 +160,7 @@ export function DashboardClient({
         {kpis.map((k, i) => (
           <div key={i} className={"kpi" + (k.accent ? " accent" : "")}>
             <div className="kl">{k.l}</div>
-            <div className="kv">{k.v}</div>
+            <div className={"kv" + (k.hi ? " text-teal-600" : "")}>{k.v}</div>
             <div className="ks">{k.s}</div>
           </div>
         ))}
@@ -141,7 +182,14 @@ export function DashboardClient({
             >
               <div className="bar" style={{ background: PC[i] }} />
               <div className="bd">
-                <div className="ph">PHASE {p.n}</div>
+                <div className="ph">
+                  PHASE {p.n}
+                  {p.n === currentPhase && (
+                    <span className="ml-1.5 rounded-full bg-coral px-1.5 py-0.5 align-[1px] text-[9px] font-bold tracking-[0.08em] text-white">
+                      YOU ARE HERE
+                    </span>
+                  )}
+                </div>
                 <h3>{short}</h3>
                 <div className="pgbar">
                   <i style={{ width: pc + "%" }} />
@@ -155,6 +203,96 @@ export function DashboardClient({
         })}
       </div>
 
+      {nextUp.length > 0 && (
+        <>
+          <div className="sect-h">Next up</div>
+          <p className="mb-2 text-[13px] text-muted">
+            The recommended order for your device
+            {readyList.length > 0 && (
+              <>
+                {" "}— <b className="text-teal-800">{readyList.length}</b>{" "}
+                {readyList.length === 1 ? "has" : "have"} no blockers and can
+                start today
+              </>
+            )}
+            .
+          </p>
+          <div className="grid gap-4 lg:grid-cols-[1.9fr_1fr]">
+            <div className="rounded-2xl border border-line bg-card px-2 py-1">
+              {nextUp.map(({ a, blockers }) => {
+                const isReady = blockers.length === 0;
+                return (
+                  <Link
+                    key={a.id}
+                    href={`/activity/${a.id}`}
+                    className="flex items-center gap-3 rounded-lg border-t border-line px-2.5 py-3 transition first:border-t-0 hover:bg-cream/50"
+                  >
+                    <span
+                      className={
+                        "h-2 w-2 shrink-0 rounded-full " +
+                        (isReady ? "bg-teal-600" : "bg-line")
+                      }
+                    />
+                    <span
+                      className={
+                        "flex-1 text-[13.5px] font-medium " +
+                        (isReady ? "text-teal-900" : "text-muted")
+                      }
+                    >
+                      {a.statement.replace(/\.$/, "")}
+                    </span>
+                    <span className="hidden whitespace-nowrap font-mono text-[11px] text-muted sm:inline">
+                      {a.id} · {a.dur}d
+                    </span>
+                    {isReady ? (
+                      <span className="rounded-full bg-[#e3f2e9] px-2 py-0.5 text-[10.5px] font-bold text-[#17734e]">
+                        Ready
+                      </span>
+                    ) : (
+                      <span
+                        className="max-w-[9rem] truncate rounded-full bg-cream2 px-2 py-0.5 text-[10.5px] font-semibold text-muted"
+                        title={`Needs ${blockers.join(", ")}`}
+                      >
+                        Needs {blockers[0]}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+              {recommended.length > nextUp.length && (
+                <Link
+                  href={`/roadmap/${currentPhase}`}
+                  className="block border-t border-line px-2.5 py-2.5 text-[12px] font-semibold text-coral transition hover:underline"
+                >
+                  See the full order for Phase {currentPhase} →
+                </Link>
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-line bg-card p-4">
+              {wsRows.map((w) => (
+                <div key={w.key} className="mb-3.5 last:mb-0">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-[13px] font-semibold text-teal-900">
+                      {w.label}
+                    </span>
+                    <span className="font-mono text-[11.5px] text-muted">
+                      {w.done} / {w.total}
+                    </span>
+                  </div>
+                  <div className="pgbar mt-1.5">
+                    <i style={{ width: w.pct + "%", background: w.bar }} />
+                  </div>
+                </div>
+              ))}
+              <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
+                The system you operate vs the dossier the Notified Body reviews —
+                usually different people.
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </main>
   );
 }
