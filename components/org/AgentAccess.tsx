@@ -135,7 +135,15 @@ function CreateForm({ atLimit, isAdmin }: { atLimit: boolean; isAdmin: boolean }
   );
 }
 
-function TokenRow({ t, isAdmin }: { t: AgentToken; isAdmin: boolean }) {
+function TokenRow({
+  t,
+  isAdmin,
+  writeLimit,
+}: {
+  t: AgentToken;
+  isAdmin: boolean;
+  writeLimit: number;
+}) {
   const [apState, approve, approving] = useActionState<Res, FormData>(
     approveAgentToken,
     {},
@@ -189,6 +197,15 @@ function TokenRow({ t, isAdmin }: { t: AgentToken; isAdmin: boolean }) {
           : "not yet approved"}{" "}
         · expires {fmt(t.expiresAt)} · last used{" "}
         {t.lastUsedAt ? fmt(t.lastUsedAt) : "never"}
+        {!dead && t.scopes.includes("write:status") ? (
+          <>
+            {" "}
+            ·{" "}
+            <span className={t.writeUsed >= writeLimit ? "text-red-600" : ""}>
+              {t.writeUsed}/{writeLimit} writes today
+            </span>
+          </>
+        ) : null}
       </div>
       {apState.error ? <p className={errCls}>{apState.error}</p> : null}
       {rvState.error ? <p className={errCls}>{rvState.error}</p> : null}
@@ -201,11 +218,15 @@ export function AgentAccess({
   isAdmin,
   isFull,
   baseUrl,
+  rateLimit,
+  writeLimit,
 }: {
   tokens: AgentToken[];
   isAdmin: boolean;
   isFull: boolean;
   baseUrl: string;
+  rateLimit: number;
+  writeLimit: number;
 }) {
   const live = tokens.filter((t) => t.status !== "revoked");
   const atLimit = live.length >= AGENT_TOKEN_LIMIT;
@@ -223,6 +244,19 @@ export function AgentAccess({
           are inert until an admin approves them, expire after{" "}
           {AGENT_TOKEN_TTL_DAYS} days, and every action lands in your{" "}
           <span className="font-medium text-teal-800">Activity log</span>.
+        </p>
+        <p className="mt-2 text-xs text-muted">
+          Each key is budgeted at{" "}
+          <span className="font-medium text-teal-800">
+            {rateLimit} requests/minute
+          </span>{" "}
+          and{" "}
+          <span className="font-medium text-teal-800">
+            {writeLimit} writes/day
+          </span>
+          , so a looping agent can&apos;t churn your records. Over budget returns{" "}
+          <code className="font-mono">429</code>. Need more? Get in touch — the
+          limit is set by us, not from here.
         </p>
       </div>
 
@@ -250,7 +284,12 @@ export function AgentAccess({
       {tokens.length ? (
         <ul className="flex flex-col">
           {tokens.map((t) => (
-            <TokenRow key={t.id} t={t} isAdmin={isAdmin} />
+            <TokenRow
+              key={t.id}
+              t={t}
+              isAdmin={isAdmin}
+              writeLimit={writeLimit}
+            />
           ))}
         </ul>
       ) : null}

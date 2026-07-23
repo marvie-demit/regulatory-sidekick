@@ -6,9 +6,14 @@ import {
   createAccessCode,
   deleteOrg,
   revokeAccessCode,
+  setOrgAgentLimits,
   setOrgPlan,
 } from "@/lib/admin/actions";
 import type { AccessCode, AdminOrg } from "@/lib/admin/data";
+import {
+  DEFAULT_AGENT_RATE_LIMIT,
+  DEFAULT_AGENT_WRITE_LIMIT,
+} from "@/lib/auth/agent-tokens";
 
 type Res = {
   error?: string;
@@ -294,9 +299,14 @@ function OrgRow({ o }: { o: AdminOrg }) {
     deleteOrg,
     {},
   );
+  const [limitState, limitAction, limitPending] = useActionState<Res, FormData>(
+    setOrgAgentLimits,
+    {},
+  );
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState("");
   const [showMembers, setShowMembers] = useState(false);
+  const [showLimits, setShowLimits] = useState(false);
   return (
     <li className="flex flex-col gap-2 border-b border-line py-3 last:border-0">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -314,6 +324,16 @@ function OrgRow({ o }: { o: AdminOrg }) {
               className="underline decoration-dotted underline-offset-2 transition hover:text-teal-800"
             >
               {o.members} member{o.members === 1 ? "" : "s"} {showMembers ? "▾" : "▸"}
+            </button>{" "}
+            ·{" "}
+            <button
+              type="button"
+              onClick={() => setShowLimits((v) => !v)}
+              className="underline decoration-dotted underline-offset-2 transition hover:text-teal-800"
+            >
+              agent {o.agentRateLimit ?? DEFAULT_AGENT_RATE_LIMIT}/min ·{" "}
+              {o.agentWriteLimit ?? DEFAULT_AGENT_WRITE_LIMIT} writes/day{" "}
+              {showLimits ? "▾" : "▸"}
             </button>
           </div>
         </div>
@@ -356,6 +376,50 @@ function OrgRow({ o }: { o: AdminOrg }) {
           </button>
         </div>
       </div>
+      {showLimits ? (
+        <form
+          action={limitAction}
+          className="flex flex-wrap items-end gap-2 rounded-lg border border-line bg-[#f7faf8] p-2"
+        >
+          <input type="hidden" name="orgId" value={o.id} />
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] uppercase tracking-wide text-muted">
+              Requests / minute
+            </span>
+            <input
+              name="agentRateLimit"
+              defaultValue={o.agentRateLimit ?? ""}
+              placeholder={String(DEFAULT_AGENT_RATE_LIMIT)}
+              inputMode="numeric"
+              className={`${input} w-24 py-1.5`}
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] uppercase tracking-wide text-muted">
+              Writes / day
+            </span>
+            <input
+              name="agentWriteLimit"
+              defaultValue={o.agentWriteLimit ?? ""}
+              placeholder={String(DEFAULT_AGENT_WRITE_LIMIT)}
+              inputMode="numeric"
+              className={`${input} w-24 py-1.5`}
+            />
+          </label>
+          <button type="submit" disabled={limitPending} className={smallBtn}>
+            {limitPending ? "…" : "Set budget"}
+          </button>
+          <span className="text-[11px] text-muted">
+            Blank = default. Only settable here — a workspace can&apos;t raise
+            its own ceiling.
+          </span>
+          {limitState.error ? (
+            <p className="w-full text-xs text-red-600">{limitState.error}</p>
+          ) : limitState.message ? (
+            <p className="w-full text-xs text-teal-700">{limitState.message}</p>
+          ) : null}
+        </form>
+      ) : null}
       {showMembers ? (
         o.memberList.length ? (
           <ul className="flex flex-col gap-1 rounded-lg border border-line bg-[#f7faf8] p-2">

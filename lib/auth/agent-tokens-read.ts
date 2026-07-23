@@ -18,6 +18,9 @@ type Row = {
   last_used_at: string | null;
   expires_at: string;
   created_at: string;
+  rate_count: number | null;
+  write_count: number | null;
+  write_window_start: string | null;
 };
 
 // Tokens for the workspace (RLS at_select scopes this to members; the hash is
@@ -30,16 +33,26 @@ export async function getAgentTokens(orgId: string): Promise<AgentToken[]> {
   } = await supabase.auth.getUser();
   const me = user?.id ?? null;
 
-  const { data, error } = await supabase
+  const COLS =
+    "id, name, token_prefix, scopes, status, created_by, approved_by, approved_at, last_used_at, expires_at, created_at";
+  // Loosely typed so the narrower fallback select is assignable.
+  let res: { data: unknown[] | null; error: unknown } = await supabase
     .from("agent_tokens")
-    .select(
-      "id, name, token_prefix, scopes, status, created_by, approved_by, approved_at, last_used_at, expires_at, created_at",
-    )
+    .select(`${COLS}, rate_count, write_count, write_window_start`)
     .eq("org_id", orgId)
     .order("created_at", { ascending: false });
+  // Resilient to migration 0012 not being applied yet — retry without the
+  // usage columns rather than blanking the whole card.
+  if (res.error)
+    res = await supabase
+      .from("agent_tokens")
+      .select(COLS)
+      .eq("org_id", orgId)
+      .order("created_at", { ascending: false });
+  const { data, error } = res;
   // Migration 0011 may not be applied yet — an empty list keeps the page up.
   if (error || !data) return [];
-  const rows = data as Row[];
+  const rows = data as unknown as Row[];
 
   const ids = [
     ...new Set(rows.flatMap((r) => [r.created_by, r.approved_by]).filter(Boolean)),
@@ -72,5 +85,13 @@ export async function getAgentTokens(orgId: string): Promise<AgentToken[]> {
     expiresAt: r.expires_at,
     expired: new Date(r.expires_at).getTime() < now,
     createdAt: r.created_at,
+    rateUsed: r.rate_count ?? 0,
+    // The counter is only meaningful inside its 24h window; a stale one reads
+    // as 0 rather than showing yesterday's total as if it were today's.
+    writeUsed:
+      r.write_window_start &&
+      now - new Date(r.write_window_start).getTime() < 24 * 60 * 60 * 1000
+        ? (r.write_count ?? 0)
+        : 0,
   }));
 }

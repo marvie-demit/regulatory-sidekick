@@ -62,6 +62,22 @@ Returns `why`, `what`, `startLean` (the minimum-viable version), `evolve`,
 Ticking a task on a not-started activity promotes it to **In progress**, exactly
 like the UI does.
 
+## Rate limits
+
+Every key has two independent budgets, both set per workspace:
+
+| Budget | Default | What it protects |
+| --- | --- | --- |
+| Requests / minute | 120 | stops a runaway loop |
+| **Writes / day** | 1000 | stops a buggy agent churning quality records |
+
+Only non-`GET` requests count against the write budget. Exceeding either returns
+`429` with `Retry-After` (seconds) plus `X-RateLimit-Limit`, `-Remaining` and
+`-Reset` (ISO timestamp) — **honour `Retry-After`**; a denied request still
+counts, so retrying immediately just keeps you blocked until the window rolls.
+
+Limits are raised by the Regulatory Sidekick team, not from workspace settings.
+
 ## Errors
 
 | Status | Meaning |
@@ -70,6 +86,7 @@ like the UI does.
 | `402` | the workspace doesn't have full access |
 | `403` | key not approved yet, or missing the required scope |
 | `404` | no such activity |
+| `429` | over the request or write budget — back off per `Retry-After` |
 | `503` | key lookup failed — retry, don't re-auth |
 
 ## What the workspace sees

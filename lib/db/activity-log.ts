@@ -30,6 +30,7 @@ const LABELS: Record<string, string> = {
   "agent_token.create": "Created an agent key",
   "agent_token.approve": "Approved agent access",
   "agent_token.revoke": "Revoked agent access",
+  "agent_limits.set_by_platform_admin": "Agent budget set by platform admin",
 };
 
 function label(action: string): string {

@@ -2,7 +2,19 @@ import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { hasFullAccess } from "@/lib/auth/access";
-import type { AgentScope } from "@/lib/auth/agent-tokens";
+import {
+  DEFAULT_AGENT_RATE_LIMIT,
+  DEFAULT_AGENT_WRITE_LIMIT,
+  type AgentScope,
+} from "@/lib/auth/agent-tokens";
+
+type OrgRow = {
+  name: string;
+  plan: string;
+  plan_expires_at: string | null;
+  agent_rate_limit: number | null;
+  agent_write_limit: number | null;
+};
 
 // ============================================================================
 // THE choke point for machine access.
@@ -31,6 +43,9 @@ export type AgentCtx = {
   /** the member who created the key — agent actions are attributed to them */
   createdBy: string;
   scopes: AgentScope[];
+  /** effective budgets: the workspace override, else the app default */
+  rateLimit: number;
+  writeLimit: number;
   /** service-role client; only ever used with orgId above */
   db: ReturnType<typeof createAdminClient>;
 };
@@ -67,7 +82,7 @@ async function authenticate(
   const { data, error } = await db
     .from("agent_tokens")
     .select(
-      "id, name, org_id, scopes, status, created_by, expires_at, organizations(name, plan, plan_expires_at)",
+      "id, name, org_id, scopes, status, created_by, expires_at, organizations(name, plan, plan_expires_at, agent_rate_limit, agent_write_limit)",
     )
     .eq("token_hash", tokenHash)
     .maybeSingle();
@@ -85,10 +100,7 @@ async function authenticate(
     status: string;
     created_by: string;
     expires_at: string;
-    organizations:
-      | { name: string; plan: string; plan_expires_at: string | null }
-      | { name: string; plan: string; plan_expires_at: string | null }[]
-      | null;
+    organizations: OrgRow | OrgRow[] | null;
   };
 
   if (row.status === "pending")
@@ -130,9 +142,67 @@ async function authenticate(
       plan,
       createdBy: row.created_by,
       scopes,
+      rateLimit: org.agent_rate_limit ?? DEFAULT_AGENT_RATE_LIMIT,
+      writeLimit: org.agent_write_limit ?? DEFAULT_AGENT_WRITE_LIMIT,
       db,
     },
   };
+}
+
+type Quota = {
+  allowed: boolean;
+  reason: string | null;
+  rate_used: number;
+  rate_reset: string;
+  write_used: number;
+  write_reset: string;
+};
+
+// Spend one request against the key's budgets. The RPC advances both windows
+// and stamps last_used_at in ONE atomic statement, so this costs no extra round
+// trip over the last-used write it replaces.
+async function consumeQuota(
+  ctx: AgentCtx,
+  isWrite: boolean,
+): Promise<NextResponse | null> {
+  const { data, error } = await ctx.db.rpc("consume_agent_quota", {
+    p_token: ctx.tokenId,
+    p_rate_limit: ctx.rateLimit,
+    p_write_limit: ctx.writeLimit,
+    p_is_write: isWrite,
+  });
+
+  // FAIL OPEN. The caller is already authenticated and scoped, so a failed
+  // check risks throughput, not access — and failing closed would turn a
+  // database hiccup into a total agent outage. Same reasoning as the
+  // best-effort audit writes.
+  if (error || !data) {
+    console.error("[agent] quota check failed, allowing:", error?.message);
+    return null;
+  }
+
+  const q = (Array.isArray(data) ? data[0] : data) as Quota | undefined;
+  if (!q || q.allowed) return null;
+
+  const isRate = q.reason === "rate";
+  const reset = new Date(isRate ? q.rate_reset : q.write_reset);
+  const retryAfter = Math.max(1, Math.ceil((reset.getTime() - Date.now()) / 1000));
+
+  const res = fail(
+    429,
+    isRate
+      ? `Rate limit reached (${ctx.rateLimit} requests/minute).`
+      : `Daily write limit reached (${ctx.writeLimit} writes/day).`,
+    { limit: isRate ? ctx.rateLimit : ctx.writeLimit, scope: q.reason },
+  );
+  res.headers.set("Retry-After", String(retryAfter));
+  res.headers.set(
+    "X-RateLimit-Limit",
+    String(isRate ? ctx.rateLimit : ctx.writeLimit),
+  );
+  res.headers.set("X-RateLimit-Remaining", "0");
+  res.headers.set("X-RateLimit-Reset", reset.toISOString());
+  return res;
 }
 
 // Wrap a route handler: authenticate, enforce scope, run, stamp last-used.
@@ -145,21 +215,20 @@ export function withAgentAuth<R = unknown>(
     const auth = await authenticate(req, need);
     if ("res" in auth) return auth.res;
     const { ctx } = auth;
-    let res: NextResponse;
+
+    // Budgets are spent BEFORE the handler, so attempts count — a client that
+    // hammers a failing endpoint is still throttled. (This also stamps
+    // last_used_at, which is why there's no separate write afterwards.)
+    const isWrite = req.method !== "GET" && req.method !== "HEAD";
+    const denied = await consumeQuota(ctx, isWrite);
+    if (denied) return denied;
+
     try {
-      res = await handler(ctx, req, route);
+      return await handler(ctx, req, route);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Unexpected error.";
-      res = fail(500, msg);
+      return fail(500, msg);
     }
-    // Best-effort "last seen" — never let it break the response.
-    try {
-      await ctx.db
-        .from("agent_tokens")
-        .update({ last_used_at: new Date().toISOString() })
-        .eq("id", ctx.tokenId);
-    } catch {}
-    return res;
   };
 }
 

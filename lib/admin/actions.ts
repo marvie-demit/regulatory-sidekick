@@ -195,6 +195,57 @@ export async function setOrgPlan(_prev: Res, formData: FormData): Promise<Res> {
   };
 }
 
+// Agent budgets for one workspace. PLATFORM-admin only, deliberately: these
+// columns are ungranted to `authenticated` (migration 0012) so a workspace can
+// never raise its own ceiling — same reasoning as the plan columns in 0007.
+// Blank = fall back to the app default.
+export async function setOrgAgentLimits(
+  _prev: Res,
+  formData: FormData,
+): Promise<Res> {
+  const g = await gate();
+  if ("error" in g) return { error: g.error };
+
+  const orgId = String(formData.get("orgId") || "");
+  if (!orgId) return { error: "Missing organization." };
+
+  const num = (key: string, max: number): number | null | "bad" => {
+    const raw = String(formData.get(key) ?? "").trim();
+    if (raw === "") return null; // blank -> use the default
+    const n = parseInt(raw, 10);
+    if (!Number.isFinite(n) || n < 1 || n > max) return "bad";
+    return n;
+  };
+  const rate = num("agentRateLimit", 10000);
+  const write = num("agentWriteLimit", 100000);
+  if (rate === "bad") return { error: "Requests/minute must be 1–10000 (or blank)." };
+  if (write === "bad") return { error: "Writes/day must be 1–100000 (or blank)." };
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("organizations")
+    .update({ agent_rate_limit: rate, agent_write_limit: write })
+    .eq("id", orgId);
+  if (error) {
+    if (/column .* does not exist/i.test(error.message))
+      return { error: "Apply database migration 0012, then try again." };
+    return { error: error.message };
+  }
+
+  await admin.from("audit_log").insert({
+    org_id: orgId,
+    actor_id: g.uid,
+    action: "agent_limits.set_by_platform_admin",
+    entity_type: "organization",
+    entity_id: orgId,
+    detail: { agent_rate_limit: rate, agent_write_limit: write },
+  });
+  revalidatePath("/admin");
+  return {
+    message: `Agent budget: ${rate ?? "default"} req/min, ${write ?? "default"} writes/day.`,
+  };
+}
+
 export async function revokeAccessCode(_prev: Res, formData: FormData): Promise<Res> {
   const g = await gate();
   if ("error" in g) return { error: g.error };

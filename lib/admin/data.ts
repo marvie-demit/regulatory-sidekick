@@ -26,6 +26,9 @@ export type AdminOrg = {
   members: number;
   ownerEmail: string | null;
   memberList: OrgMember[];
+  /** agent budget overrides; null = the app default */
+  agentRateLimit: number | null;
+  agentWriteLimit: number | null;
 };
 
 export async function listAccessCodes(): Promise<AccessCode[]> {
@@ -63,12 +66,21 @@ export async function listAccessCodes(): Promise<AccessCode[]> {
 
 export async function listOrgs(): Promise<AdminOrg[]> {
   const admin = createAdminClient();
-  const { data } = await admin
+  const BASE = "id, name, plan, plan_expires_at, created_at, created_by";
+  // Resilient to migration 0012 not being applied yet. (Loosely typed so the
+  // narrower fallback select is assignable — same pattern as lib/auth/org.ts.)
+  let orgRes: { data: unknown[] | null; error: unknown } = await admin
     .from("organizations")
-    .select("id, name, plan, plan_expires_at, created_at, created_by")
+    .select(`${BASE}, agent_rate_limit, agent_write_limit`)
     .order("created_at", { ascending: false })
     .limit(100);
-  const rows = (data ?? []) as Record<string, unknown>[];
+  if (orgRes.error)
+    orgRes = await admin
+      .from("organizations")
+      .select(BASE)
+      .order("created_at", { ascending: false })
+      .limit(100);
+  const rows = (orgRes.data ?? []) as Record<string, unknown>[];
   const orgIds = rows.map((o) => o.id as string);
 
   // All memberships for the listed orgs, in one query (service role bypasses RLS).
@@ -124,6 +136,8 @@ export async function listOrgs(): Promise<AdminOrg[]> {
       members: memberList.length,
       ownerEmail: emailById.get(o.created_by as string) ?? null,
       memberList,
+      agentRateLimit: (o.agent_rate_limit as number | null) ?? null,
+      agentWriteLimit: (o.agent_write_limit as number | null) ?? null,
     };
   });
 }

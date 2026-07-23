@@ -8,6 +8,17 @@
 export const AGENT_TOKEN_LIMIT = 3;
 export const AGENT_TOKEN_TTL_DAYS = 90;
 
+// Default budgets per key. A workspace can be given its own ceiling by the
+// PLATFORM admin (organizations.agent_rate_limit / agent_write_limit) — never
+// by the workspace itself, or the ceiling means nothing.
+//
+// 120 req/min is generous: an agent reading /next and walking activities won't
+// approach it. Writes/day is the one that bites — an honest full pass over the
+// roadmap is ~400-500 writes, so a loop trips this long before it can churn a
+// customer's quality records.
+export const DEFAULT_AGENT_RATE_LIMIT = 120; // requests / minute
+export const DEFAULT_AGENT_WRITE_LIMIT = 1000; // writes / day
+
 export type AgentScope = "read" | "write:status";
 
 export const SCOPE_LABELS: Record<AgentScope, string> = {
@@ -31,4 +42,7 @@ export type AgentToken = {
   expiresAt: string;
   expired: boolean;
   createdAt: string;
+  /** budget usage — display only; the workspace can see it, never change it */
+  rateUsed: number;
+  writeUsed: number;
 };
