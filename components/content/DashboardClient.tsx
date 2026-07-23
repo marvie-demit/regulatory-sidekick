@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useOrgState } from "@/components/app-shell/StateProvider";
 import type { Phase, ModuleDef } from "@/lib/content/types";
 import { actInScope, docInScope } from "@/lib/content/scope";
+import { planNextUp } from "@/lib/content/next-up";
 
 type Act = {
   id: string;
@@ -64,30 +65,13 @@ export function DashboardClient({
   const activeMods = profile ? modules.filter((m) => profile[m.code]) : [];
 
   // ---- Next up: what can actually be started now ----------------------------
-  // "Ready" = not started, in the current phase, and every in-scope dependency
-  // is closed. Scoping to the current phase matters: a dependency-free Phase-4
-  // activity is technically unblocked but is not what to do today.
-  const inScopeIds = new Set(scoped.map((a) => a.id));
-  const closed = (id: string) => status[id] === "Done" || status[id] === "N-A";
-  const notStarted = (id: string) => !status[id] || status[id] === "Not started";
-  const blockersOf = (a: Act) =>
-    (a.depends || "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter((d) => d && d !== "-" && inScopeIds.has(d) && !closed(d));
-
-  // current phase = the earliest phase that still has unfinished work
-  const currentPhase =
-    [1, 2, 3, 4].find((n) =>
-      scoped.some((a) => a.phaseN === n && !closed(a.id)),
-    ) ?? 4;
-
-  const recommended = scoped
-    .filter((a) => a.phaseN === currentPhase && notStarted(a.id))
-    .sort((x, y) => x.wave - y.wave || x.ord - y.ord)
-    .map((a) => ({ a, blockers: blockersOf(a) }));
-  const readyList = recommended.filter((r) => !r.blockers.length);
-  const blockedList = recommended.filter((r) => r.blockers.length);
+  // Shared with the agent API (lib/content/next-up.ts) so a connected agent
+  // works the same order shown here.
+  const {
+    currentPhase,
+    ready: readyList,
+    blocked: blockedList,
+  } = planNextUp(scoped, status, profile);
   const nextUp = [...readyList.slice(0, 6), ...blockedList.slice(0, 2)];
 
   // workstream progress — the system you operate vs the dossier the NB reviews
@@ -259,7 +243,7 @@ export function DashboardClient({
                   </Link>
                 );
               })}
-              {recommended.length > nextUp.length && (
+              {readyList.length + blockedList.length > nextUp.length && (
                 <Link
                   href={`/roadmap/${currentPhase}`}
                   className="block border-t border-line px-2.5 py-2.5 text-[12px] font-semibold text-coral transition hover:underline"

@@ -11,6 +11,10 @@ const PUBLIC_PREFIXES = [
   "/accept-invite",
   "/redeem",
   "/auth",
+  // Machine API: authenticated by bearer token inside the route (withAgentAuth),
+  // not by a session cookie. Exempt here so an agent gets a JSON 401 instead of
+  // an HTML redirect to /login. (/api/docs/* stays session-gated.)
+  "/api/v1",
 ];
 
 function isPublic(path: string) {
