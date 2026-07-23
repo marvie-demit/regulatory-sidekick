@@ -19,7 +19,13 @@ update progress".
 
 ## Endpoints
 
-Base: `https://regulatory-sidekick.vercel.app`
+Base: `https://regulatory-sidekick.notjustany.tech`
+
+> **Use that host, not `regulatory-sidekick.vercel.app`.** The vercel.app domain
+> 308-redirects to the custom domain, and HTTP clients drop the `Authorization`
+> header on a cross-host redirect — so a perfectly valid key arrives as
+> "Missing bearer token". The in-app "How an agent connects" panel always shows
+> the host you are currently on, so copying the URLs from there is safe.
 
 ### `GET /api/v1/next` — where we stand, what to do next
 
