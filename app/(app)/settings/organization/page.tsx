@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { getActiveOrg } from "@/lib/auth/org";
-import { hasFullAccess } from "@/lib/auth/access";
+import { hasAgenticAccess, hasFullAccess } from "@/lib/auth/access";
 import { getAgentTokens } from "@/lib/auth/agent-tokens-read";
 import {
   DEFAULT_AGENT_RATE_LIMIT,
@@ -23,7 +23,7 @@ export default async function OrgSettingsPage() {
   let res = await supabase
     .from("organizations")
     .select(
-      "name, website, linkedin, industry, country, about, agent_rate_limit, agent_write_limit",
+      "name, website, linkedin, industry, country, about, agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at",
     )
     .eq("id", org.id)
     .single();
@@ -41,8 +41,8 @@ export default async function OrgSettingsPage() {
       .eq("id", org.id)
       .single();
   }
-  const d = (res.data ?? {}) as Record<string, string | number | null>;
-  const str = (v: string | number | null | undefined) =>
+  const d = (res.data ?? {}) as Record<string, string | number | boolean | null>;
+  const str = (v: string | number | boolean | null | undefined) =>
     typeof v === "string" ? v : "";
   const profile: OrgProfile = {
     name: str(d.name) || org.name,
@@ -82,6 +82,11 @@ export default async function OrgSettingsPage() {
         writeLimit={
           (d.agent_write_limit as number | null) ?? DEFAULT_AGENT_WRITE_LIMIT
         }
+        isEnabled={hasAgenticAccess({
+          plan: org.plan,
+          agenticEnabled: d.agentic_enabled as boolean | null,
+          agenticExpiresAt: d.agentic_expires_at as string | null,
+        })}
       />
     </main>
   );

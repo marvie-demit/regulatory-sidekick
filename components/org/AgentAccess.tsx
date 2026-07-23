@@ -220,6 +220,7 @@ export function AgentAccess({
   baseUrl,
   rateLimit,
   writeLimit,
+  isEnabled,
 }: {
   tokens: AgentToken[];
   isAdmin: boolean;
@@ -227,6 +228,8 @@ export function AgentAccess({
   baseUrl: string;
   rateLimit: number;
   writeLimit: number;
+  /** the separately-sold agent add-on — off by default */
+  isEnabled: boolean;
 }) {
   const live = tokens.filter((t) => t.status !== "revoked");
   const atLimit = live.length >= AGENT_TOKEN_LIMIT;
@@ -262,8 +265,19 @@ export function AgentAccess({
 
       {!isFull ? (
         <p className="rounded-lg border border-line bg-[#f7faf8] px-3 py-2 text-sm text-muted">
-          Agent access is part of full access.
+          Agent access requires full access.
         </p>
+      ) : !isEnabled ? (
+        <div className="rounded-xl border border-teal-200 bg-teal-50 p-3">
+          <p className="text-sm font-medium text-teal-900">
+            Agent access isn&apos;t switched on for this workspace.
+          </p>
+          <p className="mt-1 text-sm text-teal-800">
+            It&apos;s a separate add-on to your licence — get in touch and
+            we&apos;ll enable it. Any keys below stay exactly as they are and
+            start working again the moment it&apos;s on.
+          </p>
+        </div>
       ) : (
         <>
           <CreateForm atLimit={atLimit} isAdmin={isAdmin} />

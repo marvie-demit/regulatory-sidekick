@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { hasFullAccess } from "@/lib/auth/access";
+import { hasAgenticAccess, hasFullAccess } from "@/lib/auth/access";
 import {
   DEFAULT_AGENT_RATE_LIMIT,
   DEFAULT_AGENT_WRITE_LIMIT,
@@ -14,6 +14,8 @@ type OrgRow = {
   plan_expires_at: string | null;
   agent_rate_limit: number | null;
   agent_write_limit: number | null;
+  agentic_enabled: boolean | null;
+  agentic_expires_at: string | null;
 };
 
 // ============================================================================
@@ -82,7 +84,7 @@ async function authenticate(
   const { data, error } = await db
     .from("agent_tokens")
     .select(
-      "id, name, org_id, scopes, status, created_by, expires_at, organizations(name, plan, plan_expires_at, agent_rate_limit, agent_write_limit)",
+      "id, name, org_id, scopes, status, created_by, expires_at, organizations(name, plan, plan_expires_at, agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at)",
     )
     .eq("token_hash", tokenHash)
     .maybeSingle();
@@ -124,6 +126,22 @@ async function authenticate(
   const plan = lapsed ? "explore" : (org.plan ?? "explore");
   if (!hasFullAccess(plan))
     return { res: fail(402, "This workspace doesn't have full access.") };
+
+  // Agent access is a separate paid offering — the licence alone isn't enough.
+  // Checked per request, so switching it off makes every existing key inert
+  // immediately (and switching it back on restores them, no re-issuing).
+  if (
+    !hasAgenticAccess({
+      plan,
+      agenticEnabled: org.agentic_enabled,
+      agenticExpiresAt: org.agentic_expires_at,
+    })
+  )
+    return {
+      res: fail(402, "Agent access isn't enabled for this workspace.", {
+        entitlement: "agentic",
+      }),
+    };
 
   const scopes = (row.scopes || []) as AgentScope[];
   if (!scopes.includes(need))

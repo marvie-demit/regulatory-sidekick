@@ -29,6 +29,9 @@ export type AdminOrg = {
   /** agent budget overrides; null = the app default */
   agentRateLimit: number | null;
   agentWriteLimit: number | null;
+  /** the separately-sold agent/MCP entitlement */
+  agenticEnabled: boolean;
+  agenticExpiresAt: string | null;
 };
 
 export async function listAccessCodes(): Promise<AccessCode[]> {
@@ -71,7 +74,9 @@ export async function listOrgs(): Promise<AdminOrg[]> {
   // narrower fallback select is assignable — same pattern as lib/auth/org.ts.)
   let orgRes: { data: unknown[] | null; error: unknown } = await admin
     .from("organizations")
-    .select(`${BASE}, agent_rate_limit, agent_write_limit`)
+    .select(
+      `${BASE}, agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at`,
+    )
     .order("created_at", { ascending: false })
     .limit(100);
   if (orgRes.error)
@@ -138,6 +143,8 @@ export async function listOrgs(): Promise<AdminOrg[]> {
       memberList,
       agentRateLimit: (o.agent_rate_limit as number | null) ?? null,
       agentWriteLimit: (o.agent_write_limit as number | null) ?? null,
+      agenticEnabled: (o.agentic_enabled as boolean | null) ?? false,
+      agenticExpiresAt: (o.agentic_expires_at as string | null) ?? null,
     };
   });
 }

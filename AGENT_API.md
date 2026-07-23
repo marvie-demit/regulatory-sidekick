@@ -5,6 +5,10 @@ the ISO 13485 / MDR implementation stepwise and report progress back.
 
 ## Getting a key
 
+Agent access is a **separate add-on** to the Regulatory Sidekick licence — it is
+switched on per workspace by us, not from workspace settings. Until it's on,
+every call returns `402`.
+
 1. A member of the workspace opens **Settings → Organization → Agent access** and
    creates a key. The raw key (`rsk_…`) is shown **once** — copy it then.
 2. A workspace **admin approves** it. Until then every call returns `403 pending`.
@@ -83,7 +87,7 @@ Limits are raised by the Regulatory Sidekick team, not from workspace settings.
 | Status | Meaning |
 | --- | --- |
 | `401` | missing / unknown / revoked / expired key |
-| `402` | the workspace doesn't have full access |
+| `402` | no full access, **or** the agent add-on isn't enabled for this workspace |
 | `403` | key not approved yet, or missing the required scope |
 | `404` | no such activity |
 | `429` | over the request or write budget — back off per `Retry-After` |

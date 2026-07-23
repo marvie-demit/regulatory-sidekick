@@ -6,6 +6,7 @@ import {
   createAccessCode,
   deleteOrg,
   revokeAccessCode,
+  setOrgAgentAccess,
   setOrgAgentLimits,
   setOrgPlan,
 } from "@/lib/admin/actions";
@@ -303,6 +304,10 @@ function OrgRow({ o }: { o: AdminOrg }) {
     setOrgAgentLimits,
     {},
   );
+  const [agState, agAction, agPending] = useActionState<Res, FormData>(
+    setOrgAgentAccess,
+    {},
+  );
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState("");
   const [showMembers, setShowMembers] = useState(false);
@@ -336,6 +341,23 @@ function OrgRow({ o }: { o: AdminOrg }) {
               {showLimits ? "▾" : "▸"}
             </button>
           </div>
+          <div className="mt-1 text-xs">
+            <span
+              className="rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+              style={
+                o.agenticEnabled
+                  ? { background: "#e7f0ec", color: "#1d6e62" }
+                  : { background: "#f1f1f1", color: "#6b6b6b" }
+              }
+            >
+              {o.agenticEnabled ? "Agent access ON" : "Agent access OFF"}
+            </span>
+            {o.agenticEnabled && o.agenticExpiresAt ? (
+              <span className="ml-1.5 text-muted">
+                until {fmtDate(o.agenticExpiresAt)}
+              </span>
+            ) : null}
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <form action={applyAction} className="flex items-center gap-2">
@@ -362,6 +384,38 @@ function OrgRow({ o }: { o: AdminOrg }) {
             <input type="hidden" name="grantDays" value="365" />
             <button type="submit" disabled={codePending} className={smallBtn}>
               {codePending ? "…" : "Create code"}
+            </button>
+          </form>
+          <form action={agAction} className="flex items-center gap-2">
+            <input type="hidden" name="orgId" value={o.id} />
+            <input
+              type="hidden"
+              name="enabled"
+              value={o.agenticEnabled ? "false" : "true"}
+            />
+            {!o.agenticEnabled ? (
+              <input
+                name="agenticDays"
+                defaultValue="365"
+                inputMode="numeric"
+                title="Days of agent access (blank or 0 = no expiry)"
+                className={`${input} w-14 py-1.5`}
+              />
+            ) : null}
+            <button
+              type="submit"
+              disabled={agPending}
+              className={
+                o.agenticEnabled
+                  ? "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted transition hover:border-red-300 hover:text-red-600 disabled:opacity-60"
+                  : smallBtn
+              }
+            >
+              {agPending
+                ? "…"
+                : o.agenticEnabled
+                  ? "Disable agent"
+                  : "Enable agent"}
             </button>
           </form>
           <button
@@ -443,6 +497,8 @@ function OrgRow({ o }: { o: AdminOrg }) {
       ) : null}
       {applyState.error ? <p className={errCls}>{applyState.error}</p> : null}
       {applyState.message ? <p className={okCls}>{applyState.message}</p> : null}
+      {agState.error ? <p className={errCls}>{agState.error}</p> : null}
+      {agState.message ? <p className={okCls}>{agState.message}</p> : null}
       {codeState.error ? <p className={errCls}>{codeState.error}</p> : null}
       <CodeResult state={codeState} />
       {confirming ? (

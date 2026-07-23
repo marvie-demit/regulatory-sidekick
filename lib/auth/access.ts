@@ -29,6 +29,22 @@ export function planLabel(plan: string | null | undefined): string {
   return PLAN_LABELS[(plan as OrgPlan) ?? "explore"] ?? "Explore";
 }
 
+// Agent / MCP access is a SEPARATE paid offering, not part of the licence —
+// switched on per workspace by the platform admin (migration 0013). Orthogonal
+// to plan: full access is necessary but not sufficient.
+export function hasAgenticAccess(org: {
+  plan?: string | null;
+  agenticEnabled?: boolean | null;
+  agenticExpiresAt?: string | null;
+}): boolean {
+  if (!hasFullAccess(org.plan)) return false;
+  if (!org.agenticEnabled) return false;
+  // A lapsed subscription stops working the same way a lapsed licence does.
+  if (org.agenticExpiresAt && new Date(org.agenticExpiresAt) < new Date())
+    return false;
+  return true;
+}
+
 // Can this plan open this activity in full (its sub-activities, checklist, docs)?
 export function canViewActivity(
   plan: string | null | undefined,

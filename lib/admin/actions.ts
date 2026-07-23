@@ -195,6 +195,66 @@ export async function setOrgPlan(_prev: Res, formData: FormData): Promise<Res> {
   };
 }
 
+// Switch the agent/MCP entitlement on or off for one workspace. This is the
+// separately-sold agentic offering, not part of the licence — so it lives here,
+// with the plan controls, and NOT in workspace settings. The columns are
+// ungranted to `authenticated` (0013), so this service-role path is the only
+// way to change them.
+//
+// Effect is immediate and reversible: the API checks the entitlement on every
+// request, so switching off makes existing keys inert without destroying them,
+// and switching back on restores them with nothing to re-issue.
+export async function setOrgAgentAccess(
+  _prev: Res,
+  formData: FormData,
+): Promise<Res> {
+  const g = await gate();
+  if ("error" in g) return { error: g.error };
+
+  const orgId = String(formData.get("orgId") || "");
+  if (!orgId) return { error: "Missing organization." };
+  const enabled = String(formData.get("enabled") || "") === "true";
+
+  // Days only apply when switching ON; blank/0 = no expiry.
+  const raw = String(formData.get("agenticDays") ?? "").trim();
+  let expiresAt: string | null = null;
+  if (enabled && raw !== "" && raw !== "0") {
+    const days = parseInt(raw, 10);
+    if (!Number.isFinite(days) || days < 1 || days > 3650)
+      return { error: "Duration must be 1–3650 days (or blank for no expiry)." };
+    expiresAt = new Date(Date.now() + days * 86400000).toISOString();
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("organizations")
+    .update({
+      agentic_enabled: enabled,
+      agentic_expires_at: enabled ? expiresAt : null,
+    })
+    .eq("id", orgId);
+  if (error) {
+    if (/column .* does not exist/i.test(error.message))
+      return { error: "Apply database migration 0013, then try again." };
+    return { error: error.message };
+  }
+
+  await admin.from("audit_log").insert({
+    org_id: orgId,
+    actor_id: g.uid,
+    action: enabled ? "agentic.enabled" : "agentic.disabled",
+    entity_type: "organization",
+    entity_id: orgId,
+    detail: { agentic_expires_at: expiresAt },
+  });
+  revalidatePath("/admin");
+  return {
+    message: enabled
+      ? `Agent access ON${expiresAt ? ` until ${expiresAt.slice(0, 10)}` : ""}.`
+      : "Agent access OFF — existing keys are now inert.",
+  };
+}
+
 // Agent budgets for one workspace. PLATFORM-admin only, deliberately: these
 // columns are ungranted to `authenticated` (migration 0012) so a workspace can
 // never raise its own ceiling — same reasoning as the plan columns in 0007.
