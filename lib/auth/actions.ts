@@ -83,9 +83,16 @@ export async function requestPasswordReset(
   // The reset link returns to /auth/callback (PKCE), which sets a short recovery
   // session and forwards to /reset-password. Enumeration-safe: Supabase succeeds
   // even for unknown emails and we show the same message either way.
-  await supabase.auth.resetPasswordForEmail(email, {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/auth/callback?next=/reset-password`,
   });
+  // The response below is identical either way — that's the enumeration-safety
+  // guarantee and it must not change. But a mail outage was previously silent
+  // in both directions: users saw "on its way" and we saw nothing at all. Log
+  // the failure server-side so it's visible. No email in the log line: a failed
+  // send shouldn't put a user's address in the server logs.
+  if (error)
+    console.error("[auth] password-reset send failed:", error.message);
   return {
     message:
       "If an account exists for that email, a password-reset link is on its way. Check your inbox (and spam).",
