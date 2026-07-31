@@ -1,6 +1,9 @@
+import { ImmersiveBackground } from "@/components/landing/ImmersiveBackground";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+    <main className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <ImmersiveBackground />
       <p className="font-display text-xs font-medium uppercase tracking-[0.35em] text-teal-600">
         ISO 13485 · EU MDR · IVDR
       </p>
