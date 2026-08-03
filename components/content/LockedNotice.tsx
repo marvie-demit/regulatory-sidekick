@@ -1,15 +1,19 @@
 import Link from "next/link";
-import { LOCKED_BLURB } from "@/lib/auth/access";
+import { lockedBlurb } from "@/lib/auth/access";
+import { counts } from "@/lib/content/content";
 
 // Server-rendered "this is locked" panel. The real protection is that the caller
 // never loads the locked content — this is just what a free org sees instead.
+// Server-only by design (it reads the corpus counts), which is fine: all three
+// callers are server components.
 export function LockedNotice({
   title,
-  blurb = LOCKED_BLURB,
+  blurb,
 }: {
   title?: string;
   blurb?: string;
 }) {
+  const text = blurb ?? lockedBlurb(counts());
   return (
     <div className="rounded-xl border border-line bg-card px-8 py-12 text-center shadow-sm">
       <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-cream2">
@@ -34,7 +38,7 @@ export function LockedNotice({
       <h2 className="font-display mt-1 text-xl font-semibold text-teal-900">
         Part of Full access
       </h2>
-      <p className="mx-auto mt-2 max-w-md text-sm text-muted">{blurb}</p>
+      <p className="mx-auto mt-2 max-w-md text-sm text-muted">{text}</p>
       <Link
         href="/pricing"
         className="mt-5 inline-flex rounded-full bg-coral px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"

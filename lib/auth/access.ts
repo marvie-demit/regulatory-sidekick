@@ -12,8 +12,17 @@ export const PLAN_LABELS: Record<OrgPlan, string> = {
 
 // Purchase-to-activate copy (no "Pro" anywhere).
 export const LOCKED_CTA = "Purchase for full access";
-export const LOCKED_BLURB =
-  "Purchase for full access — activate all 92 activities, 346 sub-activities and 275 templates.";
+
+// The counts come from the caller, not from lib/content/content.ts: this module
+// is pulled into the browser bundle by the sidebar, and the content loader reads
+// the corpus with node:fs. LockedNotice (server-rendered) passes counts().
+export function lockedBlurb(c: {
+  activities: number;
+  subActivities: number;
+  documents: number;
+}): string {
+  return `Purchase for full access — activate all ${c.activities} activities, ${c.subActivities} sub-activities and ${c.documents} templates.`;
+}
 
 // The free Explore sample: ONE fully-open activity + ONE open document group.
 // (Both are one-line changes — swap the sample here.)

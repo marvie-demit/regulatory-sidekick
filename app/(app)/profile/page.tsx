@@ -1,4 +1,4 @@
-import { content } from "@/lib/content/content";
+import { content, counts } from "@/lib/content/content";
 import { ProfileSelector } from "@/components/content/ProfileSelector";
 
 export const metadata = { title: "Device profile" };
@@ -30,8 +30,8 @@ export default function ProfilePage() {
         modCounts={content.modCounts}
         acts={acts}
         docScopes={docScopes}
-        totalDocs={content.stats.docs}
-        totalActs={content.activities.length}
+        totalDocs={counts().documents}
+        totalActs={counts().activities}
       />
     </main>
   );

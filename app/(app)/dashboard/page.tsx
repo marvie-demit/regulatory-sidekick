@@ -1,4 +1,4 @@
-import { content, pnum } from "@/lib/content/content";
+import { content, counts, pnum } from "@/lib/content/content";
 import { DashboardClient } from "@/components/content/DashboardClient";
 
 export const metadata = { title: "Dashboard" };
@@ -31,7 +31,7 @@ export default function DashboardPage() {
       acts={acts}
       modules={content.modules}
       docScopes={docScopes}
-      totalDocs={content.stats.docs}
+      totalDocs={counts().documents}
     />
   );
 }

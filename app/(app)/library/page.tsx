@@ -1,6 +1,6 @@
 import { LibraryView } from "@/components/content/LibraryView";
 import { getActiveOrg } from "@/lib/auth/org";
-import { content } from "@/lib/content/content";
+import { content, counts } from "@/lib/content/content";
 
 export const metadata = { title: "Document library" };
 
@@ -13,7 +13,7 @@ export default async function LibraryPage() {
       documents={content.documents}
       procs={(content.procs ?? {}) as Record<string, Proc>}
       procOrder={content.procOrder ?? []}
-      totalDocs={content.stats.docs}
+      totalDocs={counts().documents}
       plan={org?.plan}
     />
   );

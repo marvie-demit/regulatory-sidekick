@@ -56,7 +56,16 @@ export type ContentCounts = {
   phases: number;
 };
 
+// The headline numbers, DERIVED from the corpus — never hand-written, and never
+// read from content.stats / content.meta.json. Those are summaries the external
+// pipeline emits and they go stale between regenerations (stats claimed 92/346
+// and meta.json 53/197 while the corpus held 116/338). Every place that quotes a
+// count in customer-facing copy reads this, so the claim and the content cannot
+// disagree. Memoised: content is immutable for the life of the process.
+let _counts: ContentCounts | null = null;
+
 export function counts(): ContentCounts {
+  if (_counts) return _counts;
   const subActivities = content.activities.reduce(
     (s, a) => s + (a.subs?.length ?? 0),
     0,
@@ -69,7 +78,7 @@ export function counts(): ContentCounts {
     (s, q) => s + (q?.length ?? 0),
     0,
   );
-  return {
+  _counts = {
     activities: content.activities.length,
     subActivities,
     checklistItems,
@@ -77,6 +86,7 @@ export function counts(): ContentCounts {
     quizQuestions,
     phases: content.phases.length,
   };
+  return _counts;
 }
 
 // ---- dependency graph + critical path (ported verbatim from build_site.py) ----

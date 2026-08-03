@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { ImmersiveBackground } from "@/components/landing/ImmersiveBackground";
+import { counts } from "@/lib/content/content";
 
 export default function Home() {
+  const n = counts();
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
       <ImmersiveBackground />
@@ -30,8 +33,29 @@ export default function Home() {
         </a>
       </div>
       <p className="mt-5 text-sm text-muted">
-        92 activities · 4 phases · 275 documents
+        {n.activities} activities · {n.phases} phases · {n.documents} documents
       </p>
+
+      {/* The legibility veil is sized to the copy column and fades out well
+          before the bottom edge, so the footer carries its own cream scrim —
+          otherwise these links would sit directly on the helices. */}
+      <footer className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 bg-gradient-to-t from-cream via-cream/90 to-transparent px-6 pb-6 pt-12 text-xs">
+        <Link
+          href="/impressum"
+          className="font-semibold text-teal-800 transition hover:text-coral"
+        >
+          Impressum
+        </Link>
+        <span className="text-muted" aria-hidden="true">
+          ·
+        </span>
+        <Link
+          href="/privacy"
+          className="font-semibold text-teal-800 transition hover:text-coral"
+        >
+          Datenschutz / Privacy
+        </Link>
+      </footer>
     </main>
   );
 }

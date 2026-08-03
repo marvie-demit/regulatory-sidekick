@@ -11,10 +11,18 @@ const PUBLIC_PREFIXES = [
   "/accept-invite",
   "/redeem",
   "/auth",
+  // Legal pages must be reachable without an account — an Impressum behind a
+  // login is not an Impressum.
+  "/impressum",
+  "/privacy",
   // Machine API: authenticated by bearer token inside the route (withAgentAuth),
   // not by a session cookie. Exempt here so an agent gets a JSON 401 instead of
   // an HTML redirect to /login. (/api/docs/* stays session-gated.)
   "/api/v1",
+  // Stripe webhook: authenticated by the request signature inside the route.
+  // Stripe has no session cookie, so without this exemption every event gets a
+  // 307 to /login and silently fails.
+  "/api/stripe",
 ];
 
 function isPublic(path: string) {

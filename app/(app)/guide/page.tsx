@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { counts } from "@/lib/content/content";
 
 export const metadata = { title: "Guide" };
 
@@ -39,75 +40,80 @@ const WORKFLOW: Step[] = [
 ];
 
 type Item = { label: string; href: string; body: string };
-const SECTIONS: { group: string; items: Item[] }[] = [
-  {
-    group: "Implement",
-    items: [
-      {
-        label: "Device profile",
-        href: "/profile",
-        body: "Start here. Set your device's characteristics, applicable regulations and target markets — this is what scopes the entire plan. Once set it's fixed for the project; changing it re-scopes everything.",
-      },
-      {
-        label: "Dashboard",
-        href: "/dashboard",
-        body: "Your at-a-glance status — overall completion, per-phase progress and how much of the plan is in your device's scope.",
-      },
-      {
-        label: "Roadmap",
-        href: "/roadmap/1",
-        body: "The execution plan, one phase at a time: processes down the side, recommended start order across the top. Open an activity for the full how-to, to set its status and to attach evidence.",
-      },
-      {
-        label: "Checklist",
-        href: "/checklist",
-        body: "Every activity in one list with a status control. Expand a row for its granular, individually-checkable items; filter by phase and print or export a self-assessment record.",
-      },
-    ],
-  },
-  {
-    group: "Reference",
-    items: [
-      {
-        label: "Standards matrix",
-        href: "/matrix",
-        body: "Traceability — where each standard and clause (ISO 13485, EU MDR/IVDR and more) is addressed across the four phases. Expand a standard to see its clauses and the activities that cover them.",
-      },
-      {
-        label: "Document library",
-        href: "/library",
-        body: "All 275 controlled-document templates, grouped by process. Open one to read it and see how to use it; download from your workspace when you're on full access.",
-      },
-      {
-        label: "Process map",
-        href: "/process-map",
-        body: "The full ISO 13485 §4.1.2 process landscape — every process across the four phases, each maturing from lean to certified, with every document mapped to the step that creates it.",
-      },
-    ],
-  },
-  {
-    group: "Workspace",
-    items: [
-      {
-        label: "Members",
-        href: "/settings/members",
-        body: "Invite teammates and set their role. Everyone shares one implementation, so status, checkboxes and evidence stay in sync across the team.",
-      },
-      {
-        label: "Activity log",
-        href: "/settings/activity",
-        body: "An audit trail of who changed what and when — useful evidence of control when you're audited.",
-      },
-      {
-        label: "Account",
-        href: "/settings/profile",
-        body: "Your personal details — display name and password.",
-      },
-    ],
-  },
-];
+type Section = { group: string; items: Item[] };
+
+function sections(totalDocs: number): Section[] {
+  return [
+    {
+      group: "Implement",
+      items: [
+        {
+          label: "Device profile",
+          href: "/profile",
+          body: "Start here. Set your device's characteristics, applicable regulations and target markets — this is what scopes the entire plan. Once set it's fixed for the project; changing it re-scopes everything.",
+        },
+        {
+          label: "Dashboard",
+          href: "/dashboard",
+          body: "Your at-a-glance status — overall completion, per-phase progress and how much of the plan is in your device's scope.",
+        },
+        {
+          label: "Roadmap",
+          href: "/roadmap/1",
+          body: "The execution plan, one phase at a time: processes down the side, recommended start order across the top. Open an activity for the full how-to, to set its status and to attach evidence.",
+        },
+        {
+          label: "Checklist",
+          href: "/checklist",
+          body: "Every activity in one list with a status control. Expand a row for its granular, individually-checkable items; filter by phase and print or export a self-assessment record.",
+        },
+      ],
+    },
+    {
+      group: "Reference",
+      items: [
+        {
+          label: "Standards matrix",
+          href: "/matrix",
+          body: "Traceability — where each standard and clause (ISO 13485, EU MDR/IVDR and more) is addressed across the four phases. Expand a standard to see its clauses and the activities that cover them.",
+        },
+        {
+          label: "Document library",
+          href: "/library",
+          body: `All ${totalDocs} controlled-document templates, grouped by process. Open one to read it and see how to use it; download from your workspace when you're on full access.`,
+        },
+        {
+          label: "Process map",
+          href: "/process-map",
+          body: "The full ISO 13485 §4.1.2 process landscape — every process across the four phases, each maturing from lean to certified, with every document mapped to the step that creates it.",
+        },
+      ],
+    },
+    {
+      group: "Workspace",
+      items: [
+        {
+          label: "Members",
+          href: "/settings/members",
+          body: "Invite teammates and set their role. Everyone shares one implementation, so status, checkboxes and evidence stay in sync across the team.",
+        },
+        {
+          label: "Activity log",
+          href: "/settings/activity",
+          body: "An audit trail of who changed what and when — useful evidence of control when you're audited.",
+        },
+        {
+          label: "Account",
+          href: "/settings/profile",
+          body: "Your personal details — display name and password.",
+        },
+      ],
+    },
+  ];
+}
 
 export default function GuidePage() {
+  const n = counts();
   return (
     <main className="px-7 py-6">
       <h1 className="font-display text-3xl font-semibold tracking-tight text-teal-900">
@@ -149,7 +155,7 @@ export default function GuidePage() {
 
       <div className="sect-h">Every section, explained</div>
       <div className="flex flex-col gap-6">
-        {SECTIONS.map((sec) => (
+        {sections(n.documents).map((sec) => (
           <div key={sec.group}>
             <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
               {sec.group}
@@ -188,10 +194,10 @@ export default function GuidePage() {
           before you commit.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-ink">
-          <b className="text-teal-900">Full access</b> unlocks all 92 activities,
-          346 sub-activities and 275 templates, evidence uploads and team
-          collaboration. Have an access code? Enter it on the plans page to
-          unlock everything.
+          <b className="text-teal-900">Full access</b> unlocks all{" "}
+          {n.activities} activities, {n.subActivities} sub-activities and{" "}
+          {n.documents} templates, evidence uploads and team collaboration. Have
+          an access code? Enter it on the plans page to unlock everything.
         </p>
         <div className="mt-4">
           <Link
