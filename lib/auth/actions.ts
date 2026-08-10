@@ -1,6 +1,7 @@
 "use server";
 
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { requestOrigin } from "@/lib/http/origin";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ACTIVE_ORG_COOKIE } from "@/lib/constants";
@@ -48,9 +49,7 @@ export async function signUp(
     return { error: "Password must be at least 8 characters." };
 
   const supabase = await createClient();
-  const hdrs = await headers();
-  const origin =
-    hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
+  const origin = await requestOrigin();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -77,9 +76,7 @@ export async function requestPasswordReset(
   if (!email) return { error: "Enter your email." };
 
   const supabase = await createClient();
-  const hdrs = await headers();
-  const origin =
-    hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
+  const origin = await requestOrigin();
   // The reset link returns to /auth/callback (PKCE), which sets a short recovery
   // session and forwards to /reset-password. Enumeration-safe: Supabase succeeds
   // even for unknown emails and we show the same message either way.

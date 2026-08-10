@@ -15,6 +15,21 @@ import {
   DEFAULT_AGENT_RATE_LIMIT,
   DEFAULT_AGENT_WRITE_LIMIT,
 } from "@/lib/auth/agent-tokens";
+import type { AdminPartner } from "@/lib/partners/data";
+import { PartnersSection } from "./PartnersSection";
+import {
+  card,
+  coral,
+  CopyBtn,
+  csvRow,
+  DownloadBtn,
+  errCls,
+  fmtDate,
+  input,
+  okCls,
+  smallBtn,
+  subtle,
+} from "./ui";
 
 type Res = {
   error?: string;
@@ -22,24 +37,11 @@ type Res = {
   code?: string;
   codeUrl?: string;
   linkUrl?: string;
+  codes?: string[];
 };
 
-const card = "rounded-2xl border border-line bg-card p-6 shadow-sm";
-const input =
-  "rounded-lg border border-line bg-white px-3 py-2 text-sm text-teal-900 outline-none transition focus:border-teal-500";
-const coral =
-  "rounded-full bg-coral px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-60";
-const subtle =
-  "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted transition hover:border-red-300 hover:text-red-600 disabled:opacity-60";
-const smallBtn =
-  "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-teal-800 transition hover:bg-white disabled:opacity-60";
-const errCls =
-  "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700";
-const okCls =
-  "rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm text-teal-800";
 const planLabel = (p: string) =>
   p === "enterprise" ? "Enterprise" : p === "full" ? "Full" : "Explore";
-const fmtDate = (s: string | null) => (s ? s.slice(0, 10) : "—");
 
 // Live redeem-by countdown for an access code. null = no deadline.
 function Countdown({ iso }: { iso: string | null }) {
@@ -67,62 +69,122 @@ function Countdown({ iso }: { iso: string | null }) {
   );
 }
 
-function CopyBtn({ value, label }: { value: string; label: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        navigator.clipboard?.writeText(value);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      }}
-      className={smallBtn}
-    >
-      {copied ? "Copied" : label}
-    </button>
-  );
-}
-
 function CodeResult({ state }: { state: Res }) {
   if (!state.code || !state.codeUrl) return null;
-  return (
-    <div className="flex flex-col gap-2 rounded-lg border border-teal-200 bg-teal-50 p-2 sm:flex-row sm:items-center">
-      <code className="flex-1 truncate font-mono text-xs text-teal-800">
-        {state.code}
-      </code>
-      <div className="flex gap-2">
-        <CopyBtn value={state.code} label="Copy code" />
-        <CopyBtn value={state.codeUrl} label="Copy link" />
+  const all = state.codes ?? [state.code];
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const links = all.map((c) => `${origin}/redeem/${c}`);
+
+  // A single code keeps the original one-line result. A batch gets the list,
+  // copy-all and a CSV — all built from what the action already returned, so
+  // there's no endpoint and nothing written server-side.
+  if (all.length === 1)
+    return (
+      <div className="flex flex-col gap-2 rounded-lg border border-teal-200 bg-teal-50 p-2 sm:flex-row sm:items-center">
+        <code className="flex-1 truncate font-mono text-xs text-teal-800">
+          {state.code}
+        </code>
+        <div className="flex gap-2">
+          <CopyBtn value={state.code} label="Copy code" />
+          <CopyBtn value={state.codeUrl} label="Copy link" />
+        </div>
       </div>
+    );
+
+  const csv = [csvRow(["code", "redeem_url"]), ...all.map((c, i) => csvRow([c, links[i]]))].join("\n");
+  return (
+    <div className="flex flex-col gap-2 rounded-lg border border-teal-200 bg-teal-50 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="text-xs font-medium text-teal-800">
+          {all.length} codes
+        </span>
+        <div className="flex gap-2">
+          <CopyBtn value={links.join("\n")} label="Copy all links" />
+          <DownloadBtn filename="access-codes.csv" content={csv} label="Download CSV" />
+        </div>
+      </div>
+      <textarea
+        readOnly
+        rows={Math.min(all.length, 8)}
+        value={links.join("\n")}
+        className="w-full resize-y rounded-lg border border-teal-200 bg-white p-2 font-mono text-[11px] text-teal-800"
+      />
+      <p className="text-xs text-muted">
+        These stay available in the list below — codes are stored, so you can
+        re-export this batch any time.
+      </p>
     </div>
   );
 }
 
-function MintForm() {
+function MintForm({ partners }: { partners: AdminPartner[] }) {
   const [state, action, pending] = useActionState<Res, FormData>(
     createAccessCode,
     {},
   );
+  const [partnerId, setPartnerId] = useState("");
+  const partner = partners.find((p) => p.id === partnerId) ?? null;
   return (
     <form action={action} className={`${card} flex flex-col gap-4`}>
       <div>
         <h2 className="font-display text-lg font-semibold text-teal-900">
-          Mint a generic access code
+          Mint access codes
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Not tied to any org — anyone you send it to redeems it for their own
-          workspace. (To lock a code to one customer, use “Create code” on their
+          Not tied to any org — whoever you send one to redeems it for their own
+          workspace. Attribute a batch to a partner to spend their licence
+          allowance. (To lock a code to one customer, use “Create code” on their
           row below.)
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <label className="col-span-2 flex flex-col gap-1 text-xs text-muted">
+          Partner
+          <select
+            name="partnerId"
+            value={partnerId}
+            onChange={(e) => setPartnerId(e.target.value)}
+            className={input}
+          >
+            <option value="">— none (platform) —</option>
+            {partners.map((p) => (
+              <option key={p.id} value={p.id} disabled={p.status !== "active"}>
+                {p.name}
+                {p.status !== "active"
+                  ? " (suspended)"
+                  : ` — ${p.remaining} left`}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
           Plan
-          <select name="plan" defaultValue="full" className={input}>
+          <select
+            name="plan"
+            defaultValue="full"
+            disabled={!!partner}
+            title={
+              partner ? "Partner codes always grant full access." : undefined
+            }
+            className={input}
+          >
             <option value="full">Full</option>
             <option value="enterprise">Enterprise</option>
           </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs text-muted">
+          How many codes
+          <input
+            name="count"
+            defaultValue="1"
+            inputMode="numeric"
+            title="Mint up to 200 codes in one batch"
+            className={input}
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-xs text-muted">
+          Uses per code
+          <input name="maxUses" defaultValue="1" inputMode="numeric" className={input} />
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
           Access days
@@ -145,14 +207,17 @@ function MintForm() {
           />
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
-          Max uses
-          <input name="maxUses" defaultValue="1" inputMode="numeric" className={input} />
-        </label>
-        <label className="col-span-2 flex flex-col gap-1 text-xs text-muted sm:col-span-1">
           Note
-          <input name="note" placeholder="Customer / deal" className={input} />
+          <input name="note" placeholder="Customer / cohort" className={input} />
         </label>
       </div>
+      {partner ? (
+        <p className="text-xs text-muted">
+          Spends <b>{partner.name}</b>&apos;s allowance —{" "}
+          {partner.remaining} of {partner.licenceAllowance} licences remaining.
+          One licence per use, so 10 codes × 2 uses costs 20.
+        </p>
+      ) : null}
       <button type="submit" disabled={pending} className={`${coral} self-start`}>
         {pending ? "Creating…" : "Create code"}
       </button>
@@ -228,19 +293,33 @@ function UserLinksForm() {
   );
 }
 
-function CodeRow({ c, targetName }: { c: AccessCode; targetName: string | null }) {
+function CodeRow({
+  c,
+  targetName,
+  partnerName,
+}: {
+  c: AccessCode;
+  targetName: string | null;
+  partnerName: string | null;
+}) {
   const [state, action, pending] = useActionState<Res, FormData>(
     revokeAccessCode,
     {},
   );
   const spent = c.usedCount >= c.maxUses;
+  const revoked = !!c.revokedAt;
   return (
-    <li className="flex flex-col gap-2 border-b border-line py-3 last:border-0">
+    <li
+      className={`flex flex-col gap-2 border-b border-line py-3 last:border-0 ${revoked ? "opacity-60" : ""}`}
+    >
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <div className="truncate text-sm text-teal-900">
             {c.note || "(no note)"} · {planLabel(c.plan)}
             {c.grantDays ? ` · ${c.grantDays}d` : " · ∞"}
+            {partnerName ? (
+              <span className="text-teal-700"> · via {partnerName}</span>
+            ) : null}
             {targetName ? (
               <span className="text-teal-700"> · for {targetName}</span>
             ) : c.targetOrgId ? (
@@ -249,22 +328,28 @@ function CodeRow({ c, targetName }: { c: AccessCode; targetName: string | null }
           </div>
           <div className="text-xs text-muted">
             {c.usedCount}/{c.maxUses} used · {fmtDate(c.createdAt)} ·{" "}
-            {spent ? (
+            {revoked ? (
+              <span className="font-medium text-red-600">
+                revoked {fmtDate(c.revokedAt)}
+              </span>
+            ) : spent ? (
               <span className="text-muted">spent</span>
             ) : (
               <Countdown iso={c.expiresAt} />
             )}
           </div>
         </div>
-        <form action={action}>
-          <input type="hidden" name="codeId" value={c.id} />
-          <button type="submit" disabled={pending} className={subtle}>
-            {pending ? "…" : "Delete"}
-          </button>
-        </form>
+        {!revoked ? (
+          <form action={action}>
+            <input type="hidden" name="codeId" value={c.id} />
+            <button type="submit" disabled={pending} className={subtle}>
+              {pending ? "…" : "Revoke"}
+            </button>
+          </form>
+        ) : null}
       </div>
       {c.code ? (
-        <div className="flex flex-col gap-2 rounded-lg border border-line bg-[#f7faf8] p-2 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-2 rounded-lg border border-line bg-tint p-2 sm:flex-row sm:items-center">
           <code className="flex-1 truncate font-mono text-xs text-teal-800">
             {c.code}
           </code>
@@ -278,7 +363,7 @@ function CodeRow({ c, targetName }: { c: AccessCode; targetName: string | null }
         </div>
       ) : (
         <div className="text-xs text-muted">
-          Minted before code storage — delete and mint a new one to get a
+          Minted before code storage — revoke it and mint a new one to get a
           copyable code/link.
         </div>
       )}
@@ -433,7 +518,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
       {showLimits ? (
         <form
           action={limitAction}
-          className="flex flex-wrap items-end gap-2 rounded-lg border border-line bg-[#f7faf8] p-2"
+          className="flex flex-wrap items-end gap-2 rounded-lg border border-line bg-tint p-2"
         >
           <input type="hidden" name="orgId" value={o.id} />
           <label className="flex flex-col gap-1">
@@ -476,7 +561,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
       ) : null}
       {showMembers ? (
         o.memberList.length ? (
-          <ul className="flex flex-col gap-1 rounded-lg border border-line bg-[#f7faf8] p-2">
+          <ul className="flex flex-col gap-1 rounded-lg border border-line bg-tint p-2">
             {o.memberList.map((m, i) => (
               <li
                 key={i}
@@ -539,13 +624,17 @@ function OrgRow({ o }: { o: AdminOrg }) {
 export function AdminConsole({
   codes,
   orgs,
+  partners,
 }: {
   codes: AccessCode[];
   orgs: AdminOrg[];
+  partners: AdminPartner[];
 }) {
   const [q, setQ] = useState("");
   const nameOf = (id: string | null) =>
     id ? (orgs.find((o) => o.id === id)?.name ?? null) : null;
+  const partnerNameOf = (id: string | null) =>
+    id ? (partners.find((p) => p.id === id)?.name ?? null) : null;
   const filtered = orgs.filter((o) =>
     (
       o.name +
@@ -559,7 +648,9 @@ export function AdminConsole({
   );
   return (
     <div className="flex flex-col gap-6">
-      <MintForm />
+      <MintForm partners={partners} />
+
+      <PartnersSection partners={partners} />
 
       <UserLinksForm />
 
@@ -570,13 +661,18 @@ export function AdminConsole({
         {codes.length > 0 ? (
           <ul className="flex flex-col">
             {codes.map((c) => (
-              <CodeRow key={c.id} c={c} targetName={nameOf(c.targetOrgId)} />
+              <CodeRow
+                key={c.id}
+                c={c}
+                targetName={nameOf(c.targetOrgId)}
+                partnerName={partnerNameOf(c.partnerId)}
+              />
             ))}
           </ul>
         ) : (
           <p className="py-2 text-sm text-muted">
-            No codes yet — mint a generic one above, or “Create code” on an org
-            below to lock it to that customer.
+            No codes yet — mint one above, or “Create code” on an org below to
+            lock it to that customer.
           </p>
         )}
       </section>

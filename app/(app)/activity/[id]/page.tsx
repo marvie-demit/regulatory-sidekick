@@ -139,7 +139,7 @@ export default async function ActivityPage({
               <div className="space-y-4">
                 <div>
                   <p>
-                    <span className="mr-2 rounded bg-[#e7f0ec] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-teal-600">
+                    <span className="mr-2 rounded bg-tint2 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-teal-600">
                       Minimum to start
                     </span>
                     {a.lean.start}

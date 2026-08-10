@@ -15,7 +15,7 @@ export type OrgProfile = {
 type State = { error?: string; message?: string };
 
 const fieldBase =
-  "rounded-lg border border-line bg-white px-3.5 text-sm text-teal-900 outline-none transition focus:border-teal-500 disabled:bg-[#f7faf8] disabled:text-muted";
+  "rounded-lg border border-line bg-white px-3.5 text-sm text-teal-900 outline-none transition focus:border-teal-500 disabled:bg-tint disabled:text-muted";
 // Fixed height so nothing (focus, autofill, a browser extension badge) can
 // change the box and misalign the field beside it.
 const inputCls = `${fieldBase} h-[42px]`;
@@ -40,7 +40,7 @@ export function OrgProfileForm({
   return (
     <form action={action} className="mt-6 flex flex-col gap-5">
       {!canEdit ? (
-        <p className="rounded-lg border border-line bg-[#f7faf8] px-3 py-2 text-sm text-muted">
+        <p className="rounded-lg border border-line bg-tint px-3 py-2 text-sm text-muted">
           Only workspace admins can edit these details.
         </p>
       ) : null}

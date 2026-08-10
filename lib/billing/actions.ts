@@ -1,6 +1,6 @@
 "use server";
 
-import { headers } from "next/headers";
+import { requestOrigin } from "@/lib/http/origin";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getActiveOrg } from "@/lib/auth/org";
@@ -15,12 +15,13 @@ import {
 
 export type CheckoutRes = { error?: string; url?: string };
 
-async function origin(): Promise<string> {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
-  if (fromEnv) return fromEnv;
-  const hdrs = await headers();
-  return hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
-}
+// Stripe's success/cancel URLs must return the customer to the host they
+// checked out from. This used to prefer NEXT_PUBLIC_SITE_URL, which .env.local
+// told you to set in production — meaning a customer who paid on a partner
+// subdomain was bounced to the canonical host afterwards, where their
+// host-scoped session doesn't exist, and a successful payment looked like a
+// failed one. The env var is no longer consulted.
+const origin = requestOrigin;
 
 // Create a Stripe Checkout Session for the active workspace and hand the URL
 // back to the client to navigate to. We deliberately do NOT grant access here —

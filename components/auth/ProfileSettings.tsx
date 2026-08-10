@@ -59,7 +59,7 @@ export function ProfileSettings({
           <input
             value={email}
             disabled
-            className={`${inputCls} cursor-not-allowed bg-[#f4f7f5] text-muted`}
+            className={`${inputCls} cursor-not-allowed bg-bg text-muted`}
           />
         </label>
         <label className="flex flex-col gap-1.5">

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/lib/auth/actions";
 import { hasFullAccess, planLabel } from "@/lib/auth/access";
+import { BrandMark } from "@/components/brand/Brand";
+import type { Brand } from "@/lib/partners/theme";
 
 type NavItem = { label: string; href: string; match?: string; ready: boolean };
 
@@ -66,28 +68,46 @@ const ADMIN_GROUP: { group: string; items: NavItem[] } = {
   items: [{ label: "Admin", href: "/admin", match: "/admin", ready: true }],
 };
 
+// Shown to someone who is partner staff AND has a workspace of their own — an
+// accelerator operator running a test QMS, say. Their own workspace stays the
+// default; this is how they cross over to the partner console.
+const PARTNER_GROUP: { group: string; items: NavItem[] } = {
+  group: "Partner",
+  items: [
+    { label: "Partner console", href: "/partner", match: "/partner", ready: true },
+  ],
+};
+
 export function Sidebar({
   orgName,
   role,
   plan,
   isPlatformAdmin = false,
+  isPartner = false,
+  brand = null,
 }: {
   orgName?: string;
   role?: string;
   plan?: string;
   isPlatformAdmin?: boolean;
+  isPartner?: boolean;
+  /** Partner white-label, resolved from the request host. Null on our own host. */
+  brand?: Brand | null;
 }) {
   const path = usePathname();
-  const groups = isPlatformAdmin ? [...NAV, ADMIN_GROUP] : NAV;
+  const groups = [
+    ...NAV,
+    ...(isPartner ? [PARTNER_GROUP] : []),
+    ...(isPlatformAdmin ? [ADMIN_GROUP] : []),
+  ];
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col gap-6 overflow-y-auto bg-[var(--side)] px-4 py-6">
       <div className="px-2">
-        <Link
+        <BrandMark
+          brand={brand}
           href="/dashboard"
           className="font-display text-lg font-semibold text-white"
-        >
-          Regulatory Sidekick
-        </Link>
+        />
         {orgName ? (
           <div className="mt-1.5">
             <div className="truncate text-sm text-white/70">{orgName}</div>

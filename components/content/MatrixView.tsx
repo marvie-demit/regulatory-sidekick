@@ -96,7 +96,7 @@ export function MatrixView({
                               <Link
                                 key={id}
                                 href="/pricing"
-                                className="rounded bg-[#edefec] px-1.5 text-[10px] font-semibold text-[#9aa39d]"
+                                className="rounded bg-chip px-1.5 text-[10px] font-semibold text-[#9aa39d]"
                               >
                                 {id}
                               </Link>

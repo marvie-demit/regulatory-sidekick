@@ -1,6 +1,6 @@
 "use server";
 
-import { headers } from "next/headers";
+import { requestOrigin } from "@/lib/http/origin";
 import { revalidatePath } from "next/cache";
 import { randomBytes, createHash } from "crypto";
 import { createClient } from "@/lib/supabase/server";
@@ -92,9 +92,7 @@ export async function createInvite(_prev: Res, formData: FormData): Promise<Res>
     entity_id: email,
   });
 
-  const hdrs = await headers();
-  const origin =
-    hdrs.get("origin") ?? `http://${hdrs.get("host") ?? "localhost:3100"}`;
+  const origin = await requestOrigin();
   revalidatePath("/settings/members");
   return {
     message: `Invite ready for ${email}.`,

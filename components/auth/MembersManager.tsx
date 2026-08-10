@@ -20,7 +20,7 @@ const coral =
 const subtle =
   "shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted transition hover:border-red-300 hover:text-red-600 disabled:opacity-60";
 const chip =
-  "shrink-0 rounded-full bg-[#eef1ef] px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-[#5c6b66]";
+  "shrink-0 rounded-full bg-chip px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-muted";
 const errCls =
   "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700";
 
@@ -191,7 +191,7 @@ export function MembersManager({
   const remaining = team.seatLimit - team.seatsUsed;
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between rounded-xl border border-line bg-[#f4f7f5] px-4 py-3 text-sm">
+      <div className="flex items-center justify-between rounded-xl border border-line bg-bg px-4 py-3 text-sm">
         <span className="font-medium text-teal-900">Seats</span>
         <span className="text-muted">
           {team.seatsUsed} of {team.seatLimit} used

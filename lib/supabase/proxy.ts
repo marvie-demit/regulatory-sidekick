@@ -9,6 +9,9 @@ const PUBLIC_PREFIXES = [
   "/forgot-password",
   "/reset-password",
   "/accept-invite",
+  // Partner staff invites: a logged-out invitee must reach the route handler so
+  // it can stash the token before bouncing them to /login.
+  "/accept-partner-invite",
   "/redeem",
   "/auth",
   // Legal pages must be reachable without an account — an Impressum behind a
@@ -35,16 +38,26 @@ function isPublic(path: string) {
 // the Supabase env keys are ever absent — see the guard below.)
 const GATE_ENABLED = true;
 
-export async function updateSession(request: NextRequest) {
+export async function updateSession(
+  request: NextRequest,
+  // Request headers the proxy wants the app to see (the partner slug). Passed
+  // via `NextResponse.next({ request: { headers } })` — NOT `next({ headers })`,
+  // which would expose them to the client instead.
+  requestHeaders?: Headers,
+) {
+  const forward = requestHeaders ? { headers: requestHeaders } : undefined;
+  const next = () =>
+    forward ? NextResponse.next({ request: forward }) : NextResponse.next({ request });
+
   if (
     !GATE_ENABLED ||
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   ) {
-    return NextResponse.next({ request });
+    return next();
   }
 
-  let supabaseResponse = NextResponse.next({ request });
+  let supabaseResponse = next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -58,7 +71,10 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
           );
-          supabaseResponse = NextResponse.next({ request });
+          // Rebuilt here on cookie refresh — must carry the forwarded request
+          // headers too, or the partner slug is lost on exactly the requests
+          // where Supabase rotates the session.
+          supabaseResponse = next();
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options),
           );

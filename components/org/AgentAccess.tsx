@@ -165,7 +165,7 @@ function TokenRow({
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-medium text-teal-900">{t.name}</span>
         <StatusChip t={t} />
-        <code className="rounded bg-[#f2f5f3] px-1.5 py-0.5 font-mono text-[11px] text-muted">
+        <code className="rounded bg-tint px-1.5 py-0.5 font-mono text-[11px] text-muted">
           {t.prefix}…
         </code>
         <div className="ml-auto flex items-center gap-2">
@@ -264,7 +264,7 @@ export function AgentAccess({
       </div>
 
       {!isFull ? (
-        <p className="rounded-lg border border-line bg-[#f7faf8] px-3 py-2 text-sm text-muted">
+        <p className="rounded-lg border border-line bg-tint px-3 py-2 text-sm text-muted">
           Agent access requires full access.
         </p>
       ) : !isEnabled ? (
@@ -308,7 +308,7 @@ export function AgentAccess({
         </ul>
       ) : null}
 
-      <details className="rounded-xl border border-line bg-[#f7faf8] p-3">
+      <details className="rounded-xl border border-line bg-tint p-3">
         <summary className="cursor-pointer text-sm font-medium text-teal-800">
           How an agent connects
         </summary>

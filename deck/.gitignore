@@ -1,0 +1,4 @@
+# Build intermediates — regenerate with `node build.mjs` / `python make-fonts.py`
+pitch-deck.build.html
+static/
+shots/

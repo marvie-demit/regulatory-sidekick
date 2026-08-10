@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import { OnboardingForm } from "@/components/auth/OnboardingForm";
+import { BrandMark } from "@/components/brand/Brand";
 import { FlashNotice } from "@/components/app-shell/FlashNotice";
 import { getMemberships } from "@/lib/auth/org";
+import { hasPartnerAccess } from "@/lib/partners/context";
+import { getRequestBrand } from "@/lib/partners/brand";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata = { title: "Create your organization" };
@@ -15,11 +18,19 @@ export default async function OnboardingPage() {
   const orgs = await getMemberships();
   if (orgs.length > 0) redirect("/dashboard");
 
+  // Partner staff land here too if they navigate directly — the (app) layout
+  // guard isn't enough because /onboarding sits outside that route group.
+  if (await hasPartnerAccess()) redirect("/partner");
+
+  const brand = await getRequestBrand();
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
-      <span className="font-display text-lg font-semibold text-teal-900">
-        Regulatory Sidekick
-      </span>
+      <BrandMark
+        brand={brand}
+        className="font-display text-lg font-semibold text-teal-900"
+        logoHeight={32}
+      />
       <FlashNotice className="mt-6 w-full max-w-xl" />
       <div className="mt-6 w-full max-w-xl rounded-2xl border border-line bg-card p-7 shadow-sm">
         <h1 className="font-display text-2xl font-semibold text-teal-900">

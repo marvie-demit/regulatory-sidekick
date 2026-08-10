@@ -12,6 +12,9 @@ export type AccessCode = {
   expiresAt: string | null;
   note: string | null;
   targetOrgId: string | null; // set = locked to that org (0006)
+  partnerId: string | null; // set = minted against a partner's allowance (0015)
+  batchId: string | null; // groups codes minted together (0015)
+  revokedAt: string | null; // soft revoke — the row survives so redemptions do
   createdAt: string;
 };
 
@@ -34,24 +37,49 @@ export type AdminOrg = {
   agenticExpiresAt: string | null;
 };
 
+// One user_id -> email map for everyone, instead of a lookup per user. Paged
+// (perPage 1000); caps at 10 pages (10k users) — plenty for now, and never a
+// reason to fail the whole list. Shared by the org and partner listings.
+export async function emailsByUserId(): Promise<Map<string, string>> {
+  const admin = createAdminClient();
+  const emailById = new Map<string, string>();
+  try {
+    for (let page = 1; page <= 10; page++) {
+      const { data: pageData } = await admin.auth.admin.listUsers({
+        page,
+        perPage: 1000,
+      });
+      const users = pageData?.users ?? [];
+      users.forEach((u) => {
+        if (u.email) emailById.set(u.id, u.email);
+      });
+      if (users.length < 1000) break;
+    }
+  } catch {
+    // identity lookup unavailable — rows still render, emails just show as unknown
+  }
+  return emailById;
+}
+
 export async function listAccessCodes(): Promise<AccessCode[]> {
   const admin = createAdminClient();
-  const cols =
-    "id, code, plan, grant_days, max_uses, used_count, expires_at, note, target_org_id, created_at";
-  let res: { data: unknown[] | null; error: unknown } = await admin
-    .from("access_codes")
-    .select(cols)
-    .order("created_at", { ascending: false })
-    .limit(50);
-  // Resilient to migrations 0005/0006 not being applied yet — retry without the
-  // newer columns so the list still renders.
-  if (res.error) {
-    res = await admin
+  const BASE =
+    "id, plan, grant_days, max_uses, used_count, expires_at, note, created_at";
+  const WITH_RAW = `${BASE}, code, target_org_id`;
+  // Resilient to migrations 0005/0006/0015 not being applied yet — step down
+  // through narrower selects so the list still renders.
+  const pick = (cols: string) =>
+    admin
       .from("access_codes")
-      .select("id, plan, grant_days, max_uses, used_count, expires_at, note, created_at")
+      .select(cols)
       .order("created_at", { ascending: false })
-      .limit(50);
-  }
+      .limit(200);
+
+  let res: { data: unknown[] | null; error: unknown } = await pick(
+    `${WITH_RAW}, partner_id, batch_id, revoked_at`,
+  );
+  if (res.error) res = await pick(WITH_RAW);
+  if (res.error) res = await pick(BASE);
   const rows = (res.data ?? []) as Record<string, unknown>[];
   return rows.map((c) => ({
     id: c.id as string,
@@ -63,6 +91,9 @@ export async function listAccessCodes(): Promise<AccessCode[]> {
     expiresAt: (c.expires_at as string | null) ?? null,
     note: (c.note as string | null) ?? null,
     targetOrgId: (c.target_org_id as string | null) ?? null,
+    partnerId: (c.partner_id as string | null) ?? null,
+    batchId: (c.batch_id as string | null) ?? null,
+    revokedAt: (c.revoked_at as string | null) ?? null,
     createdAt: c.created_at as string,
   }));
 }
@@ -99,25 +130,7 @@ export async function listOrgs(): Promise<AdminOrg[]> {
     role: string;
   }[];
 
-  // One user_id -> email map for everyone, instead of a lookup per user. Paged
-  // (perPage 1000); caps at 10 pages (10k users) — plenty for now, and never a
-  // reason to fail the whole list.
-  const emailById = new Map<string, string>();
-  try {
-    for (let page = 1; page <= 10; page++) {
-      const { data: pageData } = await admin.auth.admin.listUsers({
-        page,
-        perPage: 1000,
-      });
-      const users = pageData?.users ?? [];
-      users.forEach((u) => {
-        if (u.email) emailById.set(u.id, u.email);
-      });
-      if (users.length < 1000) break;
-    }
-  } catch {
-    // identity lookup unavailable — rows still render, emails just show as unknown
-  }
+  const emailById = await emailsByUserId();
 
   const rank = (r: string) => (r === "admin" ? 0 : r === "member" ? 1 : 2);
   const byOrg = new Map<string, OrgMember[]>();

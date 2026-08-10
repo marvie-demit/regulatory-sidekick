@@ -36,7 +36,7 @@ export function ActivityTasks({ id, groups }: { id: string; groups: Group[] }) {
   return (
     <div>
       <div className="mb-3 flex items-center gap-2 text-xs text-muted">
-        <span className="rounded-full bg-[#e7f0ec] px-2 py-0.5 font-semibold text-teal-700">
+        <span className="rounded-full bg-tint2 px-2 py-0.5 font-semibold text-teal-700">
           {doneCount}/{total}
         </span>
         done

@@ -1,17 +1,33 @@
 import Link from "next/link";
 import { ImmersiveBackground } from "@/components/landing/ImmersiveBackground";
+import { BrandMark } from "@/components/brand/Brand";
+import { BrandScope } from "@/components/brand/BrandScope";
+import { getRequestBrand } from "@/lib/partners/brand";
 import { counts } from "@/lib/content/content";
 
-export default function Home() {
+export default async function Home() {
   const n = counts();
+  const brand = await getRequestBrand();
   return (
+    <BrandScope brand={brand}>
     <main className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <ImmersiveBackground />
+      <ImmersiveBackground
+        palette={
+          brand
+            ? {
+                primary: brand.primary,
+                mid: brand.mid,
+                accent: brand.accent,
+                surface: brand.surface,
+              }
+            : null
+        }
+      />
       <p className="font-display text-xs font-medium uppercase tracking-[0.35em] text-teal-600">
         ISO 13485 · EU MDR · IVDR
       </p>
       <h1 className="font-display mt-4 text-5xl font-semibold tracking-tight text-teal-900 sm:text-7xl">
-        Regulatory Sidekick
+        <BrandMark brand={brand} logoHeight={72} />
       </h1>
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
         A stepwise implementation for EU&nbsp;MDR and IVDR — including the setup
@@ -57,5 +73,6 @@ export default function Home() {
         </Link>
       </footer>
     </main>
+    </BrandScope>
   );
 }

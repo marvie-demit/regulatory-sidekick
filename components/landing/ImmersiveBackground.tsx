@@ -32,6 +32,11 @@ uniform vec2  u_pointer;
 // the window gets smaller — so both the helix offset and the legibility veil
 // are derived from this instead of guessed.
 uniform float u_safe;
+uniform vec3  u_cream;
+uniform vec3  u_sage;
+uniform vec3  u_teal;
+uniform vec3  u_deep;
+uniform vec3  u_coral;
 
 const float PI = 3.14159265;
 
@@ -179,11 +184,13 @@ void main() {
   vec2 q = vec2(fbm(p + t * 0.05), fbm(p + vec2(5.2, 1.3) - t * 0.04));
   float f = fbm(p + 2.6 * q);
 
-  vec3 cream = vec3(0.984, 0.969, 0.933);
-  vec3 sage  = vec3(0.878, 0.925, 0.906);
-  vec3 teal  = vec3(0.086, 0.314, 0.286);
-  vec3 deep  = vec3(0.043, 0.165, 0.149);
-  vec3 coral = vec3(0.847, 0.349, 0.227);
+  // Palette comes in as uniforms so a partner's subdomain repaints the backdrop
+  // with their colours. Defaults match the house tokens in globals.css.
+  vec3 cream = u_cream;
+  vec3 sage  = u_sage;
+  vec3 teal  = u_teal;
+  vec3 deep  = u_deep;
+  vec3 coral = u_coral;
 
   vec3 col = mix(cream, sage, smoothstep(0.28, 0.80, f));
   col = mix(col, teal, smoothstep(0.60, 1.05, f) * clamp(dot(q, q) * 1.4, 0.0, 1.0) * 0.26);
@@ -279,8 +286,41 @@ function compile(
   return sh;
 }
 
-export function ImmersiveBackground() {
+// House palette, matching the :root tokens in globals.css. A partner theme
+// overrides any subset of these.
+const HOUSE_PALETTE = {
+  cream: "#fbf7ee",
+  sage: "#e0ece7",
+  teal: "#16504a",
+  deep: "#0b2a26",
+  coral: "#d8593a",
+};
+
+/** "#rrggbb" -> [r, g, b] in 0..1, or null if it isn't a valid 6-digit hex. */
+function glColor(hex: string | null | undefined): [number, number, number] | null {
+  if (!hex || !/^#[0-9a-fA-F]{6}$/.test(hex)) return null;
+  return [
+    parseInt(hex.slice(1, 3), 16) / 255,
+    parseInt(hex.slice(3, 5), 16) / 255,
+    parseInt(hex.slice(5, 7), 16) / 255,
+  ];
+}
+
+export function ImmersiveBackground({
+  palette,
+}: {
+  /** Partner brand colours; anything omitted falls back to the house palette. */
+  palette?: {
+    primary?: string | null;
+    mid?: string | null;
+    accent?: string | null;
+    surface?: string | null;
+  } | null;
+} = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Serialised so the effect re-runs when the palette actually changes, without
+  // depending on a fresh object identity every render.
+  const paletteKey = JSON.stringify(palette ?? null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -329,6 +369,31 @@ export function ImmersiveBackground() {
     const uTime = gl.getUniformLocation(prog, "u_time");
     const uPointer = gl.getUniformLocation(prog, "u_pointer");
     const uSafe = gl.getUniformLocation(prog, "u_safe");
+
+    // Palette is constant for the life of the program — set once, not per frame.
+    {
+      const p = (JSON.parse(paletteKey) ?? null) as {
+        primary?: string | null;
+        mid?: string | null;
+        accent?: string | null;
+        surface?: string | null;
+      } | null;
+      const pick = (
+        override: string | null | undefined,
+        fallback: string,
+      ): [number, number, number] =>
+        glColor(override) ?? (glColor(fallback) as [number, number, number]);
+
+      const set = (name: string, rgb: [number, number, number]) => {
+        const loc = gl.getUniformLocation(prog, name);
+        if (loc) gl.uniform3f(loc, rgb[0], rgb[1], rgb[2]);
+      };
+      set("u_cream", pick(p?.surface, HOUSE_PALETTE.cream));
+      set("u_sage", pick(p?.surface, HOUSE_PALETTE.sage));
+      set("u_teal", pick(p?.mid, HOUSE_PALETTE.teal));
+      set("u_deep", pick(p?.primary, HOUSE_PALETTE.deep));
+      set("u_coral", pick(p?.accent, HOUSE_PALETTE.coral));
+    }
 
     // Mirrors the copy column in app/page.tsx: the paragraph is `max-w-xl`
     // (36rem = 576px), plus breathing room. If that class changes, change this.
@@ -453,7 +518,7 @@ export function ImmersiveBackground() {
       gl.deleteShader(vs);
       gl.deleteShader(fs);
     };
-  }, []);
+  }, [paletteKey]);
 
   return (
     <div

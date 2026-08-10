@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Regulatory Sidekick — Pitch Deck</title>
+<link rel="stylesheet" href="fonts.css" />
+<style>
+/* ===========================================================================
+   Regulatory Sidekick — pitch deck. Three acts.
+
+   VISUAL LANGUAGE — deliberately not "slide deck".
+   This company sells controlled documents, so the deck is built like one:
+   a technical sheet crossed with an editorial magazine.
+
+     · a left gutter carrying a vertical act spine + clause-style section number
+     · HAIRLINES, not cards. Almost nothing is boxed; separation is done with
+       rules, columns and space. Where something must be emphasised it is a
+       solid block of ink, never a white rectangle with a shadow.
+     · rule-only tables (double rule over, hairline under head) — print, not UI
+     · dot leaders for figures, like a specification sheet
+     · drawing-style title block + sheet metadata (REV / SHEET n OF 20)
+     · composition varies per slide: full-bleed splits, bottom ink bands,
+       numerals cropped off the edge. No two slides share a template.
+
+   Palette + type are the app's own (app/globals.css, next/font Geist +
+   Fraunces embedded via fonts.css) so it still reads as the same product.
+   Page: 1280x720px = 13.333in x 7.5in = 16:9.
+   =========================================================================== */
+:root{
+  --t9:#0b2a26; --t8:#0f3b35; --t6:#16504a; --t5:#1d6e62;
+  --coral:#d8593a; --cream:#fbf7ee; --cream2:#f1ead9;
+  --ink:#1c2b27; --muted:#5c6b66; --side:#0b2a26; --mint:#5dcaa5;
+  --hair:rgba(11,42,38,.15);
+  --hair2:rgba(11,42,38,.34);
+  --hairw:rgba(255,255,255,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  font-family:'Geist',ui-sans-serif,system-ui,sans-serif;
+  color:var(--ink);background:#7d837f;font-variant-numeric:tabular-nums;
+}
+@page{size:13.333in 7.5in;margin:0}
+
+.sheet{
+  position:relative;width:1280px;height:720px;overflow:hidden;
+  background:var(--cream);
+  page-break-after:always;break-after:page;
+}
+.sheet:last-child{page-break-after:auto;break-after:auto}
+@media screen{ .sheet{margin:0 auto 24px;box-shadow:0 8px 30px rgba(0,0,0,.32)} }
+.ink{background:var(--side);color:#e7ede9}
+
+/* ---------- gutter: vertical act spine + clause number ---------- */
+.gutter{
+  position:absolute;left:0;top:0;bottom:0;width:88px;
+  border-right:1px solid var(--hair);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:space-between;padding:34px 0 30px;
+}
+.ink .gutter{border-right-color:var(--hairw)}
+.sec{
+  font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:700;
+  color:var(--coral);letter-spacing:-.01em;
+}
+.spine{
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-size:9.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;
+  color:var(--muted);
+}
+.ink .spine{color:rgba(255,255,255,.4)}
+.gmark{width:13px;height:1px;background:var(--hair2)}
+.ink .gmark{background:rgba(255,255,255,.3)}
+
+/* ---------- page area ---------- */
+.page{
+  position:absolute;left:88px;right:0;top:0;bottom:0;
+  padding:44px 62px 62px 46px;display:flex;flex-direction:column;
+}
+.page.tight{padding-top:38px}
+
+h1{
+  font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.021em;
+  color:var(--t9);font-size:45px;line-height:1.05;
+}
+h1.sm{font-size:37px}
+h1.xs{font-size:31px}
+.ink h1{color:#fff}
+.kick{
+  font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--coral);margin-bottom:13px;
+}
+.ink .kick{color:var(--mint)}
+.dek{
+  font-size:15px;line-height:1.55;color:var(--muted);margin-top:14px;max-width:760px;
+}
+.ink .dek{color:rgba(255,255,255,.66)}
+.hr{height:1px;background:var(--hair);margin:22px 0}
+.hr.hv{height:2px;background:var(--t9);opacity:.85}
+.ink .hr{background:var(--hairw)}
+.flow1{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* ---------- sheet metadata (drawing title block idiom) ---------- */
+.smeta{
+  position:absolute;left:134px;right:62px;bottom:26px;
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:9px;font-weight:700;letter-spacing:2.1px;text-transform:uppercase;
+  color:var(--muted);
+}
+.ink .smeta{color:rgba(255,255,255,.38)}
+.smeta .sn{color:var(--t9);letter-spacing:2.1px}
+.ink .smeta .sn{color:rgba(255,255,255,.75)}
+
+/* ---------- prose ---------- */
+.scene{font-size:19.5px;line-height:1.55;color:var(--ink);max-width:840px}
+.scene + .scene{margin-top:14px}
+.scene b{color:var(--t9);font-weight:700}
+.pull{
+  font-family:'Fraunces',Georgia,serif;font-size:31px;line-height:1.24;
+  color:var(--t9);letter-spacing:-.014em;position:relative;max-width:940px;
+}
+.pull em{color:var(--coral);font-style:normal}
+.pull::before{
+  content:"“";position:absolute;left:-42px;top:-14px;
+  font-family:'Fraunces',Georgia,serif;font-size:80px;color:var(--coral);opacity:.25;
+}
+.marg{
+  font-size:10px;line-height:1.55;color:var(--muted);max-width:560px;
+}
+.marg b{color:var(--t8)}
+
+/* ---------- numbered rows: hairlines, no boxes ---------- */
+.rows{border-top:1px solid var(--hair2)}
+.row{
+  display:grid;grid-template-columns:78px 1fr;gap:26px;
+  padding:17px 0;border-bottom:1px solid var(--hair);align-items:start;
+}
+.row .rn{
+  font-family:'Fraunces',Georgia,serif;font-size:38px;font-weight:800;line-height:.9;
+  color:transparent;-webkit-text-stroke:1.4px rgba(216,89,58,.72);letter-spacing:-.02em;
+}
+.row .rt{
+  font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:600;
+  color:var(--t9);letter-spacing:-.008em;margin-bottom:5px;
+}
+.row .rb{font-size:13.5px;line-height:1.55;color:var(--muted);max-width:900px}
+.row .rb b{color:var(--t8);font-weight:650}
+
+/* ---------- newspaper columns ---------- */
+.cols{display:grid;gap:0}
+.cols.c2{grid-template-columns:1fr 1fr}
+.cols.c3{grid-template-columns:repeat(3,1fr)}
+.col{padding:0 30px;border-left:1px solid var(--hair)}
+.col:first-child{padding-left:0;border-left:0}
+.col:last-child{padding-right:0}
+.ink .col{border-left-color:var(--hairw)}
+.cn{
+  font-family:'Fraunces',Georgia,serif;font-size:11px;font-weight:800;
+  letter-spacing:1.6px;text-transform:uppercase;color:var(--coral);
+}
+.ink .cn{color:var(--mint)}
+.ct{
+  font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600;
+  color:var(--t9);letter-spacing:-.012em;margin-top:9px;line-height:1.15;
+}
+.ink .ct{color:#fff}
+.cb{font-size:13px;line-height:1.6;color:var(--muted);margin-top:10px}
+.cb b{color:var(--t8);font-weight:650}
+.ink .cb{color:rgba(255,255,255,.66)}
+.ink .cb b{color:#fff}
+
+/* ---------- ledger (before / after, sold / true) ---------- */
+.ledger{display:grid;grid-template-columns:1fr 1px 1fr;column-gap:0}
+.ledger .spineline{background:var(--hair2)}
+.lg-h{
+  font-size:9.5px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;
+  padding-bottom:11px;border-bottom:2px solid var(--t9);
+}
+.lg-h.l{color:var(--muted);border-bottom-color:var(--hair2)}
+.lg-h.r{color:var(--coral)}
+.lg{padding:14px 0;border-bottom:1px solid var(--hair);font-size:13.5px;line-height:1.5}
+.lg.l{color:var(--muted);padding-right:34px}
+.lg.r{color:var(--ink);padding-left:34px}
+.lg b{font-weight:700}
+.lg.l b{color:#7c6c5a}
+.lg.r b{color:var(--t9)}
+
+/* ---------- spec sheet: dot leaders ---------- */
+.spec{margin-top:4px}
+.sp{display:flex;align-items:baseline;gap:11px;padding:9px 0}
+.sp .lbl{font-size:13.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+.sp .dot{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-4px)}
+.sp .val{
+  font-family:'Fraunces',Georgia,serif;font-size:29px;font-weight:800;
+  color:var(--t9);line-height:1;letter-spacing:-.015em;
+}
+.sp.big .val{font-size:42px;color:var(--coral)}
+.sp.big .lbl{font-size:15px;color:var(--t9)}
+
+/* ---------- rule-only tables ---------- */
+table{width:100%;border-collapse:collapse}
+th{
+  text-align:left;font-size:9.5px;font-weight:800;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--t8);padding:0 16px 9px 0;
+  border-bottom:2px solid var(--t9);
+}
+th:last-child{padding-right:0}
+td{
+  padding:11px 16px 11px 0;font-size:13px;line-height:1.45;color:var(--muted);
+  border-bottom:1px solid var(--hair);vertical-align:top;
+}
+td:last-child{padding-right:0}
+td.k{font-weight:650;color:var(--t9)}
+td.n{
+  font-family:'Fraunces',Georgia,serif;font-weight:700;color:var(--t9);
+  white-space:nowrap;font-size:14px;
+}
+tr.hl td{color:var(--ink)}
+tr.hl td.k{color:var(--coral)}
+tr.hl td.n{color:var(--coral)}
+table.tight td{padding:8px 14px 8px 0;font-size:12.5px}
+table.tight th{padding-bottom:8px}
+tr:last-child td{border-bottom:0}
+
+/* ---------- ink band across the foot of a cream sheet ----------
+   Fixed height so the gutter, page and split can all stop cleanly above it —
+   otherwise the band paints over the vertical spine and the sheet metadata. */
+.band{
+  position:absolute;left:0;right:0;bottom:0;height:126px;background:var(--side);
+  color:rgba(255,255,255,.9);padding:24px 62px 0 134px;
+}
+.hasband .gutter,.hasband .page,.hasband .split{bottom:126px}
+.band .bt{font-size:15px;line-height:1.55}
+.band .bt b{color:#fff;font-weight:700}
+.band .bt .hi{color:var(--mint);font-weight:700}
+
+/* ---------- full-bleed vertical split ---------- */
+.split{position:absolute;left:88px;right:0;top:0;bottom:0;display:grid;
+  grid-template-columns:1fr 1px 1fr}
+.split .sl,.split .sr{
+  padding:44px 46px;display:flex;flex-direction:column;justify-content:center;
+}
+.split .rulev{background:var(--hair)}
+
+/* ---------- act dividers ---------- */
+.actnum{
+  position:absolute;font-family:'Fraunces',Georgia,serif;font-weight:800;
+  font-size:430px;line-height:.72;color:transparent;
+  -webkit-text-stroke:2px rgba(93,202,165,.34);letter-spacing:-.04em;
+  left:-46px;bottom:-64px;
+}
+.actbox{position:absolute;left:150px;top:170px;right:80px}
+.actlab{
+  font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;
+  color:var(--mint);
+}
+.actbox h1{font-size:66px;margin-top:14px}
+.actbox p{color:rgba(255,255,255,.7);font-size:17px;line-height:1.55;
+  margin-top:20px;max-width:640px}
+.actbox p b{color:#fff}
+
+/* ---------- cover title block (engineering drawing idiom) ---------- */
+.titleblock{
+  position:absolute;right:62px;top:44px;
+  border:1px solid rgba(255,255,255,.22);display:grid;grid-template-columns:auto auto;
+}
+.titleblock div{
+  padding:7px 13px;font-size:9px;font-weight:700;letter-spacing:1.7px;
+  text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.14);
+}
+.titleblock div:nth-child(odd){color:rgba(255,255,255,.4);border-right:1px solid rgba(255,255,255,.14)}
+.titleblock div:nth-child(even){color:rgba(255,255,255,.86)}
+.titleblock div:nth-last-child(-n+2){border-bottom:0}
+
+/* ---------- misc ---------- */
+.tags{display:flex;flex-wrap:wrap;gap:0 6px;font-size:11.5px;color:var(--muted)}
+.tags span{padding:3px 0}
+.tags span::after{content:" ·";color:var(--hair2)}
+.tags span:last-child::after{content:""}
+.tags span.on{color:var(--t9);font-weight:700}
+ul.bare{list-style:none}
+ul.bare li{
+  font-size:13px;line-height:1.5;color:var(--muted);padding:8px 0 8px 17px;
+  position:relative;border-bottom:1px solid var(--hair);
+}
+ul.bare li:last-child{border-bottom:0}
+ul.bare li::before{
+  content:"";position:absolute;left:0;top:15px;width:6px;height:1.5px;background:var(--coral);
+}
+ul.bare li.q::before{background:var(--t5)}
+ul.bare li b{color:var(--t9);font-weight:700}
+.stamp{
+  position:absolute;right:70px;bottom:96px;transform:rotate(-9deg);
+  border:2px solid rgba(216,89,58,.5);color:rgba(216,89,58,.72);
+  font-size:15px;font-weight:800;letter-spacing:3.4px;text-transform:uppercase;
+  padding:9px 18px;
+}
+.fillme{
+  background:#fdece7;border-bottom:2px solid var(--coral);color:#8f2f16;
+  font-weight:700;padding:0 5px;
+}
+.proj{
+  font-size:9px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;
+  color:#8a5a2b;border:1px solid #d9c9a8;padding:3px 7px;margin-left:12px;
+  vertical-align:middle;
+}
+.helix{position:absolute;inset:0;pointer-events:none}
+.note{font-size:10px;line-height:1.55;color:var(--muted);max-width:1000px}
+.note b{color:var(--t8)}
+</style>
+</head>
+<body>
+
+<!-- ================= 01 · COVER ================= -->
+<section class="sheet ink">
+  <svg class="helix" viewBox="0 0 1280 720" fill="none" aria-hidden="true">
+    <g opacity=".17" stroke="#5dcaa5" stroke-width="1.3">
+      <path d="M1010 -40 C1150 90, 890 190, 1030 320 C1170 450, 910 550, 1050 690"/>
+      <path d="M1120 -40 C980 90, 1240 190, 1100 320 C960 450, 1220 550, 1080 690"/>
+    </g>
+    <g opacity=".11" stroke="#d8593a" stroke-width="1">
+      <path d="M1065 10 h30 M1042 60 h76 M1036 110 h88 M1042 160 h76 M1065 210 h30
+               M1042 260 h76 M1036 310 h88 M1042 360 h76 M1065 410 h30 M1042 460 h76
+               M1036 510 h88 M1042 560 h76 M1065 610 h30 M1042 660 h76"/>
+    </g>
+  </svg>
+  <div class="titleblock">
+    <div>Document</div><div>RS·PITCH·01</div>
+    <div>Revision</div><div class="fillme" style="background:none;border-bottom:0;color:#fff">0.1 — draft</div>
+    <div>Sheets</div><div>20</div>
+  </div>
+  <div style="position:absolute;left:88px;top:0;bottom:0;right:0;padding:0 62px 0 46px;display:flex;flex-direction:column;justify-content:center">
+    <p style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--mint)">
+      ISO 13485 · EU MDR · IVDR
+    </p>
+    <h1 style="font-size:82px;margin-top:20px;letter-spacing:-.028em">Regulatory<br />Sidekick</h1>
+    <div style="width:64px;height:2px;background:var(--coral);margin:28px 0"></div>
+    <p style="font-size:19px;line-height:1.5;color:rgba(255,255,255,.74);max-width:560px">
+      Every story about medical-device regulation casts the founder as the one who
+      can’t be trusted with it. This is that story told properly — where
+      <b style="color:#fff">they are the hero</b>, and we are what the name says.
+    </p>
+  </div>
+  <div class="smeta" style="left:134px">
+    <span>regulatory-sidekick.notjustany.tech</span>
+    <span class="sn"><span class="fillme" style="background:none;border-bottom:0;color:rgba(255,255,255,.8)">Presenter &amp; date</span> · Sheet 01 of 20</span>
+  </div>
+</section>
+
+<!-- ================= 02 · MEET THEM ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§1.1</span><span class="gmark"></span>
+    <span class="spine">Act one — The wall</span>
+  </div>
+  <div class="page">
+    <p class="kick">The company</p>
+    <h1>Two engineers, four years,<br />one working device.</h1>
+    <div class="hr"></div>
+    <div class="flow1">
+      <p class="scene">
+        They have a prototype that works. They have clinicians who want it. They
+        have a seed round that assumed a CE mark by Q3, and a burn rate that makes
+        that assumption expensive.
+      </p>
+      <p class="scene">
+        What they do <b>not</b> have is anyone who has done this before. No QA hire.
+        No RA hire. Between them: <b>zero days</b> of experience building a quality
+        management system — and a shared, entirely reasonable belief that it can’t
+        be that hard to write some procedures.
+      </p>
+      <div class="hr" style="margin:26px 0 24px"></div>
+      <p class="pull">
+        Then a notified body sends a list of what it will need to see, the founders
+        read it twice, <em>and it may as well be in another language.</em>
+      </p>
+    </div>
+    <p class="marg">
+      <b>An archetype, not a customer</b> — deliberately. We have no named references
+      yet (see §3.6). Every detail is drawn from the segment profile, not from a real
+      company we are quietly borrowing.
+    </p>
+  </div>
+  <div class="smeta"><span>Act one · The wall</span><span class="sn">Sheet 02 of 20</span></div>
+</section>
+
+<!-- ================= 03 · THE WALL ================= -->
+<section class="sheet hasband">
+  <div class="gutter">
+    <span class="sec">§1.2</span><span class="gmark"></span>
+    <span class="spine">Act one — The wall</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">The obstacle</p>
+    <h1 class="sm">It isn’t that the rules are secret.<br />It’s that nobody will tell them the order.</h1>
+    <div class="flow1">
+      <div class="rows">
+        <div class="row">
+          <div class="rn">01</div>
+          <div>
+            <div class="rt">Everything looks like step one</div>
+            <p class="rb">Risk management, design controls, clinical evaluation,
+            supplier qualification, post-market surveillance — every guide insists
+            its own topic comes first. <b>None of them agree</b>, and none mentions
+            what has to exist before you can start.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="rn">02</div>
+          <div>
+            <div class="rt">“Enough” is never defined</div>
+            <p class="rb">Is a three-page procedure acceptable, or negligent? The
+            standard does not say. So the safe answer is always <b>more</b> — more
+            pages, more process, more of the founder’s remaining year.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="rn">03</div>
+          <div>
+            <div class="rt">The clock is the real antagonist</div>
+            <p class="rb">Every month spent guessing is a month of burn against a
+            milestone the round was priced on. They cannot afford to be slow and
+            they cannot afford to be wrong. <b>So they freeze.</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band" style="padding-bottom:56px">
+    <p class="bt">
+      The blocking question is never <b>“what does the standard say?”</b> — that text
+      is free and always has been. It is <span class="hi">“what do I do first?”</span>
+    </p>
+  </div>
+  <div class="smeta" style="color:rgba(255,255,255,.38)">
+    <span>Act one · The wall</span><span class="sn" style="color:rgba(255,255,255,.75)">Sheet 03 of 20</span>
+  </div>
+</section>
+
+<!-- ================= 04 · TWO ANSWERS ================= -->
+<section class="sheet hasband">
+  <div class="gutter">
+    <span class="sec">§1.3</span><span class="gmark"></span>
+    <span class="spine">Act one — The wall</span>
+  </div>
+  <div class="split">
+    <div class="sl">
+      <p class="kick" style="color:var(--muted)">Answer one — “don’t touch it”</p>
+      <h1 class="xs">Buy the expertise<br />by the day</h1>
+      <div class="hr"></div>
+      <p style="font-size:14px;line-height:1.65;color:var(--muted)">
+        €800–1,500 a day, 40–80 days. It works — and it costs more than the round
+        can spare, bills setup and templates at the same rate as the judgment, and
+        when the invoice is paid <b style="color:var(--t9)">the understanding walks
+        out with it</b>.
+      </p>
+      <p style="font-size:14px;line-height:1.65;color:var(--muted);margin-top:12px">
+        Next year, when the device changes, they call again. And the year after that.
+      </p>
+      <div style="margin-top:26px;font-family:'Fraunces',Georgia,serif;font-size:44px;
+                  font-weight:800;color:var(--t9);letter-spacing:-.02em">€35k–100k</div>
+      <p style="font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;
+                font-weight:700;color:var(--muted);margin-top:6px">Per implementation</p>
+    </div>
+    <div class="rulev"></div>
+    <div class="sr">
+      <p class="kick" style="color:var(--muted)">Answer two — “here, good luck”</p>
+      <h1 class="xs">Buy a folder<br />of templates</h1>
+      <div class="hr"></div>
+      <p style="font-size:14px;line-height:1.65;color:var(--muted)">
+        200 documents and no idea which to open on Monday. Templates without a path
+        are shelfware — and a procedure you did not reason through is one you
+        <b style="color:var(--t9)">cannot defend when an auditor asks why</b>.
+      </p>
+      <p style="font-size:14px;line-height:1.65;color:var(--muted);margin-top:12px">
+        The folder is opened once, then never again, and the deadline arrives anyway.
+      </p>
+      <div style="margin-top:26px;font-family:'Fraunces',Georgia,serif;font-size:44px;
+                  font-weight:800;color:var(--t9);letter-spacing:-.02em">€1.5k–5k</div>
+      <p style="font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;
+                font-weight:700;color:var(--muted);margin-top:6px">Per template pack</p>
+    </div>
+  </div>
+  <div class="band">
+    <p class="bt">
+      Both answers quietly agree on the same premise — <b>that this is not something
+      the founders can learn.</b> One sells them dependence, the other abandonment.
+      Nobody in the room is selling them <span class="hi">competence</span>, because
+      competence, unlike hours, only sells once.
+    </p>
+  </div>
+  <div class="smeta" style="color:rgba(255,255,255,.38)">
+    <span>Act one · The wall</span><span class="sn" style="color:rgba(255,255,255,.75)">Sheet 04 of 20</span>
+  </div>
+</section>
+
+<!-- ================= 05 · ACT II ================= -->
+<section class="sheet ink">
+  <div class="actnum">II</div>
+  <div class="actbox">
+    <p class="actlab">Act two</p>
+    <h1>The turn</h1>
+    <p>What if the premise is simply wrong? The Medical Device Regulation is a long,
+    dry, entirely knowable document. People learn far harder things than this on
+    purpose. The barrier was never the difficulty —
+    <b>it was that nobody had written down the order.</b></p>
+  </div>
+  <div class="smeta" style="left:62px"><span>Act two · The turn</span><span class="sn">Sheet 05 of 20</span></div>
+</section>
+
+<!-- ================= 06 · THE REVEAL ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§2.1</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">The reframe</p>
+    <h1 class="sm">Compliance is sold as danger.<br />We teach it as craft.</h1>
+    <div class="hr" style="margin:20px 0 18px"></div>
+    <div class="flow1">
+      <div class="ledger">
+        <div class="lg-h l">What the founders were told</div>
+        <div class="spineline"></div>
+        <div class="lg-h r">What is actually true</div>
+
+        <div class="lg l"><b>It is too complex to learn.</b> Acronyms left
+          unexplained, because unclear is what is billable.</div>
+        <div class="spineline"></div>
+        <div class="lg r"><b>Every requirement has an address.</b> ISO 13485 §7.3.2,
+          MDR Annex I 23.4 — cited, checkable, and if we cannot cite it we say so.</div>
+
+        <div class="lg l"><b>You are already behind.</b> The audit date used to
+          compress decisions they have not had time to understand.</div>
+        <div class="spineline"></div>
+        <div class="lg r"><b>There is a defensible order.</b> Real dependencies, so
+          you can see what is next, what is blocked, what can wait a quarter.</div>
+
+        <div class="lg l"><b>You cannot do this yourself.</b> Stated as a fact about
+          the regulation. It is a fact about the business model.</div>
+        <div class="spineline"></div>
+        <div class="lg r"><b>You can — starting this week.</b> Each of the 116
+          activities has a lean version small enough to actually begin.</div>
+
+        <div class="lg l"><b>All of it might apply to you.</b> Nobody is paid to tell
+          a client that a requirement is irrelevant to their device.</div>
+        <div class="spineline"></div>
+        <div class="lg r"><b>Most of it does not apply.</b> The device profile switches
+          off what is not yours. <b>Removing work is the feature.</b></div>
+      </div>
+    </div>
+    <p class="marg" style="max-width:940px">
+      <b>This is not anti-consultant.</b> The good ones are worth their rate, and our
+      founders will still want one for the genuinely hard calls — classification, a novel
+      clinical strategy, the week before an audit. What we object to is being <i>kept</i>
+      in the dark as a business model. A founder who can read their own clause map is a
+      better client, not a lost one: they stop paying senior people to write boilerplate
+      and start paying them for judgment.
+    </p>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 06 of 20</span></div>
+</section>
+
+<!-- ================= 07 · SEQUENCE ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§2.2</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <div class="page">
+    <p class="kick">What we sell</p>
+    <h1 class="sm">What they needed was never a saviour. It was a sequence.</h1>
+    <div class="hr hv" style="margin:22px 0 26px"></div>
+    <div class="flow1">
+      <div class="cols c3">
+        <div class="col">
+          <p class="cn">I — The moat</p>
+          <div class="ct">Sequencing</div>
+          <p class="cb">116 activities in a defensible order across four phases, with
+          real dependencies encoded. Templates are everywhere; <b>an order of
+          operations is not</b>. This is the scarce thing, and it is what we are
+          actually selling.</p>
+        </div>
+        <div class="col">
+          <p class="cn">II — The substance</p>
+          <div class="ct">Artefacts</div>
+          <p class="cb">275 controlled-document templates — procedures, work
+          instructions, forms and registers — already interlinked, clause-mapped, and
+          each traced to the process step that produces it.</p>
+        </div>
+        <div class="col">
+          <p class="cn">III — The proof</p>
+          <div class="ct">Traceability</div>
+          <p class="cb">A clause-level matrix across 14 standards plus a per-activity
+          evidence trail — what you actually slide across the table when an auditor
+          asks you to show your work.</p>
+        </div>
+      </div>
+      <div class="hr" style="margin:28px 0 20px"></div>
+      <p style="font-size:14.5px;line-height:1.6;color:var(--muted);max-width:1010px">
+        <b style="color:var(--t9)">Why the name is the strategy.</b> A sidekick never
+        takes the hero’s place — that is the entire job description. We are not an eQMS
+        (they sell the container and leave it empty, which makes them partners rather
+        than competitors), and we are not a consultancy: we sell the knowledge itself,
+        once, instead of the hours of applying it — which is precisely why
+        <b style="color:var(--coral)">the incentive to keep it mysterious never appears</b>.
+      </p>
+    </div>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 07 of 20</span></div>
+</section>
+
+<!-- ================= 08 · THE MAP ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§2.3</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">The plan they get on day one</p>
+    <h1 class="sm">Four phases, and permission to start small</h1>
+    <div class="flow1">
+      <!-- timeline: a baseline rule with ticks, not four boxes -->
+      <div style="position:relative;margin:14px 0 4px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
+          <div style="padding-right:26px">
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:12px;font-weight:800;letter-spacing:1.8px;color:var(--coral)">PHASE I</div>
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:var(--t9);margin-top:7px;line-height:1.15;letter-spacing:-.01em">Set the<br />foundations</div>
+          </div>
+          <div style="padding-right:26px">
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:12px;font-weight:800;letter-spacing:1.8px;color:var(--coral)">PHASE II</div>
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:var(--t9);margin-top:7px;line-height:1.15;letter-spacing:-.01em">Develop<br />under control</div>
+          </div>
+          <div style="padding-right:26px">
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:12px;font-weight:800;letter-spacing:1.8px;color:var(--coral)">PHASE III</div>
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:var(--t9);margin-top:7px;line-height:1.15;letter-spacing:-.01em">Verify, validate<br />&amp; make</div>
+          </div>
+          <div>
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:12px;font-weight:800;letter-spacing:1.8px;color:var(--coral)">PHASE IV</div>
+            <div style="font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:var(--t9);margin-top:7px;line-height:1.15;letter-spacing:-.01em">Certify, launch<br />&amp; operate</div>
+          </div>
+        </div>
+        <!-- the rail -->
+        <svg width="1084" height="22" viewBox="0 0 1084 22" style="display:block;margin-top:18px" aria-hidden="true">
+          <line x1="0" y1="11" x2="1084" y2="11" stroke="rgba(11,42,38,.34)" stroke-width="1"/>
+          <g fill="#d8593a">
+            <circle cx="4" cy="11" r="4"/><circle cx="275" cy="11" r="4"/>
+            <circle cx="546" cy="11" r="4"/><circle cx="817" cy="11" r="4"/>
+          </g>
+          <path d="M1076 5 l8 6 -8 6z" fill="rgba(11,42,38,.34)"/>
+        </svg>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:12px">
+          <p style="font-size:12px;line-height:1.5;color:var(--muted);padding-right:26px">Stand up the lean QMS and define the product — intended purpose, qualification, classification.</p>
+          <p style="font-size:12px;line-height:1.5;color:var(--muted);padding-right:26px">The design &amp; development heavy-lift: plans, software, and the initial risk and clinical analyses.</p>
+          <p style="font-size:12px;line-height:1.5;color:var(--muted);padding-right:26px">Execute V&amp;V, complete clinical, performance and usability evidence, stand up production.</p>
+          <p style="font-size:12px;line-height:1.5;color:var(--muted)">Compile the technical file, pass the notified-body assessment, then run PMS and vigilance.</p>
+        </div>
+      </div>
+      <div class="hr" style="margin:26px 0 18px"></div>
+      <div class="cols c2">
+        <div class="col">
+          <div class="ct" style="font-size:18px">First, we make the plan smaller</div>
+          <p class="cb">A one-time device profile filters everything on two axes:
+          <b>regulatory route</b> (MDR or IVDR — mutually exclusive) and <b>11 device
+          characteristics</b> (software, AI/ML, IVD, self-test, companion dx, hardware,
+          active, sterile, connected, personal data, US FDA). Our two founders never
+          open a page about sterilisation they do not need.</p>
+        </div>
+        <div class="col">
+          <div class="ct" style="font-size:18px">Then we make step one small</div>
+          <p class="cb">Every activity carries a <b>minimum-viable version</b> they can
+          do this week and an <b>evolve path</b> for when they are bigger. A three-page
+          procedure a company follows beats a forty-page one it does not — an auditor
+          checks whether you do what you say, not whether you wrote a lot.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 08 of 20</span></div>
+</section>
+
+<!-- ================= 09 · SIX MONTHS LATER ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§2.4</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">The transformation</p>
+    <h1 class="sm">Six months later, the same two people</h1>
+    <div class="hr" style="margin:20px 0 18px"></div>
+    <div class="flow1">
+      <div class="ledger">
+        <div class="lg-h l">Before</div>
+        <div class="spineline"></div>
+        <div class="lg-h r">After</div>
+
+        <div class="lg l">“We think we need a risk file? Someone said we need a risk file.”</div>
+        <div class="spineline"></div>
+        <div class="lg r">“Risk management is <b>done</b> — ISO 14971, the analysis and
+          the report, signed by a named person on a date.”</div>
+
+        <div class="lg l">A quote for 60 consultant days they cannot fund without cutting an engineer.</div>
+        <div class="spineline"></div>
+        <div class="lg r">A consultant booked for <b>four days</b>, on the two questions
+          that genuinely need one.</div>
+
+        <div class="lg l">Documents someone else wrote, in a folder, unread.</div>
+        <div class="spineline"></div>
+        <div class="lg r">A quality system <b>they can explain out loud</b> — because
+          they built it, in order, with the clause next to each step.</div>
+
+        <div class="lg l">“How’s the QMS going?” answered with a paragraph and a wince.</div>
+        <div class="spineline"></div>
+        <div class="lg r">“Phase III, 68% complete, two blocked on supplier data.”
+          <b>An answer with a number in it.</b></div>
+      </div>
+    </div>
+    <p class="marg" style="max-width:940px">
+      <b>This is the product’s real promise</b> — not documents, but a team that
+      understands its own quality system well enough to defend it, change it, and carry
+      it into the next device without starting over.
+    </p>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 09 of 20</span></div>
+</section>
+
+<!-- ================= 10 · THE CORPUS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§2.5</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Specification</p>
+    <h1 class="sm">None of that works unless the corpus is real</h1>
+    <div class="hr hv" style="margin:20px 0 6px"></div>
+    <div class="flow1">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 54px">
+        <div class="spec">
+          <div class="sp big"><span class="lbl">Sequenced activities</span><span class="dot"></span><span class="val">116</span></div>
+          <div class="sp"><span class="lbl">Deep sub-activities</span><span class="dot"></span><span class="val">338</span></div>
+          <div class="sp"><span class="lbl">Granular checklist tasks</span><span class="dot"></span><span class="val">682</span></div>
+          <div class="sp"><span class="lbl">Implementation phases</span><span class="dot"></span><span class="val">4</span></div>
+        </div>
+        <div class="spec">
+          <div class="sp big"><span class="lbl">Controlled documents</span><span class="dot"></span><span class="val">275</span></div>
+          <div class="sp"><span class="lbl">Mapped QMS processes</span><span class="dot"></span><span class="val">39</span></div>
+          <div class="sp"><span class="lbl">Standards, clause-level</span><span class="dot"></span><span class="val">14</span></div>
+          <div class="sp"><span class="lbl">Quality System Essentials</span><span class="dot"></span><span class="val">12</span></div>
+        </div>
+      </div>
+      <div class="hr" style="margin:22px 0 14px"></div>
+      <p style="font-size:9.5px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--t8);margin-bottom:9px">
+        Standards covered clause by clause
+      </p>
+      <p class="tags">
+        <span class="on">ISO 13485</span><span class="on">EU MDR</span><span class="on">EU IVDR</span>
+        <span>ISO 14971</span><span>IEC 62304</span><span>IEC 62366-1</span>
+        <span>IEC 81001-5-1</span><span>IEC/TR 80002-2</span><span>AAMI TIR57</span>
+        <span>MDCG guidance</span><span>ISO 27001</span><span>EU AI Act</span>
+        <span>GDPR</span><span>FDA QMSR</span>
+      </p>
+    </div>
+    <p class="marg" style="max-width:1000px">
+      <b>Enforced, not asserted:</b> the build fails if a single document has no producing
+      process step, if a reference is broken, or if a step consumes a document produced in
+      a later phase. Every figure above is counted from the shipped content at build time,
+      and the traceability claim is checked by CI on every deploy.
+    </p>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 10 of 20</span></div>
+</section>
+
+<!-- ================= 11 · THE ALLY ================= -->
+<section class="sheet ink">
+  <div class="gutter">
+    <span class="sec" style="color:var(--mint)">§2.6</span><span class="gmark"></span>
+    <span class="spine">Act two — The turn</span>
+  </div>
+  <svg class="helix" viewBox="0 0 1280 720" fill="none" aria-hidden="true">
+    <g opacity=".12" stroke="#5dcaa5" stroke-width="1.1">
+      <path d="M-40 640 C160 560, 300 700, 500 620 C700 540, 840 680, 1040 600 C1180 545, 1240 590, 1320 560"/>
+      <path d="M-40 690 C160 610, 300 750, 500 670 C700 590, 840 730, 1040 650 C1180 595, 1240 640, 1320 610"/>
+    </g>
+  </svg>
+  <div class="page tight">
+    <p class="kick">One more ally</p>
+    <h1 class="sm">The first QMS implementation an AI agent can actually work</h1>
+    <p class="dek">Sold as a separate entitlement on top of the licence — not bundled, not free.</p>
+    <div class="hr" style="margin:22px 0 24px"></div>
+    <div class="flow1">
+      <div class="cols c3">
+        <div class="col">
+          <p class="cn">I</p>
+          <div class="ct" style="font-size:19px">It reads the same map</div>
+          <p class="cb">An agent asks the API what is startable now and gets the identical
+          ordered list the founders see on their dashboard — with the why, the lean
+          version, the clause map and the documents each step produces.</p>
+        </div>
+        <div class="col">
+          <p class="cn">II</p>
+          <div class="ct" style="font-size:19px">Governed like a record</div>
+          <p class="cb">Keys are member-created, <b>admin-approved</b>, scope-limited,
+          expiring, revocable and rate-limited. Every write lands in the audit log
+          attributed to a named human, tagged <i>via agent</i>.</p>
+        </div>
+        <div class="col">
+          <p class="cn">III</p>
+          <div class="ct" style="font-size:19px">It never signs off</div>
+          <p class="cb">It drafts; it may set <i>In progress</i>; it can never mark an
+          activity <b>Done</b> or invent a date, signature or test result. Closing an
+          activity stays a named person taking responsibility.</p>
+        </div>
+      </div>
+      <div style="margin-top:26px;border-left:2px solid var(--coral);padding:4px 0 4px 20px">
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.86);max-width:1000px">
+          This is the answer to “won’t an LLM just do this?” — <b style="color:#fff">the
+          model supplies fluency; we supply the sequence, the clause map and the governed
+          record</b>. An agent with our API drafts a QMS. An agent without one produces
+          plausible documents nobody can audit, which is the old problem wearing a new coat.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="smeta"><span>Act two · The turn</span><span class="sn">Sheet 11 of 20</span></div>
+</section>
+
+<!-- ================= 12 · ACT III ================= -->
+<section class="sheet ink">
+  <div class="actnum">III</div>
+  <div class="actbox">
+    <p class="actlab">Act three</p>
+    <h1>The business</h1>
+    <p>Our two founders are one company. There are thousands of them, plus the
+    consultancies who serve them and the funds who bankroll them — and all three are
+    buying the same missing thing. <b>Here is what that is worth.</b></p>
+  </div>
+  <div class="smeta" style="left:62px"><span>Act three · The business</span><span class="sn">Sheet 12 of 20</span></div>
+</section>
+
+<!-- ================= 13 · SEGMENTS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.1</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Market</p>
+    <h1 class="sm">Who else walks this road</h1>
+    <div class="flow1">
+      <table>
+        <thead><tr>
+          <th style="width:21%">Segment</th><th style="width:28%">Who they are</th>
+          <th style="width:17%">Price point</th><th>Why they buy</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="k">A · Medtech &amp; IVD startups</td>
+            <td>Our two founders. 2–15 people, first device, no QA/RA hire</td>
+            <td class="n">€1,800</td>
+            <td>Investor diligence, first clinical study, CE-mark deadline</td></tr>
+          <tr><td class="k">B · SME manufacturers</td>
+            <td>15–200 people, MDD-to-MDR transition or scaling a QMS</td>
+            <td class="n">€6,000</td>
+            <td>Notified-body audit date, MDR transition deadline</td></tr>
+          <tr class="hl"><td class="k">C · QA/RA consultancies</td>
+            <td>Deliver builds to 3–10 clients a year; stop rebuilding the same scaffolding each time</td>
+            <td class="n">€3,000–8,000 / yr</td>
+            <td>Every new engagement — <b>recurring by construction</b></td></tr>
+          <tr class="hl"><td class="k">D · Medtech funds</td>
+            <td>20–40 portfolio companies continuously, platform budget, capital exposed to delay</td>
+            <td class="n">€12,000–15,000 / yr</td>
+            <td>One block replaces ten sales — <b>renews with portfolio refresh</b></td></tr>
+        </tbody>
+      </table>
+      <p class="marg" style="margin-top:20px;max-width:1010px">
+        <b>Why C and D matter disproportionately:</b> a one-time product has no revenue
+        floor — every euro must be re-sold next month. The consultancy and fund licences
+        are the only motions that both reach many end users per transaction <b>and</b>
+        renew annually, which is what fixes the non-compounding revenue problem.
+      </p>
+    </div>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 13 of 20</span></div>
+</section>
+
+<!-- ================= 14 · LADDER ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.2</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Revenue architecture</p>
+    <h1 class="sm">A ladder, not a single price</h1>
+    <p class="dek">The failure mode of a knowledge product is one price with a cliff in front of it. Each rung does a distinct job.</p>
+    <div class="flow1">
+      <table class="tight">
+        <thead><tr>
+          <th style="width:5%">Rung</th><th style="width:26%">Product</th>
+          <th style="width:22%">Price</th><th>Job it does</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="n">0</td><td class="k">Explore</td><td class="n">Free</td>
+            <td>Browse the whole roadmap, matrix and library index; one sample activity open in full — proves depth before commitment</td></tr>
+          <tr><td class="n">1</td><td class="k">Readiness self-assessment</td><td class="n">Free, email-gated</td>
+            <td>Top of funnel, and a qualification signal</td></tr>
+          <tr class="hl"><td class="n">2</td><td class="k">“Stage-1 Ready” pack</td><td class="n">€690</td>
+            <td><b>The missing rung</b> — the 12 core processes needed to survive a Stage-1 audit; credit-back toward full access</td></tr>
+          <tr><td class="n">3</td><td class="k">Practitioner</td><td class="n">€1,800 · €600×3 / €300×6</td>
+            <td>Segment A — self-declared eligibility, up to 3 users, single device family</td></tr>
+          <tr><td class="n">4</td><td class="k">Standard</td><td class="n">€6,000 · €2,000×3 / €1,000×6</td>
+            <td>Segment B — companies and teams rolling out their own QMS</td></tr>
+          <tr><td class="n">5</td><td class="k">Content-currency renewal</td><td class="n">20–25% of purchase / yr</td>
+            <td>The only honest recurring layer — earned by a quarterly “what changed, and which of your documents it touches” briefing</td></tr>
+          <tr class="hl"><td class="n">6</td><td class="k">Consultancy &amp; fund licences</td><td class="n">€3,000–15,000 / yr</td>
+            <td>Multi-client delivery rights and portfolio blocks — recurring from day one</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 14 of 20</span></div>
+</section>
+
+<!-- ================= 15 · NUMBERS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.3</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Unit economics <span class="proj">Projection</span></p>
+    <h1 class="sm">~91% margin, payback on day zero</h1>
+    <div class="hr" style="margin:20px 0 16px"></div>
+    <div class="flow1">
+      <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:0 46px">
+        <div>
+          <table class="tight">
+            <thead><tr><th>Per blended sale</th><th style="text-align:right">Amount</th></tr></thead>
+            <tbody>
+              <tr><td class="k">Blended ASP <span style="color:var(--muted);font-weight:400">(70/30)</span></td><td class="n" style="text-align:right">€3,060</td></tr>
+              <tr><td>Support (~2h) + hosting</td><td class="n" style="text-align:right;color:var(--muted)">−€180</td></tr>
+              <tr><td>Payment processing (~3%)</td><td class="n" style="text-align:right;color:var(--muted)">−€92</td></tr>
+              <tr class="hl"><td class="k">Gross profit</td><td class="n" style="text-align:right">€2,788</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12.5px;line-height:1.6;color:var(--muted);margin-top:16px;
+                    border-left:2px solid var(--coral);padding-left:16px">
+            One-time, collected upfront, so <b style="color:var(--t9)">payback is
+            immediate</b> — customers can be bought profitably from day one. At an €800
+            CAC that is 3.5:1 on the first purchase alone. The constraint is therefore
+            <b style="color:var(--t9)">distribution, not product</b>.
+          </p>
+        </div>
+        <table class="tight">
+          <thead><tr>
+            <th style="width:31%">Year one</th><th>Conservative</th><th>Base</th><th>Upside</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="k">Stage-1 packs · €690</td><td>20 · €13,800</td><td>60 · €41,400</td><td>150 · €103,500</td></tr>
+            <tr><td class="k">Practitioner · €1,800</td><td>12 · €21,600</td><td>30 · €54,000</td><td>60 · €108,000</td></tr>
+            <tr><td class="k">Standard · €6,000</td><td>4 · €24,000</td><td>12 · €72,000</td><td>28 · €168,000</td></tr>
+            <tr><td class="k">Consultancy licences</td><td>1 · €3,000</td><td>4 · €12,000</td><td>10 · €30,000</td></tr>
+            <tr><td class="k">Fund blocks</td><td>—</td><td>1 · €12,000</td><td>3 · €45,000</td></tr>
+            <tr class="hl"><td class="k">Revenue</td><td class="n">€62,400</td><td class="n">€191,400</td><td class="n">€454,500</td></tr>
+            <tr><td class="k">Deals / month</td><td>~3</td><td>~9</td><td>~21</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="marg" style="max-width:1010px">
+      <b>Read this honestly.</b> Modelled scenarios, not forecasts from observed
+      conversion — there is no revenue history behind them yet. Fund blocks are excluded
+      from the conservative case on purpose: that motion cannot start until reference
+      customers and the investor view exist. The base case is <b>nine transactions a
+      month</b> — a marketing problem, not a product problem.
+    </p>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 15 of 20</span></div>
+</section>
+
+<!-- ================= 16 · CHANNELS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.4</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Distribution</p>
+    <h1 class="sm">How we find the next thousand of them</h1>
+    <div class="flow1">
+      <div class="rows">
+        <div class="row">
+          <div class="rn">01</div>
+          <div>
+            <div class="rt">Consultancies as a channel</div>
+            <p class="rb">They already carry the client relationship we would otherwise
+            pay ~€800 CAC to acquire. The licence covers <b>delivery, not resale</b>, and
+            when an engagement ends the client workspace converts to a direct licence at
+            50% credit — a funnel, not a leak. It is also the proof that our position is
+            <b>demystify, not displace</b>: the practitioners who adopt us already work this way.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="rn">02</div>
+          <div>
+            <div class="rt">Medtech funds</div>
+            <p class="rb">A fund holds 20–40 portfolio companies continuously, has a
+            platform budget, and has its own capital exposed to regulatory delay. One
+            €12–15k block replaces ten individual sales — and <b>changes who the buyer
+            is</b>, from founder runway to platform budget. The argument that lands is
+            <b>legibility, not cost</b>: burn and hiring are instrumented, and then
+            “how’s the QMS going?” returns a paragraph.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="rn">03</div>
+          <div>
+            <div class="rt">A named practitioner, publishing</div>
+            <p class="rb">In regulatory affairs trust is personal. A credentialed
+            practitioner writing consistently outperforms any brand account — and an
+            anonymous brand cannot sell this at all.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="rn">04</div>
+          <div>
+            <div class="rt">Accelerators &amp; long-tail search</div>
+            <p class="rb">Cohort deals with medtech accelerators and university TTOs, plus
+            checklist and comparison search terms — where intent is unusually high and the
+            incumbents are content farms.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 16 of 20</span></div>
+</section>
+
+<!-- ================= 17 · WHY IT HOLDS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.5</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Defensibility</p>
+    <h1 class="sm">Why this holds once someone notices it is working</h1>
+    <div class="hr hv" style="margin:20px 0 22px"></div>
+    <div class="flow1">
+      <div class="cols c2" style="row-gap:26px">
+        <div class="col">
+          <div class="ct" style="font-size:19px">The asset is the content, not the code</div>
+          <p class="cb">If the codebase were lost it would be rebuilt in about six weeks.
+          If the corpus were lost there is no business. Years of practitioner judgment —
+          sequencing, dependencies, clause maps — is the part that cannot be scraped or
+          prompted into existence.</p>
+        </div>
+        <div class="col">
+          <div class="ct" style="font-size:19px">Regulatory content decays, legitimately</div>
+          <p class="cb">MDCG guidance is revised, harmonised standards get new editions,
+          IVDR dates move. A QMS built on 2026 guidance is stale by 2028. That is a
+          <b>genuine</b> recurring need, which is what lets a one-time product carry an
+          honest subscription.</p>
+        </div>
+        <div class="col" style="border-top:1px solid var(--hair);padding-top:22px">
+          <div class="ct" style="font-size:19px">The switching cost is their own history</div>
+          <p class="cb">Progress, evidence and an immutable activity log live per
+          workspace. A regulated manufacturer needs <b>its own</b> auditable trail —
+          precisely what it can never get from a shared folder of leaked templates.</p>
+        </div>
+        <div class="col" style="border-top:1px solid var(--hair);padding-top:22px">
+          <div class="ct" style="font-size:19px">And we never hold their work hostage</div>
+          <p class="cb">A lapsed licence stops the updates; it never revokes access to
+          documents they already own. Turning a billing lapse into an audit incident would
+          betray the entire premise — <b>and it is written into the code, not the
+          marketing</b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 17 of 20</span></div>
+</section>
+
+<!-- ================= 18 · STATUS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.6</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Status</p>
+    <h1 class="sm">Where the story actually stands today</h1>
+    <div class="hr" style="margin:20px 0 20px"></div>
+    <div class="flow1">
+      <div class="cols c2">
+        <div class="col">
+          <p style="font-size:9.5px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--t5);margin-bottom:8px">Built and running</p>
+          <ul class="bare">
+            <li class="q">The full corpus — <b>116 activities, 275 documents</b>, clause matrix, process map</li>
+            <li class="q">Multi-tenant app with row-level security, roles and an immutable audit log</li>
+            <li class="q">Device-profile scoping, evidence uploads, per-workspace progress</li>
+            <li class="q">Self-serve checkout with instalments, EU VAT and reverse charge</li>
+            <li class="q">Agent API v1 with admin approval, scopes and rate limits</li>
+          </ul>
+        </div>
+        <div class="col">
+          <p style="font-size:9.5px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--coral);margin-bottom:8px">Not yet — and next, in order</p>
+          <ul class="bare">
+            <li>Free <b>readiness self-assessment</b> — top of funnel</li>
+            <li><b>€690 Stage-1 pack</b> — removes the free-to-€1,800 cliff</li>
+            <li>Read-only <b>investor view</b> — prerequisite for the fund motion</li>
+            <li>First <b>quarterly regulatory changelog</b> — the renewal product</li>
+            <li>Two to three <b>named reference customers</b> and one case study</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <p class="marg" style="max-width:900px">
+      <b>Traction —</b>
+      <span class="fillme">paying customers to date, revenue booked, design partners in conversation</span>
+      — left blank rather than estimated. The plan is to sell ten accounts by hand before
+      spending anything on acquisition; if ten cannot be closed from warm outreach, the
+      problem is positioning, not price. <b>The founders in §1.1 are an archetype for
+      exactly this reason: we have not yet earned the right to put a real name there.</b>
+    </p>
+  </div>
+  <div class="stamp">Pre-revenue</div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 18 of 20</span></div>
+</section>
+
+<!-- ================= 19 · RISKS ================= -->
+<section class="sheet">
+  <div class="gutter">
+    <span class="sec">§3.7</span><span class="gmark"></span>
+    <span class="spine">Act three — Business</span>
+  </div>
+  <div class="page tight">
+    <p class="kick">Risk register</p>
+    <h1 class="sm">What could end it</h1>
+    <div class="flow1">
+      <table class="tight">
+        <thead><tr>
+          <th style="width:21%">Risk</th><th style="width:10%">Severity</th><th>How it is handled</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="k">Regulatory liability</td><td class="n" style="color:var(--coral)">High</td>
+            <td>We supply documents used in conformity assessment. Explicit disclaimer on every template and in the licence — <b>a starting point, not regulatory advice; the manufacturer remains solely responsible</b>. Professional indemnity cover from day one, counsel review before public launch. Not a corner to cut.</td></tr>
+          <tr><td class="k">Leakage</td><td class="n" style="color:var(--coral)">High</td>
+            <td>275 downloadable files, one buyer shares them. Per-org watermarking and doc-code footers, licence terms — and structurally, we sell <b>the path and the updates</b>, not the files. A regulated buyer needs its own auditable trail, which a shared zip cannot provide.</td></tr>
+          <tr><td class="k">Content decay</td><td class="n" style="color:var(--coral)">High</td>
+            <td>Guidance and harmonised standards move. Mitigated by making currency the paid renewal, with real founder time budgeted quarterly — the maintenance <i>is</i> the recurring product.</td></tr>
+          <tr><td class="k">No compounding revenue</td><td class="n">Structural</td>
+            <td>One-time pricing has no MRR floor; a slow month is a zero month. Addressed by the entry rung, the currency renewal, and the consultancy and fund licences — never “one price, sold once”.</td></tr>
+        </tbody>
+      </table>
+      <p class="marg" style="margin-top:18px">
+        <b>Also live:</b> trust deficit (a named practitioner must front the brand), refund
+        exposure, and cross-border EU VAT/OSS — the last handled in checkout from the first
+        sale rather than retroactively.
+      </p>
+    </div>
+  </div>
+  <div class="smeta"><span>Act three · The business</span><span class="sn">Sheet 19 of 20</span></div>
+</section>
+
+<!-- ================= 20 · CLOSE ================= -->
+<section class="sheet ink">
+  <svg class="helix" viewBox="0 0 1280 720" fill="none" aria-hidden="true">
+    <g opacity=".16" stroke="#5dcaa5" stroke-width="1.3">
+      <path d="M905 -40 C1045 90, 785 190, 925 320 C1065 450, 805 550, 945 690"/>
+      <path d="M1015 -40 C875 90, 1135 190, 995 320 C855 450, 1115 550, 975 690"/>
+    </g>
+  </svg>
+  <div class="gutter">
+    <span class="sec" style="color:var(--mint)">§4.0</span><span class="gmark"></span>
+    <span class="spine">The ask</span>
+  </div>
+  <div class="page">
+    <p class="kick">How the story ends</p>
+    <h1 style="font-size:52px;margin-top:6px">Sell ten by hand.<br />Watch whether they finish.</h1>
+    <div style="width:64px;height:2px;background:var(--coral);margin:26px 0"></div>
+    <p style="font-size:16.5px;line-height:1.55;color:rgba(255,255,255,.72);max-width:680px">
+      In a knowledge product, <b style="color:#fff">completion is retention</b> — and the
+      only honest proof that understanding transferred, rather than another document set
+      changing hands. So the first milestone is not revenue. It is
+      <b style="color:#fff">two founders who now know what they are doing</b>, and who
+      will say so out loud to the next two.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(4,auto);gap:0;margin-top:34px;width:fit-content;
+                border-top:1px solid rgba(255,255,255,.2)">
+      <div style="padding:16px 34px 0 0;border-right:1px solid rgba(255,255,255,.14)">
+        <div style="font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:800;color:#fff;line-height:1">10</div>
+        <div style="font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:7px">Design partners</div>
+      </div>
+      <div style="padding:16px 34px 0;border-right:1px solid rgba(255,255,255,.14)">
+        <div style="font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:800;color:#fff;line-height:1">60%</div>
+        <div style="font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:7px">Activation in 7 days</div>
+      </div>
+      <div style="padding:16px 34px 0;border-right:1px solid rgba(255,255,255,.14)">
+        <div style="font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:800;color:#fff;line-height:1">40%</div>
+        <div style="font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:7px">25%+ done at day 30</div>
+      </div>
+      <div style="padding:16px 0 0 34px">
+        <div style="font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:800;line-height:1">
+          <span class="fillme" style="background:none;border-bottom:2px solid var(--coral);color:#fff;padding:0 2px">The ask</span>
+        </div>
+        <div style="font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:7px">Amount · use · timeline</div>
+      </div>
+    </div>
+    <p style="margin-top:32px;font-size:14px;color:rgba(255,255,255,.75)">
+      <b style="color:#fff">regulatory.sidekick@notjustany.tech</b>
+      &nbsp;·&nbsp; regulatory-sidekick.notjustany.tech
+    </p>
+    <p style="margin-top:14px;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.38);max-width:700px">
+      Coral-marked fields need your input before this deck leaves the building. The
+      founders in §1.1 are an archetype, not a customer. Financial figures in §1.3, §3.1
+      and §3.3 are internal modelling assumptions, not researched market data or observed
+      results.
+    </p>
+  </div>
+  <div class="smeta"><span>Regulatory Sidekick · RS·PITCH·01</span><span class="sn">Sheet 20 of 20</span></div>
+</section>
+
+</body>
+</html>

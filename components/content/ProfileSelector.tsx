@@ -94,7 +94,7 @@ export function ProfileSelector({
 
   const routeBtn =
     "flex-1 rounded-xl border-2 px-4 py-3 text-left transition min-w-[180px]";
-  const on = "border-teal-700 bg-[#eef5f2]";
+  const on = "border-teal-700 bg-tint2";
   const off = "border-line bg-card hover:border-teal-600";
 
   return (
@@ -119,7 +119,7 @@ export function ProfileSelector({
       </div>
 
       {!editing && (
-        <div className="mt-6 rounded-xl border-2 border-teal-700 bg-[#eef5f2] p-5">
+        <div className="mt-6 rounded-xl border-2 border-teal-700 bg-tint2 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-teal-800">
               Device profile · locked for this project
@@ -206,7 +206,7 @@ export function ProfileSelector({
           role="switch"
           aria-checked={fdaOn}
           onClick={() => setFda(!fdaOn)}
-          className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${fdaOn ? "border-teal-600 bg-[#eef5f2]" : off}`}
+          className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${fdaOn ? "border-teal-600 bg-tint2" : off}`}
         >
           <span
             className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${fdaOn ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
@@ -237,7 +237,7 @@ export function ProfileSelector({
               role="switch"
               aria-checked={active}
               onClick={() => toggleChar(m.code)}
-              className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${active ? "border-teal-600 bg-[#eef5f2]" : off}`}
+              className={`flex items-start gap-3 rounded-xl border p-4 text-left transition ${active ? "border-teal-600 bg-tint2" : off}`}
             >
               <span
                 className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition ${active ? "justify-end bg-teal-600" : "justify-start bg-line"}`}
