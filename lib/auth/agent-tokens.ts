@@ -21,9 +21,14 @@ export const DEFAULT_AGENT_WRITE_LIMIT = 1000; // writes / day
 
 export type AgentScope = "read" | "write:status";
 
+// These strings are the consent text on the checkboxes a member ticks when
+// creating a key, so they must describe what the key can ACTUALLY do. The API
+// rejects Done / N-A from an agent (app/api/v1/activities/[id]/route.ts), and
+// the label has to say so.
 export const SCOPE_LABELS: Record<AgentScope, string> = {
   read: "Read the roadmap, progress and activity detail",
-  "write:status": "Update activity status and tick sub-tasks",
+  "write:status":
+    "Set activities to In progress and tick sub-tasks (it cannot close or exclude one)",
 };
 
 export type AgentTokenStatus = "pending" | "active" | "revoked";

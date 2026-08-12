@@ -58,13 +58,19 @@ Returns `why`, `what`, `startLean` (the minimum-viable version), `evolve`,
 ### `PATCH /api/v1/activities/{id}` — report progress *(needs `write:status`)*
 
 ```jsonc
-{ "status": "Done" }                        // Not started | In progress | Done | N-A
+{ "status": "In progress" }                 // Not started | In progress — only these two
 { "tasks": { "0": true, "3": true } }       // tick/untick by task index
 { "status": "In progress", "tasks": { "0": true } }
 ```
 
 Ticking a task on a not-started activity promotes it to **In progress**, exactly
 like the UI does.
+
+**An agent cannot set `Done` or `N-A`** — both return `403`. Closing an activity
+is a named person taking responsibility, and `N-A` is stronger still: it declares
+a regulatory requirement inapplicable to this device. Both are *closed* states, so
+either one unblocks dependent activities and moves the workspace's completion
+percentage. Report what you did and let a human close it in the app.
 
 ## Rate limits
 
@@ -88,7 +94,7 @@ Limits are raised by the Regulatory Sidekick team, not from workspace settings.
 | --- | --- |
 | `401` | missing / unknown / revoked / expired key |
 | `402` | no full access, **or** the agent add-on isn't enabled for this workspace |
-| `403` | key not approved yet, or missing the required scope |
+| `403` | key not approved yet, missing the required scope, or you tried to set `Done` / `N-A` |
 | `404` | no such activity |
 | `429` | over the request or write budget — back off per `Retry-After` |
 | `503` | key lookup failed — retry, don't re-auth |

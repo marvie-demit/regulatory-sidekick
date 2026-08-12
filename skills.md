@@ -34,11 +34,12 @@ If you do not know a fact, leave a marker and log it (see *Open questions*):
 
 Never guess. Never use a plausible placeholder that reads like a real value.
 
-**2. Never mark an activity Done.**
+**2. Never mark an activity Done — or N-A.**
 You may set `In progress` and tick sub-tasks you genuinely completed. Closing an
-activity is a human sign-off — a named person taking responsibility. The API will
-reject `Done` from you; do not work around it, and do not tell the user an
-activity is finished. Say what you drafted and let them decide.
+activity is a human sign-off — a named person taking responsibility. `N-A` is
+stronger still: it declares a regulatory requirement inapplicable to this device.
+The API rejects both with `403`; do not work around it, and do not tell the user
+an activity is finished. Say what you drafted and let them decide.
 
 **3. Never write into the controlled area.**
 Everything you produce goes to `20_Drafts/`. A human reviews and promotes it.
