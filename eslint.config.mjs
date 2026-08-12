@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Workspace packages are Node-targeted, not Next apps — core-web-vitals
+    // rules on a stdio server are noise. They carry their own typecheck.
+    "packages/**",
   ]),
 ]);
 

@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const here = dirname(fileURLToPath(import.meta.url));
 
 // The apex partner subdomains hang off. Kept in step with lib/partners/host.ts,
 // which does the same fallback — this file can't import from there because the
@@ -8,6 +12,13 @@ const APP_HOST =
   "regulatory-sidekick.notjustany.tech";
 
 const nextConfig: NextConfig = {
+  // Pinned explicitly now that this is an npm workspace root. Next otherwise
+  // INFERS the tracing root from lockfile position, and outputFileTracingIncludes
+  // below resolves against it — if that inference ever moves, the 275 templates
+  // stop shipping to the serverless functions and /library 404s in production
+  // while passing locally. Not a failure mode worth leaving to inference.
+  outputFileTracingRoot: here,
+
   // Server code reads content/content.json AND the doc fragments (content/docs/*.html)
   // via fs, so force-include content/** for production (not auto-traced). The docs were
   // moved OUT of public/ so they can't be fetched directly — they're served only
