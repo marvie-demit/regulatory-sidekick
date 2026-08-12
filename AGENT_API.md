@@ -9,9 +9,11 @@ Agent access is a **separate add-on** to the Regulatory Sidekick licence — it 
 switched on per workspace by us, not from workspace settings. Until it's on,
 every call returns `402`.
 
-1. A member of the workspace opens **Settings → Organization → Agent access** and
-   creates a key. The raw key (`rsk_…`) is shown **once** — copy it then.
-2. A workspace **admin approves** it. Until then every call returns `403 pending`.
+1. A member of the workspace opens **Agent** in the sidebar and creates a key.
+   The raw key (`rsk_…`) is shown **once** — copy it then.
+2. A key created by a **member** must be approved by a workspace **admin**;
+   until then every call returns `403 pending`. A key created by an admin is
+   active immediately.
 3. Keys expire after 90 days and can be revoked at any time.
 
 Give the key to the agent as `Authorization: Bearer rsk_…`. **The key identifies
