@@ -15,6 +15,14 @@ idempotent and safe to re-run.
 | `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` |
 | `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket |
 | `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
+| `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
+
+**`0019` must be applied before the deploy that ships it**, for the same reason
+as `0018`: the *report drafts back* box adds a scope the CHECK would reject, and
+key creation errors rather than degrading. The draft badges read through a
+`try/catch`, so an unapplied `0019` shows "no drafts" rather than breaking the
+activity and library pages — but the agent's `PUT …/draft` returns 503 until it
+is applied.
 
 **`0018` must be applied before the deploy that ships it.** Without it, creating
 an agent key with the *fetch document templates* box ticked fails the CHECK

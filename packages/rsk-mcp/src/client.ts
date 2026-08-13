@@ -42,8 +42,25 @@ function explain(status: number, body: Record<string, unknown>): string {
     case 403:
       if (pending)
         return "This key is waiting for a workspace admin to approve it. Nothing will work until they do.";
-      if (scopes)
-        return `This key lacks a required permission (it has: ${scopes.join(", ")}). If you need document templates, ask for a new key with "Let the agent fetch document templates" ticked.`;
+      // Name the box to tick rather than the scope string: the person who has
+      // to act is looking at a form on the Agent page, not at this vocabulary.
+      // Scopes are opt-in per key and cannot be added to an existing one, so
+      // the answer is always a NEW key, never "grant me this".
+      if (scopes) {
+        const has = new Set(scopes);
+        const missing = [
+          !has.has("read:documents") &&
+            '"Let the agent fetch document templates"',
+          !has.has("write:drafts") && '"Report which documents it has drafted"',
+          !has.has("write:status") && '"Update progress"',
+        ].filter(Boolean);
+        return (
+          `This key lacks a required permission (it has: ${scopes.join(", ")}). ` +
+          (missing.length
+            ? `Ask a workspace admin for a new key on the Agent page with ${missing.join(" / ")} ticked.`
+            : "Ask a workspace admin to re-issue it.")
+        );
+      }
       return `${server || "Refused."} If you tried to set Done or N-A: an agent cannot close or exclude an activity. Report what you drafted and let a person decide.`;
     case 404:
       return server || "Not found — or outside this device's profile, which is the same thing from here.";
@@ -130,8 +147,28 @@ export function createClient(cfg: ClientConfig) {
       call<TemplateResponse>(
         `/api/v1/documents/${encodeURIComponent(docId)}/template`,
       ),
+    /**
+     * Report that a draft exists. Path and counts only — deliberately no
+     * parameter carries document text, so a future edit here cannot quietly
+     * start uploading the customer's QMS.
+     */
+    reportDraft: (docId: string, d: DraftReport) =>
+      call<Record<string, unknown>>(
+        `/api/v1/documents/${encodeURIComponent(docId)}/draft`,
+        { method: "PUT", body: JSON.stringify(d) },
+      ),
   };
 }
+
+export type DraftReport = {
+  path: string;
+  bytes: number;
+  ok: true;
+  warnings: number;
+  openQuestions: number;
+  activityId?: string | null;
+  client?: string;
+};
 
 export type TemplateResponse = {
   id: string;
@@ -140,6 +177,8 @@ export type TemplateResponse = {
   domain: string;
   module: string;
   fillMode: "author" | "scaffold";
+  /** activity ids this document implements; the first is the one to report against */
+  implementedBy?: string[];
   skeleton: "A" | "B";
   html: string;
   allowedClauses: string[];

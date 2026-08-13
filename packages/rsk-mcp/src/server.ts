@@ -242,11 +242,39 @@ function buildServer(): McpServer {
         const rel = draftPathFor(docId, t.domain);
         const abs = resolveWritable(ROOT, rel);
         atomicWrite(abs, html);
+
+        const warnings = r.issues.filter((i) => i.severity === "warning").length;
+
+        // The file is on disk before this point, and stays there whatever
+        // happens next. Reporting is a courtesy to the workspace, not a
+        // condition of the save: the customer's document lives on their
+        // machine, so a lapsed subscription, a missing scope, an unapplied
+        // migration or a plane journey must not cost them their work. Say
+        // plainly that the workspace is behind rather than swallowing it —
+        // a silent failure here shows up as a colleague asking why the
+        // dashboard says nothing was drafted.
+        let reported: string;
+        try {
+          await client.reportDraft(docId, {
+            path: rel.replace(/\\/g, "/"),
+            bytes: html.length,
+            ok: true,
+            warnings,
+            openQuestions: r.stats.needsInput,
+            activityId: t.implementedBy?.[0] ?? null,
+            client: `rsk-mcp/${VERSION}`,
+          });
+          reported = "reported to the workspace (path and counts only)";
+        } catch (e) {
+          reported = `saved locally, but the workspace was NOT updated: ${asMessage(e)}`;
+        }
+
         return json({
           saved: rel,
           bytes: html.length,
-          warnings: r.issues.filter((i) => i.severity === "warning").length,
-          note: "Reported to the workspace as metadata only once the draft registry ships.",
+          warnings,
+          openQuestions: r.stats.needsInput,
+          workspace: reported,
         });
       } catch (e) {
         return fail(asMessage(e));
