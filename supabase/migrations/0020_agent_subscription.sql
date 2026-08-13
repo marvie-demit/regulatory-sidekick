@@ -44,9 +44,15 @@ alter table public.purchases alter column plan drop not null;
 
 alter table public.purchases drop constraint if exists purchases_plan_check;
 alter table public.purchases drop constraint if exists purchases_plan_chk;
+-- `plan is not null` is NOT redundant with the IN test. A CHECK rejects only an
+-- explicit FALSE, and for plan = NULL the IN evaluates to NULL, so the licence
+-- branch became NULL OR FALSE = NULL — and passed. The first version of this
+-- constraint enforced nothing in that direction: a licence row granting no plan
+-- was accepted. Caught by testing all three cases against the live table rather
+-- than only the one the slice is about.
 alter table public.purchases
   add constraint purchases_plan_chk check (
-    (kind = 'licence' and plan in ('full', 'enterprise'))
+    (kind = 'licence' and plan is not null and plan in ('full', 'enterprise'))
     or (kind = 'agent' and plan is null)
   );
 
