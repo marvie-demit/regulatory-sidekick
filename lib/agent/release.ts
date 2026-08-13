@@ -15,8 +15,20 @@ export const MCP_PACKAGE = "@notjustany/regulatory-sidekick-mcp";
 /** True once MCP_PACKAGE is published to npm. */
 export const MCP_AVAILABLE = false;
 
-/** True once the .mcpb bundle is uploaded and /api/agent/bundle exists (Slice 3d). */
-export const BUNDLE_AVAILABLE = false;
+/**
+ * True once the .mcpb bundle is uploaded and /api/agent/bundle exists.
+ *
+ * Uploaded 2026-08-13: regulatory-sidekick-0.1.0.mcpb, sha256 8d34a9d1…, to the
+ * private `releases` bucket. Verified byte-identical through a signed URL, and
+ * unreachable without one.
+ *
+ * NOT yet installed on a clean machine. Everything verified is structural — a
+ * valid zip, a correct manifest, a byte-identical server that runs when
+ * extracted. The premise it rests on, that Claude Desktop ships its own Node so
+ * a customer needs no runtime, comes from Anthropic's documentation rather than
+ * from watching it work. See OPERATIONS.md.
+ */
+export const BUNDLE_AVAILABLE = true;
 
 /**
  * Version policy for installed clients.

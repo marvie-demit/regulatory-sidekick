@@ -1,5 +1,10 @@
 import { CopyBlock } from "@/components/ui/Copy";
-import { MCP_AVAILABLE, BUNDLE_AVAILABLE, MCP_PACKAGE } from "@/lib/agent/release";
+import {
+  MCP_AVAILABLE,
+  BUNDLE_AVAILABLE,
+  MCP_PACKAGE,
+  CLIENT_LATEST,
+} from "@/lib/agent/release";
 
 // The setup instructions. Server-rendered so `baseUrl` is the host the customer
 // is actually on — AGENT_API.md documents that the wrong host 308-redirects and
@@ -63,6 +68,19 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
               Double-click the file. Claude Desktop shows what it can access
               before anything is installed.
             </p>
+            {BUNDLE_AVAILABLE ? (
+              <p className="mt-2 flex flex-wrap items-center gap-2">
+                <a
+                  href="/api/agent/bundle"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110"
+                >
+                  ↓ Download the extension
+                </a>
+                <span className="text-xs text-muted">
+                  version {CLIENT_LATEST} · macOS and Windows
+                </span>
+              </p>
+            ) : null}
           </Step>
           <Step n={3} title="Paste your key and pick your QMS folder">
             <p className="text-sm text-muted">
