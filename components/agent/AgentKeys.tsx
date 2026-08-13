@@ -91,7 +91,7 @@ export function CreateKeyForm({
             name="documents"
             defaultChecked
             disabled={atLimit}
-            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
           />
           <span>
             Let the agent fetch document templates
@@ -107,7 +107,7 @@ export function CreateKeyForm({
             name="write"
             defaultChecked
             disabled={atLimit}
-            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
           />
           <span>
             Let the agent update progress
@@ -122,7 +122,7 @@ export function CreateKeyForm({
             name="drafts"
             defaultChecked
             disabled={atLimit}
-            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
           />
           <span>
             Report which documents it has drafted
@@ -142,8 +142,9 @@ export function CreateKeyForm({
       {state.token ? (
         <div className="flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 p-3">
           <p className="text-sm text-teal-800">
-            <span className="font-semibold">{state.message}</span> Copy it now —
-            it&apos;s shown only once and can&apos;t be recovered.
+            <span className="font-semibold">{state.message}</span>{" "}
+            Copy it now — it&apos;s shown only once and can&apos;t be
+            recovered.
           </p>
           <CopyField value={state.token} />
           {showCommand ? (
