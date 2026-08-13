@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "check:model": "node scripts/check-process-model.mjs",
-    "build": "node scripts/check-process-model.mjs && npm run test:contract && node scripts/check-pack.mjs && npm run check:prompts && next build",
+    "build": "node scripts/check-process-model.mjs && npm run test:contract && npm run test:mcp && node scripts/check-pack.mjs && npm run check:prompts && next build",
     "start": "next start",
     "lint": "eslint",
     "predev": "npm run build -w @notjustany/doc-contract",
-    "prebuild": "npm run build -w @notjustany/doc-contract",
+    "prebuild": "npm run build -w @notjustany/doc-contract && npm run build -w @notjustany/regulatory-sidekick-mcp",
     "test:contract": "npm test -w @notjustany/doc-contract",
-    "check:prompts": "node --no-warnings --import ./scripts/alias-register.mjs scripts/gen-doc-prompts.mjs --check"
+    "check:prompts": "node --no-warnings --import ./scripts/alias-register.mjs scripts/gen-doc-prompts.mjs --check",
+    "test:mcp": "npm test -w @notjustany/regulatory-sidekick-mcp"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
