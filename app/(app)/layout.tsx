@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/app-shell/Sidebar";
 import { StateProvider } from "@/components/app-shell/StateProvider";
 import { Toaster } from "@/components/app-shell/Toaster";
 import { FlashNotice } from "@/components/app-shell/FlashNotice";
-import { PlanBanner } from "@/components/app-shell/PlanBanner";
+import { PlanBanner, daysUntil } from "@/components/app-shell/PlanBanner";
 import {
   PENDING_INVITE_COOKIE,
   PENDING_PARTNER_INVITE_COOKIE,
@@ -76,7 +76,7 @@ export default async function AppLayout({
             brand={brand}
           />
           <div className="min-h-screen min-w-0 flex-1">
-            <PlanBanner planExpiresAt={org.planExpiresAt} />
+            <PlanBanner daysRemaining={daysUntil(org.planExpiresAt)} />
             <FlashNotice className="mx-8 mt-4" />
             {children}
           </div>

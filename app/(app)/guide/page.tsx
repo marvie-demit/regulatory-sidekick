@@ -126,7 +126,7 @@ export default function GuidePage() {
       </h1>
       <p className="lead">
         Regulatory Sidekick turns ISO 13485 and EU MDR/IVDR into a guided, lean
-        implementation you work step by step. Here's how to find your way around
+        implementation you work step by step. Here&apos;s how to find your way around
         and the order we recommend tackling things.
       </p>
 
