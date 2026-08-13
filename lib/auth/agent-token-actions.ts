@@ -78,6 +78,7 @@ export async function createAgentToken(
   const scopes: AgentScope[] = ["read"];
   if (formData.get("documents") === "on") scopes.push("read:documents");
   if (formData.get("write") === "on") scopes.push("write:status");
+  if (formData.get("drafts") === "on") scopes.push("write:drafts");
   if (!scopes.every((s) => ALL_SCOPES.includes(s)))
     return { error: "Unknown permission requested." };
 

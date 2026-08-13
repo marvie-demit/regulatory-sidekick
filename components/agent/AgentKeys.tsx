@@ -116,6 +116,22 @@ export function CreateKeyForm({
             </span>
           </span>
         </label>
+        <label className="flex items-start gap-2.5 text-sm text-teal-900">
+          <input
+            type="checkbox"
+            name="drafts"
+            defaultChecked
+            disabled={atLimit}
+            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+          />
+          <span>
+            Report which documents it has drafted
+            <span className="block text-xs text-muted">
+              {SCOPE_LABELS["write:drafts"]}. Unchecked, it still drafts — you
+              just won&apos;t see it in the app without opening the folder.
+            </span>
+          </span>
+        </label>
       </div>
 
       {state.error ? <p className={errCls}>{state.error}</p> : null}
@@ -204,15 +220,26 @@ function TokenRow({
           ) : null}
         </div>
       </div>
-      {/* Scopes are listed explicitly, not summarised, because migration 0018
-          added read:documents: a key minted before it will 403 on templates and
-          the only fix is a new key. Saying so here is cheaper than a support
-          queue. */}
+      {/* Scopes are listed explicitly, not summarised, because 0018 and 0019
+          each added one: a key minted before either will 403 on the endpoint it
+          missed, and the only fix is a NEW key — scopes cannot be granted to an
+          existing one. Saying so per key is cheaper than a support queue.
+          Ordered so the more fundamental gap is named first: a key that cannot
+          fetch templates cannot draft, which makes reporting moot. */}
       {!dead && !t.scopes.includes("read:documents") ? (
         <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
           This key can&apos;t fetch document templates. Create a new one with{" "}
           <b className="text-teal-800">Let the agent fetch document templates</b>{" "}
           ticked if you want it to draft.
+        </p>
+      ) : !dead && !t.scopes.includes("write:drafts") ? (
+        <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
+          This key can draft, but can&apos;t tell the workspace it did — drafts
+          won&apos;t appear in your library. Create a new one with{" "}
+          <b className="text-teal-800">
+            Report which documents it has drafted
+          </b>{" "}
+          ticked.
         </p>
       ) : null}
       <div className="text-xs text-muted">
