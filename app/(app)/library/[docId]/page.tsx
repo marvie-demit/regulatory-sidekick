@@ -7,6 +7,9 @@ import { getActiveOrg } from "@/lib/auth/org";
 import { byDocId, docActivities, docStep, PHASE_NAMES } from "@/lib/content/content";
 import { docFile } from "@/lib/docs";
 import { LockedNotice } from "@/components/content/LockedNotice";
+import { DraftStrip } from "@/components/agent/DraftStrip";
+import { readDrafts } from "@/lib/agent/drafts";
+import { timeAgo } from "@/lib/agent/connection";
 
 export async function generateMetadata({
   params,
@@ -46,6 +49,9 @@ export default async function DocViewer({
       html = "";
     }
   }
+
+  // Metadata only — a record that a draft exists on the customer's machine.
+  const draft = (await readDrafts(org?.id)).byDoc.get(docId);
 
   const acts = docActivities(docId);
   const ds = docStep(docId);
@@ -104,6 +110,19 @@ export default async function DocViewer({
           ))}
         </div>
       )}
+
+      {draft ? (
+        <DraftStrip
+          docId={docId}
+          path={draft.path}
+          bytes={draft.bytes}
+          openQuestions={draft.openQuestions}
+          warnings={draft.warnings}
+          drafted={timeAgo(draft.validatedAt)}
+          reviewed={!!draft.reviewedAt}
+          canReview={full && org?.role !== "viewer"}
+        />
+      ) : null}
 
       {!allowed ? (
         <div className="mx-auto mt-4 max-w-[840px]">

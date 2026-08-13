@@ -10,6 +10,7 @@ import {
   DEFAULT_AGENT_WRITE_LIMIT,
 } from "@/lib/auth/agent-tokens";
 import { agentConnection, timeAgo } from "@/lib/agent/connection";
+import { readDrafts } from "@/lib/agent/drafts";
 import { createClient } from "@/lib/supabase/server";
 import { LockedNotice } from "@/components/content/LockedNotice";
 import { AgentUpsell } from "@/components/agent/AgentUpsell";
@@ -98,6 +99,7 @@ export default async function AgentPage() {
   // [] and the page still renders (creating a key surfaces the real error).
   const tokens = await getAgentTokens(org.id);
   const conn = agentConnection(tokens);
+  const drafts = await readDrafts(org.id);
   const isAdmin = org.role === "admin";
 
   return (
@@ -134,6 +136,46 @@ export default async function AgentPage() {
           )}
         </span>
       </div>
+
+      {/* ---- what it has produced ----
+          "In progress" is not portfolio-legible; "12 drafted, 4 open questions"
+          is. This is the only place that answers "what did I pay for this
+          month?" without opening a folder. Rendered only once something exists,
+          so a new workspace is not shown three zeroes. */}
+      {drafts.total > 0 ? (
+        <section className="mt-6 rounded-2xl border border-line bg-card p-6 shadow-sm">
+          <h2 className="font-display text-lg font-semibold text-teal-900">
+            Drafts
+          </h2>
+          <p className="mt-1 text-sm text-muted">
+            Your assistant records what it drafted — the path, the size and how
+            many questions it could not answer. The documents themselves stay on
+            your machine; nothing here is their content.
+          </p>
+
+          <div className="mt-4 flex flex-wrap gap-6">
+            {[
+              { n: drafts.total, label: "documents drafted" },
+              { n: drafts.openQuestions, label: "open questions" },
+              { n: drafts.unreviewed, label: "awaiting review" },
+            ].map((s) => (
+              <div key={s.label}>
+                <div className="font-display text-2xl font-semibold text-teal-900">
+                  {s.n}
+                </div>
+                <div className="text-[12.5px] text-muted">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-4 text-sm">
+            <Link className="lnk" href="/library">
+              Open the library
+            </Link>{" "}
+            to see which ones, and to mark them reviewed.
+          </p>
+        </section>
+      ) : null}
 
       {/* ---- keys ---- */}
       <section className="mt-6 rounded-2xl border border-line bg-card p-6 shadow-sm">

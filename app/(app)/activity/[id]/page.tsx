@@ -6,6 +6,8 @@ import { getActiveOrg } from "@/lib/auth/org";
 import { listEvidence } from "@/lib/db/evidence";
 import { ActivityTasks } from "@/components/content/ActivityTasks";
 import { DocWorkflow } from "@/components/content/DocWorkflow";
+import { readDrafts } from "@/lib/agent/drafts";
+import type { ChipDraft } from "@/components/content/DocWorkflow";
 import { EvidenceSection } from "@/components/content/EvidenceSection";
 import { LockedNotice } from "@/components/content/LockedNotice";
 import { StatusDropdown } from "@/components/content/StatusDropdown";
@@ -85,6 +87,17 @@ export default async function ActivityPage({
   const org = await getActiveOrg();
   const allowed = canViewActivity(org?.plan, id);
   const evidence = allowed && org ? await listEvidence(org.id, id) : [];
+
+  // Which of this activity's documents the agent has drafted. Metadata only,
+  // and read on the same gate as the rest of the deep content — a locked page
+  // must not leak which documents exist by way of a badge.
+  const draftBadges: Record<string, ChipDraft> = {};
+  if (allowed)
+    for (const [docId, r] of (await readDrafts(org?.id)).byDoc)
+      draftBadges[docId] = {
+        openQuestions: r.openQuestions,
+        reviewed: !!r.reviewedAt,
+      };
 
   return (
     <main className="mx-auto max-w-3xl px-8 py-10">
@@ -228,7 +241,7 @@ export default async function ActivityPage({
           )}
 
           <Section label="Document workflow">
-            <DocWorkflow documents={a.documents} />
+            <DocWorkflow documents={a.documents} drafts={draftBadges} />
           </Section>
 
           {a.records && a.records.length > 0 && (
