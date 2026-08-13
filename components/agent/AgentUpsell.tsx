@@ -1,4 +1,6 @@
 import { AGENT_TOKEN_TTL_DAYS } from "@/lib/auth/agent-tokens";
+import { AGENT_SUBSCRIPTION, isAgentBuyable } from "@/lib/billing/catalog";
+import { SubscribeButton } from "@/components/agent/SubscribeButton";
 
 // State 2: the workspace holds a licence but not the agent add-on.
 //
@@ -96,15 +98,15 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
           </p>
         </div>
 
-        <a
-          href={`mailto:${CONTACT}?subject=${encodeURIComponent("Agent access")}`}
-          className="mt-5 inline-flex rounded-full bg-coral px-6 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
-        >
-          Get agent access
-        </a>
-        <p className="mt-2 text-xs text-muted">
-          We&apos;ll switch it on for {orgName} and walk you through setup.
+        <p className="mt-4 font-display text-lg font-semibold text-teal-900">
+          {AGENT_SUBSCRIPTION.headline}
         </p>
+
+        <SubscribeButton
+          buyable={isAgentBuyable()}
+          contact={CONTACT}
+          orgName={orgName}
+        />
       </section>
 
       <section className="rounded-2xl border border-line bg-card p-6 shadow-sm">

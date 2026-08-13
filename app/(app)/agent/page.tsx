@@ -29,6 +29,11 @@ export const metadata = { title: "Agent" };
 // client component, and LockedNotice is server-only (it reads the corpus via
 // node:fs). Both were dead ends with nothing to click.
 
+// Date only — the expiry is a boundary a person plans around, and a timestamp
+// invites the question "which timezone?" that nobody wants answered.
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
+
 export default async function AgentPage() {
   const org = await getActiveOrg();
   if (!org) return null;
@@ -39,7 +44,7 @@ export default async function AgentPage() {
   let res = await supabase
     .from("organizations")
     .select(
-      "agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at",
+      "agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at, agentic_subscription_id",
     )
     .eq("id", org.id)
     .single();
@@ -135,6 +140,16 @@ export default async function AgentPage() {
             <>Create a key to get started</>
           )}
         </span>
+        {d.agentic_subscription_id && org.role === "admin" ? (
+          <a href="/api/agent/billing" className="lnk ml-auto text-sm">
+            Manage subscription
+          </a>
+        ) : null}
+        {d.agentic_expires_at && !d.agentic_subscription_id ? (
+          <span className="text-xs text-muted">
+            Access granted until {fmtDate(d.agentic_expires_at as string)}
+          </span>
+        ) : null}
       </div>
 
       {/* ---- what it has produced ----
