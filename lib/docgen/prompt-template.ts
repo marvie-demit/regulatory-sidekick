@@ -144,7 +144,8 @@ export function renderDocPrompt(v: PromptVars): string {
   out.push("");
 
   // ---- fill points ---------------------------------------------------------
-  const fills = Object.entries(c.placeholders);
+  // Counted AFTER the guidance blocks are removed — see PromptVars.fillPoints.
+  const fills = Object.entries(v.fillPoints);
   if (fills.length) {
     out.push("## Fill points in this document");
     out.push(

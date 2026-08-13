@@ -12,6 +12,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { validateFragment, type FillMode } from "../src/validate.ts";
+import { stripGuidance } from "../src/skeleton.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DOCS = join(here, "..", "..", "..", "content", "docs");
@@ -26,10 +27,7 @@ const LIS = "AUD-LIS-01";
  * unknown facts marked. Scaffold docs keep every "[ ]" untouched.
  */
 function goodDraft(html: string, mode: FillMode): string {
-  let s = html
-    .replace(/<p class="guidance">[\s\S]*?<\/p>\s*/g, "")
-    .replace(/<div class="manual-banner">[\s\S]*?<\/div>\s*/g, "")
-    .replace(/<table class="manual">[\s\S]*?<\/table>\s*/g, "");
+  let s = stripGuidance(html);
   s = s
     .replace(/\[01\]/g, "0.1-DRAFT")
     .replace(/\[YYYY-MM-DD\]/g, "[[NEEDS INPUT: approval date]]")

@@ -16,7 +16,11 @@ import {
 } from "@/lib/content/content";
 import { getProcessModel } from "@/lib/content/process";
 import { euRoute, type ScopeProfile } from "@/lib/content/scope";
-import { deriveSkeleton, type SkeletonFacts } from "@notjustany/doc-contract";
+import {
+  deriveSkeleton,
+  stripGuidance,
+  type SkeletonFacts,
+} from "@notjustany/doc-contract";
 import type { DocItem, ClauseMap } from "@/lib/content/types";
 
 export type FillMode = "author" | "scaffold";
@@ -88,6 +92,13 @@ export type PromptVars = {
   siblings: { id: string; title: string }[];
   device: { modules: string[]; route: string | null };
   contract: SkeletonFacts;
+  /**
+   * Placeholders that survive the guidance deletion — i.e. the ones the agent
+   * will actually be looking at. `contract.placeholders` counts the whole
+   * blank, including the manual table it is told to delete, so using it here
+   * asks an agent to fill tokens that cannot exist by then.
+   */
+  fillPoints: Record<string, number>;
   html: string;
 };
 
@@ -164,7 +175,8 @@ export function buildPromptVars(args: {
       modules: args.profile ? Object.keys(args.profile) : [],
       route: euRoute(args.profile),
     },
-    contract: deriveSkeleton(html, args.docId),
+    contract,
+    fillPoints: deriveSkeleton(stripGuidance(html), args.docId).placeholders,
     html,
   };
 }

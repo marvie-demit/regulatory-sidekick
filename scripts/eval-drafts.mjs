@@ -29,7 +29,7 @@ import { join } from "node:path";
 const { buildPromptVars, allowedClauses, isProForma, looksProForma } = await import(
   "@/lib/docgen/prompt-vars"
 );
-const { validateFragment } = await import("@notjustany/doc-contract");
+const { validateFragment, stripGuidance } = await import("@notjustany/doc-contract");
 
 const content = JSON.parse(
   readFileSync(join(process.cwd(), "content", "content.json"), "utf8"),
@@ -51,10 +51,7 @@ const PROFILE = null;
  * not give, that is a finding about the prompt, not a licence to be clever here.
  */
 function ruleFollowingDraft(html, fillMode) {
-  let s = html
-    .replace(/<p class="guidance">[\s\S]*?<\/p>\s*/g, "")
-    .replace(/<div class="manual-banner">[\s\S]*?<\/div>\s*/g, "")
-    .replace(/<table class="manual">[\s\S]*?<\/table>\s*/g, "");
+  let s = stripGuidance(html);
 
   s = s
     .replace(/\[01\]/g, "0.1-DRAFT")

@@ -283,3 +283,19 @@ export function countOccurrences(haystack: string, needle: string): number {
 }
 
 export { CLAUSE_RE };
+
+/**
+ * Remove the author-facing blocks every draft is required to delete.
+ *
+ * One definition, because there were three: the prompt renderer, the corpus
+ * sweep and the test fixtures each had their own copy of these regexes, and
+ * they have to agree — a document's FILL POINTS are counted after this runs,
+ * so a mismatch tells an agent to replace placeholders that no longer exist.
+ * 194 of 275 documents were doing exactly that for [Organisation].
+ */
+export function stripGuidance(html: string): string {
+  return html
+    .replace(/<p class="guidance">[\s\S]*?<\/p>\s*/g, "")
+    .replace(/<div class="manual-banner">[\s\S]*?<\/div>\s*/g, "")
+    .replace(/<table class="manual">[\s\S]*?<\/table>\s*/g, "");
+}

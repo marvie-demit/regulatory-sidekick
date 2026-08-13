@@ -20,6 +20,7 @@ export {
 
 export {
   deriveSkeleton,
+  stripGuidance,
   buildTree,
   walk,
   elText,
