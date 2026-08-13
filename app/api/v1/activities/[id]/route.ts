@@ -6,8 +6,11 @@ import {
   pnum,
   expandRefs,
   byDocId,
+  docStep,
   PHASE_NAMES,
 } from "@/lib/content/content";
+import { activityMode, MODE_GUIDANCE } from "@/lib/docgen/activity-modes";
+import { fillModeFor } from "@/lib/docgen/prompt-vars";
 import { actInScope } from "@/lib/content/scope";
 import { LABEL_TO_ENUM } from "@/lib/db/state";
 
@@ -56,6 +59,8 @@ export const GET = withAgentAuth<Route>("read", async (ctx, _req, route) => {
     phaseName: PHASE_NAMES[pnum(a.phase)] ?? "",
     workstream: (a as { workstream?: string }).workstream || "tf",
     qse: a.qse,
+    mode: activityMode(a.id),
+    modeGuidance: MODE_GUIDANCE[activityMode(a.id)],
     inScope: actInScope(a, profile),
     status: status[a.id] ?? "Not started",
     estimatedDays: a.dur ?? 0,
@@ -73,10 +78,21 @@ export const GET = withAgentAuth<Route>("read", async (ctx, _req, route) => {
     records: a.records ?? [],
     tips: a.tips ?? [],
     clauses: a.clausemap ?? [],
+    // fillMode comes straight from the class: FOR and LIS record what happened,
+    // so an agent scaffolds them and never fills them in.
     documents: expandRefs(a.documents)
       .map((d) => byDocId[d])
       .filter(Boolean)
-      .map((d) => ({ id: d.id, title: d.title, type: d.cls })),
+      .map((d) => ({
+        id: d.id,
+        title: d.title,
+        type: d.cls,
+        domain: d.domain,
+        module: d.module,
+        fillMode: fillModeFor(d.cls),
+        producedIn: docStep(d.id),
+        template: `/api/v1/documents/${d.id}/template`,
+      })),
     dependsOn: idList(a.depends),
     leadsTo: idList(a.leads),
     subActivities: (a.subs ?? []).map((s) => ({

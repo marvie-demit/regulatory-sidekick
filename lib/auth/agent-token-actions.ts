@@ -9,12 +9,14 @@ import { hasFullAccess } from "@/lib/auth/access";
 import {
   AGENT_TOKEN_LIMIT,
   AGENT_TOKEN_TTL_DAYS,
+  ALL_SCOPES,
   type AgentScope,
 } from "@/lib/auth/agent-tokens";
 
 type Res = { error?: string; message?: string; token?: string; name?: string };
 
-const ALL_SCOPES: AgentScope[] = ["read", "write:status"];
+// ALL_SCOPES lives in agent-tokens.ts so the union, the labels and the DB CHECK
+// (migration 0018) can only drift together.
 
 // Machine access is a full-access capability, same as inviting teammates.
 async function requireFull(): Promise<{ error: string } | { org: OrgMembership }> {
@@ -71,8 +73,11 @@ export async function createAgentToken(
   if (name.length < 2 || name.length > 60)
     return { error: "Give the agent a name (2–60 characters)." };
 
-  const wantsWrite = formData.get("write") === "on";
-  const scopes: AgentScope[] = wantsWrite ? ["read", "write:status"] : ["read"];
+  // "read" is implicit — a key that cannot read is not useful. The other two are
+  // independent opt-ins, each its own checkbox at creation.
+  const scopes: AgentScope[] = ["read"];
+  if (formData.get("documents") === "on") scopes.push("read:documents");
+  if (formData.get("write") === "on") scopes.push("write:status");
   if (!scopes.every((s) => ALL_SCOPES.includes(s)))
     return { error: "Unknown permission requested." };
 

@@ -9,6 +9,7 @@ import {
 import {
   AGENT_TOKEN_LIMIT,
   SCOPE_LABELS,
+  SCOPE_SHORT,
   type AgentToken,
 } from "@/lib/auth/agent-tokens";
 import { claudeCodeCommand } from "@/lib/agent/release";
@@ -83,21 +84,39 @@ export function CreateKeyForm({
           {pending ? "Creating…" : "Create key"}
         </button>
       </div>
-      <label className="flex items-start gap-2.5 text-sm text-teal-900">
-        <input
-          type="checkbox"
-          name="write"
-          defaultChecked
-          disabled={atLimit}
-          className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
-        />
-        <span>
-          Let the agent update progress
-          <span className="block text-xs text-muted">
-            {SCOPE_LABELS["write:status"]}. Unchecked, the key is read-only.
+      <div className="flex flex-col gap-2.5">
+        <label className="flex items-start gap-2.5 text-sm text-teal-900">
+          <input
+            type="checkbox"
+            name="documents"
+            defaultChecked
+            disabled={atLimit}
+            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+          />
+          <span>
+            Let the agent fetch document templates
+            <span className="block text-xs text-muted">
+              {SCOPE_LABELS["read:documents"]}. Without this it can read the plan
+              but not draft anything.
+            </span>
           </span>
-        </span>
-      </label>
+        </label>
+        <label className="flex items-start gap-2.5 text-sm text-teal-900">
+          <input
+            type="checkbox"
+            name="write"
+            defaultChecked
+            disabled={atLimit}
+            className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
+          />
+          <span>
+            Let the agent update progress
+            <span className="block text-xs text-muted">
+              {SCOPE_LABELS["write:status"]}. Unchecked, it cannot write at all.
+            </span>
+          </span>
+        </label>
+      </div>
 
       {state.error ? <p className={errCls}>{state.error}</p> : null}
 
@@ -185,11 +204,20 @@ function TokenRow({
           ) : null}
         </div>
       </div>
+      {/* Scopes are listed explicitly, not summarised, because migration 0018
+          added read:documents: a key minted before it will 403 on templates and
+          the only fix is a new key. Saying so here is cheaper than a support
+          queue. */}
+      {!dead && !t.scopes.includes("read:documents") ? (
+        <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
+          This key can&apos;t fetch document templates. Create a new one with{" "}
+          <b className="text-teal-800">Let the agent fetch document templates</b>{" "}
+          ticked if you want it to draft.
+        </p>
+      ) : null}
       <div className="text-xs text-muted">
-        {t.scopes.includes("write:status")
-          ? "Read + update progress"
-          : "Read only"}{" "}
-        · created by {t.createdByYou ? "you" : t.createdByEmail} ·{" "}
+        {t.scopes.map((s) => SCOPE_SHORT[s] ?? s).join(" + ")} · created by{" "}
+        {t.createdByYou ? "you" : t.createdByEmail} ·{" "}
         {t.approvedAt
           ? `approved by ${t.approvedByEmail || "an admin"} ${fmt(t.approvedAt)}`
           : "not yet approved"}{" "}

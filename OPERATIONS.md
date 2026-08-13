@@ -14,6 +14,13 @@ idempotent and safe to re-run.
 | `0015_partners.sql` | partners, partner_members, partner_invitations, partner_audit; `access_codes.partner_id/batch_id/revoked_at`; allowance + mint/revoke/portfolio RPCs |
 | `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` |
 | `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket |
+| `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
+
+**`0018` must be applied before the deploy that ships it.** Without it, creating
+an agent key with the *fetch document templates* box ticked fails the CHECK
+constraint and the whole key creation errors — the app cannot degrade around a
+constraint violation. Keys minted before `0018` keep working, but 403 on the
+template endpoint until they are re-issued; the Agent page says so per key.
 
 The app degrades rather than crashing if one is missing (`listPartners` returns
 empty, `listAccessCodes` steps down to a narrower select), but nothing works.

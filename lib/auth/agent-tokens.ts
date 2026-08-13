@@ -19,7 +19,10 @@ export const AGENT_TOKEN_TTL_DAYS = 90;
 export const DEFAULT_AGENT_RATE_LIMIT = 120; // requests / minute
 export const DEFAULT_AGENT_WRITE_LIMIT = 1000; // writes / day
 
-export type AgentScope = "read" | "write:status";
+export type AgentScope = "read" | "read:documents" | "write:status";
+
+/** Every scope a key may hold. Kept in step with migration 0018's CHECK. */
+export const ALL_SCOPES: AgentScope[] = ["read", "read:documents", "write:status"];
 
 // These strings are the consent text on the checkboxes a member ticks when
 // creating a key, so they must describe what the key can ACTUALLY do. The API
@@ -27,8 +30,17 @@ export type AgentScope = "read" | "write:status";
 // the label has to say so.
 export const SCOPE_LABELS: Record<AgentScope, string> = {
   read: "Read the roadmap, progress and activity detail",
+  "read:documents":
+    "Fetch blank document templates so it can draft them (every fetch is logged)",
   "write:status":
     "Set activities to In progress and tick sub-tasks (it cannot close or exclude one)",
+};
+
+/** Short form for the keys table. */
+export const SCOPE_SHORT: Record<AgentScope, string> = {
+  read: "read",
+  "read:documents": "templates",
+  "write:status": "update progress",
 };
 
 export type AgentTokenStatus = "pending" | "active" | "revoked";
