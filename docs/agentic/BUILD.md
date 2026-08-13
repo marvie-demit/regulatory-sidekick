@@ -205,7 +205,26 @@ green; and each failure produces its own plain-language message:
 
 ---
 
-## Slice 4 — The draft registry · 2–3 days
+## Slice 4 — The draft registry · 2–3 days · **BUILT**
+
+Commits `c3e7044` (registry) and `6484052` (UI). Migration `0019` applied.
+
+Two decisions worth carrying forward:
+
+- **`ok` is a report, not an attestation.** The API never sees the draft, so it
+  cannot verify the claim. The real gate is local — `save_draft` refuses to write a
+  failing draft at all, so a rejected draft has no path to report. Requiring
+  `ok: true` stops a well-behaved client recording a failure as an achievement; it
+  is not a defence against a hostile one, and nothing downstream should treat it as
+  one.
+- **Reporting cannot fail a save.** The file reaches disk before the report is
+  attempted and stays there regardless — a lapsed subscription, a missing scope, an
+  unapplied migration or a plane journey must not cost someone their work. The tool
+  says the workspace is behind rather than swallowing it.
+
+Still open: `list_drafts` reads the local folder only (item 3), which serves a
+resuming agent on the *same* machine. A second machine sees nothing until it
+re-drafts. Needs a `GET` endpoint, which was not in this slice's scope.
 
 **Input** — Slice 3.
 

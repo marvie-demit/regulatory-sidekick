@@ -20,8 +20,16 @@ Give the key to the agent as `Authorization: Bearer rsk_…`. **The key identifi
 the workspace on its own** — never send a workspace/org id; the server derives it
 from the key and ignores any id in the request.
 
-Scopes: `read` always; `write:status` only if the creator ticked "Let the agent
-update progress".
+Scopes are opt-in per key, ticked at creation. They **cannot be added to an
+existing key** — a key that lacks one has to be replaced, which is why the
+`403` names the box to tick rather than the scope string.
+
+| Scope | Box on the Agent page | Grants |
+| --- | --- | --- |
+| `read` | always on | the roadmap, progress, activity detail |
+| `read:documents` | *Let the agent fetch document templates* | the blank template, its contract and its drafting prompt |
+| `write:status` | *Let the agent update progress* | `Not started` / `In progress` and task ticks |
+| `write:drafts` | *Report which documents it has drafted* | recording that a draft exists — path and counts, never content |
 
 ## Endpoints
 
@@ -74,6 +82,44 @@ a regulatory requirement inapplicable to this device. Both are *closed* states, 
 either one unblocks dependent activities and moves the workspace's completion
 percentage. Report what you did and let a human close it in the app.
 
+### `GET /api/v1/documents/{docId}/template` — the blank *(needs `read:documents`)*
+
+The blank fragment, the contract derived from it, and the prompt for drafting
+it — one call. Returns `html`, `fillMode` (`author` or `scaffold`), `contract`
+(the header band, outline, placeholders and table shapes a draft must preserve),
+`allowedClauses`, and `prompt`.
+
+`fillMode` decides what you are allowed to write. **`scaffold` means leave every
+`[ ]` untouched** — filling a form in advance fabricates a quality record.
+
+A document outside this workspace's device profile returns `404`, not `403`: a
+`403` would confirm what exists outside the profile.
+
+### `PUT /api/v1/documents/{docId}/draft` — report a draft *(needs `write:drafts`)*
+
+```jsonc
+{
+  "path": "20_Drafts/AES/AES-SOP-01.html",  // relative to the QMS root, forward slashes
+  "bytes": 5119,
+  "ok": true,                                // only a draft that passes its contract
+  "warnings": 0,
+  "openQuestions": 1,
+  "activityId": "AES.setup"                  // optional; inferred if omitted
+}
+```
+
+**Metadata only.** There is no field for document text and no column to store it
+— the document stays on the machine that drafted it. `path` must sit under
+`20_Drafts/`; anything else is `400`.
+
+`ok` is your report, not something the server can check — it never sees the
+draft. Sending `ok: false` returns `422` and writes no row. The real gate is
+local: a draft that fails validation is never written to disk, so it has no path
+to report.
+
+Re-drafting the same document **updates in place** rather than adding a row. The
+history lives in the audit log.
+
 ## Rate limits
 
 Every key has two independent budgets, both set per workspace:
@@ -97,9 +143,10 @@ Limits are raised by the Regulatory Sidekick team, not from workspace settings.
 | `401` | missing / unknown / revoked / expired key |
 | `402` | no full access, **or** the agent add-on isn't enabled for this workspace |
 | `403` | key not approved yet, missing the required scope, or you tried to set `Done` / `N-A` |
-| `404` | no such activity |
+| `404` | no such activity or document — or it is outside this device profile |
+| `422` | the draft you reported does not pass its contract — nothing was recorded |
 | `429` | over the request or write budget — back off per `Retry-After` |
-| `503` | key lookup failed — retry, don't re-auth |
+| `503` | key lookup failed, or draft reporting is not deployed yet — retry, don't re-auth |
 
 ## What the workspace sees
 
