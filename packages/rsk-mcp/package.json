@@ -18,10 +18,12 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "build": "node scripts/bundle.mjs",
+    "build": "node scripts/bundle.mjs && node scripts/pack-mcpb.mjs",
     "test": "node --test \"test/**/*.test.ts\"",
     "prepublishOnly": "npm run build && node ../../scripts/check-pack.mjs",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "icon": "node scripts/make-icon.mjs",
+    "bundle": "node scripts/pack-mcpb.mjs"
   },
   "devDependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

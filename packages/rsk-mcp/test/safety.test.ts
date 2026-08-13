@@ -219,3 +219,26 @@ test("a folder outside any sync root is not warned about", () => {
     [],
   );
 });
+
+// ---------------------------------------------------------------------------
+// 3. Version comparison — the kill switch depends on it
+// ---------------------------------------------------------------------------
+
+test("version comparison orders releases correctly", async () => {
+  const { cmpVersion } = await import("../src/version.ts");
+  assert.equal(cmpVersion("0.1.0", "0.1.0"), 0);
+  assert.equal(cmpVersion("0.1.0", "0.2.0"), -1);
+  assert.equal(cmpVersion("0.2.0", "0.1.0"), 1);
+  // Different segment counts must not read as different versions.
+  assert.equal(cmpVersion("1.0", "1.0.0"), 0);
+  assert.equal(cmpVersion("0.9.9", "0.10.0"), -1, "string compare would get this wrong");
+  assert.equal(cmpVersion("1.0.0", "0.99.99"), 1);
+});
+
+test("a pre-release tag reads as its base version, never as an error", async () => {
+  const { cmpVersion } = await import("../src/version.ts");
+  // Being off by a hair beats throwing inside the check that decides whether
+  // the client may run at all.
+  assert.equal(cmpVersion("0.2.0-beta.1", "0.2.0"), 0);
+  assert.equal(cmpVersion("garbage", "0.1.0"), -1);
+});

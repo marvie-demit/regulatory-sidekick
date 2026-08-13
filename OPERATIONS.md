@@ -17,6 +17,26 @@ idempotent and safe to re-run.
 | `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
 | `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
 
+## Releasing the desktop bundle
+
+`npm run build -w @notjustany/regulatory-sidekick-mcp` produces
+`packages/rsk-mcp/dist/regulatory-sidekick-<version>.mcpb`. Shipping it is three
+manual steps, in this order:
+
+1. Create a **private** Storage bucket named `releases` (once). It must not be
+   public — `/api/agent/bundle` hands out a 60-second signed URL, and a public
+   bucket would make the entitlement gate decorative.
+2. Upload the `.mcpb` under its own filename, unchanged.
+3. Flip `BUNDLE_AVAILABLE` in `lib/agent/release.ts` and set `CLIENT_LATEST` to
+   the version you uploaded. Until then the Agent page says "coming" rather than
+   linking to a download that 404s.
+
+`CLIENT_MINIMUM` is the kill switch, not the update prompt. Raising it strands
+every installed client below it, so move it only when a version is genuinely
+unsafe to keep using — a validator bug that let a falsified record through, for
+instance. `GET /api/v1/version` is unauthenticated on purpose: a client whose key
+has lapsed still has to be able to hear "stop".
+
 **`0019` must be applied before the deploy that ships it**, for the same reason
 as `0018`: the *report drafts back* box adds a scope the CHECK would reject, and
 key creation errors rather than degrading. The draft badges read through a

@@ -157,6 +157,9 @@ export function createClient(cfg: ClientConfig) {
         `/api/v1/documents/${encodeURIComponent(docId)}/draft`,
         { method: "PUT", body: JSON.stringify(d) },
       ),
+    /** Release policy for installed clients. Unauthenticated by design. */
+    version: () =>
+      call<{ latest: string; minimum: string; package: string }>("/api/v1/version"),
     /** Every draft this WORKSPACE knows about, including other machines'. */
     listDrafts: () =>
       call<{ available: boolean; drafts: RemoteDraft[] }>("/api/v1/documents/drafts"),

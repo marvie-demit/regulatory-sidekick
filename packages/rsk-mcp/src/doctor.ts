@@ -10,6 +10,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { RskError, type Client } from "./client.ts";
 import { CONTROLLED, DRAFTS, FACTS_FILE, syncWarnings } from "./qms.ts";
+import { cmpVersion } from "./version.ts";
 
 export type CheckState = "ok" | "warn" | "fail";
 export type Check = { name: string; state: CheckState; detail: string };
@@ -138,7 +139,34 @@ export async function runDoctor(opts: {
     );
   }
 
-  add("Client version", "ok", `rsk-mcp/${opts.version}`);
+  // Staleness is made visible rather than fixed silently: there is no
+  // auto-updater, because a binary that replaces itself on the machine writing
+  // a manufacturer's QMS is a question in their supplier assessment nobody
+  // wants to answer. `minimum` is the kill switch for a release that turns out
+  // to be unsafe; below it we say stop, not "consider upgrading".
+  try {
+    const v = await opts.client.version();
+    const stale = cmpVersion(opts.version, v.minimum) < 0;
+    const behind = cmpVersion(opts.version, v.latest) < 0;
+    if (stale)
+      add(
+        "Client version",
+        "fail",
+        `rsk-mcp/${opts.version} is below the minimum supported ${v.minimum} and must not be used. Reinstall the extension, or run "npx -y ${v.package}@latest".`,
+      );
+    else if (behind)
+      add(
+        "Client version",
+        "warn",
+        `rsk-mcp/${opts.version} — ${v.latest} is available. Nothing is broken; update when convenient.`,
+      );
+    else add("Client version", "ok", `rsk-mcp/${opts.version} (current)`);
+  } catch {
+    // An unreachable version endpoint is not a setup problem — the connection
+    // check above already covers "cannot reach the server". Report the version
+    // plainly rather than inventing a second failure for the same cause.
+    add("Client version", "ok", `rsk-mcp/${opts.version}`);
+  }
 
   return { ok: !checks.some((c) => c.state === "fail"), checks };
 }
@@ -154,3 +182,4 @@ export function formatReport(r: DoctorReport): string {
   );
   return lines.join("\n");
 }
+

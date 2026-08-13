@@ -21,6 +21,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { inflateRawSync } from "node:zlib";
 
 const PACKAGES = "packages";
 
@@ -108,6 +109,25 @@ for (const dir of pkgDirs) {
       problems.push(
         `${label}: ${f} is ${(size / 1024 / 1024).toFixed(1)} MB — over the ${MAX_ARTEFACT_BYTES / 1024 / 1024} MB ceiling. Corpus copied in?`,
       );
+    // A .mcpb is a zip, and it is the artefact this check exists for: it sits
+    // on a customer's laptop indefinitely and would SURVIVE REVOCATION, so
+    // corpus content inside one can never be taken back. Read its entries.
+    if (/\.mcpb$/.test(f)) {
+      for (const entry of zipEntries(readFileSync(f))) {
+        if (/\.html$/.test(entry.name))
+          problems.push(`${label}: ${f} contains ${entry.name} — the corpus must not ship in a bundle.`);
+        const text = entry.data.toString("utf8");
+        for (const { needle, max } of FINGERPRINTS) {
+          const n = countOf(text, needle);
+          if (n > max)
+            problems.push(
+              `${label}: ${f}!${entry.name} contains "${needle}" ${n} times (max ${max}) — that is corpus content.`,
+            );
+        }
+      }
+      continue;
+    }
+
     if (!/\.(js|mjs|cjs|json|map|d\.ts)$/.test(f)) continue;
     const text = readFileSync(f, "utf8");
     for (const { needle, max } of FINGERPRINTS) {
@@ -118,6 +138,56 @@ for (const dir of pkgDirs) {
         );
     }
   }
+}
+
+/**
+ * Read a zip's entries. Walks the central directory rather than scanning for
+ * local headers, so a file whose CONTENT happens to contain the local-header
+ * magic cannot fabricate an entry — and a bundle is mostly a 1.6 MB JavaScript
+ * file, which is exactly the sort of thing that contains arbitrary bytes.
+ */
+function zipEntries(buf) {
+  const out = [];
+  // End of central directory: scan back for its signature.
+  let eocd = -1;
+  for (let i = buf.length - 22; i >= 0 && i > buf.length - 66000; i--)
+    if (buf.readUInt32LE(i) === 0x06054b50) {
+      eocd = i;
+      break;
+    }
+  if (eocd < 0) return out;
+
+  const count = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16);
+
+  for (let i = 0; i < count; i++) {
+    if (buf.readUInt32LE(p) !== 0x02014b50) break;
+    const method = buf.readUInt16LE(p + 10);
+    const compSize = buf.readUInt32LE(p + 20);
+    const nameLen = buf.readUInt16LE(p + 28);
+    const extraLen = buf.readUInt16LE(p + 30);
+    const commentLen = buf.readUInt16LE(p + 32);
+    const localOff = buf.readUInt32LE(p + 42);
+    const name = buf.toString("utf8", p + 46, p + 46 + nameLen);
+
+    // The local header repeats the name/extra lengths, and its extra field can
+    // differ from the central one — read the body's start from IT, not from here.
+    const lNameLen = buf.readUInt16LE(localOff + 26);
+    const lExtraLen = buf.readUInt16LE(localOff + 28);
+    const start = localOff + 30 + lNameLen + lExtraLen;
+    const body = buf.subarray(start, start + compSize);
+
+    let data;
+    try {
+      data = method === 8 ? inflateRawSync(body) : Buffer.from(body);
+    } catch {
+      data = Buffer.alloc(0);
+    }
+    out.push({ name, data });
+
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  return out;
 }
 
 console.log(

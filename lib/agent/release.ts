@@ -19,6 +19,27 @@ export const MCP_AVAILABLE = false;
 export const BUNDLE_AVAILABLE = false;
 
 /**
+ * Version policy for installed clients.
+ *
+ * There is no auto-updater, deliberately: a binary that silently replaces
+ * itself on the machine that writes a manufacturer's QMS is a question in their
+ * supplier assessment nobody wants to answer. Staleness is made VISIBLE instead
+ * — the client sends X-RSK-Client on every call, warns below `latest`, and
+ * refuses to run below `minimum`.
+ *
+ * `minimum` is the kill switch for a bad release. Raising it strands every
+ * client below it, so it moves only when a version is genuinely unsafe to keep
+ * using — a validator bug that let a falsified record through, say. Warning is
+ * the normal tool; this is not.
+ */
+export const CLIENT_LATEST = "0.1.0";
+export const CLIENT_MINIMUM = "0.1.0";
+
+/** The object key in the private `releases` bucket. */
+export const bundleObject = (version: string) =>
+  `regulatory-sidekick-${version}.mcpb`;
+
+/**
  * The one-liner a Claude Code user pastes, run from their QMS folder.
  *
  * Two things here are load-bearing and easy to get wrong:
