@@ -195,8 +195,17 @@ export const STOCK_PLACEHOLDERS = [
   "[Y/N]",
 ] as const;
 
+// A standard reference is "IEC 60601", "IEC 60601-1-2", "ISO 13485 7.3.9" — a
+// number, optional -suffixes, optionally a clause number. The trailing part is
+// deliberately NOT a loose character class: one that admits spaces and letters
+// keeps matching past the reference and swallows the rest of the sentence, so
+// "IEC 60601 Test Report - AES-FOR-01 Document ID …" is captured as a single
+// "clause". That failure is invisible on a draft that copies the blank's text
+// verbatim (skeleton and draft produce the same garbled string, so it is
+// permitted) and fires the moment the draft deletes the guidance block — which
+// every draft is required to do.
 const CLAUSE_RE =
-  /(?:ISO|IEC|EN)\s?\d{4,5}[\d.\-/ ()a-zA-Z]*|(?:MDR|IVDR)\s+Annex\s+[IVX]+[\d. ]*|21\s*CFR\s*\d+(?:\.\d+)?|GDPR\s+Art\.?\s*\d+/g;
+  /(?:ISO|IEC|EN)\s?\d{4,5}(?:[-–][0-9A-Za-z]+)*(?:\s+\d+(?:\.\d+)*)?|(?:MDR|IVDR)\s+Annex\s+[IVX]+[\d. ]*|21\s*CFR\s*\d+(?:\.\d+)?|GDPR\s+Art\.?\s*\d+/g;
 
 export function deriveSkeleton(html: string, docId: string): SkeletonFacts {
   const { tokens, issues } = tokenize(html);

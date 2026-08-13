@@ -89,6 +89,34 @@ test("a correctly scaffolded register passes", () => {
   assert.equal(r.ok, true);
 });
 
+// AES-FOR-01's title BEGINS with a standard reference — "IEC 60601 Test Report".
+// That is where a loose clause pattern starts matching and fails to stop: it
+// runs on through the header band and reads as one invented citation. The bug
+// hides from the three fixtures above (none of their titles start with a
+// standard) and, worse, hides from a verbatim copy of the blank itself —
+// skeleton and draft produce the same garbled string, so it is permitted. It
+// surfaces only once the guidance block is deleted, which every draft must do.
+//
+// The other three tests pass no allowedClauses, so checkClauses returns early
+// and never runs. This one must pass them or it asserts nothing.
+test("a blank whose title starts with a standard passes once guidance is stripped", () => {
+  const id = "AES-FOR-01";
+  const skeleton = read(id);
+  const r = validateFragment({
+    docId: id,
+    skeleton,
+    draft: goodDraft(skeleton, "scaffold"),
+    fillMode: "scaffold",
+    allowedClauses: [
+      "IEC 60601-1 Basic safety & essential performance",
+      "IEC 60601-1 Applicable collateral (-1-x) and particular (-2-xx) standards",
+      "EU MDR Annex I GSPR (safety & performance)",
+    ],
+  });
+  assert.deepEqual(rules(r), [], JSON.stringify(r.issues, null, 2));
+  assert.equal(r.ok, true);
+});
+
 // ---------------------------------------------------------------------------
 // Structure
 // ---------------------------------------------------------------------------
