@@ -77,6 +77,43 @@ export function getTier(id: string): Tier | null {
   return TIERS.find((t) => t.id === id) ?? null;
 }
 
+// ---------------------------------------------------------------------------
+// The agent add-on.
+//
+// Deliberately NOT a Tier. A Tier grants a `plan`, carries payment options, and
+// appears on /pricing as a way to buy access to Regulatory Sidekick. The add-on
+// grants an ENTITLEMENT to a workspace that already has a licence, renews
+// monthly, and is only ever sold from the Agent page. Modelling it as a fourth
+// tier would put it in TIERS — and every loop over TIERS (the pricing page, the
+// tier picker) would have to remember to skip it. One that forgot would offer
+// an unlicensed visitor a subscription that grants them nothing.
+// ---------------------------------------------------------------------------
+
+export const AGENT_SUBSCRIPTION = {
+  id: "agent" as const,
+  label: "Agent access",
+  /** Copy only, like the tier headlines above — Stripe is what charges. */
+  headline: "€150 / month",
+  envVar: "STRIPE_PRICE_AGENT_MONTHLY",
+  /**
+   * What the customer still needs beyond this, said before checkout rather
+   * than after. Discovering it afterwards is the refund conversation.
+   */
+  requires: [
+    "A Regulatory Sidekick licence (full access) — this is an add-on, not a substitute.",
+    "Your own Claude subscription, or another MCP-capable assistant. We do not resell model access.",
+  ],
+} as const;
+
+export function agentPriceId(): string | null {
+  return process.env[AGENT_SUBSCRIPTION.envVar]?.trim() || null;
+}
+
+/** False until a monthly price exists in Stripe — the Agent page says so. */
+export function isAgentBuyable(): boolean {
+  return agentPriceId() !== null;
+}
+
 export function priceIdFor(option: PaymentOption): string | null {
   return process.env[option.envVar]?.trim() || null;
 }

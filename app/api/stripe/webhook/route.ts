@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import { getStripe, stripeConfigured } from "@/lib/stripe/client";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { grantPurchasedAccess } from "@/lib/billing/grant";
+import { grantPurchasedAccess, grantAgentAccess } from "@/lib/billing/grant";
 
 // Stripe webhook — the ONLY place a purchase turns into access.
 //
@@ -104,6 +104,12 @@ async function onCheckoutCompleted(admin: Admin, s: Stripe.Checkout.Session) {
     return;
   }
 
+  // The add-on and a licence share this event and almost nothing else.
+  if (s.metadata?.kind === "agent") {
+    await onAgentCheckoutCompleted(admin, s, orgId);
+    return;
+  }
+
   const plan = s.metadata?.plan === "enterprise" ? "enterprise" : "full";
   const isSubscription = s.mode === "subscription";
 
@@ -161,12 +167,14 @@ async function onCheckoutExpired(admin: Admin, s: Stripe.Checkout.Session) {
 }
 
 const PURCHASE_COLS =
-  "id, org_id, plan, mode, installments_paid, installments_total, status";
+  "id, org_id, kind, plan, mode, installments_paid, installments_total, status";
 
 type PurchaseRow = {
   id: string;
   org_id: string;
-  plan: string;
+  /** 'licence' | 'agent' — what was bought (migration 0020) */
+  kind: string;
+  plan: string | null;
   mode: string;
   installments_paid: number | null;
   installments_total: number | null;
@@ -246,6 +254,14 @@ async function onInvoicePaid(admin: Admin, stripe: Stripe, inv: Stripe.Invoice) 
   );
   if (!purchase) return;
 
+  // An agent subscription is open-ended: there is no instalment total to
+  // reach, and cancelling it when a count is hit would end a live subscription
+  // the customer is still paying for.
+  if (purchase.kind === "agent") {
+    await onAgentInvoicePaid(admin, stripe, purchase, subId, inv);
+    return;
+  }
+
   // Count what Stripe says has been paid rather than incrementing our own
   // counter: order-independent, and a redelivered or out-of-order event can
   // never double-count. Instalment plans are 3–6 invoices, so one page is ample.
@@ -301,6 +317,25 @@ async function onInvoiceFailed(admin: Admin, stripe: Stripe, inv: Stripe.Invoice
     .update({ status: "past_due", updated_at: new Date().toISOString() })
     .eq("id", purchase.id);
 
+  if (purchase.kind === "agent") {
+    // Nothing else to do, and that is the design: agentic_expires_at moves ONLY
+    // on a paid invoice, so a failed payment lapses the add-on by arithmetic
+    // rather than by a revoke path that could fire at the wrong moment. Stripe
+    // dunning may still recover it, and a later invoice.paid rolls it forward.
+    await admin.from("audit_log").insert({
+      org_id: purchase.org_id,
+      actor_id: null,
+      action: "agentic.payment_failed",
+      entity_type: "purchase",
+      entity_id: purchase.id,
+      detail: {
+        subscription_id: subId,
+        access: "runs to the already-paid period end, then lapses",
+      },
+    });
+    return;
+  }
+
   // Deliberately NOT revoked. A regulated manufacturer losing access to its own
   // QMS documents over a failed card turns a billing hiccup into an audit
   // incident (BUSINESS-MODEL.md §4 / §8). Stripe runs its own dunning; this is
@@ -333,6 +368,11 @@ async function onSubscriptionEnded(
     sub.metadata,
   );
   if (!purchase) return;
+
+  if (purchase.kind === "agent") {
+    await onAgentSubscriptionEnded(admin, purchase, sub);
+    return;
+  }
 
   // We cancel the subscription ourselves once the last instalment lands, so a
   // row already marked completed is the happy path, not a default.
@@ -367,4 +407,137 @@ async function onSubscriptionEnded(
       },
     });
   }
+}
+
+// ---------------------------------------------------------------------------
+// The agent add-on.
+//
+// Its whole lifecycle rests on one invariant: agentic_expires_at is set from
+// the Stripe period end when an invoice is paid, and by nothing else. Read the
+// three handlers below with that in mind — two of them do almost nothing, and
+// that is the design working rather than a gap.
+// ---------------------------------------------------------------------------
+
+/** Stripe moved the period end onto the subscription item in recent versions. */
+function periodEndOf(sub: Stripe.Subscription): Date {
+  const item = sub.items?.data?.[0] as { current_period_end?: number } | undefined;
+  const secs =
+    item?.current_period_end ??
+    (sub as unknown as { current_period_end?: number }).current_period_end;
+  // A subscription with no period end should never reach here, but guessing a
+  // month is far better than writing an epoch date into an entitlement.
+  return secs
+    ? new Date(secs * 1000)
+    : new Date(Date.now() + 31 * 24 * 60 * 60 * 1000);
+}
+
+async function onAgentCheckoutCompleted(
+  admin: Admin,
+  s: Stripe.Checkout.Session,
+  orgId: string,
+) {
+  const subId = idOf(s.subscription);
+
+  const { error } = await admin.from("purchases").upsert(
+    {
+      org_id: orgId,
+      kind: "agent",
+      tier: "agent",
+      // plan stays absent. 0020's CHECK rejects a value on an agent row, which
+      // is what makes "the add-on never grants a licence" structural.
+      payment_option: "monthly",
+      mode: "subscription",
+      status: "active",
+      stripe_session_id: s.id,
+      stripe_customer_id: idOf(s.customer),
+      stripe_subscription_id: subId,
+      amount_total: s.amount_total,
+      currency: s.currency,
+      email: s.customer_details?.email ?? null,
+      granted_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "stripe_session_id" },
+  );
+  if (error) throw new Error(`agent purchase upsert failed: ${error.message}`);
+
+  if (subId)
+    await admin
+      .from("organizations")
+      .update({ agentic_subscription_id: subId })
+      .eq("id", orgId);
+
+  // The first period is already paid at this point, so grant it now rather than
+  // waiting for invoice.paid — which Stripe often delivers first, but not
+  // always, and the customer is looking at the success page either way.
+  const sub = subId ? await getStripe().subscriptions.retrieve(subId) : null;
+  const res = await grantAgentAccess(
+    admin,
+    orgId,
+    sub ? periodEndOf(sub) : new Date(Date.now() + 31 * 24 * 60 * 60 * 1000),
+    { source: "stripe.checkout", session_id: s.id, subscription_id: subId },
+  );
+  if (res.error) throw new Error(`agent grant failed: ${res.error}`);
+}
+
+async function onAgentInvoicePaid(
+  admin: Admin,
+  stripe: Stripe,
+  purchase: PurchaseRow,
+  subId: string,
+  inv: Stripe.Invoice,
+) {
+  const sub = await stripe.subscriptions.retrieve(subId);
+
+  await admin
+    .from("purchases")
+    .update({
+      status: "active",
+      installments_paid: (purchase.installments_paid ?? 0) + 1,
+      amount_total: inv.amount_paid ?? null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", purchase.id);
+
+  // installments_paid counts months here rather than progress towards a total.
+  // It is informational: nothing branches on it for an agent row, because there
+  // is no total to reach and nothing to cancel.
+  const res = await grantAgentAccess(admin, purchase.org_id, periodEndOf(sub), {
+    source: "stripe.invoice_paid",
+    subscription_id: subId,
+    invoice_id: inv.id,
+  });
+  if (res.error) throw new Error(`agent grant failed: ${res.error}`);
+}
+
+async function onAgentSubscriptionEnded(
+  admin: Admin,
+  purchase: PurchaseRow,
+  sub: Stripe.Subscription,
+) {
+  await admin
+    .from("purchases")
+    .update({ status: "cancelled", updated_at: new Date().toISOString() })
+    .eq("id", purchase.id);
+
+  // Detach the subscription so the Agent page offers "subscribe" again, and so
+  // startAgentSubscription does not refuse a genuine re-subscribe.
+  await admin
+    .from("organizations")
+    .update({ agentic_subscription_id: null })
+    .eq("id", purchase.org_id)
+    .eq("agentic_subscription_id", sub.id);
+
+  // agentic_expires_at is deliberately NOT cleared. The customer paid for this
+  // period; taking the agent away the moment they cancel is both wrong and the
+  // thing most likely to make them cancel angrily rather than quietly. The date
+  // arrives on its own.
+  await admin.from("audit_log").insert({
+    org_id: purchase.org_id,
+    actor_id: null,
+    action: "agentic.subscription_cancelled",
+    entity_type: "purchase",
+    entity_id: purchase.id,
+    detail: { subscription_id: sub.id, access: "runs to the paid period end" },
+  });
 }
