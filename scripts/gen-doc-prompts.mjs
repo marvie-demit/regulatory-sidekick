@@ -47,8 +47,9 @@ const problems = [];
 
 for (const d of documents) {
   let prompt;
+  let vars;
   try {
-    const vars = buildPromptVars({ docId: d.id, profile: PROFILE });
+    vars = buildPromptVars({ docId: d.id, profile: PROFILE });
     if (!vars) {
       problems.push(`${d.id}: buildPromptVars returned null`);
       continue;
@@ -69,9 +70,14 @@ for (const d of documents) {
   for (const need of ["## The skeleton contract", "## When you're done"])
     if (!prompt.includes(need)) problems.push(`${d.id}: missing "${need}"`);
 
-  // A form or register must lead with the scaffold warning, first, so it
+  // A scaffold document must lead with the scaffold warning, first, so it
   // cannot be buried under the rest of the prompt.
-  const scaffold = d.cls === "FOR" || d.cls === "LIS";
+  //
+  // Keyed on the RESOLVED fillMode, not the class. Class is the usual reason a
+  // document is scaffold (FOR, LIS) but not the only one: a pro-forma blank —
+  // DOC-TPL-01, the SOP master an organisation clones — is scaffold despite
+  // being a TPL, because filling its placeholders destroys the master.
+  const scaffold = vars.fillMode === "scaffold";
   const hasWarning = prompt.includes("BUILD THE SCAFFOLD, NOT THE RECORD");
   if (scaffold && !hasWarning)
     problems.push(`${d.id}: ${d.cls} without the scaffold-only warning`);

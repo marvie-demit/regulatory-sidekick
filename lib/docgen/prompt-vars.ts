@@ -26,6 +26,22 @@ export function fillModeFor(cls: string): FillMode {
   return cls === "FOR" || cls === "LIS" ? "scaffold" : "author";
 }
 
+const HAS_PLACEHOLDER = /\[[^\]\n]*\]/;
+
+/**
+ * Is this blank a PRO-FORMA — a master an organisation clones to create a
+ * document, rather than a document to fill in?
+ *
+ * Detected from the blank itself: a document that puts a placeholder where its
+ * own Document ID or title belongs is describing a shape, not carrying an
+ * identity. Nothing in content.json marks this, and the class does not tell you
+ * — DOC-TPL-01 and DOC-TPL-03 are TPL exactly like the 125 ordinary templates.
+ */
+export function isProForma(contract: SkeletonFacts): boolean {
+  const id = contract.headerbandRows.find((r) => r.label === "Document ID")?.value ?? "";
+  return HAS_PLACEHOLDER.test(id) || HAS_PLACEHOLDER.test(contract.h1Text);
+}
+
 export type PromptVars = {
   doc: DocItem;
   fillMode: FillMode;
@@ -93,10 +109,17 @@ export function buildPromptVars(args: {
     : undefined;
 
   const html = templateHtml(args.docId);
+  const contract = deriveSkeleton(html, args.docId);
 
   return {
     doc,
-    fillMode: fillModeFor(doc.cls),
+    // A PRO-FORMA is a blank an organisation clones to CREATE a document —
+    // DOC-TPL-01 ("[Procedure Title] - [DOMAIN]-SOP-NN") is the SOP pro-forma.
+    // Its placeholders are the deliverable, not gaps to close: filling them
+    // produces one instance and destroys the master. Class alone cannot tell
+    // you this — both are TPL — but the blank says so plainly by putting a
+    // placeholder where its own identity belongs.
+    fillMode: isProForma(contract) ? "scaffold" : fillModeFor(doc.cls),
     role: docRole(a?.documents, args.docId),
     producedIn: step,
     implementedBy,

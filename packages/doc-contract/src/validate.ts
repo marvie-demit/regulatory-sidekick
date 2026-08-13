@@ -129,7 +129,13 @@ export function validateFragment(input: ValidateInput): ValidateResult {
       "error",
       "Guidance text remains after its tag was removed — delete the words too.",
     );
-  if (/HOW TO USE THIS DOCUMENT/i.test(draftText))
+  // Case-SENSITIVE, and it must carry the banner's own tail. The banner reads
+  // "HOW TO USE THIS DOCUMENT — guidance, delete before release" in capitals;
+  // a case-insensitive match on the phrase alone also catches a document that
+  // legitimately WRITES about the convention. QMN-MAN-02, the Quality Manual,
+  // does exactly that — "a 'How to use this document' block explaining its
+  // purpose, who fills it in…" — and could not be drafted at all.
+  if (/HOW TO USE THIS DOCUMENT[\s—–-]*guidance, delete before release/.test(draftText))
     add("guidance.no-orphan-prose", "error", "The \"how to use\" prose remains.");
 
   // ---- header band ---------------------------------------------------------
@@ -203,8 +209,26 @@ function checkHeaderband(
   const value = (label: string) =>
     df.headerbandRows.find((r) => r.label === label)?.value ?? "";
 
+  const skValue = (label: string) =>
+    sk.headerbandRows.find((r) => r.label === label)?.value ?? "";
+  // A pro-forma blank carries a placeholder where its identity belongs
+  // ("[DOMAIN]-SOP-NN"). Demanding that cell equal the document id asks for the
+  // one edit that would destroy the master, so for those the rule becomes
+  // "leave it exactly as it is" — which is still an identity check, just of the
+  // thing that is actually true.
+  const proForma = (s: string) => /\[[^\]\n]*\]/.test(s);
+
   const idCell = value("Document ID");
-  if (idCell && idCell !== input.docId)
+  const skId = skValue("Document ID");
+  const isProForma = proForma(skId) || proForma(sk.h1Text);
+  if (proForma(skId)) {
+    if (idCell !== skId)
+      add(
+        "headerband.identity",
+        "error",
+        `Document ID is "${idCell}". This is a pro-forma blank — leave "${skId}" exactly as it is.`,
+      );
+  } else if (idCell && idCell !== input.docId)
     add("headerband.identity", "error", `Document ID is "${idCell}", expected "${input.docId}".`);
 
   if (input.title) {
@@ -214,12 +238,27 @@ function checkHeaderband(
   }
   if (input.module) {
     const m = value("Module");
-    if (m && m !== input.module)
+    const skM = skValue("Module");
+    // Same reasoning as Document ID: DOC-TPL-01 offers a CHOICE in that cell
+    // ("[Core / SEC / PRIV / AI / IVD / HW / SW]"), which is the pro-forma
+    // doing its job.
+    if (proForma(skM)) {
+      if (m !== skM)
+        add(
+          "headerband.identity",
+          "error",
+          `Module is "${m}". This is a pro-forma blank — leave "${skM}" exactly as it is.`,
+        );
+    } else if (m && m !== input.module)
       add("headerband.identity", "error", `Module is "${m}", expected "${input.module}".`);
   }
 
+  // A pro-forma master is not a drafted document and has no version to issue —
+  // its "[01]" is the cell the cloning organisation will fill. Everything else
+  // must be 0.x-DRAFT.
   const version = value("Version");
-  if (version && !/^0\.\d+-DRAFT$/.test(version))
+  const versionExempt = isProForma && version === skValue("Version");
+  if (version && !versionExempt && !/^0\.\d+-DRAFT$/.test(version))
     add(
       "headerband.version",
       "error",
@@ -236,9 +275,16 @@ function checkHeaderband(
       `Effective date is "${eff}". This document has not been approved, so there is no date to know — write [[NEEDS INPUT: approval date]].`,
     );
 
+  // A PRO-FORMA's header band is supposed to keep its placeholders — they are
+  // what the cloning organisation fills in later. Every OTHER document must
+  // still replace [01] and [YYYY-MM-DD], which is the common case and the whole
+  // point of the rule, so the exemption is scoped to the document rather than
+  // to "the blank had one here" — the latter would excuse every document alive.
+
   for (const row of df.headerbandRows) {
+    const skRow = sk.headerbandRows.find((r) => r.label === row.label)?.value ?? "";
     for (const p of STOCK_PLACEHOLDERS) {
-      if (row.value.includes(p))
+      if (row.value.includes(p) && !(isProForma && skRow.includes(p)))
         add(
           "headerband.no-stock-placeholder",
           "error",
@@ -336,9 +382,86 @@ function checkScaffold(
  * register's own column legend ("Opened", "Closed", "Owner") lives in the
  * skeleton, so it never trips a date or identifier heuristic.
  */
+const BRACKET_SPAN = /\[[^\]\n]*\]/g;
+
+/**
+ * Turn a skeleton block that contains placeholders into a pattern whose capture
+ * groups are exactly the placeholders.
+ *
+ * "It applies to … from work-order release through in-process control to batch
+ * release" is the blank's own prose. If it also contains [Organisation], filling
+ * that placeholder changes the block, and a plain string comparison then calls
+ * the WHOLE paragraph new — handing every word of the template's own prose to
+ * the no-invention scan. PRO-SOP-01 failed exactly that way, on the phrase
+ * "batch release", which the template wrote and the agent merely preserved.
+ */
+function blockPattern(block: string): { re: RegExp; literal: number } | null {
+  if (!/\[[^\]\n]*\]/.test(block)) return null;
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  let out = "";
+  let last = 0;
+  let literal = 0;
+  let m: RegExpExecArray | null;
+  BRACKET_SPAN.lastIndex = 0;
+  while ((m = BRACKET_SPAN.exec(block))) {
+    const lit = block.slice(last, m.index);
+    literal += lit.trim().length;
+    out += esc(lit) + "([\\s\\S]*?)";
+    last = m.index + m[0].length;
+  }
+  const tail = block.slice(last);
+  literal += tail.trim().length;
+  out += esc(tail);
+
+  // A block that is NOTHING but a placeholder — the header band's "[01]" cell,
+  // say — compiles to ^([\s\S]*?)$, which matches every string in the document.
+  // Such a pattern cannot identify anything; it can only shadow the pattern that
+  // would have, handing back a whole unrelated paragraph as "what was filled in".
+  // That is precisely how PRO-SOP-01's scope paragraph kept reaching the
+  // invention scan after the block-diff was supposedly fixed.
+  if (literal === 0) return null;
+
+  try {
+    return { re: new RegExp(`^${out}$`), literal };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The text the draft ADDED, as precisely as we can determine it.
+ *
+ * Exact block matches are known. A block that differs only where the blank had
+ * a placeholder yields just the substituted text — so the scan sees what the
+ * agent wrote and not what it inherited. Anything else is new in full, which is
+ * the safe default: rewriting the surrounding prose defeats the pattern and the
+ * whole block goes back under scrutiny.
+ */
 export function newText(sk: SkeletonFacts, df: SkeletonFacts): string[] {
   const known = new Set(sk.blocks);
-  return df.blocks.filter((b) => !known.has(b));
+  // Most literal text first, so the most specific blank wins when several could
+  // match. Without the ordering, whichever block happened to come first in the
+  // document would decide.
+  const patterns = sk.blocks
+    .map(blockPattern)
+    .filter((p): p is { re: RegExp; literal: number } => p !== null)
+    .sort((a, b) => b.literal - a.literal);
+
+  const out: string[] = [];
+  for (const b of df.blocks) {
+    if (known.has(b)) continue;
+    let filled: string[] | null = null;
+    for (const p of patterns) {
+      const m = p.re.exec(b);
+      if (m) {
+        filled = m.slice(1).filter((x) => x && x.trim());
+        break;
+      }
+    }
+    if (filled) out.push(...filled);
+    else out.push(b);
+  }
+  return out;
 }
 
 function checkInvention(

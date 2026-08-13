@@ -327,6 +327,97 @@ test("no-invention rules ignore text that was already in the blank", () => {
   );
 });
 
+// Filling a placeholder must not put the SURROUNDING sentence on trial.
+//
+// PRO-SOP-01 failed this way: its scope paragraph contains both [Organisation]
+// and the phrase "batch release". Substituting the organisation changed the
+// block, a plain string diff called the whole paragraph new, and the identifier
+// heuristic then flagged the template's own words. Any block pairing a fill
+// point with "batch", "lot" or "serial" would have done the same.
+test("filling a placeholder does not put the rest of its paragraph on trial", () => {
+  const skeleton =
+    '<h1 class="doc-title">X - AAA-SOP-01</h1>' +
+    "<p>[Organisation] releases product from work-order release through " +
+    "in-process control to batch release.</p>";
+  const r = validateFragment({
+    docId: "AAA-SOP-01",
+    skeleton,
+    draft: skeleton.replace("[Organisation]", "Acme Medical GmbH"),
+    fillMode: "author",
+  });
+  assert.deepEqual(
+    rules(r).filter((x) => x.startsWith("invent.")),
+    [],
+    "the blank's own prose must not become an invention by being adjacent to a blank",
+  );
+});
+
+// A block that is nothing but a placeholder — the header band's "[01]" cell —
+// compiles to a pattern matching every string in the document. It cannot
+// identify anything, only shadow the pattern that would have. This fixture has
+// exactly that shape: a bare-placeholder cell alongside prose carrying a
+// trigger word, which is the arrangement every header-band document has.
+test("a bare-placeholder block does not shadow the block that matters", () => {
+  const skeleton =
+    '<h1 class="doc-title">X - AAA-SOP-01</h1>' +
+    '<table class="headerband"><tr><td>Version</td><td>[01]</td></tr></table>' +
+    "<p>[Organisation] controls production through to batch release.</p>";
+  const r = validateFragment({
+    docId: "AAA-SOP-01",
+    skeleton,
+    draft: skeleton
+      .replace("[01]", "0.1-DRAFT")
+      .replace("[Organisation]", "Acme Medical GmbH"),
+    fillMode: "author",
+  });
+  assert.deepEqual(
+    rules(r).filter((x) => x.startsWith("invent.")),
+    [],
+    "the catch-all pattern must not claim the paragraph",
+  );
+});
+
+// A PRO-FORMA is a blank an organisation clones to CREATE a document. Its
+// placeholders are the deliverable, so "replace [01]" and "the Document ID must
+// equal DOC-TPL-01" both ask for the one edit that destroys the master. The
+// exemption is scoped to documents whose blank puts a placeholder where its own
+// identity belongs — the test above proves ordinary documents still must fill.
+test("a pro-forma blank may keep the placeholders that are its content", () => {
+  const skeleton =
+    '<h1 class="doc-title">[Procedure Title] - [DOMAIN]-SOP-NN</h1>' +
+    '<table class="headerband">' +
+    "<tr><td>Document ID</td><td>[DOMAIN]-SOP-NN</td></tr>" +
+    "<tr><td>Version</td><td>[01]</td></tr>" +
+    "</table>";
+  const r = validateFragment({
+    docId: "DOC-TPL-01",
+    skeleton,
+    draft: skeleton,
+    fillMode: "scaffold",
+    title: "SOP Template",
+  });
+  assert.deepEqual(rules(r), [], JSON.stringify(r.issues, null, 2));
+  assert.equal(r.ok, true);
+});
+
+// The other half: the fix narrows WHAT is scanned, and must not stop the scan
+// working. Text written INTO a placeholder is exactly what the agent authored.
+test("an invention written into the placeholder itself is still caught", () => {
+  const skeleton =
+    '<h1 class="doc-title">X - AAA-SOP-01</h1>' +
+    "<p>Approved on [YYYY-MM-DD] by the quality function.</p>";
+  const r = validateFragment({
+    docId: "AAA-SOP-01",
+    skeleton,
+    draft: skeleton.replace("[YYYY-MM-DD]", "2026-03-12"),
+    fillMode: "author",
+  });
+  assert.ok(
+    rules(r).includes("invent.no-date"),
+    `expected invent.no-date; got: ${rules(r).join(", ") || "(none)"}`,
+  );
+});
+
 // ---------------------------------------------------------------------------
 // Markers, placeholders, clauses
 // ---------------------------------------------------------------------------
