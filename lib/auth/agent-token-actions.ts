@@ -10,6 +10,7 @@ import {
   AGENT_TOKEN_LIMIT,
   AGENT_TOKEN_TTL_DAYS,
   ALL_SCOPES,
+  SCOPE_OPTION_LIST,
   type AgentScope,
 } from "@/lib/auth/agent-tokens";
 
@@ -76,9 +77,10 @@ export async function createAgentToken(
   // "read" is implicit — a key that cannot read is not useful. The other two are
   // independent opt-ins, each its own checkbox at creation.
   const scopes: AgentScope[] = ["read"];
-  if (formData.get("documents") === "on") scopes.push("read:documents");
-  if (formData.get("write") === "on") scopes.push("write:status");
-  if (formData.get("drafts") === "on") scopes.push("write:drafts");
+  // Same list the checkboxes are rendered from, so a box and its scope cannot
+  // drift apart.
+  for (const o of SCOPE_OPTION_LIST)
+    if (formData.get(o.field) === "on") scopes.push(o.scope);
   if (!scopes.every((s) => ALL_SCOPES.includes(s)))
     return { error: "Unknown permission requested." };
 

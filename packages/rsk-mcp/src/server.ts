@@ -344,7 +344,36 @@ function buildServer(): McpServer {
           }
         };
         walk(DRAFTS);
-        return json({ drafts: out });
+
+        // The folder is ONE machine's view. A colleague drafting on their
+        // laptop leaves nothing here, so a resuming agent that trusted this
+        // list alone would redraft their work and overwrite their edits. Ask
+        // the workspace too, and say which are missing locally rather than
+        // merging the two into one indistinguishable list.
+        let elsewhere: unknown[] = [];
+        let note: string | undefined;
+        try {
+          const remote = await client.listDrafts();
+          const here = new Set(out);
+          elsewhere = (remote.drafts ?? []).filter((d) => !here.has(d.path));
+          if (!remote.available)
+            note = "This deployment does not record drafts yet — the local folder is all there is.";
+        } catch (e) {
+          note = `Could not reach the workspace, so this is the local folder only: ${asMessage(e)}`;
+        }
+
+        return json({
+          drafts: out,
+          draftedElsewhere: elsewhere,
+          ...(elsewhere.length
+            ? {
+                warning:
+                  "Some documents were drafted on another machine and are NOT in this folder. " +
+                  "Drafting them again would overwrite work you cannot see — ask before you do.",
+              }
+            : {}),
+          ...(note ? { note } : {}),
+        });
       } catch (e) {
         return fail(asMessage(e));
       }

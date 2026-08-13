@@ -157,8 +157,22 @@ export function createClient(cfg: ClientConfig) {
         `/api/v1/documents/${encodeURIComponent(docId)}/draft`,
         { method: "PUT", body: JSON.stringify(d) },
       ),
+    /** Every draft this WORKSPACE knows about, including other machines'. */
+    listDrafts: () =>
+      call<{ available: boolean; drafts: RemoteDraft[] }>("/api/v1/documents/drafts"),
   };
 }
+
+export type RemoteDraft = {
+  docId: string;
+  activityId: string | null;
+  path: string;
+  bytes: number;
+  openQuestions: number;
+  warnings: number;
+  draftedAt: string;
+  reviewed: boolean;
+};
 
 export type DraftReport = {
   path: string;

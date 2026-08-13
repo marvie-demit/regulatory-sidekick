@@ -9,6 +9,7 @@ import {
 import {
   AGENT_TOKEN_LIMIT,
   SCOPE_LABELS,
+  SCOPE_OPTION_LIST,
   SCOPE_SHORT,
   type AgentToken,
 } from "@/lib/auth/agent-tokens";
@@ -84,54 +85,30 @@ export function CreateKeyForm({
           {pending ? "Creating…" : "Create key"}
         </button>
       </div>
+      {/* Driven off SCOPE_OPTION_LIST rather than written out: a scope with no
+          box grants nothing, and that failure is invisible — the key is created
+          successfully and simply cannot do the thing. */}
       <div className="flex flex-col gap-2.5">
-        <label className="flex items-start gap-2.5 text-sm text-teal-900">
-          <input
-            type="checkbox"
-            name="documents"
-            defaultChecked
-            disabled={atLimit}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
-          />
-          <span>
-            Let the agent fetch document templates
-            <span className="block text-xs text-muted">
-              {SCOPE_LABELS["read:documents"]}. Without this it can read the plan
-              but not draft anything.
+        {SCOPE_OPTION_LIST.map((o) => (
+          <label
+            key={o.scope}
+            className="flex items-start gap-2.5 text-sm text-teal-900"
+          >
+            <input
+              type="checkbox"
+              name={o.field}
+              defaultChecked
+              disabled={atLimit}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
+            />
+            <span>
+              {o.title}
+              <span className="block text-xs text-muted">
+                {SCOPE_LABELS[o.scope]}. {o.note}
+              </span>
             </span>
-          </span>
-        </label>
-        <label className="flex items-start gap-2.5 text-sm text-teal-900">
-          <input
-            type="checkbox"
-            name="write"
-            defaultChecked
-            disabled={atLimit}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
-          />
-          <span>
-            Let the agent update progress
-            <span className="block text-xs text-muted">
-              {SCOPE_LABELS["write:status"]}. Unchecked, it cannot write at all.
-            </span>
-          </span>
-        </label>
-        <label className="flex items-start gap-2.5 text-sm text-teal-900">
-          <input
-            type="checkbox"
-            name="drafts"
-            defaultChecked
-            disabled={atLimit}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
-          />
-          <span>
-            Report which documents it has drafted
-            <span className="block text-xs text-muted">
-              {SCOPE_LABELS["write:drafts"]}. Unchecked, it still drafts — you
-              just won&apos;t see it in the app without opening the folder.
-            </span>
-          </span>
-        </label>
+          </label>
+        ))}
       </div>
 
       {state.error ? <p className={errCls}>{state.error}</p> : null}
