@@ -92,6 +92,44 @@ export async function runDoctor(opts: {
       else
         add("Document templates", "warn", e instanceof Error ? e.message : String(e));
     }
+
+    // Reporting is a fourth grant, and its absence is quiet in the worst way:
+    // drafting works perfectly and nothing ever appears in the workspace, so
+    // the customer concludes the product is broken rather than the key.
+    //
+    // Probed with ok:false deliberately. That is the one request the endpoint
+    // refuses on content grounds AFTER checking the scope, so 403 and 422
+    // separate "you may not report" from "you may, and this particular report
+    // was rejected" — without writing a row. Costs one write-budget unit per
+    // doctor run out of 1000/day.
+    try {
+      await opts.client.reportDraft("DOC-SOP-01", {
+        path: "20_Drafts/_probe/DOC-SOP-01.html",
+        bytes: 0,
+        ok: false as unknown as true,
+        warnings: 0,
+        openQuestions: 0,
+      });
+      add("Draft reporting", "warn", "Unexpected success on a probe that should be refused.");
+    } catch (e) {
+      if (e instanceof RskError && e.status === 422)
+        add("Draft reporting", "ok", "This key can report drafts to the workspace.");
+      else if (e instanceof RskError && e.status === 403)
+        add(
+          "Draft reporting",
+          "fail",
+          'This key can draft but cannot tell the workspace it did, so nothing will appear in the library. Create a new key with "Report which documents it has drafted" ticked.',
+        );
+      else if (e instanceof RskError && e.status === 503)
+        add(
+          "Draft reporting",
+          "warn",
+          "This deployment does not have draft reporting yet. Drafting works; the workspace just will not show it.",
+        );
+      else if (e instanceof RskError && e.status === 404)
+        add("Draft reporting", "ok", "Scope granted (sample document not in this device's profile).");
+      else add("Draft reporting", "warn", e instanceof Error ? e.message : String(e));
+    }
   } catch (e) {
     add(
       "Connection",

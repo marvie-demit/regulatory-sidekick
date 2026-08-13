@@ -49,17 +49,24 @@ export async function markDraftReviewed(
 
   if (error) return { error: error.message };
 
-  try {
-    await createAdminClient().from("audit_log").insert({
+  // The columns are entity_type / entity_id, NOT target_*. A wrong name here is
+  // a PostgREST error, not a throw, so the try/catch below would not have caught
+  // it — the review would have succeeded with no audit row and no complaint.
+  // "A human reviewed this draft" is exactly the record an auditor asks for.
+  const { error: auditError } = await createAdminClient()
+    .from("audit_log")
+    .insert({
       org_id: org.id,
       actor_id: user.id,
       action: reviewed ? "draft.reviewed" : "draft.unreviewed",
-      target_type: "document",
-      target_id: docId,
+      entity_type: "document",
+      entity_id: docId,
     });
-  } catch {
-    // The review stands even if the audit insert fails; do not fail the action.
-  }
+  if (auditError)
+    console.error("audit_log insert failed for draft review", {
+      docId,
+      message: auditError.message,
+    });
 
   revalidatePath("/library");
   revalidatePath("/agent");
