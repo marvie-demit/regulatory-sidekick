@@ -29,15 +29,38 @@ export function fillModeFor(cls: string): FillMode {
 const HAS_PLACEHOLDER = /\[[^\]\n]*\]/;
 
 /**
- * Is this blank a PRO-FORMA — a master an organisation clones to create a
- * document, rather than a document to fill in?
+ * The PRO-FORMAS — masters an organisation clones to CREATE a document, rather
+ * than documents to fill in. Their placeholders are the deliverable: filling
+ * them produces one instance and destroys the master.
  *
- * Detected from the blank itself: a document that puts a placeholder where its
- * own Document ID or title belongs is describing a shape, not carrying an
- * identity. Nothing in content.json marks this, and the class does not tell you
- * — DOC-TPL-01 and DOC-TPL-03 are TPL exactly like the 125 ordinary templates.
+ * A curated list, for the same reason HANDOFF_ACTIVITIES is one: nothing in
+ * content.json marks it, and the class cannot tell you — these two are TPL
+ * exactly like the other 125 templates.
+ *
+ * It is a LIST rather than the inference below because of which way each fails.
+ * A document wrongly treated as a pro-forma is never filled in at all, and says
+ * nothing about it: the prompt tells the agent to leave the placeholders, the
+ * agent does, and the validator agrees. The output looks correct and is empty.
+ * A list can only be wrong about documents someone chose to put in it.
  */
-export function isProForma(contract: SkeletonFacts): boolean {
+export const PRO_FORMA_DOCS = new Set(["DOC-TPL-01", "DOC-TPL-03"]);
+
+export function isProForma(docId: string): boolean {
+  return PRO_FORMA_DOCS.has(docId);
+}
+
+/**
+ * What a pro-forma LOOKS like: a blank carrying a placeholder where its own
+ * Document ID or title belongs.
+ *
+ * Not used to decide anything — `PRO_FORMA_DOCS` decides. This exists so the
+ * corpus sweep can compare the two and fail the build when they disagree,
+ * which is what turns "someone must remember to update the list" into
+ * something the build tells you. A regenerated corpus that adds a third
+ * pro-forma, or a document that grows a bracket in its title for an unrelated
+ * reason, both surface here rather than in a customer's empty draft.
+ */
+export function looksProForma(contract: SkeletonFacts): boolean {
   const id = contract.headerbandRows.find((r) => r.label === "Document ID")?.value ?? "";
   return HAS_PLACEHOLDER.test(id) || HAS_PLACEHOLDER.test(contract.h1Text);
 }
@@ -119,7 +142,7 @@ export function buildPromptVars(args: {
     // produces one instance and destroys the master. Class alone cannot tell
     // you this — both are TPL — but the blank says so plainly by putting a
     // placeholder where its own identity belongs.
-    fillMode: isProForma(contract) ? "scaffold" : fillModeFor(doc.cls),
+    fillMode: isProForma(args.docId) ? "scaffold" : fillModeFor(doc.cls),
     role: docRole(a?.documents, args.docId),
     producedIn: step,
     implementedBy,

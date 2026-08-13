@@ -26,7 +26,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const { buildPromptVars, allowedClauses } = await import("@/lib/docgen/prompt-vars");
+const { buildPromptVars, allowedClauses, isProForma, looksProForma } = await import(
+  "@/lib/docgen/prompt-vars"
+);
 const { validateFragment } = await import("@notjustany/doc-contract");
 
 const content = JSON.parse(
@@ -91,6 +93,8 @@ function evaluate(doc) {
   return {
     id: doc.id,
     cls: doc.cls,
+    proForma: isProForma(doc.id),
+    looksProForma: looksProForma(vars.contract),
     skeleton: vars.contract.hasHeaderband ? "A" : "B",
     fillMode: vars.fillMode,
     ok: r.ok,
@@ -170,6 +174,23 @@ if (failed.length) {
       for (const e of r.errors) console.log(`     [${e.rule}] ${e.message}`);
     }
   }
+}
+
+// PRO_FORMA_DOCS is a curated list; looksProForma() is what one looks like.
+// Nothing decides anything from the second — it exists so a disagreement is a
+// build failure rather than a customer's silently empty draft. Both directions
+// matter: a corpus that grows a third pro-forma, and a document that grows a
+// bracket in its title for an unrelated reason.
+const drift = results.filter((r) => r.proForma !== r.looksProForma);
+if (drift.length) {
+  console.log("\nPRO-FORMA DRIFT");
+  for (const r of drift)
+    console.log(
+      `   ${r.id.padEnd(12)} listed=${r.proForma}  looks=${r.looksProForma}` +
+        (r.looksProForma
+          ? "  → add it to PRO_FORMA_DOCS, or remove the placeholder from its identity"
+          : "  → it is listed but no longer looks like one; it will never be filled in"),
+    );
 }
 
 const warned = results.filter((r) => r.ok && r.warnings.length);

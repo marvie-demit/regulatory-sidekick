@@ -120,6 +120,42 @@ to report.
 Re-drafting the same document **updates in place** rather than adding a row. The
 history lives in the audit log.
 
+### `GET /api/v1/documents/drafts` — what this workspace has drafted *(needs `read`)*
+
+```jsonc
+{
+  "available": true,
+  "drafts": [
+    { "docId": "AES-SOP-01", "activityId": "AES.setup",
+      "path": "20_Drafts/AES/AES-SOP-01.html",
+      "bytes": 5119, "openQuestions": 1, "warnings": 0,
+      "draftedAt": "2026-08-13T09:17:26Z", "reviewed": true }
+  ]
+}
+```
+
+Read it **before drafting**. A local folder is one machine's view: a colleague
+drafting on their laptop leaves nothing on yours, so re-drafting would overwrite
+work you cannot see. `reviewed: true` means a human has read it — treat that as
+a stop sign, not a starting point.
+
+`available: false` means the deployment has no draft registry yet. Drafting
+still works; the workspace just will not show it.
+
+Scoped to `read`, not `write:drafts` — reading back what your own workspace
+recorded is not a write. Reporting is the privileged half.
+
+### `GET /api/v1/version` — what your client should be running *(no key needed)*
+
+```json
+{ "latest": "0.1.0", "minimum": "0.1.0", "package": "@notjustany/regulatory-sidekick-mcp" }
+```
+
+Below `latest`: warn, keep working. Below `minimum`: **stop**. That is the kill
+switch for a release found to be unsafe — a validator bug that let a falsified
+record through, say — and it is the one endpoint that takes no key, precisely so
+a client whose key has lapsed can still hear it.
+
 ## Rate limits
 
 Every key has two independent budgets, both set per workspace:
