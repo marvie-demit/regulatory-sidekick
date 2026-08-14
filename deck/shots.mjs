@@ -1,7 +1,12 @@
-// Screenshot individual slides at full resolution for visual review.
-//   node deck/shots.mjs 1 5 9 13 16
-// Writes deck/shots/slide-NN.png. Uses the same CDP path as build.mjs so what
-// you see is what the PDF renderer sees.
+// Screenshot individual sheets at full resolution for visual review.
+//
+//   node deck/shots.mjs 1 5 9          → pitch-deck sheets 1, 5, 9
+//   node deck/shots.mjs one-pager 1    → the one-pager
+//
+// Writes deck/shots/<target>-NN.png. Uses the same CDP path as build.mjs so
+// what you see is what the PDF renderer sees. Sheet geometry is MEASURED from
+// the DOM rather than assumed, so this works for any page size (16:9 landscape
+// or A4 portrait) without a hard-coded height/gap.
 
 import { existsSync, mkdirSync, writeFileSync, mkdtempSync } from "node:fs";
 import { spawn } from "node:child_process";
@@ -10,13 +15,13 @@ import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const BUILD = join(here, "pitch-deck.build.html");
 const OUT = join(here, "shots");
 mkdirSync(OUT, { recursive: true });
 
-const SLIDE_H = 720;
-const GAP = 24; // @media screen margin-bottom on .sheet
-const want = (process.argv.slice(2).length ? process.argv.slice(2) : ["1"]).map(Number);
+const argv = process.argv.slice(2);
+const target = /^\d+$/.test(argv[0] ?? "1") ? "pitch-deck" : argv.shift();
+const BUILD = join(here, `${target}.build.html`);
+const want = (argv.length ? argv : ["1"]).map(Number);
 
 const CHROME = [
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -75,17 +80,36 @@ try {
   await loaded;
   await send("Runtime.evaluate", { expression: "document.fonts.ready", awaitPromise: true }, sessionId);
 
+  // Measure each sheet's real position and size — no assumptions about page
+  // geometry, so landscape slides and A4 portrait both work.
+  const rects = await send(
+    "Runtime.evaluate",
+    {
+      expression: `JSON.stringify([...document.querySelectorAll('.sheet')].map(el => {
+        const r = el.getBoundingClientRect();
+        return { x: r.x + scrollX, y: r.y + scrollY, w: r.width, h: r.height };
+      }))`,
+      returnByValue: true,
+    },
+    sessionId,
+  );
+  const boxes = JSON.parse(rects.result.value);
+
   for (const n of want) {
-    const y = (n - 1) * (SLIDE_H + GAP);
+    const b = boxes[n - 1];
+    if (!b) {
+      console.warn(`sheet ${n} does not exist (${boxes.length} in ${target})`);
+      continue;
+    }
     const { data } = await send(
       "Page.captureScreenshot",
       { format: "png", captureBeyondViewport: true,
-        clip: { x: 0, y, width: 1280, height: SLIDE_H, scale: 1 } },
+        clip: { x: b.x, y: b.y, width: b.w, height: b.h, scale: 1 } },
       sessionId,
     );
-    const p = join(OUT, `slide-${String(n).padStart(2, "0")}.png`);
+    const p = join(OUT, `${target}-${String(n).padStart(2, "0")}.png`);
     writeFileSync(p, Buffer.from(data, "base64"));
-    console.log("wrote", p);
+    console.log(`wrote ${p}  (${Math.round(b.w)}x${Math.round(b.h)})`);
   }
   ws.close();
 } finally {

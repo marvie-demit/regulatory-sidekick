@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Regulatory Sidekick — One-Pager</title>
+<link rel="stylesheet" href="fonts.css" />
+<style>
+/* ===========================================================================
+   Regulatory Sidekick — one-pager. A4 portrait, single sheet.
+
+   Same visual language as the pitch deck (deck/pitch-deck.html): this company
+   sells controlled documents, so its collateral is built like one — a left
+   gutter with clause-style section numbers, hairlines instead of cards,
+   rule-only tables, dot leaders, a drawing-style title block.
+
+   Page: 794x1123px = 210x297mm = A4 at 96dpi.
+   Type runs ~11-12px (≈8-9pt in print), which is the density a one-pager wants.
+   =========================================================================== */
+:root{
+  --t9:#0b2a26; --t8:#0f3b35; --t6:#16504a; --t5:#1d6e62;
+  --coral:#d8593a; --cream:#fbf7ee; --cream2:#f1ead9;
+  --ink:#1c2b27; --muted:#5c6b66; --side:#0b2a26; --mint:#5dcaa5;
+  --hair:rgba(11,42,38,.15);
+  --hair2:rgba(11,42,38,.34);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  font-family:'Geist',ui-sans-serif,system-ui,sans-serif;
+  color:var(--ink);background:#7d837f;font-variant-numeric:tabular-nums;
+}
+@page{size:210mm 297mm;margin:0}
+
+.sheet{
+  position:relative;width:794px;height:1123px;overflow:hidden;background:var(--cream);
+}
+@media screen{ .sheet{margin:24px auto;box-shadow:0 8px 30px rgba(0,0,0,.32)} }
+
+/* ---------- masthead ---------- */
+.mast{
+  background:var(--side);color:#fff;padding:15px 34px 14px 58px;position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.mast .eyebrow{
+  font-size:8px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;color:var(--mint);
+}
+.mast h1{
+  font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:600;
+  letter-spacing:-.026em;line-height:1;margin-top:7px;
+}
+.mast .tag{
+  font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.74);max-width:496px;margin-top:9px;
+}
+.mast .tag b{color:#fff;font-weight:700}
+.tb{position:absolute;right:34px;top:20px;border:1px solid rgba(255,255,255,.22);
+  display:grid;grid-template-columns:auto auto}
+.tb div{
+  padding:5px 9px;font-size:7.5px;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.14);
+}
+.tb div:nth-child(odd){color:rgba(255,255,255,.4);border-right:1px solid rgba(255,255,255,.14)}
+.tb div:nth-child(even){color:rgba(255,255,255,.86)}
+.tb div:nth-last-child(-n+2){border-bottom:0}
+.helix{position:absolute;inset:0;pointer-events:none}
+
+/* ---------- body: gutter + column ---------- */
+.wrap{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column}
+.main{flex:1;position:relative}
+.gutter{
+  position:absolute;left:0;top:0;bottom:0;width:58px;border-right:1px solid var(--hair);
+}
+.sec{
+  position:absolute;left:0;width:58px;text-align:center;
+  font-family:'Fraunces',Georgia,serif;font-size:13px;font-weight:700;color:var(--coral);
+}
+.col{margin-left:58px;padding:0 34px 0 22px}
+
+/* ---------- section blocks ---------- */
+.block{padding:6px 0;border-bottom:1px solid var(--hair)}
+.block:last-of-type{border-bottom:0}
+.h{
+  font-size:8.5px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;
+  color:var(--t8);margin-bottom:7px;
+}
+.h .of{color:var(--muted);font-weight:700}
+p.t{font-size:11.5px;line-height:1.55;color:var(--muted)}
+p.t + p.t{margin-top:7px}
+p.t b{color:var(--t9);font-weight:700}
+.lead{
+  font-family:'Fraunces',Georgia,serif;font-size:17px;line-height:1.3;
+  color:var(--t9);letter-spacing:-.012em;
+}
+.lead em{color:var(--coral);font-style:normal}
+
+/* three columns, newspaper rules */
+.c3{display:grid;grid-template-columns:repeat(3,1fr)}
+.c3 > div{padding:0 14px;border-left:1px solid var(--hair)}
+.c3 > div:first-child{padding-left:0;border-left:0}
+.c3 > div:last-child{padding-right:0}
+.cn{font-family:'Fraunces',Georgia,serif;font-size:8.5px;font-weight:800;
+  letter-spacing:1.4px;text-transform:uppercase;color:var(--coral)}
+.ct{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:600;
+  color:var(--t9);letter-spacing:-.01em;margin-top:5px;line-height:1.1}
+.cb{font-size:10.5px;line-height:1.5;color:var(--muted);margin-top:6px}
+.cb b{color:var(--t8);font-weight:650}
+
+/* spec dot leaders */
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+.sp{display:flex;align-items:baseline;gap:8px;padding:2px 0}
+.sp .lbl{font-size:10.5px;color:var(--ink);font-weight:600;white-space:nowrap}
+.sp .dot{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px)}
+.sp .val{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:800;
+  color:var(--t9);line-height:1;letter-spacing:-.015em}
+.sp.big .val{font-size:25px;color:var(--coral)}
+.sp.big .lbl{font-size:11.5px;color:var(--t9)}
+
+/* phase rail */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.phases .pn{font-family:'Fraunces',Georgia,serif;font-size:8.5px;font-weight:800;
+  letter-spacing:1.4px;color:var(--coral)}
+.phases .pt{font-family:'Fraunces',Georgia,serif;font-size:13px;font-weight:600;
+  color:var(--t9);margin-top:4px;line-height:1.12;letter-spacing:-.01em}
+.phases > div{padding-right:16px}
+.phases > div:last-child{padding-right:0}
+
+/* rule-only table */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:8px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--t8);padding:0 12px 6px 0;border-bottom:2px solid var(--t9)}
+th:last-child{padding-right:0}
+td{padding:5px 12px 5px 0;font-size:10.5px;line-height:1.4;color:var(--muted);
+  border-bottom:1px solid var(--hair);vertical-align:top}
+td:last-child{padding-right:0}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:650;color:var(--t9)}
+td.n{font-family:'Fraunces',Georgia,serif;font-weight:700;color:var(--t9);
+  white-space:nowrap;font-size:11.5px}
+tr.hl td.k,tr.hl td.n{color:var(--coral)}
+
+.tags{font-size:9.5px;color:var(--muted);line-height:1.5}
+.tags span::after{content:" · ";color:var(--hair2)}
+.tags span:last-child::after{content:""}
+.tags span.on{color:var(--t9);font-weight:700}
+
+ul.bare{list-style:none}
+ul.bare li{font-size:10.5px;line-height:1.5;color:var(--muted);padding:3px 0 3px 14px;position:relative}
+ul.bare li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:1.5px;background:var(--coral)}
+ul.bare li.q::before{background:var(--t5)}
+ul.bare li b{color:var(--t9);font-weight:700}
+
+/* ---------- foot ---------- */
+.foot{background:var(--side);color:rgba(255,255,255,.75);padding:12px 34px 11px 58px;flex-shrink:0}
+.foot .row{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.foot .cta{font-size:12.5px;color:#fff;font-weight:700}
+.foot .meta{font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;
+  color:rgba(255,255,255,.45)}
+.foot .fine{font-size:7.5px;line-height:1.55;color:rgba(255,255,255,.42);margin-top:7px;max-width:660px}
+
+.fillme{background:#fdece7;border-bottom:1.5px solid var(--coral);color:#8f2f16;
+  font-weight:700;padding:0 4px}
+.foot .fillme{background:none;border-bottom:1.5px solid var(--coral);color:#fff}
+</style>
+</head>
+<body>
+
+<section class="sheet">
+  <div class="wrap">
+
+    <!-- ================= MASTHEAD ================= -->
+    <header class="mast">
+      <svg class="helix" viewBox="0 0 794 190" fill="none" aria-hidden="true">
+        <g opacity=".18" stroke="#5dcaa5" stroke-width="1.1">
+          <path d="M636 -60 C716 10, 576 70, 656 140 C736 210, 596 260, 676 330"/>
+          <path d="M700 -60 C620 10, 760 70, 680 140 C600 210, 740 260, 660 330"/>
+        </g>
+        <g opacity=".1" stroke="#d8593a" stroke-width=".9">
+          <path d="M654 -30 h26 M640 0 h54 M636 30 h62 M640 60 h54 M654 90 h26
+                   M640 120 h54 M636 150 h62 M640 180 h54"/>
+        </g>
+      </svg>
+      <div class="tb">
+        <div>Document</div><div>RS·1PG·01</div>
+        <div>Revision</div><div>0.1 — draft</div>
+        <div>Sheet</div><div>1 of 1</div>
+      </div>
+      <p class="eyebrow">ISO 13485 · EU MDR · IVDR</p>
+      <h1>Regulatory Sidekick</h1>
+      <p class="tag">
+        A stepwise MDR/IVDR and ISO&nbsp;13485 implementation — so the team building the device <b>understands and owns</b> its quality system instead of renting it back.
+      </p>
+    </header>
+
+    <!-- ================= BODY ================= -->
+    <div class="main">
+      <div class="gutter"></div>
+      <div class="col">
+
+        <!-- §1 problem -->
+        <div class="block" style="padding-top:17px">
+          <span class="sec" style="margin-top:2px">§1</span>
+          <p class="h">The problem <span class="of">— why first devices stall</span></p>
+          <p class="t">
+            The Medical Device Regulation is public. The <b>order of operations</b> is not. A first-time team with no QA/RA hire faces hundreds of interlocking obligations, every guide insisting its own comes first, and “enough” never defined.
+          </p>
+          <p class="lead" style="margin-top:11px">
+            The blocking question is never “what does the standard say?” — that text
+            is free. It is <em>“what do I do first?”</em>
+          </p>
+        </div>
+
+        <!-- §2 what it is -->
+        <div class="block">
+          <span class="sec">§2</span>
+          <p class="h">What it is <span class="of">— three jobs, in the order people pay for them</span></p>
+          <div class="c3">
+            <div>
+              <p class="cn">I — The moat</p>
+              <p class="ct">Sequencing</p>
+              <p class="cb">116 activities in a defensible order, real dependencies encoded. Templates are everywhere; <b>a defensible order is not</b>.</p>
+            </div>
+            <div>
+              <p class="cn">II — The substance</p>
+              <p class="ct">Artefacts</p>
+              <p class="cb">275 controlled-document templates — procedures, forms, registers — clause-mapped and traced to the step that produces each.</p>
+            </div>
+            <div>
+              <p class="cn">III — The proof</p>
+              <p class="ct">Traceability</p>
+              <p class="cb">A clause-level matrix across 14 standards plus a per-activity evidence trail — what an auditor actually reads.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- §3 spec -->
+        <div class="block">
+          <span class="sec">§3</span>
+          <p class="h">What is in it <span class="of">— counted from the shipped content, not estimated</span></p>
+          <div class="spec">
+            <div>
+              <div class="sp big"><span class="lbl">Sequenced activities</span><span class="dot"></span><span class="val">116</span></div>
+              <div class="sp"><span class="lbl">Deep sub-activities</span><span class="dot"></span><span class="val">338</span></div>
+              <div class="sp"><span class="lbl">Granular checklist tasks</span><span class="dot"></span><span class="val">682</span></div>
+            </div>
+            <div>
+              <div class="sp big"><span class="lbl">Controlled documents</span><span class="dot"></span><span class="val">275</span></div>
+              <div class="sp"><span class="lbl">Mapped QMS processes</span><span class="dot"></span><span class="val">39</span></div>
+              <div class="sp"><span class="lbl">Standards, clause-level</span><span class="dot"></span><span class="val">14</span></div>
+            </div>
+          </div>
+          <p class="tags" style="margin-top:9px">
+            <span class="on">ISO 13485</span><span class="on">EU MDR</span><span class="on">EU IVDR</span>
+            <span>ISO 14971</span><span>IEC 62304</span><span>IEC 62366-1</span><span>IEC 81001-5-1</span>
+            <span>IEC/TR 80002-2</span><span>AAMI TIR57</span><span>MDCG guidance</span>
+            <span>ISO 27001</span><span>EU AI Act</span><span>GDPR</span><span>FDA QMSR</span>
+          </p>
+        </div>
+
+        <!-- §4 the path -->
+        <div class="block">
+          <span class="sec">§4</span>
+          <p class="h">How it runs <span class="of">— four phases, scoped to your device</span></p>
+          <div class="phases">
+            <div><p class="pn">PHASE I</p><p class="pt">Set the<br />foundations</p></div>
+            <div><p class="pn">PHASE II</p><p class="pt">Develop<br />under control</p></div>
+            <div><p class="pn">PHASE III</p><p class="pt">Verify, validate<br />&amp; make</p></div>
+            <div><p class="pn">PHASE IV</p><p class="pt">Certify, launch<br />&amp; operate</p></div>
+          </div>
+          <svg width="702" height="14" viewBox="0 0 702 14" style="display:block;margin:6px 0 6px" aria-hidden="true">
+            <line x1="0" y1="7" x2="702" y2="7" stroke="rgba(11,42,38,.34)" stroke-width="1"/>
+            <g fill="#d8593a"><circle cx="3" cy="7" r="3"/><circle cx="178" cy="7" r="3"/>
+              <circle cx="353" cy="7" r="3"/><circle cx="528" cy="7" r="3"/></g>
+            <path d="M695 3 l7 4 -7 4z" fill="rgba(11,42,38,.34)"/>
+          </svg>
+          <p class="t">
+            <b>First we make the plan smaller:</b> a device profile filters everything by regulatory route and 11 device characteristics, so you never open a page that does not apply. <b>Then we make step one small:</b> every activity has a version you can start this week.
+          </p>
+        </div>
+
+        <!-- §5 who + price -->
+        <div class="block">
+          <span class="sec">§5</span>
+          <p class="h">Who it is for <span class="of">— and what it costs</span></p>
+          <table>
+            <thead><tr>
+              <th style="width:26%">Licence</th><th style="width:20%">Price</th><th>Who it is for</th>
+            </tr></thead>
+            <tbody>
+              <tr><td class="k">Explore</td><td class="n">Free</td>
+                <td>Full roadmap, matrix and library index; one sample activity open in full</td></tr>
+              <tr class="hl"><td class="k">Practitioner</td><td class="n">€1,800 · or €600×3</td>
+                <td>Startups and solo QA/RA — under €1M revenue, 10 or fewer staff, up to 3 users</td></tr>
+              <tr><td class="k">Standard</td><td class="n">€6,000 · or €2,000×3</td>
+                <td>Companies and teams rolling out their own QMS</td></tr>
+              <tr><td class="k">Consultancy / fund</td><td class="n">€3,000–15,000 / yr</td>
+                <td>Multi-client delivery rights, or a medtech-fund portfolio block</td></tr>
+            </tbody>
+          </table>
+          <p class="t" style="margin-top:8px;font-size:10px">
+            One-time purchase, perpetual access — a lapsed licence stops updates, never your documents. Prices exclude VAT.
+          </p>
+        </div>
+
+        <!-- §6 why it holds -->
+        <div class="block" style="padding-bottom:8px">
+          <span class="sec">§6</span>
+          <p class="h">Why it is different</p>
+          <ul class="bare">
+            <li class="q"><b>Not an eQMS.</b> Those sell the container and leave it empty — which makes them partners, not competitors.</li>
+            <li class="q"><b>Not a consultancy.</b> We sell the knowledge once, not the hours of applying it — so the incentive to keep it mysterious never appears.</li>
+            <li><b>Traceability enforced, not asserted.</b> The build fails if a document has no producing process step. Checked by CI on every deploy.</li>
+            <li><b>Machine-workable.</b> An admin-approved, audited API lets an AI agent work the same ordered plan — it drafts, but never signs off.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= FOOT ================= -->
+    <footer class="foot">
+      <div class="row">
+        <span class="cta">regulatory-sidekick.notjustany.tech &nbsp;·&nbsp; regulatory.sidekick@notjustany.tech</span>
+        <span class="meta"><span class="fillme">Contact &amp; date</span></span>
+      </div>
+      <p class="fine">
+        A framework and document set — a starting point, not regulatory advice. No warranty of
+        conformity is given; the manufacturer remains solely responsible for its quality system and
+        technical documentation. Figures are counted from the shipped corpus. The coral-marked
+        field needs completing before this sheet is circulated.
+      </p>
+    </footer>
+
+  </div>
+</section>
+
+</body>
+</html>
