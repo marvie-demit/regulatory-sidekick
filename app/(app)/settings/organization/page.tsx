@@ -1,15 +1,8 @@
-import { headers } from "next/headers";
+import Link from "next/link";
 import { getActiveOrg } from "@/lib/auth/org";
-import { hasAgenticAccess, hasFullAccess } from "@/lib/auth/access";
-import { getAgentTokens } from "@/lib/auth/agent-tokens-read";
-import {
-  DEFAULT_AGENT_RATE_LIMIT,
-  DEFAULT_AGENT_WRITE_LIMIT,
-} from "@/lib/auth/agent-tokens";
 import { createClient } from "@/lib/supabase/server";
 import { OrgProfileForm, type OrgProfile } from "@/components/org/OrgProfileForm";
 import { WorkspaceId } from "@/components/org/WorkspaceId";
-import { AgentAccess } from "@/components/org/AgentAccess";
 
 export const metadata = { title: "Organization" };
 
@@ -22,18 +15,9 @@ export default async function OrgSettingsPage() {
   // Resilient to migration 0010 not being applied yet — fall back to name only.
   let res = await supabase
     .from("organizations")
-    .select(
-      "name, website, linkedin, industry, country, about, agent_rate_limit, agent_write_limit, agentic_enabled, agentic_expires_at",
-    )
+    .select("name, website, linkedin, industry, country, about")
     .eq("id", org.id)
     .single();
-  if (res.error) {
-    res = await supabase
-      .from("organizations")
-      .select("name, website, linkedin, industry, country, about")
-      .eq("id", org.id)
-      .single();
-  }
   if (res.error) {
     res = await supabase
       .from("organizations")
@@ -53,13 +37,6 @@ export default async function OrgSettingsPage() {
     about: str(d.about),
   };
 
-  // Agent access is additive — if migration 0011 isn't applied yet the read
-  // simply returns [] and the card still renders (create will surface the error).
-  const tokens = await getAgentTokens(org.id);
-  const hdrs = await headers();
-  const host = hdrs.get("host") ?? "localhost:3100";
-  const baseUrl = `${host.startsWith("localhost") ? "http" : "https"}://${host}`;
-
   return (
     <main className="mx-auto max-w-2xl px-6 py-10">
       <h1 className="font-display text-2xl font-semibold text-teal-900">
@@ -71,23 +48,23 @@ export default async function OrgSettingsPage() {
       </p>
       <OrgProfileForm profile={profile} canEdit={org.role === "admin"} />
       <WorkspaceId id={org.id} />
-      <AgentAccess
-        tokens={tokens}
-        isAdmin={org.role === "admin"}
-        isFull={hasFullAccess(org.plan)}
-        baseUrl={baseUrl}
-        rateLimit={
-          (d.agent_rate_limit as number | null) ?? DEFAULT_AGENT_RATE_LIMIT
-        }
-        writeLimit={
-          (d.agent_write_limit as number | null) ?? DEFAULT_AGENT_WRITE_LIMIT
-        }
-        isEnabled={hasAgenticAccess({
-          plan: org.plan,
-          agenticEnabled: d.agentic_enabled as boolean | null,
-          agenticExpiresAt: d.agentic_expires_at as string | null,
-        })}
-      />
+
+      {/* Agent access moved to its own page. Keep this pointer for a release —
+          AGENT_API.md and skills.md sent people here for months. */}
+      <section className="mt-6 rounded-2xl border border-line bg-card p-6 shadow-sm">
+        <h2 className="font-display text-lg font-semibold text-teal-900">
+          Agent access
+        </h2>
+        <p className="mt-1 text-sm text-muted">
+          Keys, setup and connection status now live on their own page.
+        </p>
+        <Link
+          href="/agent"
+          className="mt-3 inline-flex rounded-full border border-line bg-card px-4 py-2 text-sm font-semibold text-teal-800 transition hover:border-coral"
+        >
+          Open Agent →
+        </Link>
+      </section>
     </main>
   );
 }

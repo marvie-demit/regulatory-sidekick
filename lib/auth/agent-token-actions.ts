@@ -9,12 +9,15 @@ import { hasFullAccess } from "@/lib/auth/access";
 import {
   AGENT_TOKEN_LIMIT,
   AGENT_TOKEN_TTL_DAYS,
+  ALL_SCOPES,
+  SCOPE_OPTION_LIST,
   type AgentScope,
 } from "@/lib/auth/agent-tokens";
 
 type Res = { error?: string; message?: string; token?: string; name?: string };
 
-const ALL_SCOPES: AgentScope[] = ["read", "write:status"];
+// ALL_SCOPES lives in agent-tokens.ts so the union, the labels and the DB CHECK
+// (migration 0018) can only drift together.
 
 // Machine access is a full-access capability, same as inviting teammates.
 async function requireFull(): Promise<{ error: string } | { org: OrgMembership }> {
@@ -46,7 +49,14 @@ async function auditToken(
 
 // Mint a token for the ACTIVE workspace. The raw value is returned once and
 // never stored — only its SHA-256 goes to the database (same pattern as team
-// invites). The row lands 'pending': it is inert until an admin approves it.
+// invites).
+//
+// The row always LANDS 'pending' — at_insert forces that, so a member can never
+// self-authorize, which is the control worth having. But when the creator is an
+// admin we immediately follow with the same approve step they would otherwise
+// have to click, because an admin approving their own key is theatre: they can
+// already approve anything. That dead click sat between paying and working.
+// Both actions are still audited separately; nothing is hidden.
 export async function createAgentToken(
   _prev: Res,
   formData: FormData,
@@ -64,8 +74,13 @@ export async function createAgentToken(
   if (name.length < 2 || name.length > 60)
     return { error: "Give the agent a name (2–60 characters)." };
 
-  const wantsWrite = formData.get("write") === "on";
-  const scopes: AgentScope[] = wantsWrite ? ["read", "write:status"] : ["read"];
+  // "read" is implicit — a key that cannot read is not useful. The other two are
+  // independent opt-ins, each its own checkbox at creation.
+  const scopes: AgentScope[] = ["read"];
+  // Same list the checkboxes are rendered from, so a box and its scope cannot
+  // drift apart.
+  for (const o of SCOPE_OPTION_LIST)
+    if (formData.get(o.field) === "on") scopes.push(o.scope);
   if (!scopes.every((s) => ALL_SCOPES.includes(s)))
     return { error: "Unknown permission requested." };
 
@@ -111,11 +126,40 @@ export async function createAgentToken(
     name,
     scopes,
   });
+
+  // An admin's own key activates straight away (see the note above). RLS
+  // at_update already permits this exact write for admins, so no policy or
+  // migration change is involved — it is the approve step, done for them.
+  let activated = false;
+  if (org.role === "admin") {
+    const { error: approveError } = await supabase
+      .from("agent_tokens")
+      .update({
+        status: "active",
+        approved_by: user?.id,
+        approved_at: new Date().toISOString(),
+      })
+      .eq("id", data.id)
+      .eq("org_id", org.id)
+      .eq("status", "pending");
+    // A failure here is not fatal: the key exists and is pending, so the
+    // Approve button is still there. Say so rather than claiming it works.
+    if (!approveError) {
+      activated = true;
+      await auditToken(org.id, user?.id ?? null, "agent_token.approve", data.id, {
+        name,
+        auto: true,
+      });
+    }
+  }
+
+  revalidatePath("/agent");
   revalidatePath("/settings/organization");
   revalidatePath("/settings/members");
   return {
-    message:
-      org.role === "admin"
+    message: activated
+      ? "Key created and active."
+      : org.role === "admin"
         ? "Key created. Approve it below to activate it."
         : "Key created. An admin has to approve it before it works.",
     token: raw,
@@ -161,6 +205,7 @@ export async function approveAgentToken(
   await auditToken(org.id, user?.id ?? null, "agent_token.approve", id, {
     name: data.name,
   });
+  revalidatePath("/agent");
   revalidatePath("/settings/organization");
   revalidatePath("/settings/members");
   return { message: `${data.name} is now active.` };
@@ -215,6 +260,7 @@ export async function revokeAgentToken(
   await auditToken(org.id, user?.id ?? null, "agent_token.revoke", id, {
     name: row.name,
   });
+  revalidatePath("/agent");
   revalidatePath("/settings/organization");
   revalidatePath("/settings/members");
   return { message: `${row.name} revoked.` };

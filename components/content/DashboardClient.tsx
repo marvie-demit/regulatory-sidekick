@@ -36,7 +36,10 @@ export function DashboardClient({
   modules,
   docScopes,
   totalDocs,
+  agentIdle = false,
 }: {
+  /** agent access is paid for, but no key has ever been used */
+  agentIdle?: boolean;
   phases: Phase[];
   acts: Act[];
   modules: ModuleDef[];
@@ -139,6 +142,17 @@ export function DashboardClient({
           to scope the plan to your device.
         </p>
       )}
+
+      {/* Agent access is paid for but nothing has ever connected — the setup
+          was started and abandoned. Same shape as the device-profile nudge. */}
+      {agentIdle ? (
+        <p className="mb-1 text-sm text-muted">
+          <Link href="/agent" className="font-semibold text-coral hover:underline">
+            Finish connecting your agent →
+          </Link>{" "}
+          agent access is on, but nothing has connected yet.
+        </p>
+      ) : null}
 
       <div className="kpis mt-4">
         {kpis.map((k, i) => (

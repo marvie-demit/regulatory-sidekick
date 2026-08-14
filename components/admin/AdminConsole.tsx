@@ -15,6 +15,8 @@ import {
   DEFAULT_AGENT_RATE_LIMIT,
   DEFAULT_AGENT_WRITE_LIMIT,
 } from "@/lib/auth/agent-tokens";
+// Pure helper, no server deps — safe in a client bundle.
+import { timeAgo } from "@/lib/agent/connection";
 import type { AdminPartner } from "@/lib/partners/data";
 import { PartnersSection } from "./PartnersSection";
 import {
@@ -442,6 +444,31 @@ function OrgRow({ o }: { o: AdminOrg }) {
                 until {fmtDate(o.agenticExpiresAt)}
               </span>
             ) : null}
+            {/* Connection health. The coral case is the one that matters: they
+                are paying for the add-on and have never once used it. That is a
+                churn prediction and a support call you can make before they
+                cancel — which is the whole reason this line exists. */}
+            {o.agenticEnabled ? (
+              <span className="ml-1.5">
+                <span className="text-muted">
+                  · {o.agentKeys} key{o.agentKeys === 1 ? "" : "s"}
+                </span>
+                {o.agentLastUsedAt ? (
+                  <span className="ml-1.5 text-muted">
+                    · connected {timeAgo(o.agentLastUsedAt)}
+                  </span>
+                ) : (
+                  <span className="ml-1.5 font-semibold text-coral">
+                    · NEVER CONNECTED
+                  </span>
+                )}
+                {o.agentKeysPending ? (
+                  <span className="ml-1.5 font-semibold text-[#b4471f]">
+                    · {o.agentKeysPending} awaiting approval
+                  </span>
+                ) : null}
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -631,21 +658,28 @@ export function AdminConsole({
   partners: AdminPartner[];
 }) {
   const [q, setQ] = useState("");
+  // "Paying for agent access and has never connected" — the churn list.
+  const [idleOnly, setIdleOnly] = useState(false);
   const nameOf = (id: string | null) =>
     id ? (orgs.find((o) => o.id === id)?.name ?? null) : null;
   const partnerNameOf = (id: string | null) =>
     id ? (partners.find((p) => p.id === id)?.name ?? null) : null;
-  const filtered = orgs.filter((o) =>
-    (
-      o.name +
-      " " +
-      (o.ownerEmail ?? "") +
-      " " +
-      o.memberList.map((m) => m.email ?? "").join(" ")
-    )
-      .toLowerCase()
-      .includes(q.toLowerCase()),
-  );
+  const idleCount = orgs.filter(
+    (o) => o.agenticEnabled && !o.agentLastUsedAt,
+  ).length;
+  const filtered = orgs
+    .filter((o) => !idleOnly || (o.agenticEnabled && !o.agentLastUsedAt))
+    .filter((o) =>
+      (
+        o.name +
+        " " +
+        (o.ownerEmail ?? "") +
+        " " +
+        o.memberList.map((m) => m.email ?? "").join(" ")
+      )
+        .toLowerCase()
+        .includes(q.toLowerCase()),
+    );
   return (
     <div className="flex flex-col gap-6">
       <MintForm partners={partners} />
@@ -682,12 +716,28 @@ export function AdminConsole({
           <h2 className="font-display text-lg font-semibold text-teal-900">
             Organizations
           </h2>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search name / email…"
-            className={`${input} w-48`}
-          />
+          <div className="flex items-center gap-3">
+            {idleCount ? (
+              <label
+                className="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-coral"
+                title="Agent access is on but no key has ever been used"
+              >
+                <input
+                  type="checkbox"
+                  checked={idleOnly}
+                  onChange={(e) => setIdleOnly(e.target.checked)}
+                  className="h-3.5 w-3.5 accent-[var(--coral)]"
+                />
+                Paying · never connected ({idleCount})
+              </label>
+            ) : null}
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search name / email…"
+              className={`${input} w-48`}
+            />
+          </div>
         </div>
         <p className="mb-2 text-xs text-muted">
           Grant full access two ways: <b>Apply</b> to activate it now, or{" "}

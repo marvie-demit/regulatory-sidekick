@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 
 // Bilingual wrapper for the legal pages. German is the default and the
-// authoritative version: the Impressum obligation arises from German law
-// (§ 5 DDG), so the German text is the one that has to be correct.
+// authoritative version: the operator is an Austrian sole trader, so the
+// disclosure duty arises from § 5 ECG / § 25 MedienG and the German text is the
+// one that has to be correct. English is a convenience translation only.
 //
 // Both language bodies are passed in as props from the server component and
 // rendered inside a `lang` boundary, so screen readers and translation tools

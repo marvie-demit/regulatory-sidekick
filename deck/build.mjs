@@ -1,6 +1,10 @@
-// Build the pitch deck to PDF.
+// Build a document to PDF.
 //
-//   node deck/build.mjs
+//   node deck/build.mjs            → pitch-deck.html   (16:9 landscape, 20 sheets)
+//   node deck/build.mjs one-pager  → one-pager.html    (A4 portrait, 1 sheet)
+//
+// Page size comes from each document's own CSS @page rule — we pass
+// preferCSSPageSize, so a new target needs no change here.
 //
 // Why this isn't just `chrome --print-to-pdf`:
 //
@@ -24,10 +28,19 @@ import { tmpdir } from "node:os";
 import { inflateSync } from "node:zlib";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SRC = join(here, "pitch-deck.html");
+
+const TARGETS = {
+  "pitch-deck": "Regulatory-Sidekick-Pitch-Deck.pdf",
+  "one-pager": "Regulatory-Sidekick-One-Pager.pdf",
+};
+const target = process.argv[2] ?? "pitch-deck";
+if (!TARGETS[target])
+  throw new Error(`Unknown target "${target}". Try: ${Object.keys(TARGETS).join(", ")}`);
+
+const SRC = join(here, `${target}.html`);
 const FONTS = join(here, "fonts.css");
-const BUILD = join(here, "pitch-deck.build.html");
-const PDF = join(here, "Regulatory-Sidekick-Pitch-Deck.pdf");
+const BUILD = join(here, `${target}.build.html`);
+const PDF = join(here, TARGETS[target]);
 const PORT = 9333;
 
 const CHROME = [
@@ -42,7 +55,7 @@ if (!CHROME) throw new Error("No Chrome/Edge found to render the PDF.");
 const linkTag = '<link rel="stylesheet" href="fonts.css" />';
 const html = readFileSync(SRC, "utf8");
 if (!html.includes(linkTag))
-  throw new Error(`Expected ${linkTag} in pitch-deck.html — did the head change?`);
+  throw new Error(`Expected ${linkTag} in ${target}.html — did the head change?`);
 writeFileSync(BUILD, html.replace(linkTag, `<style>\n${readFileSync(FONTS, "utf8")}</style>`));
 
 // --- 2. render over CDP ----------------------------------------------------
@@ -85,7 +98,8 @@ function cdp(ws) {
     if (msg.id && pending.has(msg.id)) {
       const { resolve, reject } = pending.get(msg.id);
       pending.delete(msg.id);
-      msg.error ? reject(new Error(JSON.stringify(msg.error))) : resolve(msg.result);
+      if (msg.error) reject(new Error(JSON.stringify(msg.error)));
+      else resolve(msg.result);
     } else listeners.forEach((fn) => fn(msg));
   });
   return {

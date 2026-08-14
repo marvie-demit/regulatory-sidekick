@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import {
   createAgentToken,
   approveAgentToken,
@@ -8,14 +8,16 @@ import {
 } from "@/lib/auth/agent-token-actions";
 import {
   AGENT_TOKEN_LIMIT,
-  AGENT_TOKEN_TTL_DAYS,
   SCOPE_LABELS,
+  SCOPE_OPTION_LIST,
+  SCOPE_SHORT,
   type AgentToken,
 } from "@/lib/auth/agent-tokens";
+import { claudeCodeCommand } from "@/lib/agent/release";
+import { CopyField, CopyBlock } from "@/components/ui/Copy";
 
 type Res = { error?: string; message?: string; token?: string; name?: string };
 
-const card = "rounded-2xl border border-line bg-card p-6 shadow-sm";
 const input =
   "rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-teal-900 outline-none transition focus:border-teal-500";
 const coral =
@@ -31,30 +33,6 @@ const okCls =
 
 const fmt = (d: string | null) =>
   d ? new Date(d).toLocaleDateString(undefined, { dateStyle: "medium" }) : "—";
-
-function CopyField({ value }: { value: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div className="flex flex-col gap-2 sm:flex-row">
-      <input
-        readOnly
-        value={value}
-        onFocus={(e) => e.currentTarget.select()}
-        className={`${input} flex-1 font-mono text-xs`}
-      />
-      <button
-        type="button"
-        onClick={() => {
-          navigator.clipboard?.writeText(value);
-          setCopied(true);
-        }}
-        className={goBtn}
-      >
-        {copied ? "Copied" : "Copy"}
-      </button>
-    </div>
-  );
-}
 
 function StatusChip({ t }: { t: AgentToken }) {
   const [bg, fg, label] =
@@ -75,7 +53,18 @@ function StatusChip({ t }: { t: AgentToken }) {
   );
 }
 
-function CreateForm({ atLimit, isAdmin }: { atLimit: boolean; isAdmin: boolean }) {
+export function CreateKeyForm({
+  atLimit,
+  isAdmin,
+  baseUrl,
+  showCommand,
+}: {
+  atLimit: boolean;
+  isAdmin: boolean;
+  baseUrl: string;
+  /** print the paste-ready install command alongside the raw key */
+  showCommand: boolean;
+}) {
   const [state, action, pending] = useActionState<Res, FormData>(
     createAgentToken,
     {},
@@ -96,31 +85,53 @@ function CreateForm({ atLimit, isAdmin }: { atLimit: boolean; isAdmin: boolean }
           {pending ? "Creating…" : "Create key"}
         </button>
       </div>
-      <label className="flex items-start gap-2.5 text-sm text-teal-900">
-        <input
-          type="checkbox"
-          name="write"
-          defaultChecked
-          disabled={atLimit}
-          className="mt-0.5 h-4 w-4 accent-[var(--t6)]"
-        />
-        <span>
-          Let the agent update progress
-          <span className="block text-xs text-muted">
-            {SCOPE_LABELS["write:status"]}. Unchecked, the key is read-only.
-          </span>
-        </span>
-      </label>
+      {/* Driven off SCOPE_OPTION_LIST rather than written out: a scope with no
+          box grants nothing, and that failure is invisible — the key is created
+          successfully and simply cannot do the thing. */}
+      <div className="flex flex-col gap-2.5">
+        {SCOPE_OPTION_LIST.map((o) => (
+          <label
+            key={o.scope}
+            className="flex items-start gap-2.5 text-sm text-teal-900"
+          >
+            <input
+              type="checkbox"
+              name={o.field}
+              defaultChecked
+              disabled={atLimit}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--t6)]"
+            />
+            <span>
+              {o.title}
+              <span className="block text-xs text-muted">
+                {SCOPE_LABELS[o.scope]}. {o.note}
+              </span>
+            </span>
+          </label>
+        ))}
+      </div>
 
       {state.error ? <p className={errCls}>{state.error}</p> : null}
 
+      {/* The ONLY moment the raw key exists. Everything the customer has to
+          paste is rendered here, with the key already in it — so the next step
+          is a paste, not a hunt. Never persist this to make setup "easier". */}
       {state.token ? (
-        <div className="flex flex-col gap-2 rounded-xl border border-teal-200 bg-teal-50 p-3">
+        <div className="flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 p-3">
           <p className="text-sm text-teal-800">
-            <span className="font-semibold">{state.message}</span> Copy the key
-            now — it&apos;s shown only once and can&apos;t be recovered.
+            <span className="font-semibold">{state.message}</span>{" "}
+            Copy it now — it&apos;s shown only once and can&apos;t be
+            recovered.
           </p>
           <CopyField value={state.token} />
+          {showCommand ? (
+            <div>
+              <p className="mb-1.5 text-xs font-medium text-teal-800">
+                Or paste this in your QMS folder — the key is already in it:
+              </p>
+              <CopyBlock value={claudeCodeCommand(state.token, baseUrl)} />
+            </div>
+          ) : null}
         </div>
       ) : state.message ? (
         <p className={okCls}>{state.message}</p>
@@ -187,11 +198,31 @@ function TokenRow({
           ) : null}
         </div>
       </div>
+      {/* Scopes are listed explicitly, not summarised, because 0018 and 0019
+          each added one: a key minted before either will 403 on the endpoint it
+          missed, and the only fix is a NEW key — scopes cannot be granted to an
+          existing one. Saying so per key is cheaper than a support queue.
+          Ordered so the more fundamental gap is named first: a key that cannot
+          fetch templates cannot draft, which makes reporting moot. */}
+      {!dead && !t.scopes.includes("read:documents") ? (
+        <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
+          This key can&apos;t fetch document templates. Create a new one with{" "}
+          <b className="text-teal-800">Let the agent fetch document templates</b>{" "}
+          ticked if you want it to draft.
+        </p>
+      ) : !dead && !t.scopes.includes("write:drafts") ? (
+        <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
+          This key can draft, but can&apos;t tell the workspace it did — drafts
+          won&apos;t appear in your library. Create a new one with{" "}
+          <b className="text-teal-800">
+            Report which documents it has drafted
+          </b>{" "}
+          ticked.
+        </p>
+      ) : null}
       <div className="text-xs text-muted">
-        {t.scopes.includes("write:status")
-          ? "Read + update progress"
-          : "Read only"}{" "}
-        · created by {t.createdByYou ? "you" : t.createdByEmail} ·{" "}
+        {t.scopes.map((s) => SCOPE_SHORT[s] ?? s).join(" + ")} · created by{" "}
+        {t.createdByYou ? "you" : t.createdByEmail} ·{" "}
         {t.approvedAt
           ? `approved by ${t.approvedByEmail || "an admin"} ${fmt(t.approvedAt)}`
           : "not yet approved"}{" "}
@@ -213,118 +244,46 @@ function TokenRow({
   );
 }
 
-export function AgentAccess({
+export function KeyList({
   tokens,
   isAdmin,
-  isFull,
-  baseUrl,
-  rateLimit,
   writeLimit,
-  isEnabled,
 }: {
   tokens: AgentToken[];
   isAdmin: boolean;
-  isFull: boolean;
-  baseUrl: string;
-  rateLimit: number;
   writeLimit: number;
-  /** the separately-sold agent add-on — off by default */
-  isEnabled: boolean;
 }) {
-  const live = tokens.filter((t) => t.status !== "revoked");
-  const atLimit = live.length >= AGENT_TOKEN_LIMIT;
+  if (!tokens.length)
+    return (
+      <p className="rounded-lg border border-dashed border-line px-3 py-4 text-center text-sm text-muted">
+        No keys yet. Create one above to connect an agent.
+      </p>
+    );
+
   const pending = tokens.filter((t) => t.status === "pending").length;
-
   return (
-    <section className={`${card} mt-6 flex flex-col gap-5`}>
-      <div>
-        <h2 className="font-display text-lg font-semibold text-teal-900">
-          Agent access
-        </h2>
-        <p className="mt-1 text-sm text-muted">
-          Give an AI agent a scoped key so it can work this workspace&apos;s
-          implementation — read what&apos;s next and mark activities done. Keys
-          are inert until an admin approves them, expire after{" "}
-          {AGENT_TOKEN_TTL_DAYS} days, and every action lands in your{" "}
-          <span className="font-medium text-teal-800">Activity log</span>.
-        </p>
-        <p className="mt-2 text-xs text-muted">
-          Each key is budgeted at{" "}
-          <span className="font-medium text-teal-800">
-            {rateLimit} requests/minute
-          </span>{" "}
-          and{" "}
-          <span className="font-medium text-teal-800">
-            {writeLimit} writes/day
-          </span>
-          , so a looping agent can&apos;t churn your records. Over budget returns{" "}
-          <code className="font-mono">429</code>. Need more? Get in touch — the
-          limit is set by us, not from here.
-        </p>
-      </div>
-
-      {!isFull ? (
-        <p className="rounded-lg border border-line bg-tint px-3 py-2 text-sm text-muted">
-          Agent access requires full access.
-        </p>
-      ) : !isEnabled ? (
-        <div className="rounded-xl border border-teal-200 bg-teal-50 p-3">
-          <p className="text-sm font-medium text-teal-900">
-            Agent access isn&apos;t switched on for this workspace.
-          </p>
-          <p className="mt-1 text-sm text-teal-800">
-            It&apos;s a separate add-on to your licence — get in touch and
-            we&apos;ll enable it. Any keys below stay exactly as they are and
-            start working again the moment it&apos;s on.
-          </p>
-        </div>
-      ) : (
-        <>
-          <CreateForm atLimit={atLimit} isAdmin={isAdmin} />
-          {atLimit ? (
-            <p className="text-xs text-muted">
-              {AGENT_TOKEN_LIMIT} keys is the limit — revoke one to add another.
-            </p>
-          ) : null}
-        </>
-      )}
-
+    <div className="flex flex-col gap-3">
       {pending && isAdmin ? (
         <p className={okCls}>
           {pending} key{pending === 1 ? "" : "s"} waiting for your approval.
         </p>
       ) : null}
-
-      {tokens.length ? (
-        <ul className="flex flex-col">
-          {tokens.map((t) => (
-            <TokenRow
-              key={t.id}
-              t={t}
-              isAdmin={isAdmin}
-              writeLimit={writeLimit}
-            />
-          ))}
-        </ul>
-      ) : null}
-
-      <details className="rounded-xl border border-line bg-tint p-3">
-        <summary className="cursor-pointer text-sm font-medium text-teal-800">
-          How an agent connects
-        </summary>
-        <p className="mt-2 text-xs text-muted">
-          The key identifies the workspace on its own — the agent never sends a
-          workspace ID. Point it at these endpoints with the header{" "}
-          <code className="font-mono">Authorization: Bearer rsk_…</code>
+      <ul className="flex flex-col">
+        {tokens.map((t) => (
+          <TokenRow
+            key={t.id}
+            t={t}
+            isAdmin={isAdmin}
+            writeLimit={writeLimit}
+          />
+        ))}
+      </ul>
+      {tokens.filter((t) => t.status !== "revoked").length >=
+      AGENT_TOKEN_LIMIT ? (
+        <p className="text-xs text-muted">
+          {AGENT_TOKEN_LIMIT} keys is the limit — revoke one to add another.
         </p>
-        <pre className="mt-2 overflow-x-auto rounded-lg bg-white p-3 font-mono text-[11px] leading-relaxed text-teal-900">
-          {`GET   ${baseUrl}/api/v1/next
-GET   ${baseUrl}/api/v1/activities/{id}
-PATCH ${baseUrl}/api/v1/activities/{id}
-      { "status": "Done" }
-      { "tasks": { "0": true, "1": true } }`}
-        </pre>
-      </details>
-    </section>
+      ) : null}
+    </div>
   );
 }

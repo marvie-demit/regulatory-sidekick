@@ -1,0 +1,35 @@
+{
+  "name": "@notjustany/regulatory-sidekick-mcp",
+  "version": "0.1.0",
+  "description": "Work your ISO 13485 / EU MDR implementation with an AI assistant: read the plan, draft controlled documents into your own folder, report progress back.",
+  "type": "module",
+  "bin": {
+    "regulatory-sidekick-mcp": "./dist/server.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {
+    "build": "node scripts/bundle.mjs && node scripts/pack-mcpb.mjs",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "prepublishOnly": "npm run build && node ../../scripts/check-pack.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "icon": "node scripts/make-icon.mjs",
+    "bundle": "node scripts/pack-mcpb.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@notjustany/doc-contract": "*",
+    "esbuild": "^0.28.2",
+    "yaml": "^2.7.0",
+    "zod": "^4.4.3"
+  }
+}

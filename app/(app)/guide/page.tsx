@@ -67,6 +67,11 @@ function sections(totalDocs: number): Section[] {
           href: "/checklist",
           body: "Every activity in one list with a status control. Expand a row for its granular, individually-checkable items; filter by phase and print or export a self-assessment record.",
         },
+        {
+          label: "Agent",
+          href: "/agent",
+          body: "Connect your own AI assistant so it can read the plan and draft documents into a folder on your machine. A separate add-on; the agent can open work and draft, but only a person can mark an activity Done.",
+        },
       ],
     },
     {
@@ -121,7 +126,7 @@ export default function GuidePage() {
       </h1>
       <p className="lead">
         Regulatory Sidekick turns ISO 13485 and EU MDR/IVDR into a guided, lean
-        implementation you work step by step. Here's how to find your way around
+        implementation you work step by step. Here&apos;s how to find your way around
         and the order we recommend tackling things.
       </p>
 

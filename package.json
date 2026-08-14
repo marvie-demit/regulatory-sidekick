@@ -5,9 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "check:model": "node scripts/check-process-model.mjs",
-    "build": "node scripts/check-process-model.mjs && next build",
+    "build": "node scripts/check-process-model.mjs && npm run test:contract && npm run test:mcp && node scripts/check-pack.mjs && npm run check:prompts && npm run check:drafts && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "predev": "npm run build -w @notjustany/doc-contract",
+    "prebuild": "npm run build -w @notjustany/doc-contract && npm run build -w @notjustany/regulatory-sidekick-mcp",
+    "test:contract": "npm test -w @notjustany/doc-contract",
+    "check:prompts": "node --no-warnings --import ./scripts/alias-register.mjs scripts/gen-doc-prompts.mjs --check",
+    "test:mcp": "npm test -w @notjustany/regulatory-sidekick-mcp",
+    "check:drafts": "node --no-warnings --import ./scripts/alias-register.mjs scripts/eval-drafts.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
@@ -26,5 +32,8 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

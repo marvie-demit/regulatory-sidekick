@@ -11,9 +11,71 @@ idempotent and safe to re-run.
 
 | # | What it adds |
 |---|---|
+| `0014_billing.sql` | `purchases`, `stripe_events`, `organizations.stripe_customer_id` — **NOT APPLIED as of 2026-08-13; see the warning below** |
 | `0015_partners.sql` | partners, partner_members, partner_invitations, partner_audit; `access_codes.partner_id/batch_id/revoked_at`; allowance + mint/revoke/portfolio RPCs |
 | `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` |
 | `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket |
+| `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
+| `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
+| `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases` |
+
+### ⚠ `0014_billing.sql` is not applied
+
+Checked against the live database on 2026-08-13: `purchases` and `stripe_events`
+do not exist, and `organizations.stripe_customer_id` is missing. The migration
+was committed with the checkout code (`b0ae86e`) and never run. It was also
+absent from the table above, which is how it went unnoticed — the list started
+at `0015`.
+
+**Whether this is dangerous depends on the Vercel environment, which is not
+visible from the repository.** `STRIPE_SECRET_KEY` and every `STRIPE_PRICE_*`
+are empty in `.env.local`, so checkout is dormant locally: `isBuyable()` returns
+false and the action answers "Online checkout isn't configured yet". If those
+variables are set in production, then checkout is reachable and:
+
+1. The customer completes Stripe Checkout and **is charged**.
+2. `POST /api/stripe/webhook` cannot claim the event — `stripe_events` does not
+   exist — so it returns 500 on every delivery and retry.
+3. `grantPurchasedAccess()` never runs. **The customer pays and gets nothing.**
+
+The failure is at least loud rather than silent: Stripe retries and surfaces the
+failing webhook in its dashboard. But nothing in the app notices.
+
+Apply `0014` before enabling any Stripe price in production. Verify with
+`select count(*) from purchases;` returning 0 rather than an error.
+
+## Releasing the desktop bundle
+
+`npm run build -w @notjustany/regulatory-sidekick-mcp` produces
+`packages/rsk-mcp/dist/regulatory-sidekick-<version>.mcpb`. Shipping it is three
+manual steps, in this order:
+
+1. Create a **private** Storage bucket named `releases` (once). It must not be
+   public — `/api/agent/bundle` hands out a 60-second signed URL, and a public
+   bucket would make the entitlement gate decorative.
+2. Upload the `.mcpb` under its own filename, unchanged.
+3. Flip `BUNDLE_AVAILABLE` in `lib/agent/release.ts` and set `CLIENT_LATEST` to
+   the version you uploaded. Until then the Agent page says "coming" rather than
+   linking to a download that 404s.
+
+`CLIENT_MINIMUM` is the kill switch, not the update prompt. Raising it strands
+every installed client below it, so move it only when a version is genuinely
+unsafe to keep using — a validator bug that let a falsified record through, for
+instance. `GET /api/v1/version` is unauthenticated on purpose: a client whose key
+has lapsed still has to be able to hear "stop".
+
+**`0019` must be applied before the deploy that ships it**, for the same reason
+as `0018`: the *report drafts back* box adds a scope the CHECK would reject, and
+key creation errors rather than degrading. The draft badges read through a
+`try/catch`, so an unapplied `0019` shows "no drafts" rather than breaking the
+activity and library pages — but the agent's `PUT …/draft` returns 503 until it
+is applied.
+
+**`0018` must be applied before the deploy that ships it.** Without it, creating
+an agent key with the *fetch document templates* box ticked fails the CHECK
+constraint and the whole key creation errors — the app cannot degrade around a
+constraint violation. Keys minted before `0018` keep working, but 403 on the
+template endpoint until they are re-issued; the Agent page says so per key.
 
 The app degrades rather than crashing if one is missing (`listPartners` returns
 empty, `listAccessCodes` steps down to a narrower select), but nothing works.

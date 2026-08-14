@@ -22,14 +22,21 @@ export function ActivityTasks({ id, groups }: { id: string; groups: Group[] }) {
     toast("Marked Done");
   }
 
-  // each group's starting flat index (matches the checklist's flatMap order)
-  let off = 0;
-  const grouped = groups.map((g) => {
-    const start = off;
-    off += g.steps.length;
-    return { role: g.role, steps: g.steps, start };
-  });
-  const total = off;
+  // Each group's starting flat index, matching the checklist's flatMap order —
+  // which is also what task_completion.step_index means, so this has to stay
+  // exact.
+  //
+  // Built with a plain loop rather than a map that mutates a captured `off`.
+  // The React Compiler rejects the latter, and it is right to: the callback
+  // closes over a variable it advances, so the result depends on the callback
+  // running exactly once, in order, during this render. That is true today and
+  // is not a property map() promises.
+  const grouped: { role: string; steps: typeof groups[number]["steps"]; start: number }[] = [];
+  let total = 0;
+  for (const g of groups) {
+    grouped.push({ role: g.role, steps: g.steps, start: total });
+    total += g.steps.length;
+  }
   let doneCount = 0;
   for (let i = 0; i < total; i++) if (done[i]) doneCount++;
 

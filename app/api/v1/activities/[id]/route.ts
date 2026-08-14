@@ -6,8 +6,11 @@ import {
   pnum,
   expandRefs,
   byDocId,
+  docStep,
   PHASE_NAMES,
 } from "@/lib/content/content";
+import { activityMode, MODE_GUIDANCE } from "@/lib/docgen/activity-modes";
+import { fillModeFor } from "@/lib/docgen/prompt-vars";
 import { actInScope } from "@/lib/content/scope";
 import { LABEL_TO_ENUM } from "@/lib/db/state";
 
@@ -22,6 +25,10 @@ const idList = (s?: string) =>
     .split(",")
     .map((x) => x.trim())
     .filter((x) => x && x !== "-");
+
+// The only statuses an agent may set. See the PATCH handler for why "Done" and
+// "N-A" are excluded.
+const AGENT_SETTABLE = ["Not started", "In progress"];
 
 // Flat task index — MUST match the UI's flatMap over how2 groups, since that's
 // what task_completion.step_index means (see components/content/ActivityTasks).
@@ -52,6 +59,8 @@ export const GET = withAgentAuth<Route>("read", async (ctx, _req, route) => {
     phaseName: PHASE_NAMES[pnum(a.phase)] ?? "",
     workstream: (a as { workstream?: string }).workstream || "tf",
     qse: a.qse,
+    mode: activityMode(a.id),
+    modeGuidance: MODE_GUIDANCE[activityMode(a.id)],
     inScope: actInScope(a, profile),
     status: status[a.id] ?? "Not started",
     estimatedDays: a.dur ?? 0,
@@ -69,10 +78,21 @@ export const GET = withAgentAuth<Route>("read", async (ctx, _req, route) => {
     records: a.records ?? [],
     tips: a.tips ?? [],
     clauses: a.clausemap ?? [],
+    // fillMode comes straight from the class: FOR and LIS record what happened,
+    // so an agent scaffolds them and never fills them in.
     documents: expandRefs(a.documents)
       .map((d) => byDocId[d])
       .filter(Boolean)
-      .map((d) => ({ id: d.id, title: d.title, type: d.cls })),
+      .map((d) => ({
+        id: d.id,
+        title: d.title,
+        type: d.cls,
+        domain: d.domain,
+        module: d.module,
+        fillMode: fillModeFor(d.cls),
+        producedIn: docStep(d.id),
+        template: `/api/v1/documents/${d.id}/template`,
+      })),
     dependsOn: idList(a.depends),
     leadsTo: idList(a.leads),
     subActivities: (a.subs ?? []).map((s) => ({
@@ -86,8 +106,9 @@ export const GET = withAgentAuth<Route>("read", async (ctx, _req, route) => {
 });
 
 // PATCH /api/v1/activities/:id — the agent reporting progress.
-// Body: { "status"?: "In progress" | "Done" | "N-A" | "Not started",
+// Body: { "status"?: "Not started" | "In progress",
 //         "tasks"?: { "0": true, "3": false } }
+// "Done" and "N-A" are rejected with 403 — closing an activity is a human act.
 export const PATCH = withAgentAuth<Route>(
   "write:status",
   async (ctx, req, route) => {
@@ -164,7 +185,23 @@ export const PATCH = withAgentAuth<Route>(
       if (!enumValue)
         return agentError(
           400,
-          `Unknown status "${statusLabel}". Use: ${Object.keys(LABEL_TO_ENUM).join(", ")}.`,
+          `Unknown status "${statusLabel}". Use: ${AGENT_SETTABLE.join(", ")}.`,
+        );
+      // An agent opens work; a person closes it. "Done" is a named human taking
+      // responsibility, and "N-A" is worse — it declares a regulatory requirement
+      // inapplicable to this device. Both are closed states: isClosed() in
+      // lib/content/next-up.ts treats them identically, so either one unblocks
+      // dependents, advances currentPhase and moves progress.percent. An agent
+      // that closes its own work makes the completion metric meaningless.
+      //
+      // Deliberately a POLICY here, not a fourth scope: a workspace must not be
+      // able to grant it. Humans are unaffected — the UI writes status through
+      // lib/db/mutations.ts, a separate path on the RLS-scoped client.
+      if (!AGENT_SETTABLE.includes(statusLabel))
+        return agentError(
+          403,
+          `An agent cannot set "${statusLabel}". Closing or excluding an activity is a human sign-off — report what you drafted and let a person decide.`,
+          { allowed: AGENT_SETTABLE },
         );
       const { error } = await ctx.db.from("activity_status").upsert(
         {

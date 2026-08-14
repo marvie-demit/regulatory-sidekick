@@ -17,6 +17,10 @@ const NAV: { group: string; items: NavItem[] }[] = [
       { label: "Dashboard", href: "/dashboard", ready: true },
       { label: "Roadmap", href: "/roadmap/1", match: "/roadmap", ready: true },
       { label: "Checklist", href: "/checklist", match: "/checklist", ready: true },
+      // Always visible, like every other plan-gated destination — the page
+      // itself shows the locked / upsell state. That is what makes the add-on
+      // discoverable by the people who haven't bought it.
+      { label: "Agent", href: "/agent", match: "/agent", ready: true },
     ],
   },
   {

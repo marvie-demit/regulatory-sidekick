@@ -5,10 +5,6 @@ export const metadata = {
   description: "Informationen zur Verarbeitung personenbezogener Daten.",
 };
 
-function Fill({ children }: { children: React.ReactNode }) {
-  return <span className="fillme">{children}</span>;
-}
-
 // The data categories below are taken from the actual schema (migrations 0001
 // onward) and the actual cookie constants in lib/constants.ts, not from a
 // template — keep them in sync when the schema changes.
@@ -81,12 +77,31 @@ const DE = (
       Row-Level-Security erzwungen, nicht allein über die Benutzeroberfläche.
     </p>
     <p>
-      <Fill>
-        Rechtlich zu prüfen: Enthalten diese Dokumente personenbezogene Daten
-        Ihrer Kunden, handeln Sie insoweit als Auftragsverarbeiter. Dann ist ein
-        Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO mit Ihren Kunden
-        erforderlich, und dieser Abschnitt muss entsprechend formuliert werden.
-      </Fill>
+      Für den <em>Inhalt</em> dieser Dateien handeln wir als
+      Auftragsverarbeiter: Verantwortlicher bleibt Ihr Unternehmen, wir
+      verarbeiten die Inhalte ausschließlich weisungsgebunden zum Zweck der
+      Speicherung, Versionierung und Anzeige innerhalb Ihres Arbeitsbereichs.
+      Eine inhaltliche Auswertung zu eigenen Zwecken findet nicht statt; die
+      Dateien werden insbesondere nicht zum Training von KI-Modellen verwendet
+      und nicht an KI-Dienste übermittelt.
+    </p>
+    <p>
+      Einen Vertrag zur Auftragsverarbeitung nach Art.&nbsp;28 DSGVO stellen wir
+      auf Anfrage unter der oben genannten E-Mail-Adresse bereit. Die in
+      Abschnitt&nbsp;5 genannten Dienstleister sind die dabei eingesetzten
+      Unterauftragsverarbeiter; über beabsichtigte Änderungen dieser Liste
+      informieren wir vorab an die im Arbeitsbereich hinterlegte
+      Administrator-Adresse.
+    </p>
+    <p>
+      Bitte laden Sie nur Nachweise hoch, die für den jeweiligen Zweck
+      erforderlich sind, und beschränken Sie personenbezogene Daten darin — etwa
+      Namen in Schulungsnachweisen oder Unterschriften in Freigaben — auf das
+      notwendige Maß. Besondere Kategorien personenbezogener Daten nach
+      Art.&nbsp;9 DSGVO, insbesondere Gesundheitsdaten aus klinischen Prüfungen,
+      Vorkommnismeldungen oder Reklamationen, gehören nicht in diesen
+      Speicherbereich; laden Sie solche Unterlagen bitte ausschließlich
+      pseudonymisiert oder anonymisiert hoch.
     </p>
 
     <h3>Protokolldaten und Änderungshistorie</h3>
@@ -172,20 +187,37 @@ const DE = (
     </p>
     <ul>
       <li>
-        <strong>Supabase</strong> — Datenbank, Authentifizierung und
-        Dateispeicher. Verarbeitung in der Region Frankfurt am Main,
-        Deutschland.
+        <strong>
+          Supabase Pte. Ltd., 65 Chulia Street #38-02/03, OCBC Centre, Singapur
+          049513
+        </strong>{" "}
+        — Datenbank, Authentifizierung und Dateispeicher. Verarbeitung in der
+        Region Frankfurt am Main (<code>eu-central-1</code>), Deutschland.
       </li>
       <li>
-        <strong>Vercel</strong> — Hosting und Auslieferung der Anwendung,
-        Serverprotokolle. Ausführung in der Region Frankfurt am Main,
-        Deutschland.
+        <strong>
+          Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA
+        </strong>{" "}
+        — Hosting und Auslieferung der Anwendung, Serverprotokolle. Ausführung
+        in der Region Frankfurt am Main (<code>fra1</code>), Deutschland.
       </li>
       <li>
-        <strong>Stripe</strong> — Zahlungsabwicklung.
+        <strong>
+          Stripe Payments Europe, Limited, One Wilton Park, Wilton Place, Dublin
+          2, D02&nbsp;FX04, Irland
+        </strong>{" "}
+        — Zahlungsabwicklung. Vertragspartner und verarbeitende Stelle für
+        Kunden im EWR ist die irische Gesellschaft; die Verarbeitung erfolgt in
+        der Europäischen Union, mit Übermittlungen an die verbundene Stripe,
+        Inc. (USA).
       </li>
       <li>
-        <strong>Resend</strong> — Versand transaktionaler E-Mails.
+        <strong>
+          Plus Five Five, Inc. (auftretend als „Resend“), 2261 Market Street
+          #5039, San Francisco, CA 94114, USA
+        </strong>{" "}
+        — Versand transaktionaler E-Mails. Die Verarbeitung findet in den
+        Vereinigten Staaten statt.
       </li>
     </ul>
 
@@ -199,13 +231,36 @@ const DE = (
       Region allein beseitigt die Drittlandproblematik daher nicht.
     </p>
     <p>
-      <Fill>
-        Bitte ergänzen: vollständige Firmierung und Sitz je Dienstleister; die
-        konkret einschlägige Transfergrundlage für etwaige Zugriffe aus
-        Drittländern (Standardvertragsklauseln bzw. Zertifizierung nach dem
-        EU-US Data Privacy Framework); sowie die tatsächliche
-        Verarbeitungsregion von Stripe und Resend.
-      </Fill>
+      Für Übermittlungen in Drittländer stützen wir uns je Dienstleister auf
+      folgende Garantien nach Kapitel&nbsp;V DSGVO:
+    </p>
+    <ul>
+      <li>
+        <strong>Supabase</strong> — Standardvertragsklauseln der Europäischen
+        Kommission (Durchführungsbeschluss&nbsp;(EU)&nbsp;2021/914), Modul&nbsp;2
+        (Verantwortlicher an Auftragsverarbeiter), als Bestandteil des
+        Auftragsverarbeitungsvertrags, ergänzt um technische Maßnahmen
+        (Verschlüsselung bei Übertragung und im Ruhezustand, Zugriffskontrolle).
+      </li>
+      <li>
+        <strong>Vercel</strong> — Zertifizierung nach dem EU-US Data Privacy
+        Framework (Angemessenheitsbeschluss der Europäischen Kommission vom
+        10.&nbsp;Juli&nbsp;2023) sowie ergänzend Standardvertragsklauseln aus
+        dem Auftragsverarbeitungsvertrag.
+      </li>
+      <li>
+        <strong>Stripe</strong> — Verarbeitung innerhalb der EU durch die
+        irische Gesellschaft; für Übermittlungen an verbundene Unternehmen in
+        Drittländern Standardvertragsklauseln.
+      </li>
+      <li>
+        <strong>Resend</strong> — Zertifizierung nach dem EU-US Data Privacy
+        Framework sowie ergänzend Standardvertragsklauseln.
+      </li>
+    </ul>
+    <p>
+      Eine Kopie der jeweiligen Garantien stellen wir auf Anfrage unter der in
+      Abschnitt&nbsp;1 genannten Adresse zur Verfügung.
     </p>
 
     <h2>6. Speicherdauer</h2>
@@ -216,13 +271,36 @@ const DE = (
       entfernt. Rechnungen und sonstige abgabenrechtlich relevante Unterlagen
       werden gemäß § 132 BAO sieben Jahre aufbewahrt.
     </p>
-    <p>
-      <Fill>
-        Bitte ergänzen: Aufbewahrungsdauer der technischen Serverprotokolle bei
-        Vercel und Supabase sowie die Frist, nach der gelöschte Arbeitsbereiche
-        endgültig aus den Sicherungskopien entfallen.
-      </Fill>
-    </p>
+    <p>Im Einzelnen gelten folgende Fristen:</p>
+    <ul>
+      <li>
+        <strong>Technische Serverprotokolle bei Vercel</strong> (IP-Adresse,
+        Zeitpunkt, aufgerufene Ressource): automatische Löschung nach der
+        Vorhaltezeit des genutzten Tarifs, längstens nach 30&nbsp;Tagen. Ein
+        Export dieser Protokolle in Systeme Dritter findet nicht statt.
+      </li>
+      <li>
+        <strong>Protokolle bei Supabase</strong> (Datenbank-, Authentifizierungs-
+        und Speicherzugriffe): automatische Löschung nach längstens 7&nbsp;Tagen.
+      </li>
+      <li>
+        <strong>Sicherungskopien der Datenbank</strong>: rollierende Vorhaltung
+        von 7&nbsp;Tagen. Ein gelöschter Arbeitsbereich entfällt daher
+        spätestens 7&nbsp;Tage nach der Löschung endgültig auch aus den
+        Sicherungen. Bis dahin sind die Daten allein für die Wiederherstellung
+        im Störungsfall gesperrt und werden nicht weiterverarbeitet.
+      </li>
+      <li>
+        <strong>Nachweisdateien im Dateispeicher</strong>: Löschung unmittelbar
+        mit der Löschung des Arbeitsbereichs; sie unterliegen keiner gesonderten
+        Sicherungskopie.
+      </li>
+      <li>
+        <strong>Protokolldaten und Änderungshistorie im Produkt</strong>: für
+        die Dauer des Vertragsverhältnisses, danach Löschung gemeinsam mit dem
+        Arbeitsbereich.
+      </li>
+    </ul>
 
     <h2>7. Ihre Rechte</h2>
     <p>
@@ -318,12 +396,28 @@ const EN = (
       row-level security, not merely in the interface.
     </p>
     <p>
-      <Fill>
-        To be confirmed with counsel: where these documents contain personal
-        data belonging to your customers, you act as a processor for that
-        content. A data processing agreement under Art. 28 GDPR with your
-        customers is then required, and this section must be worded accordingly.
-      </Fill>
+      For the <em>content</em> of these files we act as a processor: your
+      organisation remains the controller, and we process that content solely on
+      your instructions for the purpose of storing, versioning and displaying it
+      within your workspace. We do not analyse the content for our own purposes;
+      in particular the files are not used to train AI models and are not
+      transmitted to any AI service.
+    </p>
+    <p>
+      A data processing agreement under Art.&nbsp;28 GDPR is available on
+      request at the email address given above. The providers listed in
+      section&nbsp;5 are the sub-processors engaged for this purpose; we give
+      advance notice of intended changes to that list to the administrator
+      address held for the workspace.
+    </p>
+    <p>
+      Please upload only evidence that is necessary for the purpose at hand, and
+      keep the personal data it contains — names on training records, signatures
+      on approvals — to the minimum required. Special categories of personal
+      data under Art.&nbsp;9 GDPR, in particular health data from clinical
+      investigations, incident reports or complaints, do not belong in this
+      storage area; please upload such records in pseudonymised or anonymised
+      form only.
     </p>
 
     <h3>Log data and change history</h3>
@@ -406,18 +500,37 @@ const EN = (
     </p>
     <ul>
       <li>
-        <strong>Supabase</strong> — database, authentication and file storage.
-        Processing in the Frankfurt am Main region, Germany.
+        <strong>
+          Supabase Pte. Ltd., 65 Chulia Street #38-02/03, OCBC Centre, Singapore
+          049513
+        </strong>{" "}
+        — database, authentication and file storage. Processing in the Frankfurt
+        am Main region (<code>eu-central-1</code>), Germany.
       </li>
       <li>
-        <strong>Vercel</strong> — application hosting and delivery, server logs.
-        Execution in the Frankfurt am Main region, Germany.
+        <strong>
+          Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA
+        </strong>{" "}
+        — application hosting and delivery, server logs. Execution in the
+        Frankfurt am Main region (<code>fra1</code>), Germany.
       </li>
       <li>
-        <strong>Stripe</strong> — payment processing.
+        <strong>
+          Stripe Payments Europe, Limited, One Wilton Park, Wilton Place, Dublin
+          2, D02&nbsp;FX04, Ireland
+        </strong>{" "}
+        — payment processing. The Irish company is the contracting and
+        processing entity for customers in the EEA; processing takes place in
+        the European Union, with onward transfers to its affiliate Stripe, Inc.
+        (USA).
       </li>
       <li>
-        <strong>Resend</strong> — transactional email delivery.
+        <strong>
+          Plus Five Five, Inc. (trading as &ldquo;Resend&rdquo;), 2261 Market
+          Street #5039, San Francisco, CA 94114, USA
+        </strong>{" "}
+        — transactional email delivery. Processing takes place in the United
+        States.
       </li>
     </ul>
 
@@ -431,12 +544,36 @@ const EN = (
       third-country question.
     </p>
     <p>
-      <Fill>
-        To be added: full legal name and seat of each provider; the transfer
-        mechanism actually relied upon for any third-country access (standard
-        contractual clauses, or certification under the EU-US Data Privacy
-        Framework); and the processing regions of Stripe and Resend.
-      </Fill>
+      For transfers to third countries we rely on the following safeguards under
+      Chapter&nbsp;V GDPR, per provider:
+    </p>
+    <ul>
+      <li>
+        <strong>Supabase</strong> — the European Commission&rsquo;s standard
+        contractual clauses (Implementing Decision (EU) 2021/914), module&nbsp;2
+        (controller to processor), as part of the data processing agreement,
+        supplemented by technical measures (encryption in transit and at rest,
+        access control).
+      </li>
+      <li>
+        <strong>Vercel</strong> — certification under the EU-US Data Privacy
+        Framework (European Commission adequacy decision of 10 July 2023), with
+        the standard contractual clauses in the data processing agreement as a
+        supplementary basis.
+      </li>
+      <li>
+        <strong>Stripe</strong> — processing within the EU by the Irish company;
+        standard contractual clauses for transfers to affiliates in third
+        countries.
+      </li>
+      <li>
+        <strong>Resend</strong> — certification under the EU-US Data Privacy
+        Framework, with standard contractual clauses as a supplementary basis.
+      </li>
+    </ul>
+    <p>
+      A copy of the relevant safeguards is available on request at the address
+      given in section&nbsp;1.
     </p>
 
     <h2>6. Retention</h2>
@@ -447,13 +584,34 @@ const EN = (
       relevant under tax law are retained for seven years pursuant to § 132 of
       the Austrian Federal Fiscal Code (BAO).
     </p>
-    <p>
-      <Fill>
-        Please add: the retention period for technical server logs at Vercel and
-        Supabase, and the period after which deleted workspaces fall out of
-        backups for good.
-      </Fill>
-    </p>
+    <p>The individual periods are:</p>
+    <ul>
+      <li>
+        <strong>Technical server logs at Vercel</strong> (IP address, timestamp,
+        resource requested): deleted automatically after the retention window of
+        the plan in use, and after 30&nbsp;days at the latest. These logs are not
+        exported to any third-party system.
+      </li>
+      <li>
+        <strong>Logs at Supabase</strong> (database, authentication and storage
+        access): deleted automatically after 7&nbsp;days at the latest.
+      </li>
+      <li>
+        <strong>Database backups</strong>: retained on a rolling 7-day window. A
+        deleted workspace therefore falls out of the backups for good no later
+        than 7&nbsp;days after deletion. Until then the data is held solely for
+        restoring service after a failure and is not processed further.
+      </li>
+      <li>
+        <strong>Evidence files in storage</strong>: deleted at the same time as
+        the workspace; they are not covered by a separate backup.
+      </li>
+      <li>
+        <strong>In-product log data and change history</strong>: kept for the
+        duration of the contractual relationship, then deleted together with the
+        workspace.
+      </li>
+    </ul>
 
     <h2>7. Your rights</h2>
     <p>
@@ -484,7 +642,7 @@ export default function PrivacyPage() {
     <LegalDoc
       titleDe="Datenschutzerklärung"
       titleEn="Privacy policy"
-      updated="31.07.2026"
+      updated="14.08.2026"
       de={DE}
       en={EN}
     />

@@ -33,7 +33,22 @@ export async function getMemberships(): Promise<OrgMembership[]> {
   // retry. Genuinely-empty data (new user) still returns [].
   if (error) throw new Error("Could not load your organisations. Please try again.");
   if (!data) return [];
-  return (data as any[])
+  // Typed rather than `any[]`: PostgREST returns the embedded organisation as
+  // an object or a single-element array depending on how it infers the
+  // relationship, which is exactly the ambiguity the code below handles — so
+  // the type has to admit both rather than being asserted away.
+  type OrgRow = {
+    plan?: string | null;
+    plan_expires_at?: string | null;
+    [k: string]: unknown;
+  };
+  type MembershipRow = {
+    role?: string | null;
+    organizations?: OrgRow | OrgRow[] | null;
+    [k: string]: unknown;
+  };
+
+  return (data as MembershipRow[])
     .map((r) => {
       const o = Array.isArray(r.organizations)
         ? r.organizations[0]

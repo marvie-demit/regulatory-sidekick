@@ -35,6 +35,10 @@ export type AdminOrg = {
   /** the separately-sold agent/MCP entitlement */
   agenticEnabled: boolean;
   agenticExpiresAt: string | null;
+  /** agent connection health — cheap facts, not analytics */
+  agentKeys: number; // live keys (not revoked)
+  agentKeysPending: number; // waiting on a workspace admin — a silent blocker
+  agentLastUsedAt: string | null; // null with the add-on ON = paying, never used
 };
 
 // One user_id -> email map for everyone, instead of a lookup per user. Paged
@@ -130,6 +134,43 @@ export async function listOrgs(): Promise<AdminOrg[]> {
     role: string;
   }[];
 
+  // Agent connection health, same shape as the memberships read above: ONE query
+  // for every listed org, folded into a Map — not an N+1. Wrapped because
+  // migration 0011 may not be applied; a missing table must read as "no keys",
+  // never blank the org list.
+  let tokRows: {
+    org_id: string;
+    status: string;
+    last_used_at: string | null;
+  }[] = [];
+  {
+    const { data, error } = await admin
+      .from("agent_tokens")
+      .select("org_id, status, last_used_at")
+      .in(
+        "org_id",
+        orgIds.length ? orgIds : ["00000000-0000-0000-0000-000000000000"],
+      );
+    if (!error) tokRows = (data ?? []) as typeof tokRows;
+  }
+  const agentByOrg = new Map<
+    string,
+    { live: number; pending: number; lastUsed: string | null }
+  >();
+  tokRows.forEach((t) => {
+    const a = agentByOrg.get(t.org_id) ?? {
+      live: 0,
+      pending: 0,
+      lastUsed: null,
+    };
+    if (t.status !== "revoked") a.live++;
+    if (t.status === "pending") a.pending++;
+    // ISO-8601 compares lexicographically — no Date allocation per row.
+    if (t.last_used_at && (!a.lastUsed || t.last_used_at > a.lastUsed))
+      a.lastUsed = t.last_used_at;
+    agentByOrg.set(t.org_id, a);
+  });
+
   const emailById = await emailsByUserId();
 
   const rank = (r: string) => (r === "admin" ? 0 : r === "member" ? 1 : 2);
@@ -145,6 +186,7 @@ export async function listOrgs(): Promise<AdminOrg[]> {
     const memberList = (byOrg.get(id) ?? []).sort(
       (a, b) => rank(a.role) - rank(b.role),
     );
+    const ag = agentByOrg.get(id);
     return {
       id,
       name: o.name as string,
@@ -158,6 +200,9 @@ export async function listOrgs(): Promise<AdminOrg[]> {
       agentWriteLimit: (o.agent_write_limit as number | null) ?? null,
       agenticEnabled: (o.agentic_enabled as boolean | null) ?? false,
       agenticExpiresAt: (o.agentic_expires_at as string | null) ?? null,
+      agentKeys: ag?.live ?? 0,
+      agentKeysPending: ag?.pending ?? 0,
+      agentLastUsedAt: ag?.lastUsed ?? null,
     };
   });
 }

@@ -990,6 +990,12 @@ body {
   background: #eee;
   color: #777;
 }
+/* An agent draft awaiting a human. Amber, not green: it is work in hand, not
+   work finished — .tg.open (green) is for a document a person has reviewed. */
+.tg.draft {
+  background: #fdf0dc;
+  color: #8a5a12;
+}
 .badge {
   font-size: 10px;
   background: var(--t5);

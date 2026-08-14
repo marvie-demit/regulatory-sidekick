@@ -29,7 +29,13 @@ const CR: Record<string, number> = {
 };
 const uniq = (a: string[]) => Array.from(new Set(a));
 
-function DocCard({ d }: { d: Doc }) {
+/** What the agent reported for this document. Never its content. */
+export type DraftBadge = {
+  openQuestions: number;
+  reviewed: boolean;
+};
+
+function DocCard({ d, draft }: { d: Doc; draft?: DraftBadge }) {
   const inner = (
     <>
       <div className="did">
@@ -42,6 +48,16 @@ function DocCard({ d }: { d: Doc }) {
         <span className="tg">{d.cls}</span>
         {d.status ? <span className="tg open">{d.status}</span> : null}
         {d.page ? null : <span className="tg np">no preview</span>}
+        {/* A drafted document is on the customer's machine, not here — the
+            badge says one exists and whether a human has looked at it. The
+            open-question count is the actionable half: it is what the agent
+            could not answer without them. */}
+        {draft ? (
+          <span className={draft.reviewed ? "tg open" : "tg draft"}>
+            {draft.reviewed ? "reviewed" : "drafted"}
+            {draft.openQuestions > 0 ? ` · ${draft.openQuestions}?` : ""}
+          </span>
+        ) : null}
       </div>
     </>
   );
@@ -60,12 +76,14 @@ export function LibraryView({
   procOrder,
   totalDocs,
   plan,
+  drafts,
 }: {
   documents: Doc[];
   procs: Record<string, Proc>;
   procOrder: string[];
   totalDocs: number;
   plan?: string;
+  drafts?: Record<string, DraftBadge>;
 }) {
   const [q, setQ] = useState("");
   const [mod, setMod] = useState("");
@@ -205,7 +223,7 @@ export function LibraryView({
       ) : view === "flat" && full ? (
         <div className="lib">
           {ds.map((d) => (
-            <DocCard key={d.id} d={d} />
+            <DocCard key={d.id} d={d} draft={drafts?.[d.id]} />
           ))}
         </div>
       ) : (
@@ -270,7 +288,7 @@ export function LibraryView({
                 {col ? null : (
                   <div className="lib">
                     {items.map((d) => (
-                      <DocCard key={d.id} d={d} />
+                      <DocCard key={d.id} d={d} draft={drafts?.[d.id]} />
                     ))}
                   </div>
                 )}

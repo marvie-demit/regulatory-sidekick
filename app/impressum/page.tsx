@@ -9,10 +9,6 @@ export const metadata = {
 // md.notjustany.tech. This is an AUSTRIAN sole trader, so the governing rules
 // are § 5 ECG (E-Commerce-Gesetz) and § 25 MedienG — not the German § 5 DDG /
 // § 18 MStV that a generic template would reach for.
-function Fill({ children }: { children: React.ReactNode }) {
-  return <span className="fillme">{children}</span>;
-}
-
 const DE = (
   <>
     <h2>Angaben gemäß § 5 ECG und § 25 MedienG</h2>
@@ -122,17 +118,37 @@ const DE = (
       unterliegen dem österreichischen Urheberrecht. Vervielfältigung,
       Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen
       des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen
-      Urhebers. Die im Rahmen eines aufrechten Nutzungsverhältnisses
-      bereitgestellten Vorlagen dürfen von den berechtigten Nutzerinnen und
-      Nutzern innerhalb ihres eigenen Unternehmens verwendet und angepasst
-      werden.
+      Urhebers.
+    </p>
+
+    <h2>Nutzungsrechte an den Vorlagen</h2>
+    <p>
+      Mit einem aufrechten Nutzungsverhältnis wird dem berechtigten
+      Arbeitsbereich ein einfaches, nicht ausschließliches, nicht übertragbares
+      und nicht unterlizenzierbares Recht eingeräumt, die bereitgestellten
+      Vorlagen, Checklisten und Textbausteine innerhalb des eigenen
+      Unternehmens zu vervielfältigen, zu bearbeiten und für das eigene
+      Qualitätsmanagementsystem zu verwenden.
     </p>
     <p>
-      <Fill>
-        Bitte prüfen: Der letzte Satz beschreibt die Lizenz an den Vorlagen.
-        Diese Formulierung muss mit Ihren AGB bzw. Nutzungsbedingungen
-        übereinstimmen.
-      </Fill>
+      Die daraus erstellten Dokumente gehören dem jeweiligen Unternehmen. Das
+      Recht, sie weiter zu verwenden, aufzubewahren und einer benannten Stelle
+      oder Behörde vorzulegen, besteht auch nach Ende des Nutzungsverhältnisses
+      unbefristet fort — ein Qualitätsmanagementsystem wäre andernfalls nicht
+      nachweisbar. Mit Ende des Nutzungsverhältnisses entfällt lediglich der
+      Zugang zu neuen und aktualisierten Vorlagen.
+    </p>
+    <p>
+      Nicht umfasst sind die Weitergabe, der Weiterverkauf, die öffentliche
+      Zugänglichmachung und jede sonstige Überlassung der Vorlagen in im
+      Wesentlichen unveränderter Form an Dritte sowie ihre Verwendung zum Aufbau
+      eines konkurrierenden Angebots. Beratungsunternehmen dürfen die Vorlagen
+      in Mandaten einsetzen, sofern für jedes betreute Unternehmen ein eigenes
+      Nutzungsverhältnis besteht.
+    </p>
+    <p>
+      Soweit gesondert vereinbarte Nutzungsbedingungen bestehen, gehen diese den
+      vorstehenden Bestimmungen vor.
     </p>
 
     <h2>Datenschutz</h2>
@@ -250,15 +266,35 @@ const EN = (
       The content, templates and works published on this website are subject to
       Austrian copyright law. Reproduction, adaptation, distribution and any form
       of exploitation beyond the limits of copyright require the written consent
-      of the respective author. Templates made available under an active
-      subscription may be used and adapted by authorised users within their own
+      of the respective author.
+    </p>
+
+    <h2>Licence granted over the templates</h2>
+    <p>
+      For as long as a subscription is active, the entitled workspace is granted
+      a simple, non-exclusive, non-transferable and non-sublicensable right to
+      reproduce and adapt the templates, checklists and boilerplate provided,
+      and to use them for its own quality management system within its own
       organisation.
     </p>
     <p>
-      <Fill>
-        Please review: the last sentence describes the licence granted over the
-        templates and must match your terms and conditions.
-      </Fill>
+      The documents created from them belong to the organisation concerned. The
+      right to keep using and retaining those documents, and to present them to
+      a notified body or an authority, continues indefinitely after the
+      subscription ends — a quality management system would otherwise not be
+      demonstrable. What ends with the subscription is only access to new and
+      updated templates.
+    </p>
+    <p>
+      Not covered are the passing on, resale, making publicly available or any
+      other transfer of the templates in substantially unchanged form to third
+      parties, and their use to build a competing offering. Consultancies may
+      use the templates in client engagements provided a separate subscription
+      exists for each organisation they support.
+    </p>
+    <p>
+      Where separately agreed terms of use exist, those terms prevail over the
+      provisions above.
     </p>
 
     <h2>Data protection</h2>
@@ -274,7 +310,7 @@ export default function ImpressumPage() {
     <LegalDoc
       titleDe="Impressum"
       titleEn="Legal notice"
-      updated="31.07.2026"
+      updated="14.08.2026"
       de={DE}
       en={EN}
     />
