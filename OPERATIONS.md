@@ -18,6 +18,7 @@ idempotent and safe to re-run.
 | `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
 | `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
 | `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases` |
+| `0021_draft_review_identity.sql` | tightens `dd_update` so a reviewer can only sign as themselves — **apply this**; without it a member can forge who reviewed a draft |
 
 ### ⚠ `0014_billing.sql` is not applied
 
