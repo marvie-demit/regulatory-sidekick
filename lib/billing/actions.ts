@@ -7,12 +7,12 @@ import { getActiveOrg } from "@/lib/auth/org";
 import { hasFullAccess } from "@/lib/auth/access";
 import { getStripe, stripeConfigured } from "@/lib/stripe/client";
 import {
-  ELIGIBILITY_STATEMENT,
   agentPriceId,
   getTier,
   offeredOptions,
   priceIdFor,
 } from "@/lib/billing/catalog";
+import { getLiveApplication } from "@/lib/startup/queries";
 
 export type CheckoutRes = { error?: string; url?: string };
 
@@ -59,13 +59,26 @@ export async function startCheckout(
   const priceId = priceIdFor(option);
   if (!priceId) return { error: "That payment option isn't available — pick another." };
 
-  // The §6 gate. Enforced server-side: a checkbox the browser never sent is a
-  // declaration that was never made, whatever the form looked like.
-  const declared = String(formData.get("eligibility") || "") === "on";
-  if (tier.requiresEligibility && !declared)
-    return {
-      error: "Please confirm you meet the Practitioner eligibility criteria.",
-    };
+  // The §6 gate, now a REVIEWED one. This used to be a checkbox on the form;
+  // it is now an approved application, which the browser has no way to fake.
+  //
+  // Worth knowing why this single lookup is sufficient: no RLS policy in 0021
+  // permits a workspace to write status = 'approved' — the only path is
+  // decide_startup_application(), which re-checks authorisation inside the
+  // function. So "an approved row exists" cannot have been produced by the
+  // applicant, and this does not need to re-derive who approved it.
+  let applicationId: string | null = null;
+  if (tier.requiresApproval) {
+    const application = await getLiveApplication(org.id);
+    if (!application || application.status !== "approved")
+      return {
+        error:
+          application?.status === "submitted"
+            ? "Your Startup Programme application is still under review — we'll email you as soon as it's decided."
+            : "The Startup Programme is available once your application has been approved.",
+      };
+    applicationId = application.id;
+  }
 
   const stripe = getStripe();
   const admin = createAdminClient();
@@ -110,7 +123,7 @@ export async function startCheckout(
       plan: tier.plan,
       payment_option: option.id,
       installments: String(option.installments ?? 0),
-      eligibility_declared: String(declared),
+      ...(applicationId ? { startup_application_id: applicationId } : {}),
     };
 
     const session = await stripe.checkout.sessions.create({
@@ -126,6 +139,17 @@ export async function startCheckout(
       automatic_tax: { enabled: true },
       tax_id_collection: { enabled: true },
       billing_address_collection: "required",
+      // Solo QA/RA practitioners and consultants no longer have a tier of their
+      // own — they get a discount code against Standard instead. Without this
+      // the code field never appears and the discount cannot be redeemed.
+      //
+      // Deliberately NOT offered on a gated tier. The Startup Programme is
+      // already ~70% off and reviewed one application at a time; letting a code
+      // stack on top of it would discount the discount, and the audience the
+      // codes exist for is precisely the one that is NOT on that tier. Coupons
+      // can also be restricted to a product in Stripe — this is the same rule
+      // enforced here, so it holds even if a coupon is created unrestricted.
+      ...(tier.requiresApproval ? {} : { allow_promotion_codes: true }),
       // Required when passing an existing customer with automatic_tax — Stripe
       // needs permission to write back the address it computes tax from.
       customer_update: { address: "auto", name: "auto" },
@@ -149,8 +173,7 @@ export async function startCheckout(
       currency: session.currency,
       email: user.email ?? null,
       installments_total: option.installments,
-      eligibility_declared: declared,
-      eligibility_statement: declared ? ELIGIBILITY_STATEMENT : null,
+      startup_application_id: applicationId,
     });
 
     return { url: session.url };

@@ -11,15 +11,11 @@ export type OptionChoice = { id: string; label: string };
 export function CheckoutForm({
   tier,
   options,
-  requiresEligibility,
-  eligibilityStatement,
   cta,
   variant = "primary",
 }: {
   tier: string;
   options: OptionChoice[];
-  requiresEligibility: boolean;
-  eligibilityStatement: string;
   cta: string;
   variant?: "primary" | "secondary";
 }) {
@@ -66,18 +62,6 @@ export function CheckoutForm({
       ) : (
         <input type="hidden" name="option" value={options[0]?.id ?? "once"} />
       )}
-
-      {requiresEligibility ? (
-        <label className="mb-4 flex items-start gap-2 text-xs leading-relaxed text-ink">
-          <input
-            type="checkbox"
-            name="eligibility"
-            required
-            className="mt-0.5 shrink-0 accent-coral"
-          />
-          <span>{eligibilityStatement}</span>
-        </label>
-      ) : null}
 
       <button
         type="submit"
