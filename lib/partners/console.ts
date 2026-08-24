@@ -87,3 +87,65 @@ export async function getPartnerPortfolio(
     codeNote: (r.code_note as string | null) ?? null,
   }));
 }
+
+/**
+ * Startup Programme applications submitted through this partner.
+ *
+ * Goes through partner_startup_applications() (0021), NOT a table read. That
+ * function is a deliberate widening of the 0015 privacy boundary — a partner
+ * sees an applicant's funding position and revenue here, where partner_portfolio
+ * gives them only a name and a date. It is scoped inside the database to this
+ * partner's own applications and to submitted-or-later ones, so a draft someone
+ * is still writing is never visible.
+ */
+export type PartnerApplication = {
+  id: string;
+  workspaceName: string;
+  status: string;
+  submittedAt: string | null;
+  legalName: string | null;
+  website: string | null;
+  country: string | null;
+  foundedOn: string | null;
+  employees: number | null;
+  deviceSummary: string | null;
+  regulation: string | null;
+  riskClass: string | null;
+  fundingDilutive: number | null;
+  fundingNonDilutive: number | null;
+  revenue12m: number | null;
+  whyBlocked: string | null;
+  declared: boolean;
+  decisionNote: string | null;
+  reviewedAt: string | null;
+};
+
+export async function getPartnerApplications(
+  partnerId: string,
+): Promise<PartnerApplication[]> {
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("partner_startup_applications", {
+    p_partner: partnerId,
+  });
+  return ((data ?? []) as Record<string, unknown>[]).map((r) => ({
+    id: r.id as string,
+    workspaceName: (r.workspace_name as string) ?? "—",
+    status: r.status as string,
+    submittedAt: (r.submitted_at as string | null) ?? null,
+    legalName: (r.legal_name as string | null) ?? null,
+    website: (r.website as string | null) ?? null,
+    country: (r.country as string | null) ?? null,
+    foundedOn: (r.founded_on as string | null) ?? null,
+    employees: (r.employees as number | null) ?? null,
+    deviceSummary: (r.device_summary as string | null) ?? null,
+    regulation: (r.regulation as string | null) ?? null,
+    riskClass: (r.risk_class as string | null) ?? null,
+    fundingDilutive: (r.funding_dilutive_eur as number | null) ?? null,
+    fundingNonDilutive: (r.funding_non_dilutive_eur as number | null) ?? null,
+    revenue12m: (r.revenue_12m_eur as number | null) ?? null,
+    whyBlocked: (r.why_blocked as string | null) ?? null,
+    declared: Boolean(r.declared),
+    decisionNote: (r.decision_note as string | null) ?? null,
+    reviewedAt: (r.reviewed_at as string | null) ?? null,
+  }));
+}

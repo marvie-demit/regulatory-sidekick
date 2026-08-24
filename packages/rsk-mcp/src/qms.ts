@@ -28,7 +28,27 @@ export const FACTS_FILE = "QMS-FACTS.yml";
 
 export class QmsPathError extends Error {}
 
-/** True when `child` is inside `parent` (or is it). Symlink-aware via resolve. */
+/**
+ * True when `child` is inside `parent` (or is it).
+ *
+ * LEXICAL, not symlink-aware. `path.resolve` normalises `.` and `..` as text
+ * and never touches the filesystem, so a symlink or NTFS junction inside
+ * 20_Drafts/ pointing at 00_Controlled/ would resolve as "inside" and pass.
+ *
+ * That is accepted rather than fixed, because it buys nothing today: the three
+ * top-level folders are siblings created with identical permissions, so anyone
+ * able to plant the link can already write to 00_Controlled/ directly, with
+ * arbitrary content rather than template-validated HTML for a docId they do not
+ * choose. The check exists against a confused or injected MODEL — which has no
+ * tool here that can create a link — not against a human with write access to
+ * the folder.
+ *
+ * It becomes real the moment a permission boundary is introduced between
+ * 20_Drafts/ and 00_Controlled/ (a read-only ACL, separate share permissions,
+ * an integrity manifest). At that point switch to realpathSync on the nearest
+ * existing ancestor. The previous comment here claimed "symlink-aware via
+ * resolve", which is the opposite of what resolve does.
+ */
 export function isInside(parent: string, child: string): boolean {
   const rel = relative(resolve(parent), resolve(child));
   return rel === "" || (!rel.startsWith("..") && !rel.startsWith(sep) && !/^[a-zA-Z]:/.test(rel));

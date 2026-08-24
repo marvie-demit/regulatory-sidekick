@@ -9,7 +9,7 @@
 
 import type { OrgPlan } from "@/lib/auth/access";
 
-export type TierId = "practitioner" | "standard";
+export type TierId = "startup" | "standard";
 export type PaymentOptionId = "once" | "x3" | "x6";
 
 export type PaymentOption = {
@@ -32,14 +32,19 @@ export type Tier = {
   // Copy only — see the note above.
   headline: string;
   options: PaymentOption[];
-  // Practitioner is the discounted price, so it carries the §6 self-declaration.
-  requiresEligibility: boolean;
+  // The Startup Programme is the discounted price, so it is gated on a REVIEWED
+  // application rather than sold self-serve. See lib/startup/application.ts.
+  requiresApproval: boolean;
 };
 
-// The structural gate that replaces "by application" (BUSINESS-MODEL.md §6).
-// Self-declared, auditable, and enforceable through the licence terms — which
-// is what lets Practitioner self-serve instead of being adjudicated deal by
-// deal. Stored verbatim on the purchase row.
+// The declaration an applicant signs at the end of the Startup Programme form.
+//
+// This used to be the WHOLE gate: ticked at checkout, stored verbatim on the
+// purchase row, and trusted (BUSINESS-MODEL.md §6 argued a structural gate beat
+// adjudicating every deal). It is now the last section of a reviewed
+// application instead. A signed statement backed by headcount, funding and
+// revenue is worth more than either on its own, so the wording stays and is
+// still stored verbatim — on startup_applications.declaration_text.
 export const ELIGIBILITY_STATEMENT =
   "I confirm this organisation has under €1M annual revenue and 10 or fewer " +
   "employees, and that Practitioner access will be used for our own single " +
@@ -48,15 +53,15 @@ export const ELIGIBILITY_STATEMENT =
 
 export const TIERS: Tier[] = [
   {
-    id: "practitioner",
-    label: "Practitioner",
+    id: "startup",
+    label: "Startup Programme",
     plan: "full",
     headline: "€1,800",
-    requiresEligibility: true,
+    requiresApproval: true,
     options: [
-      { id: "once", label: "€1,800 once", envVar: "STRIPE_PRICE_PRACTITIONER", installments: null },
-      { id: "x3", label: "€600 × 3 months", envVar: "STRIPE_PRICE_PRACTITIONER_3X", installments: 3 },
-      { id: "x6", label: "€300 × 6 months", envVar: "STRIPE_PRICE_PRACTITIONER_6X", installments: 6 },
+      { id: "once", label: "€1,800 once", envVar: "STRIPE_PRICE_STARTUP", installments: null },
+      { id: "x3", label: "€600 × 3 months", envVar: "STRIPE_PRICE_STARTUP_3X", installments: 3 },
+      { id: "x6", label: "€300 × 6 months", envVar: "STRIPE_PRICE_STARTUP_6X", installments: 6 },
     ],
   },
   {
@@ -64,7 +69,7 @@ export const TIERS: Tier[] = [
     label: "Standard",
     plan: "full",
     headline: "€6,000",
-    requiresEligibility: false,
+    requiresApproval: false,
     options: [
       { id: "once", label: "€6,000 once", envVar: "STRIPE_PRICE_STANDARD", installments: null },
       { id: "x3", label: "€2,000 × 3 months", envVar: "STRIPE_PRICE_STANDARD_3X", installments: 3 },

@@ -122,6 +122,37 @@ const DE = (
       den Zahlungsstatus.
     </p>
 
+    <h3>Bewerbung zum Startup-Programm</h3>
+    <p>
+      Bewirbt sich ein Arbeitsbereich um den vergünstigten Preis des
+      Startup-Programms, verarbeiten wir die im Antragsformular gemachten
+      Angaben: Firmenname, Website, Land, Gründungsmonat, Anzahl der
+      Mitarbeitenden, eine Kurzbeschreibung des Produkts, die einschlägige
+      Verordnung (MDR oder IVDR) samt Risikoklasse, die bisher aufgenommene
+      Finanzierung (Eigenkapital und Förderungen), den Umsatz der letzten zwölf
+      Monate sowie Ihre Begründung, warum eine CE-Kennzeichnung derzeit nicht
+      finanzierbar ist. Rechtsgrundlage ist Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b
+      DSGVO (vorvertragliche Maßnahmen auf Ihre Anfrage hin).
+    </p>
+    <p>
+      <strong>
+        Wird der Antrag über die Subdomain eines Partners gestellt — etwa eines
+        Accelerators oder Investors —, wird er von diesem Partner vollständig
+        gelesen.
+      </strong>{" "}
+      Das Formular nennt den Partner vor dem Absenden namentlich. Über die
+      allgemeine Adresse gestellte Anträge sehen ausschließlich wir. Ein Partner
+      erhält ausschließlich Anträge, die über seine eigene Subdomain eingereicht
+      wurden, und keine Entwürfe.
+    </p>
+    <p>
+      Abgelehnte und zurückgezogene Anträge bewahren wir für die Dauer des
+      Vertragsverhältnisses auf, damit die Grundlage einer Preisentscheidung
+      nachvollziehbar bleibt; ohne Vertragsverhältnis löschen wir sie nach
+      zwölf Monaten. Ein bewilligter Antrag bleibt als Nachweis für den
+      gewährten Preis erhalten und ist mit dem zugehörigen Kauf verknüpft.
+    </p>
+
     <h3>Programmatischer Zugriff</h3>
     <p>
       Wird ein Zugriffstoken für die Programmierschnittstelle erstellt,
@@ -437,6 +468,35 @@ const EN = (
       identifiers, the scope purchased and the payment status.
     </p>
 
+    <h3>Startup Programme application</h3>
+    <p>
+      Where a workspace applies for the discounted Startup Programme price, we
+      process what you enter on the application form: company name, website,
+      country, month of incorporation, headcount, a short description of the
+      product, the applicable regulation (MDR or IVDR) and risk class, funding
+      raised to date (equity and grants), revenue over the last twelve months,
+      and your account of why CE marking is not currently affordable. The legal
+      basis is Art.&nbsp;6(1)(b) GDPR — pre-contractual measures taken at your
+      request.
+    </p>
+    <p>
+      <strong>
+        Where an application is submitted through a partner&rsquo;s subdomain —
+        an accelerator or investor, for instance — that partner reads it in
+        full.
+      </strong>{" "}
+      The form names the partner before you submit. Applications made through
+      our main address are seen only by us. A partner receives only applications
+      submitted through their own subdomain, and never a draft.
+    </p>
+    <p>
+      Declined and withdrawn applications are kept for the duration of the
+      contractual relationship so that the basis of a pricing decision stays
+      auditable; where no contract follows, we delete them after twelve months.
+      An approved application is retained as the evidence for the price granted
+      and is linked to the corresponding purchase.
+    </p>
+
     <h3>Programmatic access</h3>
     <p>
       Where an access token is created for the application programming
@@ -642,7 +702,7 @@ export default function PrivacyPage() {
     <LegalDoc
       titleDe="Datenschutzerklärung"
       titleEn="Privacy policy"
-      updated="14.08.2026"
+      updated="19.08.2026"
       de={DE}
       en={EN}
     />

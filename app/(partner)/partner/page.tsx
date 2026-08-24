@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
 import { getScopedPartner } from "@/lib/partners/context";
 import {
+  getPartnerApplications,
   getPartnerOverview,
   getPartnerPortfolio,
   listPartnerCodes,
 } from "@/lib/partners/console";
+import { ApplicationReview } from "@/components/startup/ApplicationReview";
 import { PartnerConsole } from "@/components/partner/PartnerConsole";
 
 export const metadata = { title: "Partner console" };
@@ -13,10 +15,11 @@ export default async function PartnerPage() {
   const partner = await getScopedPartner();
   if (!partner) redirect("/dashboard");
 
-  const [overview, codes, portfolio] = await Promise.all([
+  const [overview, codes, portfolio, applications] = await Promise.all([
     getPartnerOverview(partner.id),
     listPartnerCodes(partner.id),
     getPartnerPortfolio(partner.id),
+    getPartnerApplications(partner.id),
   ]);
 
   return (
@@ -39,6 +42,13 @@ export default async function PartnerPage() {
         codes={codes}
         portfolio={portfolio}
       />
+      {/* Only admins decide. Staff can see the queue — they already see the
+          portfolio — but the buttons would be refused by the RPC. */}
+      {partner.role === "admin" ? (
+        <ApplicationReview
+          items={applications.map((a) => ({ ...a, subject: a.workspaceName }))}
+        />
+      ) : null}
     </main>
   );
 }

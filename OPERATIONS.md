@@ -11,38 +11,73 @@ idempotent and safe to re-run.
 
 | # | What it adds |
 |---|---|
-| `0014_billing.sql` | `purchases`, `stripe_events`, `organizations.stripe_customer_id` — **NOT APPLIED as of 2026-08-13; see the warning below** |
+| `0014_billing.sql` | `purchases`, `stripe_events`, `organizations.stripe_customer_id` — applied 2026-08-18 |
 | `0015_partners.sql` | partners, partner_members, partner_invitations, partner_audit; `access_codes.partner_id/batch_id/revoked_at`; allowance + mint/revoke/portfolio RPCs |
 | `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` |
 | `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket |
 | `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
 | `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
 | `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases` |
+| `0021_draft_review_identity.sql` | tightens `dd_update` so a reviewer can only sign as themselves — **apply this**; without it a member can forge who reviewed a draft |
+| `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** |
 
-### ⚠ `0014_billing.sql` is not applied
+### `0014` / `0020` — applied 2026-08-18
 
-Checked against the live database on 2026-08-13: `purchases` and `stripe_events`
-do not exist, and `organizations.stripe_customer_id` is missing. The migration
-was committed with the checkout code (`b0ae86e`) and never run. It was also
-absent from the table above, which is how it went unnoticed — the list started
-at `0015`.
+Both are live. Verified against the database: `purchases` and `stripe_events`
+exist and are readable, `organizations.stripe_customer_id` and the 0020 columns
+are present. The first real checkout ran the same day — `plan=full`,
+`plan_expires_at` NULL, event claimed in `stripe_events`.
 
-**Whether this is dangerous depends on the Vercel environment, which is not
-visible from the repository.** `STRIPE_SECRET_KEY` and every `STRIPE_PRICE_*`
-are empty in `.env.local`, so checkout is dormant locally: `isBuyable()` returns
-false and the action answers "Online checkout isn't configured yet". If those
-variables are set in production, then checkout is reachable and:
+This section previously warned that `0014` had never been applied, and that a
+customer completing checkout would be charged and get nothing. That is resolved;
+the note is kept because the failure mode it describes is the one to re-check
+after any future billing migration: **a webhook that cannot claim its event
+returns 500 forever and the customer pays for nothing.**
 
-1. The customer completes Stripe Checkout and **is charged**.
-2. `POST /api/stripe/webhook` cannot claim the event — `stripe_events` does not
-   exist — so it returns 500 on every delivery and retry.
-3. `grantPurchasedAccess()` never runs. **The customer pays and gets nothing.**
+## The Startup Programme
 
-The failure is at least loud rather than silent: Stripe retries and surfaces the
-failing webhook in its dashboard. But nothing in the app notices.
+The €1,800 tier was renamed from Practitioner and is no longer self-serve. A
+workspace applies at `/startup-programme`; a Platform Admin (or the Partner Admin
+whose subdomain it was submitted through) approves; approval unlocks the existing
+Stripe checkout for that workspace only.
 
-Apply `0014` before enabling any Stripe price in production. Verify with
-`select count(*) from purchases;` returning 0 rather than an error.
+**Approval does not grant access.** It opens the till. The customer still pays,
+and `grantPurchasedAccess()` still runs from the webhook exactly as before — this
+is a gate in front of checkout, not a second way to grant.
+
+### Environment variables — RENAMED
+
+| Was | Now |
+|---|---|
+| `STRIPE_PRICE_PRACTITIONER` | `STRIPE_PRICE_STARTUP` |
+| `STRIPE_PRICE_PRACTITIONER_3X` | `STRIPE_PRICE_STARTUP_3X` |
+| `STRIPE_PRICE_PRACTITIONER_6X` | `STRIPE_PRICE_STARTUP_6X` |
+
+**Rename these in Vercel before deploying**, or the tier silently becomes
+unbuyable: `offeredOptions()` sees no price and the card falls back to the
+apply/contact route with no error anywhere.
+
+### The solo-practitioner discount
+
+Practitioner used to serve two audiences. Startups keep the €1,800 price behind
+an application; solo QA/RA practitioners and consultants now get a **Stripe
+promotion code** against Standard instead. `allow_promotion_codes: true` is set
+on the Checkout Session, so the code box appears — create the coupons in the
+Stripe dashboard (Products → Coupons → promotion code). Nothing in the app needs
+to know they exist.
+
+### The partner privacy boundary
+
+`0015` deliberately limits a partner to "which workspace redeemed our code, and
+when — nothing else, ever" (`partner_portfolio()`). `0021` adds a SECOND function,
+`partner_startup_applications()`, which hands a partner an applicant's headcount,
+funding position, revenue and their account of why CE marking is unaffordable.
+
+That is a real widening and it was a deliberate decision. It is scoped in the
+database to that partner's own applications, excludes drafts, and the form names
+the partner before the applicant submits. **Do not merge the two functions** —
+they are separate so a reviewer of any future change has to notice which one they
+are touching.
 
 ## Releasing the desktop bundle
 

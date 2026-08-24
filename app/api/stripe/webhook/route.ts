@@ -125,7 +125,7 @@ async function onCheckoutCompleted(admin: Admin, s: Stripe.Checkout.Session) {
   const { error } = await admin.from("purchases").upsert(
     {
       org_id: orgId,
-      tier: s.metadata?.tier === "standard" ? "standard" : "practitioner",
+      tier: s.metadata?.tier === "standard" ? "standard" : "startup",
       plan,
       payment_option: s.metadata?.payment_option ?? "once",
       mode: isSubscription ? "subscription" : "payment",
@@ -138,7 +138,10 @@ async function onCheckoutCompleted(admin: Admin, s: Stripe.Checkout.Session) {
       currency: s.currency,
       email: s.customer_details?.email ?? null,
       installments_total: installments,
-      eligibility_declared: s.metadata?.eligibility_declared === "true",
+      // The evidence behind a discounted price. Reconstructed from metadata for
+      // the same reason everything else here is: this upsert has to be able to
+      // rebuild the purchase when the pending row never landed.
+      startup_application_id: s.metadata?.startup_application_id ?? null,
       granted_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     },

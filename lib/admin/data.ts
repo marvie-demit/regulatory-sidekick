@@ -206,3 +206,86 @@ export async function listOrgs(): Promise<AdminOrg[]> {
     };
   });
 }
+
+// ---------------------------------------------------------------------------
+// Startup Programme applications.
+//
+// Service role, like everything else in this file, and for the same reason: the
+// /admin page is gated on isPlatformAdmin() — an env allowlist of a handful of
+// people. Partner admins read the SAME applications through a completely
+// different path (lib/partners/console.ts -> partner_startup_applications),
+// because they are database rows and there will be many of them.
+// ---------------------------------------------------------------------------
+
+export type AdminApplication = {
+  id: string;
+  orgId: string;
+  orgName: string;
+  partnerName: string | null;
+  status: string;
+  legalName: string | null;
+  website: string | null;
+  country: string | null;
+  foundedOn: string | null;
+  employees: number | null;
+  deviceSummary: string | null;
+  regulation: string | null;
+  riskClass: string | null;
+  /** Minor units, as stored. */
+  fundingDilutive: number | null;
+  fundingNonDilutive: number | null;
+  revenue12m: number | null;
+  whyBlocked: string | null;
+  declared: boolean;
+  decisionNote: string | null;
+  submittedAt: string | null;
+  reviewedAt: string | null;
+};
+
+export async function listStartupApplications(): Promise<AdminApplication[]> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("startup_applications")
+    .select(
+      "id, org_id, status, legal_name, website, country, founded_on, employees, " +
+        "device_summary, regulation, risk_class, funding_dilutive_eur, " +
+        "funding_non_dilutive_eur, revenue_12m_eur, why_blocked, declared, " +
+        "decision_note, submitted_at, reviewed_at, " +
+        "organizations(name), partners(name)",
+    )
+    // Drafts are excluded on purpose: a half-written application is not a
+    // submission, and showing one invites a decision on something the applicant
+    // has not finished saying.
+    .neq("status", "draft")
+    .order("submitted_at", { ascending: false, nullsFirst: false })
+    .limit(200);
+
+  type Row = Record<string, unknown> & {
+    organizations?: { name?: string } | null;
+    partners?: { name?: string } | null;
+  };
+
+  return ((data ?? []) as unknown as Row[]).map((r) => ({
+    id: r.id as string,
+    orgId: r.org_id as string,
+    orgName: r.organizations?.name ?? "—",
+    partnerName: r.partners?.name ?? null,
+    status: r.status as string,
+    legalName: (r.legal_name as string | null) ?? null,
+    website: (r.website as string | null) ?? null,
+    country: (r.country as string | null) ?? null,
+    foundedOn: (r.founded_on as string | null) ?? null,
+    employees: (r.employees as number | null) ?? null,
+    deviceSummary: (r.device_summary as string | null) ?? null,
+    regulation: (r.regulation as string | null) ?? null,
+    riskClass: (r.risk_class as string | null) ?? null,
+    fundingDilutive: (r.funding_dilutive_eur as number | null) ?? null,
+    fundingNonDilutive: (r.funding_non_dilutive_eur as number | null) ?? null,
+    revenue12m: (r.revenue_12m_eur as number | null) ?? null,
+    whyBlocked: (r.why_blocked as string | null) ?? null,
+    declared: Boolean(r.declared),
+    decisionNote: (r.decision_note as string | null) ?? null,
+    submittedAt: (r.submitted_at as string | null) ?? null,
+    reviewedAt: (r.reviewed_at as string | null) ?? null,
+  }));
+}
