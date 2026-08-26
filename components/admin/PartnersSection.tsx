@@ -263,7 +263,7 @@ function PartnerRow({ p }: { p: AdminPartner }) {
           <ul>
             {p.staff.length === 0 ? (
               <li className="py-1 text-xs text-muted">
-                No staff yet — invite their first admin below. After that they
+                No staff yet. Invite their first admin below. After that they
                 invite their own colleagues from the partner console.
               </li>
             ) : (
@@ -385,7 +385,7 @@ function PartnerRow({ p }: { p: AdminPartner }) {
         >
           <input type="hidden" name="partnerId" value={p.id} />
           <p className="mb-3 text-xs text-muted">
-            Four colours drive the whole theme — the rest is derived. Leave any
+            Four colours drive the whole theme; the rest is derived. Leave any
             blank to keep the house palette. Semantic colours (amber in progress,
             green done) and the rendered SOP templates stay neutral on purpose:
             those documents are the customer&apos;s controlled records, not
@@ -491,7 +491,7 @@ function PartnerRow({ p }: { p: AdminPartner }) {
           <input type="hidden" name="partnerId" value={p.id} />
           <span className="text-xs text-red-700">
             Type <strong>{p.name}</strong> to delete. A partner who has issued
-            codes can&apos;t be deleted — suspend them instead.
+            codes can&apos;t be deleted; suspend them instead.
           </span>
           <input
             name="confirmName"

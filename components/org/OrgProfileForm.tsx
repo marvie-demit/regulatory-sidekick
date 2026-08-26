@@ -90,7 +90,7 @@ export function OrgProfileForm({
           <span className={labelCls}>Industry</span>
           <input
             name="industry"
-            placeholder="Medical devices — IVD"
+            placeholder="Medical devices (IVD)"
             defaultValue={profile.industry}
             disabled={ro}
             className={inputCls}

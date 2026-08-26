@@ -46,8 +46,8 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
           Agent access gives your own AI assistant a scoped, admin-approved key
-          to this workspace. It reads the plan — what&apos;s next, why it
-          matters, which clause it satisfies — drafts the documents into a folder
+          to this workspace. It reads the plan (what&apos;s next, why it
+          matters, which clause it satisfies), drafts the documents into a folder
           on <span className="font-medium text-teal-800">your machine</span>, and
           reports progress back here. Nothing you draft leaves your computer.
         </p>
@@ -62,7 +62,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
                 have="yes"
                 what={
                   <>
-                    <b className="text-teal-900">Full access</b> — the plan, the
+                    <b className="text-teal-900">Full access</b>: the plan, the
                     275 templates, the clause matrix
                   </>
                 }
@@ -72,7 +72,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
                 have="no"
                 what={
                   <>
-                    <b className="text-teal-900">Agent access</b> — a separate
+                    <b className="text-teal-900">Agent access</b>: a separate
                     monthly add-on to your licence
                   </>
                 }
@@ -83,7 +83,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
                 what={
                   <>
                     <b className="text-teal-900">An AI assistant</b> that
-                    supports MCP — Claude Desktop or Claude Code
+                    supports MCP, such as Claude Desktop or Claude Code
                   </>
                 }
                 who="Your own subscription, not ours"
@@ -92,7 +92,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
           </table>
           <p className="mt-3 text-xs leading-relaxed text-muted">
             That last line matters, so we say it before you buy rather than
-            after: we supply the plan, the templates and the guardrails — you
+            after: we supply the plan, the templates and the guardrails; you
             bring the assistant that does the drafting. We never charge you per
             document and never generate your regulatory content on our servers.
           </p>
@@ -117,7 +117,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
           {[
             [
               "It drafts, you approve.",
-              "Every document lands as a draft in your own folder. It can move an activity to In progress — only a person can mark one Done.",
+              "Every document lands as a draft in your own folder. It can move an activity to In progress, but only a person can mark one Done.",
             ],
             [
               "It never invents a fact.",
@@ -125,7 +125,7 @@ export function AgentUpsell({ orgName }: { orgName: string }) {
             ],
             [
               "Forms stay empty.",
-              "Templates and procedures get drafted. Forms and registers get built as empty structures — filling one in advance would fabricate a quality record.",
+              "Templates and procedures get drafted. Forms and registers get built as empty structures; filling one in advance would fabricate a quality record.",
             ],
             [
               "Everything is audited.",

@@ -202,7 +202,7 @@ export async function adminAuthLink(_prev: Res, formData: FormData): Promise<Res
     };
   }
   const hashed = data?.properties?.hashed_token;
-  if (!hashed) return { error: "Could not generate a link — try again." };
+  if (!hashed) return { error: "Could not generate a link. Please try again." };
 
   const origin = await requestOrigin();
   const next = type === "recovery" ? "/reset-password" : "/dashboard";
@@ -211,8 +211,8 @@ export async function adminAuthLink(_prev: Res, formData: FormData): Promise<Res
   return {
     message:
       type === "recovery"
-        ? `Password-recovery link ready for ${email}. Copy it and send it to them — it lets them set a new password. Single-use, expires in ~1 hour.`
-        : `Magic sign-in link ready for ${email}. Copy it and send it to them — it signs them straight in. Single-use, expires in ~1 hour.`,
+        ? `Password-recovery link ready for ${email}. Copy it and send it to them; it lets them set a new password. Single-use, expires in ~1 hour.`
+        : `Magic sign-in link ready for ${email}. Copy it and send it to them; it signs them straight in. Single-use, expires in ~1 hour.`,
     linkUrl,
   };
 }
@@ -310,7 +310,7 @@ export async function setOrgAgentAccess(
   return {
     message: enabled
       ? `Agent access ON${expiresAt ? ` until ${expiresAt.slice(0, 10)}` : ""}.`
-      : "Agent access OFF — existing keys are now inert.",
+      : "Agent access OFF. Existing keys are now inert.",
   };
 }
 
@@ -403,7 +403,7 @@ export async function revokeAccessCode(_prev: Res, formData: FormData): Promise<
       : 0;
   return {
     message: freed
-      ? `Code revoked — ${freed} licence${freed === 1 ? "" : "s"} returned.`
+      ? `Code revoked. ${freed} licence${freed === 1 ? "" : "s"} returned.`
       : "Code revoked.",
   };
 }
@@ -531,7 +531,7 @@ export async function setPartnerAllowance(_prev: Res, formData: FormData): Promi
     message: `${p.name}: ${allowance} licences.`,
     warning:
       consumed > allowance
-        ? `${consumed} licences are already issued — that's ${consumed - allowance} over. Existing codes stay valid; ${p.name} can't mint again until usage drops below ${allowance}.`
+        ? `${consumed} licences are already issued, which is ${consumed - allowance} over. Existing codes stay valid; ${p.name} can't mint again until usage drops below ${allowance}.`
         : undefined,
   };
 }
@@ -625,7 +625,7 @@ export async function setPartnerStatus(_prev: Res, formData: FormData): Promise<
     message:
       status === "active"
         ? `${p.name} reactivated.`
-        : `${p.name} suspended — their codes no longer redeem.`,
+        : `${p.name} suspended. Their codes no longer redeem.`,
   };
 }
 
@@ -786,7 +786,7 @@ export async function deletePartner(_prev: Res, formData: FormData): Promise<Res
     .single();
   if (fErr || !p) return { error: "Partner not found." };
   if (confirmName !== p.name)
-    return { error: "The typed name doesn't match — nothing deleted." };
+    return { error: "The typed name doesn't match. Nothing was deleted." };
 
   // access_codes.partner_id is ON DELETE RESTRICT, so this fails by design once
   // any code exists. That FK is the policy: codes in portfolio companies' hands
@@ -823,7 +823,7 @@ export async function deleteOrg(_prev: Res, formData: FormData): Promise<Res> {
     .single();
   if (fErr || !org) return { error: "Organization not found." };
   if (confirmName !== org.name)
-    return { error: "The typed name doesn't match — nothing deleted." };
+    return { error: "The typed name doesn't match. Nothing was deleted." };
 
   // Storage doesn't cascade with the DB delete, so purge the org's evidence
   // folder first. Best-effort: a leftover file must not block the delete.

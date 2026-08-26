@@ -204,14 +204,14 @@ export function RoadmapGrid({
         {legendOpen ? (
           <div className="mt-1.5 border-t border-line pt-1.5 leading-relaxed">
             Rows are processes; columns are the recommended start order. A card sits
-            in the column you tackle it — so a column reads down across every
+            in the column you tackle it, so a column reads down across every
             process, and gaps mean the process has nothing at that order. Scroll
             sideways for later steps. The bar under each card is its
             duration; the phase runs{" "}
             <b className="font-medium text-teal-800">≈ {spanParallel} days</b> if
             unblocked work overlaps, or{" "}
             <b className="font-medium text-teal-800">{spanSerial} days</b> solo
-            back-to-back — your real timeline sits between the two.
+            back-to-back; your real timeline sits between the two.
           </div>
         ) : null}
       </div>

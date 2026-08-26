@@ -64,7 +64,7 @@ export async function signUp(
   // Otherwise the user must click the link in the confirmation email.
   return {
     message:
-      "Account created — check your email for a confirmation link, then sign in.",
+      "Account created. Check your email for a confirmation link, then sign in.",
   };
 }
 
@@ -221,7 +221,7 @@ export async function updateOrgProfile(
     if (/column .* does not exist/i.test(error.message))
       return {
         error:
-          "Company-profile fields aren't available yet — apply database migration 0010, then try again.",
+          "Company-profile fields aren't available yet. Apply database migration 0010, then try again.",
       };
     return { error: error.message };
   }

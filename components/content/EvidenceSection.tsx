@@ -110,7 +110,7 @@ export function EvidenceSection({
   return (
     <div className="space-y-3">
       <p className="text-sm text-muted">
-        Attach the records that prove this activity was done — reports, signed
+        Attach the records that prove this activity was done: reports, signed
         forms, screenshots. Files stay private to your workspace.
       </p>
 

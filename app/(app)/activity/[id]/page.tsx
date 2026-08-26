@@ -193,7 +193,7 @@ export default async function ActivityPage({
           {hasSubs && (
             <Section label="Sub-activities">
               <p className="mb-3 text-sm text-muted">
-                Each sub-activity is its own short guide — take them one at a
+                Each sub-activity is its own short guide; take them one at a
                 time.
               </p>
               <div className="flex flex-col gap-2">

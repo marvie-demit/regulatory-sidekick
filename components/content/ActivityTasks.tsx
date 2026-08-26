@@ -87,7 +87,7 @@ export function ActivityTasks({ id, groups }: { id: string; groups: Group[] }) {
       </div>
       {total > 0 && doneCount === total && st === "In progress" && (
         <button type="button" className="donenudge" onClick={markDone}>
-          ✓ All tasks complete — mark activity Done?
+          ✓ All tasks complete. Mark activity Done?
         </button>
       )}
     </div>

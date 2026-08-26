@@ -64,7 +64,7 @@ export const PUT = withAgentAuth<Route>(
     }
 
     if (typeof body.path !== "string" || !body.path.trim())
-      return agentError(400, "`path` is required — where the draft landed, relative to the QMS root.");
+      return agentError(400, "`path` is required: where the draft landed, relative to the QMS root.");
 
     if (body.ok !== true)
       return agentError(
@@ -80,7 +80,7 @@ export const PUT = withAgentAuth<Route>(
     if (!path.startsWith("20_Drafts/") || path.includes("..") || path.length > 400)
       return agentError(
         400,
-        `"${body.path}" is not a draft path. Drafts live under 20_Drafts/ — 00_Controlled/ and 10_Records/ are never written by an agent.`,
+        `"${body.path}" is not a draft path. Drafts live under 20_Drafts/; 00_Controlled/ and 10_Records/ are never written by an agent.`,
       );
 
     const num = (v: unknown, fallback = 0) =>
@@ -116,7 +116,7 @@ export const PUT = withAgentAuth<Route>(
       if (error.code === "42P01")
         return agentError(
           503,
-          "Draft reporting is not available on this deployment yet (migration 0019 not applied). Your draft is saved on disk — nothing is lost.",
+          "Draft reporting is not available on this deployment yet (migration 0019 not applied). Your draft is saved on disk, so nothing is lost.",
         );
       return agentError(500, error.message);
     }

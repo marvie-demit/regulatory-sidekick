@@ -75,7 +75,7 @@ function MintForm({ partners }: { partners: AdminPartner[] }) {
           Mint access codes
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Not tied to any org — whoever you send one to redeems it for their own
+          Not tied to any org; whoever you send one to redeems it for their own
           workspace. Attribute a batch to a partner to spend their licence
           allowance. (To lock a code to one customer, use “Create code” on their
           row below.)
@@ -157,7 +157,7 @@ function MintForm({ partners }: { partners: AdminPartner[] }) {
       </div>
       {partner ? (
         <p className="text-xs text-muted">
-          Spends <b>{partner.name}</b>&apos;s allowance —{" "}
+          Spends <b>{partner.name}</b>&apos;s allowance,{" "}
           {partner.remaining} of {partner.licenceAllowance} licences remaining.
           One licence per use, so 10 codes × 2 uses costs 20.
         </p>
@@ -242,7 +242,7 @@ function CodeRow({
         </div>
       ) : (
         <div className="text-xs text-muted">
-          Minted before code storage — revoke it and mint a new one to get a
+          Minted before code storage. Revoke it and mint a new one to get a
           copyable code/link.
         </div>
       )}
@@ -286,7 +286,7 @@ export function CodesTab({
           </ul>
         ) : (
           <p className="py-2 text-sm text-muted">
-            No codes yet — mint one above, or “Create code” on an organization to
+            No codes yet. Mint one above, or “Create code” on an organization to
             lock it to that customer.
           </p>
         )}

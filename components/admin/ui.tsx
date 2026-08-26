@@ -182,7 +182,7 @@ export function TriageBar({
   if (items.length === 0)
     return (
       <p className="rounded-xl border border-line bg-tint px-4 py-2.5 text-sm text-muted">
-        Nothing waiting — no open applications, no idle agent subscriptions.
+        Nothing waiting: no open applications, no idle agent subscriptions.
       </p>
     );
 
@@ -259,7 +259,7 @@ export function CodeResult({ state }: { state: MintResult }) {
         className="w-full resize-y rounded-lg border border-teal-200 bg-white p-2 font-mono text-[11px] text-teal-800"
       />
       <p className="text-xs text-muted">
-        These stay available in the list below — codes are stored, so you can
+        These stay available in the list below; codes are stored, so you can
         re-export this batch any time.
       </p>
     </div>

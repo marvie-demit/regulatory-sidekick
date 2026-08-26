@@ -30,8 +30,8 @@ export default async function Home() {
         <BrandMark brand={brand} logoHeight={72} />
       </h1>
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-        A stepwise implementation for EU&nbsp;MDR and IVDR — including the setup
-        of a QMS under ISO&nbsp;13485 and key FDA requirements — made for
+        A stepwise implementation for EU&nbsp;MDR and IVDR, including the setup
+        of a QMS under ISO&nbsp;13485 and key FDA requirements, made for
         manufacturers, by manufacturers.
       </p>
       <div className="mt-9 flex flex-wrap items-center justify-center gap-3">

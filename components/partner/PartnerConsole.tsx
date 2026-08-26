@@ -59,7 +59,7 @@ function AllowanceCard({ o }: { o: PartnerOverview }) {
       {over ? (
         <p className={`${warnCls} mt-3`}>
           You&apos;re {o.consumed - o.allowance} over your allowance. Codes
-          already out stay valid — revoke unredeemed ones to free licences, or
+          already out stay valid. Revoke unredeemed ones to free licences, or
           ask us to raise the limit.
         </p>
       ) : (
@@ -111,7 +111,7 @@ function MintForm({
           Create access codes
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Each code gives one company full access. Send the link — they redeem it
+          Each code gives one company full access. Send the link and they redeem it
           for their own workspace. One licence per use, so 10 codes × 2 uses
           costs 20.
         </p>
@@ -171,7 +171,7 @@ function MintForm({
       <p className={`text-xs ${tooMany ? "font-medium text-coral" : "text-muted"}`}>
         Uses <b>{needed}</b> of your {remaining} remaining licence
         {remaining === 1 ? "" : "s"}
-        {tooMany ? " — not enough." : "."}
+        {tooMany ? ", not enough." : "."}
       </p>
 
       <button
@@ -207,7 +207,7 @@ function MintForm({
             className="w-full resize-y rounded-lg border border-teal-200 bg-white p-2 font-mono text-[11px] text-teal-800"
           />
           <p className="text-xs text-muted">
-            These stay listed below — you can copy or re-export them any time.
+            These stay listed below; you can copy or re-export them any time.
           </p>
         </div>
       ) : null}
@@ -320,7 +320,7 @@ export function PartnerConsole({
     <div className="flex flex-col gap-6">
       {suspended ? (
         <p className={warnCls}>
-          {partnerName} is suspended — existing codes can&apos;t be redeemed and
+          {partnerName} is suspended: existing codes can&apos;t be redeemed and
           no new ones can be created. Get in touch and we&apos;ll sort it out.
         </p>
       ) : null}
@@ -373,7 +373,7 @@ export function PartnerConsole({
           </ul>
         ) : (
           <p className="py-2 text-sm text-muted">
-            No codes yet{isAdmin ? " — create some above." : "."}
+            No codes yet{isAdmin ? ". Create some above." : "."}
           </p>
         )}
       </section>
@@ -384,7 +384,7 @@ export function PartnerConsole({
         </h2>
         <p className="mb-3 mt-1 text-sm text-muted">
           Companies that activated one of your licences. You can see that they
-          activated — you can&apos;t see anything inside their workspace. Their
+          activated. You can&apos;t see anything inside their workspace. Their
           QMS is theirs.
         </p>
         {portfolio.length > 0 ? (

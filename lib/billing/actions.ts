@@ -33,7 +33,7 @@ export async function startCheckout(
   formData: FormData,
 ): Promise<CheckoutRes> {
   if (!stripeConfigured())
-    return { error: "Online checkout isn't configured yet — please get in touch." };
+    return { error: "Online checkout isn't configured yet. Please get in touch." };
 
   const supabase = await createClient();
   const {
@@ -54,10 +54,10 @@ export async function startCheckout(
   const optionId = String(formData.get("option") || "once");
   const option = offeredOptions(tier).find((o) => o.id === optionId);
   if (!option)
-    return { error: "That payment option isn't available — pick another." };
+    return { error: "That payment option isn't available. Please pick another." };
 
   const priceId = priceIdFor(option);
-  if (!priceId) return { error: "That payment option isn't available — pick another." };
+  if (!priceId) return { error: "That payment option isn't available. Please pick another." };
 
   // The §6 gate, now a REVIEWED one. This used to be a checkbox on the form;
   // it is now an approved application, which the browser has no way to fake.
@@ -74,7 +74,7 @@ export async function startCheckout(
       return {
         error:
           application?.status === "submitted"
-            ? "Your Startup Programme application is still under review — we'll email you as soon as it's decided."
+            ? "Your Startup Programme application is still under review. We'll email you as soon as it's decided."
             : "The Startup Programme is available once your application has been approved.",
       };
     applicationId = application.id;
@@ -181,7 +181,7 @@ export async function startCheckout(
     // Stripe errors carry customer-hostile detail (price ids, account state).
     // Log the real one, show a short one.
     console.error("[stripe] checkout session failed", e);
-    return { error: "Could not start checkout — please try again or get in touch." };
+    return { error: "Could not start checkout. Please try again, or get in touch." };
   }
 }
 
@@ -210,11 +210,11 @@ export async function startAgentSubscription(
   _prev: CheckoutRes,
 ): Promise<CheckoutRes> {
   if (!stripeConfigured())
-    return { error: "Online checkout isn't configured yet — please get in touch." };
+    return { error: "Online checkout isn't configured yet. Please get in touch." };
 
   const priceId = agentPriceId();
   if (!priceId)
-    return { error: "The agent subscription isn't available to buy yet — please get in touch." };
+    return { error: "The agent subscription isn't available to buy yet. Please get in touch." };
 
   const supabase = await createClient();
   const {
@@ -229,7 +229,7 @@ export async function startAgentSubscription(
   if (!hasFullAccess(org.plan))
     return {
       error:
-        "Agent access is an add-on to a Regulatory Sidekick licence. Buy the licence first — the agent has nothing to work on without it.",
+        "Agent access is an add-on to a Regulatory Sidekick licence. Buy the licence first; the agent has nothing to work on without it.",
     };
 
   const admin = createAdminClient();
@@ -322,6 +322,6 @@ export async function startAgentSubscription(
     return { url: session.url };
   } catch (e) {
     console.error("[stripe] agent subscription session failed", e);
-    return { error: "Could not start checkout — please try again or get in touch." };
+    return { error: "Could not start checkout. Please try again, or get in touch." };
   }
 }

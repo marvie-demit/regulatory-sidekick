@@ -51,8 +51,8 @@ function InviteForm({ team, disabled }: { team: PartnerTeam; disabled: boolean }
             disabled={full || disabled}
             className={input}
           >
-            <option value="member">Member — view only</option>
-            <option value="admin">Admin — create &amp; revoke codes</option>
+            <option value="member">Member (view only)</option>
+            <option value="admin">Admin (create &amp; revoke codes)</option>
           </select>
         </label>
         <button
@@ -67,7 +67,7 @@ function InviteForm({ team, disabled }: { team: PartnerTeam; disabled: boolean }
       {full ? (
         <p className="text-xs text-muted">
           All {team.seatLimit} staff seats are in use. Remove someone or revoke a
-          pending invite — or ask us to raise the limit.
+          pending invite, or ask us to raise the limit.
         </p>
       ) : null}
       {state.error ? <p className={errCls}>{state.error}</p> : null}

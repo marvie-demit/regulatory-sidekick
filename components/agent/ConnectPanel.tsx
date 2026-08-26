@@ -53,13 +53,13 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
           Claude Desktop {BUNDLE_AVAILABLE ? null : <Soon />}
         </h3>
         <p className="mt-1 text-sm text-muted">
-          The simplest route — no terminal, and no separate Node install:
+          The simplest route, with no terminal and no separate Node install:
           Claude Desktop ships its own.
         </p>
         <ol className="mt-4 flex flex-col">
           <Step n={1} title="Create a key above">
             <p className="text-sm text-muted">
-              It&apos;s shown once. Leave the tab open — you&apos;ll paste it in
+              It&apos;s shown once. Leave the tab open; you&apos;ll paste it in
               step 3.
             </p>
           </Step>
@@ -85,7 +85,7 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
           <Step n={3} title="Paste your key and pick your QMS folder">
             <p className="text-sm text-muted">
               The key is stored in your operating system&apos;s keychain, not in
-              a file. The folder is where drafts will be written — it can live
+              a file. The folder is where drafts will be written, and it can live
               in OneDrive or Google Drive if you want your reviewer to see them.
             </p>
           </Step>
@@ -98,7 +98,7 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
         {!BUNDLE_AVAILABLE ? (
           <p className="rounded-lg border border-line bg-tint px-3 py-2 text-xs text-muted">
             The one-click extension is being finished. In the meantime the API
-            below is live — point any MCP client or your own integration at it
+            below is live. Point any MCP client or your own integration at it
             with a key from above.
           </p>
         ) : null}
@@ -121,7 +121,7 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
         </div>
         <p className="mt-2 text-xs text-muted">
           <code className="font-mono">--scope local</code> keeps the key in your
-          own Claude config rather than writing it into the QMS folder — so it
+          own Claude config rather than writing it into the QMS folder, so it
           is never synced to cloud storage and never committed to a repository.
         </p>
       </section>
@@ -133,8 +133,8 @@ export function ConnectPanel({ baseUrl }: { baseUrl: string }) {
         </h3>
         <p className="mt-1 text-sm text-muted">
           The API is live today. Send{" "}
-          <code className="font-mono text-xs">Authorization: Bearer rsk_…</code>{" "}
-          — the key identifies the workspace on its own, so never send a
+          <code className="font-mono text-xs">Authorization: Bearer rsk_…</code>.{" "}
+          The key identifies the workspace on its own, so never send a
           workspace ID.
         </p>
         <div className="mt-3">
@@ -147,10 +147,11 @@ PATCH ${baseUrl}/api/v1/activities/{id}
           />
         </div>
         <p className="mt-2 text-xs text-muted">
-          An agent can open work but never close it —{" "}
+          An agent can open work but never close it:{" "}
           <code className="font-mono">Done</code> and{" "}
-          <code className="font-mono">N-A</code> are rejected. Closing an
-          activity stays a person&apos;s decision, here in the app.
+          <code className="font-mono">N-A</code>{" "}
+          are rejected. Closing an activity stays a person&apos;s decision, here
+          in the app.
         </p>
       </section>
     </div>

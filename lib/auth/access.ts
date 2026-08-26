@@ -21,7 +21,7 @@ export function lockedBlurb(c: {
   subActivities: number;
   documents: number;
 }): string {
-  return `Purchase for full access — activate all ${c.activities} activities, ${c.subActivities} sub-activities and ${c.documents} templates.`;
+  return `Purchase for full access and activate all ${c.activities} activities, ${c.subActivities} sub-activities and ${c.documents} templates.`;
 }
 
 // The free Explore sample: ONE fully-open activity + ONE open document group.

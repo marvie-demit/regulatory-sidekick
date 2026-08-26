@@ -12,7 +12,7 @@ const WORKFLOW: Step[] = [
   {
     n: 1,
     title: "Set your device profile",
-    body: "Tell us your device characteristics, the regulations you're targeting and your markets. This scopes the whole plan — activities, documents and modules — to what actually applies to you, so you're never staring at controls you don't need. Revisit it whenever your device or markets change.",
+    body: "Tell us your device characteristics, the regulations you're targeting and your markets. This scopes the whole plan (activities, documents and modules) to what actually applies to you, so you're never staring at controls you don't need. Revisit it whenever your device or markets change.",
     href: "/profile",
     cta: "Set device profile",
   },
@@ -26,14 +26,14 @@ const WORKFLOW: Step[] = [
   {
     n: 3,
     title: "Track status as you go",
-    body: "On each activity, set a status — Not started, In progress, Done or N-A. Expand it in the checklist to tick off granular items. Your whole team shares one implementation, so progress stays in sync for everyone.",
+    body: "On each activity, set a status: Not started, In progress, Done or N-A. Expand it in the checklist to tick off granular items. Your whole team shares one implementation, so progress stays in sync for everyone.",
     href: "/checklist",
     cta: "Open the checklist",
   },
   {
     n: 4,
     title: "Attach evidence and lean on the reference",
-    body: "Upload proof of what you've done on each activity — that's your audit trail. Pull ready-to-adapt templates from the document library, and use the standards matrix to see exactly where each clause is covered.",
+    body: "Upload proof of what you've done on each activity; that's your audit trail. Pull ready-to-adapt templates from the document library, and use the standards matrix to see exactly where each clause is covered.",
     href: "/library",
     cta: "Open the library",
   },
@@ -50,12 +50,12 @@ function sections(totalDocs: number): Section[] {
         {
           label: "Device profile",
           href: "/profile",
-          body: "Start here. Set your device's characteristics, applicable regulations and target markets — this is what scopes the entire plan. Once set it's fixed for the project; changing it re-scopes everything.",
+          body: "Start here. Set your device's characteristics, applicable regulations and target markets. This is what scopes the entire plan. Once set it's fixed for the project; changing it re-scopes everything.",
         },
         {
           label: "Dashboard",
           href: "/dashboard",
-          body: "Your at-a-glance status — overall completion, per-phase progress and how much of the plan is in your device's scope.",
+          body: "Your at-a-glance status: overall completion, per-phase progress and how much of the plan is in your device's scope.",
         },
         {
           label: "Roadmap",
@@ -80,7 +80,7 @@ function sections(totalDocs: number): Section[] {
         {
           label: "Standards matrix",
           href: "/matrix",
-          body: "Traceability — where each standard and clause (ISO 13485, EU MDR/IVDR and more) is addressed across the four phases. Expand a standard to see its clauses and the activities that cover them.",
+          body: "Traceability: where each standard and clause (ISO 13485, EU MDR/IVDR and more) is addressed across the four phases. Expand a standard to see its clauses and the activities that cover them.",
         },
         {
           label: "Document library",
@@ -90,7 +90,7 @@ function sections(totalDocs: number): Section[] {
         {
           label: "Process map",
           href: "/process-map",
-          body: "The full ISO 13485 §4.1.2 process landscape — every process across the four phases, each maturing from lean to certified, with every document mapped to the step that creates it.",
+          body: "The full ISO 13485 §4.1.2 process landscape: every process across the four phases, each maturing from lean to certified, with every document mapped to the step that creates it.",
         },
       ],
     },
@@ -105,12 +105,12 @@ function sections(totalDocs: number): Section[] {
         {
           label: "Activity log",
           href: "/settings/activity",
-          body: "An audit trail of who changed what and when — useful evidence of control when you're audited.",
+          body: "An audit trail of who changed what and when. Useful evidence of control when you're audited.",
         },
         {
           label: "Account",
           href: "/settings/profile",
-          body: "Your personal details — display name and password.",
+          body: "Your personal details: display name and password.",
         },
       ],
     },
@@ -195,7 +195,7 @@ export default function GuidePage() {
         <p className="text-sm leading-relaxed text-ink">
           <b className="text-teal-900">Explore (free)</b> lets you browse the whole
           roadmap, standards matrix, library index and process map, and open one
-          sample activity and document group in full — so you can see the depth
+          sample activity and document group in full, so you can see the depth
           before you commit.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-ink">

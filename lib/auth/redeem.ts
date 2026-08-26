@@ -26,6 +26,6 @@ export async function redeemCode(_prev: Res, formData: FormData): Promise<Res> {
   revalidatePath("/", "layout");
   const plan = (data as { plan?: string } | null)?.plan ?? "full";
   return {
-    message: `Success — ${org.name} now has ${plan === "enterprise" ? "Enterprise" : "Full"} access.`,
+    message: `Success. ${org.name} now has ${plan === "enterprise" ? "Enterprise" : "Full"} access.`,
   };
 }

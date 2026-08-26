@@ -122,7 +122,7 @@ export const PATCH = withAgentAuth<Route>(
       return agentError(400, "Body must be JSON.");
     }
     if (body.status === undefined && body.tasks === undefined)
-      return agentError(400, "Nothing to change — send `status` and/or `tasks`.");
+      return agentError(400, "Nothing to change. Send `status` and/or `tasks`.");
 
     const now = new Date().toISOString();
     const changed: Record<string, unknown> = {};
@@ -200,7 +200,7 @@ export const PATCH = withAgentAuth<Route>(
       if (!AGENT_SETTABLE.includes(statusLabel))
         return agentError(
           403,
-          `An agent cannot set "${statusLabel}". Closing or excluding an activity is a human sign-off — report what you drafted and let a person decide.`,
+          `An agent cannot set "${statusLabel}". Closing or excluding an activity is a human sign-off. Report what you drafted and let a person decide.`,
           { allowed: AGENT_SETTABLE },
         );
       const { error } = await ctx.db.from("activity_status").upsert(

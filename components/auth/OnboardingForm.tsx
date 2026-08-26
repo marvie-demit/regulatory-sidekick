@@ -63,7 +63,7 @@ export function OnboardingForm() {
           <span className={labelCls}>Industry</span>
           <input
             name="industry"
-            placeholder="Medical devices — IVD"
+            placeholder="Medical devices (IVD)"
             className={inputCls}
             {...noExt}
           />
@@ -90,7 +90,7 @@ export function OnboardingForm() {
       </label>
 
       <p className="text-xs text-muted">
-        Only the name is required — everything else is optional and editable
+        Only the name is required; everything else is optional and editable
         later in your workspace profile.
       </p>
 
