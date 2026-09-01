@@ -35,7 +35,7 @@ export function useOrgState(): Ctx {
   return v;
 }
 
-const FAIL = "Couldn't save — check your connection";
+const FAIL = "Couldn't save. Check your connection";
 
 // Single client source of truth for per-org state, seeded once from the server
 // (the (app) layout reads it). Every mutation updates the store optimistically

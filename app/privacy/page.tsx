@@ -95,8 +95,8 @@ const DE = (
     </p>
     <p>
       Bitte laden Sie nur Nachweise hoch, die für den jeweiligen Zweck
-      erforderlich sind, und beschränken Sie personenbezogene Daten darin — etwa
-      Namen in Schulungsnachweisen oder Unterschriften in Freigaben — auf das
+      erforderlich sind, und beschränken Sie personenbezogene Daten darin (etwa
+      Namen in Schulungsnachweisen oder Unterschriften in Freigaben) auf das
       notwendige Maß. Besondere Kategorien personenbezogener Daten nach
       Art.&nbsp;9 DSGVO, insbesondere Gesundheitsdaten aus klinischen Prüfungen,
       Vorkommnismeldungen oder Reklamationen, gehören nicht in diesen
@@ -136,8 +136,8 @@ const DE = (
     </p>
     <p>
       <strong>
-        Wird der Antrag über die Subdomain eines Partners gestellt — etwa eines
-        Accelerators oder Investors —, wird er von diesem Partner vollständig
+        Wird der Antrag über die Subdomain eines Partners gestellt (etwa eines
+        Accelerators oder Investors), wird er von diesem Partner vollständig
         gelesen.
       </strong>{" "}
       Das Formular nennt den Partner vor dem Absenden namentlich. Über die
@@ -157,13 +157,13 @@ const DE = (
     <p>
       Wird ein Zugriffstoken für die Programmierschnittstelle erstellt,
       speichern wir ausschließlich dessen Hashwert nebst Bezeichnung und
-      Zeitstempeln — nicht das Token selbst.
+      Zeitstempeln, nicht das Token selbst.
     </p>
 
     <h2>3. Zwecke und Rechtsgrundlagen</h2>
     <ul>
       <li>
-        <strong>Bereitstellung des Dienstes</strong> — Konto, Arbeitsbereich,
+        <strong>Bereitstellung des Dienstes</strong>: Konto, Arbeitsbereich,
         Inhalte und Fortschritt: Art. 6 Abs. 1 lit. b DSGVO (Erfüllung eines
         Vertrags bzw. vorvertragliche Maßnahmen).
       </li>
@@ -193,20 +193,20 @@ const DE = (
     </p>
     <ul>
       <li>
-        <code>nja_active_org</code> — merkt sich den aktiven Arbeitsbereich. Die
+        <code>nja_active_org</code>: merkt sich den aktiven Arbeitsbereich. Die
         Mitgliedschaft wird bei jeder Anfrage serverseitig erneut geprüft; das
         Cookie ist reine Auswahlhilfe.
       </li>
       <li>
-        <code>nja_pending_invite</code> — hält eine geöffnete Einladung fest,
+        <code>nja_pending_invite</code>: hält eine geöffnete Einladung fest,
         bis die Registrierung abgeschlossen ist.
       </li>
       <li>
-        <code>nja_pending_redeem</code> — hält einen geöffneten Freischaltcode
+        <code>nja_pending_redeem</code>: hält einen geöffneten Freischaltcode
         fest, bis Konto und Arbeitsbereich bestehen.
       </li>
       <li>
-        Sitzungscookies der Authentifizierung — halten Sie angemeldet und
+        Sitzungscookies der Authentifizierung: halten Sie angemeldet und
         erneuern das Zugriffstoken.
       </li>
     </ul>
@@ -221,23 +221,23 @@ const DE = (
         <strong>
           Supabase Pte. Ltd., 65 Chulia Street #38-02/03, OCBC Centre, Singapur
           049513
-        </strong>{" "}
-        — Datenbank, Authentifizierung und Dateispeicher. Verarbeitung in der
+        </strong>:{" "}
+        Datenbank, Authentifizierung und Dateispeicher. Verarbeitung in der
         Region Frankfurt am Main (<code>eu-central-1</code>), Deutschland.
       </li>
       <li>
         <strong>
           Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA
-        </strong>{" "}
-        — Hosting und Auslieferung der Anwendung, Serverprotokolle. Ausführung
+        </strong>:{" "}
+        Hosting und Auslieferung der Anwendung, Serverprotokolle. Ausführung
         in der Region Frankfurt am Main (<code>fra1</code>), Deutschland.
       </li>
       <li>
         <strong>
           Stripe Payments Europe, Limited, One Wilton Park, Wilton Place, Dublin
           2, D02&nbsp;FX04, Irland
-        </strong>{" "}
-        — Zahlungsabwicklung. Vertragspartner und verarbeitende Stelle für
+        </strong>:{" "}
+        Zahlungsabwicklung. Vertragspartner und verarbeitende Stelle für
         Kunden im EWR ist die irische Gesellschaft; die Verarbeitung erfolgt in
         der Europäischen Union, mit Übermittlungen an die verbundene Stripe,
         Inc. (USA).
@@ -246,8 +246,8 @@ const DE = (
         <strong>
           Plus Five Five, Inc. (auftretend als „Resend“), 2261 Market Street
           #5039, San Francisco, CA 94114, USA
-        </strong>{" "}
-        — Versand transaktionaler E-Mails. Die Verarbeitung findet in den
+        </strong>:{" "}
+        Versand transaktionaler E-Mails. Die Verarbeitung findet in den
         Vereinigten Staaten statt.
       </li>
     </ul>
@@ -257,8 +257,8 @@ const DE = (
       Datenbank, Dateispeicher und die Ausführung der Anwendung finden in
       Deutschland statt; dort liegen die Daten auch im Ruhezustand. Beide
       Anbieter sind jedoch US-amerikanische Unternehmen, sodass ein Zugriff aus
-      einem Drittland — etwa im Rahmen von Support, Wartung oder Administration
-      — nicht generell ausgeschlossen werden kann. Die Wahl einer deutschen
+      einem Drittland (etwa im Rahmen von Support, Wartung oder Administration)
+      nicht generell ausgeschlossen werden kann. Die Wahl einer deutschen
       Region allein beseitigt die Drittlandproblematik daher nicht.
     </p>
     <p>
@@ -267,25 +267,25 @@ const DE = (
     </p>
     <ul>
       <li>
-        <strong>Supabase</strong> — Standardvertragsklauseln der Europäischen
+        <strong>Supabase</strong>: Standardvertragsklauseln der Europäischen
         Kommission (Durchführungsbeschluss&nbsp;(EU)&nbsp;2021/914), Modul&nbsp;2
         (Verantwortlicher an Auftragsverarbeiter), als Bestandteil des
         Auftragsverarbeitungsvertrags, ergänzt um technische Maßnahmen
         (Verschlüsselung bei Übertragung und im Ruhezustand, Zugriffskontrolle).
       </li>
       <li>
-        <strong>Vercel</strong> — Zertifizierung nach dem EU-US Data Privacy
+        <strong>Vercel</strong>: Zertifizierung nach dem EU-US Data Privacy
         Framework (Angemessenheitsbeschluss der Europäischen Kommission vom
         10.&nbsp;Juli&nbsp;2023) sowie ergänzend Standardvertragsklauseln aus
         dem Auftragsverarbeitungsvertrag.
       </li>
       <li>
-        <strong>Stripe</strong> — Verarbeitung innerhalb der EU durch die
+        <strong>Stripe</strong>: Verarbeitung innerhalb der EU durch die
         irische Gesellschaft; für Übermittlungen an verbundene Unternehmen in
         Drittländern Standardvertragsklauseln.
       </li>
       <li>
-        <strong>Resend</strong> — Zertifizierung nach dem EU-US Data Privacy
+        <strong>Resend</strong>: Zertifizierung nach dem EU-US Data Privacy
         Framework sowie ergänzend Standardvertragsklauseln.
       </li>
     </ul>
@@ -443,8 +443,8 @@ const EN = (
     </p>
     <p>
       Please upload only evidence that is necessary for the purpose at hand, and
-      keep the personal data it contains — names on training records, signatures
-      on approvals — to the minimum required. Special categories of personal
+      keep the personal data it contains (names on training records, signatures
+      on approvals) to the minimum required. Special categories of personal
       data under Art.&nbsp;9 GDPR, in particular health data from clinical
       investigations, incident reports or complaints, do not belong in this
       storage area; please upload such records in pseudonymised or anonymised
@@ -476,13 +476,13 @@ const EN = (
       product, the applicable regulation (MDR or IVDR) and risk class, funding
       raised to date (equity and grants), revenue over the last twelve months,
       and your account of why CE marking is not currently affordable. The legal
-      basis is Art.&nbsp;6(1)(b) GDPR — pre-contractual measures taken at your
+      basis is Art.&nbsp;6(1)(b) GDPR, meaning pre-contractual measures taken at your
       request.
     </p>
     <p>
       <strong>
-        Where an application is submitted through a partner&rsquo;s subdomain —
-        an accelerator or investor, for instance — that partner reads it in
+        Where an application is submitted through a partner&rsquo;s subdomain
+        (an accelerator or investor, for instance), that partner reads it in
         full.
       </strong>{" "}
       The form names the partner before you submit. Applications made through
@@ -500,14 +500,14 @@ const EN = (
     <h3>Programmatic access</h3>
     <p>
       Where an access token is created for the application programming
-      interface, we store only its hash together with a label and timestamps —
+      interface, we store only its hash together with a label and timestamps,
       never the token itself.
     </p>
 
     <h2>3. Purposes and legal bases</h2>
     <ul>
       <li>
-        <strong>Providing the service</strong> — account, workspace, content and
+        <strong>Providing the service</strong>: account, workspace, content and
         progress: Art. 6(1)(b) GDPR (performance of a contract or pre-contractual
         measures).
       </li>
@@ -535,20 +535,20 @@ const EN = (
     </p>
     <ul>
       <li>
-        <code>nja_active_org</code> — remembers the active workspace. Membership
+        <code>nja_active_org</code>: remembers the active workspace. Membership
         is re-validated server-side on every request; the cookie is only a
         selector.
       </li>
       <li>
-        <code>nja_pending_invite</code> — holds an opened invitation until
+        <code>nja_pending_invite</code>: holds an opened invitation until
         registration is complete.
       </li>
       <li>
-        <code>nja_pending_redeem</code> — holds an opened access code until an
+        <code>nja_pending_redeem</code>: holds an opened access code until an
         account and workspace exist.
       </li>
       <li>
-        Authentication session cookies — keep you signed in and refresh the
+        Authentication session cookies: keep you signed in and refresh the
         access token.
       </li>
     </ul>
@@ -563,23 +563,23 @@ const EN = (
         <strong>
           Supabase Pte. Ltd., 65 Chulia Street #38-02/03, OCBC Centre, Singapore
           049513
-        </strong>{" "}
-        — database, authentication and file storage. Processing in the Frankfurt
+        </strong>:{" "}
+        database, authentication and file storage. Processing in the Frankfurt
         am Main region (<code>eu-central-1</code>), Germany.
       </li>
       <li>
         <strong>
           Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA
-        </strong>{" "}
-        — application hosting and delivery, server logs. Execution in the
+        </strong>:{" "}
+        application hosting and delivery, server logs. Execution in the
         Frankfurt am Main region (<code>fra1</code>), Germany.
       </li>
       <li>
         <strong>
           Stripe Payments Europe, Limited, One Wilton Park, Wilton Place, Dublin
           2, D02&nbsp;FX04, Ireland
-        </strong>{" "}
-        — payment processing. The Irish company is the contracting and
+        </strong>:{" "}
+        payment processing. The Irish company is the contracting and
         processing entity for customers in the EEA; processing takes place in
         the European Union, with onward transfers to its affiliate Stripe, Inc.
         (USA).
@@ -588,8 +588,8 @@ const EN = (
         <strong>
           Plus Five Five, Inc. (trading as &ldquo;Resend&rdquo;), 2261 Market
           Street #5039, San Francisco, CA 94114, USA
-        </strong>{" "}
-        — transactional email delivery. Processing takes place in the United
+        </strong>:{" "}
+        transactional email delivery. Processing takes place in the United
         States.
       </li>
     </ul>
@@ -598,8 +598,8 @@ const EN = (
     <p>
       The database, file storage and application execution take place in
       Germany, and the data resides there at rest. Both providers are
-      nevertheless US companies, so access from a third country — in the course
-      of support, maintenance or administration, for instance — cannot be ruled
+      nevertheless US companies, so access from a third country (in the course
+      of support, maintenance or administration, for instance) cannot be ruled
       out in general. Choosing a German region does not by itself remove the
       third-country question.
     </p>
@@ -609,25 +609,25 @@ const EN = (
     </p>
     <ul>
       <li>
-        <strong>Supabase</strong> — the European Commission&rsquo;s standard
+        <strong>Supabase</strong>: the European Commission&rsquo;s standard
         contractual clauses (Implementing Decision (EU) 2021/914), module&nbsp;2
         (controller to processor), as part of the data processing agreement,
         supplemented by technical measures (encryption in transit and at rest,
         access control).
       </li>
       <li>
-        <strong>Vercel</strong> — certification under the EU-US Data Privacy
+        <strong>Vercel</strong>: certification under the EU-US Data Privacy
         Framework (European Commission adequacy decision of 10 July 2023), with
         the standard contractual clauses in the data processing agreement as a
         supplementary basis.
       </li>
       <li>
-        <strong>Stripe</strong> — processing within the EU by the Irish company;
+        <strong>Stripe</strong>: processing within the EU by the Irish company;
         standard contractual clauses for transfers to affiliates in third
         countries.
       </li>
       <li>
-        <strong>Resend</strong> — certification under the EU-US Data Privacy
+        <strong>Resend</strong>: certification under the EU-US Data Privacy
         Framework, with standard contractual clauses as a supplementary basis.
       </li>
     </ul>

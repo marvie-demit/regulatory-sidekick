@@ -16,7 +16,7 @@ export default function Error({
         Unexpected error
       </h1>
       <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
-        Sorry — something broke on our side. You can try again, or head back to
+        Sorry, something broke on our side. You can try again, or head back to
         your dashboard.
       </p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

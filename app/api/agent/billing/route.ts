@@ -2,7 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getActiveOrg } from "@/lib/auth/org";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { getStripe, stripeConfigured } from "@/lib/stripe/client";
+import {
+  getStripe,
+  stripeConfigured,
+  usableCustomerId,
+} from "@/lib/stripe/client";
 
 // GET /api/agent/billing — Stripe's billing portal for this workspace.
 //
@@ -39,15 +43,17 @@ export async function GET(req: NextRequest) {
     .eq("id", org.id)
     .maybeSingle();
 
-  // No Stripe customer means nothing was ever bought through checkout — an
-  // entitlement switched on by hand, most likely. There is no portal to show,
-  // and sending them to a Stripe error page would be worse than saying so.
-  if (!row?.stripe_customer_id)
+  // No usable customer means either nothing was ever bought through checkout
+  // (an entitlement switched on by hand), or the stored id belongs to another
+  // key — a sandbox id read with a live key, say. Either way there is no portal
+  // to show, and a Stripe error page would be worse than saying so plainly.
+  const customerId = await usableCustomerId(row?.stripe_customer_id);
+  if (!customerId)
     return NextResponse.redirect(new URL("/agent?billing=none", origin));
 
   try {
     const session = await getStripe().billingPortal.sessions.create({
-      customer: row.stripe_customer_id,
+      customer: customerId,
       return_url: `${origin}/agent`,
     });
     return NextResponse.redirect(session.url);

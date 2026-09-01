@@ -106,7 +106,7 @@ export async function revokePartnerCode(
   const freed = ((data ?? {}) as { freed?: number }).freed ?? 0;
   return {
     message: freed
-      ? `Code revoked — ${freed} licence${freed === 1 ? "" : "s"} returned.`
+      ? `Code revoked. ${freed} licence${freed === 1 ? "" : "s"} returned.`
       : "Code revoked.",
   };
 }

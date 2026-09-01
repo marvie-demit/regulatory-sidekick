@@ -134,7 +134,7 @@ const DE = (
       Die daraus erstellten Dokumente gehören dem jeweiligen Unternehmen. Das
       Recht, sie weiter zu verwenden, aufzubewahren und einer benannten Stelle
       oder Behörde vorzulegen, besteht auch nach Ende des Nutzungsverhältnisses
-      unbefristet fort — ein Qualitätsmanagementsystem wäre andernfalls nicht
+      unbefristet fort; ein Qualitätsmanagementsystem wäre andernfalls nicht
       nachweisbar. Mit Ende des Nutzungsverhältnisses entfällt lediglich der
       Zugang zu neuen und aktualisierten Vorlagen.
     </p>
@@ -281,7 +281,7 @@ const EN = (
       The documents created from them belong to the organisation concerned. The
       right to keep using and retaining those documents, and to present them to
       a notified body or an authority, continues indefinitely after the
-      subscription ends — a quality management system would otherwise not be
+      subscription ends; a quality management system would otherwise not be
       demonstrable. What ends with the subscription is only access to new and
       updated templates.
     </p>

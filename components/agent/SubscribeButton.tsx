@@ -59,7 +59,7 @@ export function SubscribeButton({
         {pending || state.url ? "Opening checkout…" : "Subscribe to agent access"}
       </button>
       <p className="mt-2 text-xs text-muted">
-        Monthly, cancel any time — it runs to the end of the period you have
+        Monthly, cancel any time; it runs to the end of the period you have
         paid for. Billed to {orgName}.
       </p>
       {state.error ? (

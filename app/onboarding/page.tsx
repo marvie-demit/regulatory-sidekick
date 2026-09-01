@@ -37,7 +37,7 @@ export default async function OnboardingPage() {
           Create your organization
         </h1>
         <p className="mb-5 mt-1.5 text-sm text-muted">
-          This is your team&apos;s workspace — your QMS implementation and
+          This is your team&apos;s workspace: your QMS implementation and
           progress live here. You can invite teammates and set your device
           profile next.
         </p>

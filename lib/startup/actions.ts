@@ -162,7 +162,7 @@ export async function saveApplication(
       .from("startup_applications")
       .update(row)
       .eq("id", current.id);
-    if (error) return { error: "Could not save — please try again." };
+    if (error) return { error: "Could not save. Please try again." };
   } else {
     // partner_id is set ONCE, on creation, from the host. It is deliberately not
     // refreshed on later saves: an applicant who starts on a partner subdomain
@@ -173,14 +173,14 @@ export async function saveApplication(
       org_id: org.id,
       partner_id: await partnerFromRequest(),
     });
-    if (error) return { error: "Could not save — please try again." };
+    if (error) return { error: "Could not save. Please try again." };
   }
 
   revalidatePath("/startup-programme");
   revalidatePath("/pricing");
   return {
     message: submitting
-      ? "Application submitted — we'll come back to you shortly."
+      ? "Application submitted. We'll come back to you shortly."
       : "Draft saved.",
   };
 }
@@ -202,7 +202,7 @@ export async function withdrawApplication(
     .update({ status: "withdrawn", updated_at: new Date().toISOString() })
     .eq("org_id", org.id)
     .in("status", ["draft", "submitted"]);
-  if (error) return { error: "Could not withdraw — please try again." };
+  if (error) return { error: "Could not withdraw. Please try again." };
 
   revalidatePath("/startup-programme");
   revalidatePath("/pricing");

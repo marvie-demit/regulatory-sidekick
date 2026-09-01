@@ -29,7 +29,7 @@ export default async function StartupProgrammePage() {
           Startup Programme
         </h1>
         <p className="lead">
-          {org.name} already has full access — there&rsquo;s nothing to apply
+          {org.name} already has full access, so there&rsquo;s nothing to apply
           for.
         </p>
         <Link href="/dashboard" className="lnk mt-4 inline-block text-sm">
@@ -51,7 +51,7 @@ export default async function StartupProgrammePage() {
       </h1>
       <p className="lead">
         €1,800 instead of €6,000, for early startups that genuinely can&rsquo;t
-        fund CE marking yet. Four short sections — about five minutes.
+        fund CE marking yet. Four short sections, about five minutes.
       </p>
 
       {org.role !== "admin" ? (

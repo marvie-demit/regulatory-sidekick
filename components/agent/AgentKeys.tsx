@@ -86,7 +86,7 @@ export function CreateKeyForm({
         </button>
       </div>
       {/* Driven off SCOPE_OPTION_LIST rather than written out: a scope with no
-          box grants nothing, and that failure is invisible — the key is created
+          box grants nothing, and that failure is invisible: the key is created
           successfully and simply cannot do the thing. */}
       <div className="flex flex-col gap-2.5">
         {SCOPE_OPTION_LIST.map((o) => (
@@ -114,20 +114,20 @@ export function CreateKeyForm({
       {state.error ? <p className={errCls}>{state.error}</p> : null}
 
       {/* The ONLY moment the raw key exists. Everything the customer has to
-          paste is rendered here, with the key already in it — so the next step
+          paste is rendered here, with the key already in it, so the next step
           is a paste, not a hunt. Never persist this to make setup "easier". */}
       {state.token ? (
         <div className="flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 p-3">
           <p className="text-sm text-teal-800">
             <span className="font-semibold">{state.message}</span>{" "}
-            Copy it now — it&apos;s shown only once and can&apos;t be
+            Copy it now; it&apos;s shown only once and can&apos;t be
             recovered.
           </p>
           <CopyField value={state.token} />
           {showCommand ? (
             <div>
               <p className="mb-1.5 text-xs font-medium text-teal-800">
-                Or paste this in your QMS folder — the key is already in it:
+                Or paste this in your QMS folder; the key is already in it:
               </p>
               <CopyBlock value={claudeCodeCommand(state.token, baseUrl)} />
             </div>
@@ -200,7 +200,7 @@ function TokenRow({
       </div>
       {/* Scopes are listed explicitly, not summarised, because 0018 and 0019
           each added one: a key minted before either will 403 on the endpoint it
-          missed, and the only fix is a NEW key — scopes cannot be granted to an
+          missed, and the only fix is a NEW key: scopes cannot be granted to an
           existing one. Saying so per key is cheaper than a support queue.
           Ordered so the more fundamental gap is named first: a key that cannot
           fetch templates cannot draft, which makes reporting moot. */}
@@ -212,7 +212,7 @@ function TokenRow({
         </p>
       ) : !dead && !t.scopes.includes("write:drafts") ? (
         <p className="rounded-lg border border-line bg-tint px-2.5 py-1.5 text-xs text-muted">
-          This key can draft, but can&apos;t tell the workspace it did — drafts
+          This key can draft, but can&apos;t tell the workspace it did, so drafts
           won&apos;t appear in your library. Create a new one with{" "}
           <b className="text-teal-800">
             Report which documents it has drafted
@@ -281,7 +281,7 @@ export function KeyList({
       {tokens.filter((t) => t.status !== "revoked").length >=
       AGENT_TOKEN_LIMIT ? (
         <p className="text-xs text-muted">
-          {AGENT_TOKEN_LIMIT} keys is the limit — revoke one to add another.
+          {AGENT_TOKEN_LIMIT} keys is the limit. Revoke one to add another.
         </p>
       ) : null}
     </div>

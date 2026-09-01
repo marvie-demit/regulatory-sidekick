@@ -363,7 +363,7 @@ export function ChecklistView({
                 className="donenudge"
                 onClick={() => markDone(a.id)}
               >
-                ✓ All tasks complete — mark Done?
+                ✓ All tasks complete. Mark Done?
               </button>
             )}
         </div>

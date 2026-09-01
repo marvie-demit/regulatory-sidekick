@@ -17,10 +17,10 @@ export default async function ProcessMapPage() {
         Process map
       </h1>
       <p className="lead">
-        The realization chain — how your core processes trigger and hand off to
+        The realization chain: how your core processes trigger and hand off to
         each other as the device matures across the four phases. Rows are
         processes, columns are phases (left&nbsp;→&nbsp;right), and arrows show
-        what triggers or feeds what — the interaction view ISO 13485 §4.1.2 asks
+        what triggers or feeds what, the interaction view ISO 13485 §4.1.2 asks
         for, spanning {stats.processes} processes, {stats.steps} steps and{" "}
         {stats.docs} controlled documents.
       </p>

@@ -79,8 +79,8 @@ export function ApplicationForm({
     <form action={action} className="mt-6 flex flex-col gap-5">
       {partnerName ? (
         <p className="rounded-lg border border-teal-200 bg-teal-50 px-4 py-3 text-sm text-teal-800">
-          You&rsquo;re applying through <b>{partnerName}</b>. Your application —
-          including your funding position and revenue — will be read by{" "}
+          You&rsquo;re applying through <b>{partnerName}</b>. Your application,
+          including your funding position and revenue, will be read by{" "}
           {partnerName} as well as by us. If you&rsquo;d rather it went only to
           us, apply from our main site instead.
         </p>
@@ -89,7 +89,7 @@ export function ApplicationForm({
       {locked ? (
         <p className="rounded-lg border border-line bg-tint px-4 py-3 text-sm text-muted">
           {a?.status === "approved"
-            ? "Approved — you can now buy the Startup Programme from the pricing page."
+            ? "Approved. You can now buy the Startup Programme from the pricing page."
             : "Submitted and under review. You'll hear from us shortly."}
         </p>
       ) : null}
@@ -166,7 +166,7 @@ export function ApplicationForm({
       <Section
         n={2}
         title="What you're building"
-        blurb="One sentence is genuinely enough — we're checking it's a device, not assessing it."
+        blurb="One sentence is genuinely enough; we're checking it's a device, not assessing it."
       >
         <label className="flex flex-col gap-1.5">
           <span className="flex items-baseline justify-between">
@@ -220,7 +220,7 @@ export function ApplicationForm({
               ))}
             </datalist>
             <span className={hintCls}>
-              Leave blank if you haven&rsquo;t classified it yet — that&rsquo;s
+              Leave blank if you haven&rsquo;t classified it yet; that&rsquo;s
               normal at this stage.
             </span>
           </label>
@@ -230,7 +230,7 @@ export function ApplicationForm({
       <Section
         n={3}
         title="Why you qualify"
-        blurb="The programme is for companies that genuinely can't fund CE marking yet. Figures in euros — 250k and 1.5m both work."
+        blurb="The programme is for companies that genuinely can't fund CE marking yet. Figures in euros (250k and 1.5m both work)."
       >
         <div className="grid items-start gap-5 sm:grid-cols-3">
           <label className="flex flex-col gap-1.5">
@@ -287,7 +287,7 @@ export function ApplicationForm({
             maxLength={LIMITS.whyBlocked}
             value={why}
             onChange={(e) => setWhy(e.target.value)}
-            placeholder="What's actually blocking you — consultant quotes, notified body costs, runway, no QA/RA hire yet. Be concrete; this is the part we read most carefully."
+            placeholder="What's actually blocking you: consultant quotes, notified body costs, runway, no QA/RA hire yet. Be concrete; this is the part we read most carefully."
             disabled={locked}
             className={areaCls}
           />
@@ -343,7 +343,7 @@ export function ApplicationForm({
             Save draft
           </button>
           <span className={hintCls}>
-            You can save and come back — nothing is sent until you submit.
+            You can save and come back; nothing is sent until you submit.
           </span>
         </div>
       ) : null}

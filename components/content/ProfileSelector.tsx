@@ -166,7 +166,7 @@ export function ProfileSelector({
         EU regulatory route
       </h2>
       <p className="mt-1 text-[13px] text-muted">
-        A product is regulated under one route — pick the one that applies. It
+        A product is regulated under one route, so pick the one that applies. It
         decides classification, technical documentation and market access.
       </p>
       <div className="mt-3 flex flex-wrap gap-3">
@@ -270,7 +270,7 @@ export function ProfileSelector({
             className="rounded-full bg-coral px-5 py-2 text-sm font-semibold text-white transition hover:brightness-95"
             onClick={() => setEditing(false)}
           >
-            Done — lock profile
+            Done, lock profile
           </button>
         ) : null}
         {profile ? (

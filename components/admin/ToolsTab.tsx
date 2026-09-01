@@ -30,7 +30,7 @@ export function ToolsTab() {
           Sign-in &amp; recovery links
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Generate a one-time link for any user — a <b>recovery link</b> lets them
+          Generate a one-time link for any user. A <b>recovery link</b> lets them
           set a new password, a <b>magic link</b> signs them straight in. Copy it
           and send it however you like. Both are single-use and expire in about an
           hour.

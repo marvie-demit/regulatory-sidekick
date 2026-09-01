@@ -22,7 +22,7 @@ export default async function ActivityLogPage() {
       </h1>
       <p className="mb-6 mt-1 text-sm text-muted">
         A record of changes in{" "}
-        <span className="font-medium text-teal-800">{org.name}</span> — status
+        <span className="font-medium text-teal-800">{org.name}</span>: status
         updates, document downloads, and team &amp; plan changes. Newest first,
         times in UTC.
       </p>

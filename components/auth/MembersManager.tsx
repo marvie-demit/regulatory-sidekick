@@ -43,7 +43,7 @@ function InviteForm({ remaining }: { remaining: number }) {
         </h2>
         <p className="mt-1 text-sm text-muted">
           {full
-            ? "All seats are in use — remove a member or revoke an invite to add someone."
+            ? "All seats are in use. Remove a member or revoke an invite to add someone."
             : `${remaining} seat${remaining === 1 ? "" : "s"} available. You'll get a link to send them.`}
         </p>
       </div>
@@ -71,7 +71,7 @@ function InviteForm({ remaining }: { remaining: number }) {
       {state.inviteUrl ? (
         <div className="flex flex-col gap-2 rounded-xl border border-teal-200 bg-teal-50 p-3">
           <p className="text-sm text-teal-800">
-            {state.message} Copy this link and send it — it&apos;s shown only
+            {state.message} Copy this link and send it; it&apos;s shown only
             once.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">

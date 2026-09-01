@@ -12,7 +12,7 @@ export function WorkspaceId({ id }: { id: string }) {
         Workspace ID
       </h2>
       <p className="mt-1 text-sm text-muted">
-        Identifies this workspace everywhere your data is stored. Not a secret —
+        Identifies this workspace everywhere your data is stored. Not a secret,
         quote it when you contact us.
       </p>
       <div className="mt-3 flex flex-col gap-2 sm:flex-row">

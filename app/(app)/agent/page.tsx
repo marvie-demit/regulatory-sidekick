@@ -72,7 +72,7 @@ export default async function AgentPage() {
     <>
       <h1 className="font-display text-2xl font-semibold text-teal-900">Agent</h1>
       <p className="mt-1 max-w-2xl text-sm text-muted">
-        Let an AI assistant work this implementation with you — reading the plan,
+        Let an AI assistant work this implementation with you: reading the plan,
         drafting documents into your own folder, and reporting progress back.
       </p>
     </>
@@ -128,7 +128,7 @@ export default async function AgentPage() {
             <>Last used {timeAgo(conn.lastUsedAt)}</>
           ) : conn.activeKeys ? (
             <>
-              {conn.activeKeys} key{conn.activeKeys === 1 ? "" : "s"} ready —
+              {conn.activeKeys} key{conn.activeKeys === 1 ? "" : "s"} ready,
               nothing has connected yet
             </>
           ) : conn.pendingKeys ? (
@@ -163,7 +163,7 @@ export default async function AgentPage() {
             Drafts
           </h2>
           <p className="mt-1 text-sm text-muted">
-            Your assistant records what it drafted — the path, the size and how
+            Your assistant records what it drafted: the path, the size and how
             many questions it could not answer. The documents themselves stay on
             your machine; nothing here is their content.
           </p>

@@ -8,7 +8,7 @@ const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
 const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"] });
 
 const DESCRIPTION =
-  "A stepwise implementation for EU MDR and IVDR — including setting up your QMS under ISO 13485 and key FDA QMSR (21 CFR 820) — made for medical-device manufacturers. Your regulatory sidekick.";
+  "A stepwise implementation for EU MDR and IVDR, including setting up your QMS under ISO 13485 and key FDA QMSR (21 CFR 820), made for medical-device manufacturers. Your regulatory sidekick.";
 
 // The browser-tab title is as visible as anything on the page, so it carries the
 // partner's name on their subdomain. getRequestBrand() reads the proxy-injected

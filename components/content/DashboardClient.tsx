@@ -105,7 +105,7 @@ export function DashboardClient({
   // its place better as the number that drives action.
   const kpis = [
     { l: "Implementation", v: pct + "%", s: "of applicable activities", accent: true },
-    { l: "Ready to start", v: readyList.length, s: "no blockers — start today", hi: true },
+    { l: "Ready to start", v: readyList.length, s: "no blockers, start today", hi: true },
     { l: "Done", v: done, s: "activities complete" },
     { l: "In progress", v: inprog, s: "activities underway" },
     {
@@ -208,7 +208,7 @@ export function DashboardClient({
             The recommended order for your device
             {readyList.length > 0 && (
               <>
-                {" "}— <b className="text-teal-800">{readyList.length}</b>{" "}
+                {". "}<b className="text-teal-800">{readyList.length}</b>{" "}
                 {readyList.length === 1 ? "has" : "have"} no blockers and can
                 start today
               </>
@@ -284,7 +284,7 @@ export function DashboardClient({
                 </div>
               ))}
               <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
-                The system you operate vs the dossier the Notified Body reviews —
+                The system you operate vs the dossier the Notified Body reviews,
                 usually different people.
               </p>
             </div>

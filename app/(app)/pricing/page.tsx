@@ -21,7 +21,7 @@ const CONTACT = "regulatory.sidekick@notjustany.tech";
 function features(n: ContentCounts): string[] {
   return [
     `All ${n.activities} activities and ${n.subActivities} deep sub-activities`,
-    `All ${n.documents} controlled-document templates — view, customise, download`,
+    `All ${n.documents} controlled-document templates: view, customise, download`,
     "Checklist progress, Gantt timeline, and up to 3 team members",
     "Per-activity evidence uploads (private to your workspace)",
     "Standards matrix, process map, device-profile scoping",
@@ -216,14 +216,14 @@ export default async function PricingPage({
       </h1>
       <p className="lead">
         One purchase unlocks the entire implementation. Same features whichever
-        price you qualify for — only the price and who it&apos;s for differ.
+        price you qualify for. Only the price and who it&apos;s for differ.
       </p>
 
       {/* Access is granted by the Stripe webhook, not by this redirect, so the
           success banner promises activation rather than asserting it. */}
       {checkout === "success" && !full ? (
         <div className="mb-6 max-w-3xl rounded-xl border border-teal-200 bg-teal-50 px-5 py-4 text-sm text-teal-800">
-          <b>Payment received — thank you.</b> We&apos;re activating your
+          <b>Payment received, thank you.</b> We&apos;re activating your
           workspace now; it usually takes a few seconds. Refresh this page, and
           if access hasn&apos;t appeared within a couple of minutes email{" "}
           <a className="font-medium hover:underline" href={`mailto:${CONTACT}`}>
@@ -234,7 +234,7 @@ export default async function PricingPage({
       ) : null}
       {checkout === "cancelled" ? (
         <div className="mb-6 max-w-3xl rounded-xl border border-line bg-cream px-5 py-4 text-sm text-ink">
-          Checkout cancelled — nothing was charged.
+          Checkout cancelled. Nothing was charged.
         </div>
       ) : null}
 
@@ -264,8 +264,8 @@ export default async function PricingPage({
           mailSubject="Startup Programme application"
           subtitle={
             <>
-              For <b className="text-teal-900">early startups</b> that
-              can&apos;t yet fund CE marking — your own organisation, up to 3
+              For <b className="text-teal-900">early startups</b>{" "}
+              that can&apos;t yet fund CE marking. Your own organisation, up to 3
               users. By application; takes about five minutes.
             </>
           }
@@ -294,7 +294,7 @@ export default async function PricingPage({
           Solo QA/RA practitioner, or an independent consultant?
         </b>{" "}
         The Startup Programme is for companies building a device, so it
-        won&apos;t fit — but we have a discount for you, and a partner licence
+        won&apos;t fit, but we have a discount for you, and a partner licence
         that covers delivery to your clients.{" "}
         <a
           href={`mailto:${CONTACT}?subject=Consultant%20partner%20programme`}
@@ -312,7 +312,7 @@ export default async function PricingPage({
         them coming.{" "}
         {anySelfServe
           ? "Startup Programme pricing is by application and reviewed before checkout opens."
-          : "Online checkout is being set up — for now, get in touch and we'll activate your account."}
+          : "Online checkout is being set up. For now, get in touch and we'll activate your account."}
       </p>
     </main>
   );

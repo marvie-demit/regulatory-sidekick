@@ -241,7 +241,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
             {limitPending ? "…" : "Set budget"}
           </button>
           <span className="text-[11px] text-muted">
-            Blank = default. Only settable here — a workspace can&apos;t raise
+            Blank = default. Only settable here; a workspace can&apos;t raise
             its own ceiling.
           </span>
           {limitState.error ? (
@@ -284,7 +284,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
           className="flex flex-col gap-2 rounded-lg border border-red-200 bg-red-50 p-3"
         >
           <div className="text-xs text-red-700">
-            Permanently delete <b>{o.name}</b> and everything in it — members,
+            Permanently delete <b>{o.name}</b> and everything in it: members,
             progress, evidence files, and audit history. This can&apos;t be undone.
             Type the name to confirm.
           </div>
