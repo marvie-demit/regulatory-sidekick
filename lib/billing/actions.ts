@@ -5,7 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getActiveOrg } from "@/lib/auth/org";
 import { hasFullAccess } from "@/lib/auth/access";
-import { getStripe, stripeConfigured } from "@/lib/stripe/client";
+import {
+  getStripe,
+  stripeConfigured,
+  usableCustomerId,
+} from "@/lib/stripe/client";
 import {
   agentPriceId,
   getTier,
@@ -93,13 +97,9 @@ export async function startCheckout(
       .eq("id", org.id)
       .single();
 
-    let customerId: string | null = orgRow?.stripe_customer_id ?? null;
-    if (customerId) {
-      // A customer deleted in the Stripe dashboard would otherwise 400 every
-      // future checkout for this workspace. Fall back to minting a new one.
-      const existing = await stripe.customers.retrieve(customerId);
-      if (existing.deleted) customerId = null;
-    }
+    // Deleted in the dashboard, or minted under a different key (the sandbox
+    // -> live switch), both resolve to null so a fresh one is created below.
+    let customerId = await usableCustomerId(orgRow?.stripe_customer_id);
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email ?? undefined,
@@ -256,11 +256,7 @@ export async function startAgentSubscription(
     }
 
     const stripe = getStripe();
-    let customerId: string | null = orgRow?.stripe_customer_id ?? null;
-    if (customerId) {
-      const existing = await stripe.customers.retrieve(customerId);
-      if (existing.deleted) customerId = null;
-    }
+    let customerId = await usableCustomerId(orgRow?.stripe_customer_id);
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email ?? undefined,

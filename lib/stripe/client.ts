@@ -28,3 +28,37 @@ export function getStripe(): Stripe {
   });
   return cached;
 }
+
+/**
+ * Is a stored customer id usable against the CURRENT key? Returns it when yes,
+ * null when the caller should mint a fresh one.
+ *
+ * A stored id goes bad in two ways, and they FAIL DIFFERENTLY:
+ *
+ *   · DELETED in the dashboard — retrieve() succeeds and returns
+ *     `{ deleted: true }`.
+ *   · ABSENT from this account or mode — retrieve() THROWS 404
+ *     `resource_missing`.
+ *
+ * Only the first was handled originally, and the second is the one that
+ * actually happens: a customer id belongs to one account AND one mode, so
+ * pointing a deployment at live keys makes every id minted in sandbox vanish.
+ * Every workspace that had already bought something then failed at checkout
+ * with "Could not start checkout", which names the symptom and hides the cause.
+ *
+ * Anything that is NOT resource_missing is rethrown. A bad key or a network
+ * failure must not be quietly reinterpreted as "no customer here" — that would
+ * turn an outage into a silent stream of duplicate customer records.
+ */
+export async function usableCustomerId(
+  id: string | null | undefined,
+): Promise<string | null> {
+  if (!id) return null;
+  try {
+    const customer = await getStripe().customers.retrieve(id);
+    return customer.deleted ? null : id;
+  } catch (e) {
+    if ((e as { code?: string })?.code === "resource_missing") return null;
+    throw e;
+  }
+}
