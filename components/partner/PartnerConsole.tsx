@@ -67,18 +67,56 @@ function AllowanceCard({ o }: { o: PartnerOverview }) {
           {o.remaining} licence{o.remaining === 1 ? "" : "s"} remaining
         </p>
       )}
+
+      {/* Agent seats are a SEPARATE allowance (0023), never licence seats.
+          Hidden entirely at zero: a meter reading "0 of 0" invites a support
+          question about a product this partner has not bought. */}
+      {o.agenticAllowance > 0 ? (
+        <div className="mt-5 border-t border-line pt-4">
+          <h3 className="text-sm font-semibold text-teal-900">Agent seats</h3>
+          <p className="mt-1 text-lg font-semibold text-teal-900">
+            {o.agenticConsumed}{" "}
+            <span className="text-sm font-normal text-muted">
+              of {o.agenticAllowance} issued
+            </span>
+          </p>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-line">
+            <div
+              className={`h-full rounded-full ${
+                o.agenticConsumed > o.agenticAllowance ? "bg-coral" : "bg-teal-500"
+              }`}
+              style={{
+                width: `${Math.min(
+                  o.agenticAllowance
+                    ? (o.agenticConsumed / o.agenticAllowance) * 100
+                    : 0,
+                  100,
+                )}%`,
+              }}
+            />
+          </div>
+          <p className="mt-2 text-sm text-teal-700">
+            {o.agenticRemaining} agent seat{o.agenticRemaining === 1 ? "" : "s"}{" "}
+            remaining
+          </p>
+        </div>
+      ) : null}
     </section>
   );
 }
 
 function MintForm({
   remaining,
+  agenticAllowance,
+  agenticRemaining,
   disabled,
   defaultGrantDays,
   maxGrantDays,
   defaultRedeemDays,
 }: {
   remaining: number;
+  agenticAllowance: number;
+  agenticRemaining: number;
   disabled: boolean;
   defaultGrantDays: number | null;
   maxGrantDays: number | null;
@@ -162,6 +200,51 @@ function MintForm({
             className={input}
           />
         </label>
+        {/* What the code grants. Agent seats come from a separate allowance, so
+            the toggle is disabled — rather than hidden — when there is none:
+            hiding it makes the feature look absent, disabling it says "not
+            bought yet". */}
+        <label className="col-span-2 flex flex-col gap-1 text-xs text-muted sm:col-span-1">
+          Grants
+          <span className="flex h-[34px] items-center gap-3">
+            <span className="flex items-center gap-1.5 text-teal-800">
+              <input
+                type="checkbox"
+                name="plan"
+                defaultChecked
+                className="accent-coral"
+              />
+              Licence
+            </span>
+            <span
+              className="flex items-center gap-1.5 text-teal-800"
+              title={
+                agenticAllowance === 0
+                  ? "No agent seats on your account — ask us to add some."
+                  : `${agenticRemaining} agent seat${agenticRemaining === 1 ? "" : "s"} remaining`
+              }
+            >
+              <input
+                type="checkbox"
+                name="agentic"
+                disabled={agenticAllowance === 0}
+                className="accent-coral disabled:opacity-40"
+              />
+              Agent
+            </span>
+          </span>
+        </label>
+        {agenticAllowance > 0 ? (
+          <label className="flex flex-col gap-1 text-xs text-muted">
+            Agent days
+            <input
+              name="agenticDays"
+              placeholder="blank = ∞"
+              inputMode="numeric"
+              className={input}
+            />
+          </label>
+        ) : null}
         <label className="col-span-2 flex flex-col gap-1 text-xs text-muted sm:col-span-1">
           Note
           <input name="note" placeholder="Cohort / company" className={input} />
@@ -231,10 +314,22 @@ function CodeRow({ c, isAdmin }: { c: PartnerCode; isAdmin: boolean }) {
         <div className="min-w-0">
           <div className="truncate text-sm text-teal-900">
             {c.note || "(no note)"}
-            {c.grantDays ? ` · ${c.grantDays}d access` : " · unlimited access"}
+            {c.plan
+              ? c.grantDays
+                ? ` · ${c.grantDays}d access`
+                : " · unlimited access"
+              : null}
+            {c.agentic ? (
+              <span className="ml-2 rounded-full bg-tint px-2 py-0.5 text-[11px] font-semibold text-teal-800">
+                Agent
+              </span>
+            ) : null}
           </div>
           <div className="text-xs text-muted">
-            {c.usedCount}/{c.maxUses} used · {seatsHeld(c)} licence
+            {/* Seats are held against whichever allowance the code draws on, so
+                name it rather than always saying "licences". */}
+            {c.usedCount}/{c.maxUses} used · {seatsHeld(c)}{" "}
+            {c.plan ? "licence" : "agent seat"}
             {seatsHeld(c) === 1 ? "" : "s"} held · {fmtDate(c.createdAt)} ·{" "}
             {c.revokedAt ? (
               <span className="font-medium text-red-600">
@@ -330,6 +425,8 @@ export function PartnerConsole({
       {isAdmin ? (
         <MintForm
           remaining={overview.remaining}
+          agenticAllowance={overview.agenticAllowance}
+          agenticRemaining={overview.agenticRemaining}
           disabled={suspended}
           defaultGrantDays={defaultGrantDays}
           maxGrantDays={maxGrantDays}

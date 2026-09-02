@@ -17,6 +17,9 @@ export type AdminPartner = {
   licenceAllowance: number;
   /** seats held by live codes; see app.partner_seats_consumed in 0015 */
   consumed: number;
+  /** Agent seats are a SEPARATE allowance (0023), never licence seats. */
+  agenticAllowance: number;
+  agenticConsumed: number;
   /** clamped at 0 — an over-allocated partner shows overBy instead */
   remaining: number;
   /** > 0 when the allowance was lowered below what is already issued */
@@ -43,7 +46,7 @@ export type AdminPartner = {
 };
 
 const PARTNER_COLS =
-  "id, name, slug, kind, status, licence_allowance, staff_limit, " +
+  "id, name, slug, kind, status, licence_allowance, agentic_allowance, staff_limit, " +
   "default_grant_days, max_grant_days, default_redeem_days, " +
   "contact_email, note, created_at, " +
   "brand_primary, brand_mid, brand_accent, brand_surface, wordmark, logo_path, logo_alt";
@@ -95,19 +98,29 @@ export async function listPartners(): Promise<AdminPartner[]> {
     used_count: number;
     revoked_at: string | null;
     expires_at: string | null;
+    agentic?: boolean | null;
   };
   const stats = new Map<
     string,
-    { consumed: number; live: number; revoked: number; redemptions: number }
+    {
+      consumed: number;
+      agenticConsumed: number;
+      live: number;
+      revoked: number;
+      redemptions: number;
+    }
   >();
   ((codeRows ?? []) as CodeRow[]).forEach((c) => {
     const s = stats.get(c.partner_id) ?? {
       consumed: 0,
+      agenticConsumed: 0,
       live: 0,
       revoked: 0,
       redemptions: 0,
     };
     s.consumed += seatsFor(c);
+    // Same formula, second filter — mirrors app.partner_agentic_seats_consumed.
+    if (c.agentic) s.agenticConsumed += seatsFor(c);
     s.redemptions += c.used_count;
     if (c.revoked_at) s.revoked += 1;
     else s.live += 1;
@@ -126,7 +139,13 @@ export async function listPartners(): Promise<AdminPartner[]> {
 
   return rows.map((p) => {
     const id = p.id as string;
-    const s = stats.get(id) ?? { consumed: 0, live: 0, revoked: 0, redemptions: 0 };
+    const s = stats.get(id) ?? {
+      consumed: 0,
+      agenticConsumed: 0,
+      live: 0,
+      revoked: 0,
+      redemptions: 0,
+    };
     const allowance = (p.licence_allowance as number) ?? 0;
     return {
       id,
@@ -136,6 +155,8 @@ export async function listPartners(): Promise<AdminPartner[]> {
       status: (p.status as string) ?? "active",
       licenceAllowance: allowance,
       consumed: s.consumed,
+      agenticAllowance: (p.agentic_allowance as number) ?? 0,
+      agenticConsumed: s.agenticConsumed,
       remaining: Math.max(allowance - s.consumed, 0),
       overBy: Math.max(s.consumed - allowance, 0),
       staffLimit: (p.staff_limit as number) ?? 10,

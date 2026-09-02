@@ -33,8 +33,29 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   const g = await gate();
   if ("error" in g) return { error: g.error };
 
-  let plan = String(formData.get("plan") || "full");
-  if (!["full", "enterprise"].includes(plan)) return { error: "Invalid plan." };
+  // A code may grant a licence, agent access, or both (0023). "none" is how the
+  // form says "agent only"; the CHECK in 0023 refuses a code that grants nothing.
+  let plan: string | null = String(formData.get("plan") || "full");
+  if (plan === "none") plan = null;
+  if (plan !== null && !["full", "enterprise"].includes(plan))
+    return { error: "Invalid plan." };
+
+  const agentic = String(formData.get("agentic") || "") === "on";
+  if (plan === null && !agentic)
+    return { error: "A code must grant a licence, agent access, or both." };
+
+  // Same 1–3650 range setOrgAgentAccess enforces below, so a code and a manual
+  // grant cannot disagree about what a valid duration is.
+  const agenticRaw = String(formData.get("agenticDays") || "").trim();
+  const agenticDays =
+    !agentic || agenticRaw === "" || agenticRaw === "0"
+      ? null
+      : parseInt(agenticRaw, 10);
+  if (
+    agenticDays !== null &&
+    (!Number.isFinite(agenticDays) || agenticDays < 1 || agenticDays > 3650)
+  )
+    return { error: "Agent duration must be 1–3650 days (or blank for no expiry)." };
 
   const grantDaysRaw = String(formData.get("grantDays") || "365").trim();
   const grantDays =
@@ -58,9 +79,10 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   const partnerId = String(formData.get("partnerId") || "").trim() || null;
   if (partnerId && targetOrgId)
     return { error: "A partner code can't also be locked to one organization." };
-  // Partner codes always grant 'full', matching partner_mint_codes (0015).
-  // Enterprise is a custom bundled deal granted out of band, never via a partner.
-  if (partnerId) plan = "full";
+  // Partner codes always grant 'full' when they grant a licence at all,
+  // matching partner_mint_codes. Enterprise is a custom bundled deal granted out
+  // of band, never via a partner.
+  if (partnerId && plan !== null) plan = "full";
 
   // Redeem-by window: the code self-expires if not redeemed in time. Field absent
   // (org-row quick "Create code") -> default 14 days; blank or 0 -> no deadline.
@@ -95,7 +117,7 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   if (partnerId) {
     const { data: p, error: pErr } = await admin
       .from("partners")
-      .select("name, status, licence_allowance")
+      .select("name, status, licence_allowance, agentic_allowance")
       .eq("id", partnerId)
       .single();
     if (pErr || !p) return { error: "Partner not found." };
@@ -103,18 +125,32 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
 
     const { data: existing } = await admin
       .from("access_codes")
-      .select("max_uses, used_count, revoked_at, expires_at")
+      .select("max_uses, used_count, revoked_at, expires_at, agentic")
       .eq("partner_id", partnerId);
     const now = Date.now();
-    const consumed = (existing ?? []).reduce((sum, c) => {
-      const lapsed = c.expires_at && new Date(c.expires_at).getTime() < now;
-      return sum + (c.revoked_at || lapsed ? c.used_count : c.max_uses);
-    }, 0);
+    // Mirrors app.partner_seats_consumed / app.partner_agentic_seats_consumed:
+    // same revoked/expired formula, counted over two different filters.
+    const seatsOf = (only: (c: { agentic?: boolean | null }) => boolean) =>
+      (existing ?? []).filter(only).reduce((sum, c) => {
+        const lapsed = c.expires_at && new Date(c.expires_at).getTime() < now;
+        return sum + (c.revoked_at || lapsed ? c.used_count : c.max_uses);
+      }, 0);
     const want = count * maxUses;
-    if (consumed + want > p.licence_allowance)
-      return {
-        error: `Not enough licences: ${Math.max(p.licence_allowance - consumed, 0)} of ${p.licence_allowance} remaining, this mint needs ${want}.`,
-      };
+
+    if (plan !== null) {
+      const consumed = seatsOf(() => true);
+      if (consumed + want > p.licence_allowance)
+        return {
+          error: `Not enough licences: ${Math.max(p.licence_allowance - consumed, 0)} of ${p.licence_allowance} remaining, this mint needs ${want}.`,
+        };
+    }
+    if (agentic) {
+      const aConsumed = seatsOf((c) => Boolean(c.agentic));
+      if (aConsumed + want > p.agentic_allowance)
+        return {
+          error: `Not enough agent seats: ${Math.max(p.agentic_allowance - aConsumed, 0)} of ${p.agentic_allowance} remaining, this mint needs ${want}.`,
+        };
+    }
   }
 
   const raws = generateCodes(count);
@@ -122,6 +158,8 @@ export async function createAccessCode(_prev: Res, formData: FormData): Promise<
   const base = raws.map((raw) => ({
     code_hash: createHash("sha256").update(raw).digest("hex"),
     plan,
+    agentic,
+    agentic_days: agenticDays,
     grant_days: grantDays,
     max_uses: maxUses,
     expires_at: expiresAt,
@@ -532,6 +570,67 @@ export async function setPartnerAllowance(_prev: Res, formData: FormData): Promi
     warning:
       consumed > allowance
         ? `${consumed} licences are already issued, which is ${consumed - allowance} over. Existing codes stay valid; ${p.name} can't mint again until usage drops below ${allowance}.`
+        : undefined,
+  };
+}
+
+/**
+ * The agentic allowance — deliberately a separate setter, mirroring the separate
+ * counter in 0023.
+ *
+ * Agent seats are bought apart from licence seats because one licence seat must
+ * never be able to carry a €150/month add-on nobody paid for. Two allowances
+ * that must not be confused are safer as two functions than as one with a flag.
+ */
+export async function setPartnerAgenticAllowance(
+  _prev: Res,
+  formData: FormData,
+): Promise<Res> {
+  const g = await gate();
+  if ("error" in g) return { error: g.error };
+
+  const partnerId = String(formData.get("partnerId") || "");
+  if (!partnerId) return { error: "Missing partner." };
+  const allowance = parseInt(String(formData.get("agenticAllowance") || ""), 10);
+  if (!Number.isFinite(allowance) || allowance < 0 || allowance > 100000)
+    return { error: "Agent allowance must be between 0 and 100000." };
+
+  const admin = createAdminClient();
+  const { data: p, error } = await admin
+    .from("partners")
+    .update({ agentic_allowance: allowance, updated_at: new Date().toISOString() })
+    .eq("id", partnerId)
+    .select("name")
+    .single();
+  if (error) return { error: error.message };
+
+  await admin.from("partner_audit").insert({
+    partner_id: partnerId,
+    actor_id: g.uid,
+    action: "partner.agentic_allowance",
+    entity_type: "partner",
+    entity_id: partnerId,
+    detail: { agentic_allowance: allowance },
+  });
+  revalidatePath("/admin");
+
+  // Same revoked/expired formula as the licence count, filtered to agentic codes.
+  const { data: codes } = await admin
+    .from("access_codes")
+    .select("max_uses, used_count, revoked_at, expires_at")
+    .eq("partner_id", partnerId)
+    .eq("agentic", true);
+  const now = Date.now();
+  const consumed = (codes ?? []).reduce((sum, c) => {
+    const lapsed = c.expires_at && new Date(c.expires_at).getTime() < now;
+    return sum + (c.revoked_at || lapsed ? c.used_count : c.max_uses);
+  }, 0);
+
+  return {
+    message: `${p.name}: ${allowance} agent seats.`,
+    warning:
+      consumed > allowance
+        ? `${consumed} agent seats are already issued, which is ${consumed - allowance} over. Existing codes stay valid; ${p.name} can't mint agent codes again until usage drops below ${allowance}.`
         : undefined,
   };
 }

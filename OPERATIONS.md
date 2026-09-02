@@ -20,6 +20,7 @@ idempotent and safe to re-run.
 | `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases` |
 | `0021_draft_review_identity.sql` | tightens `dd_update` so a reviewer can only sign as themselves — **apply this**; without it a member can forge who reviewed a draft |
 | `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** |
+| `0023_agentic_access_codes.sql` | access codes can grant agent access: nullable `plan`, `agentic`/`agentic_days`, `partners.agentic_allowance`, `app.partner_agentic_seats_consumed()`, and rewritten `redeem_access_code` / `partner_mint_codes` / `partner_overview`. **Requires `0004`, `0013`, `0015`** |
 
 ### `0014` / `0020` — applied 2026-08-18
 
@@ -69,7 +70,7 @@ to know they exist.
 ### The partner privacy boundary
 
 `0015` deliberately limits a partner to "which workspace redeemed our code, and
-when — nothing else, ever" (`partner_portfolio()`). `0021` adds a SECOND function,
+when — nothing else, ever" (`partner_portfolio()`). `0022` adds a SECOND function,
 `partner_startup_applications()`, which hands a partner an applicant's headcount,
 funding position, revenue and their account of why CE marking is unaffordable.
 
@@ -78,6 +79,32 @@ database to that partner's own applications, excludes drafts, and the form names
 the partner before the applicant submits. **Do not merge the two functions** —
 they are separate so a reviewer of any future change has to notice which one they
 are touching.
+
+## Agent access via codes (0023)
+
+A code may now grant a licence, agent access, or both. Three things to know
+before handing one out:
+
+- **Agent seats are a SEPARATE partner allowance.** Set it per partner in the
+  admin console ("Set agent seats"), independently of licences. One licence seat
+  must never be able to carry a €150/month add-on nobody paid for, which is why
+  there are two allowances, two counters and two checks rather than a weighting.
+- **An agent-only code leaves the licence untouched** (`plan` is null). That is
+  the trial mechanism: the customer who most wants an agent trial already holds
+  a licence, and before 0023 every code overwrote the plan.
+- **Redeeming never shortens an existing entitlement.** A 30-day code on a
+  workspace whose subscription runs to December leaves December in place, and a
+  workspace with indefinite access stays indefinite. `null` means *no access*
+  when `agentic_enabled` is false and *indefinite* when it is true, so the merge
+  is a CASE rather than a `greatest()` — read the comment in the migration before
+  changing it.
+
+The old 6-argument `partner_mint_codes` is **dropped** rather than left beside
+the new 9-argument one: a caller reaching the old signature would mint with no
+agentic allowance check at all.
+
+Nothing here is sellable until `STRIPE_PRICE_AGENT_MONTHLY` exists — a code can
+grant the add-on, but nobody can buy it.
 
 ## Releasing the desktop bundle
 
