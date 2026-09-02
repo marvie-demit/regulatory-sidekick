@@ -204,9 +204,11 @@ function MintForm({
             the toggle is disabled — rather than hidden — when there is none:
             hiding it makes the feature look absent, disabling it says "not
             bought yet". */}
-        <label className="col-span-2 flex flex-col gap-1 text-xs text-muted sm:col-span-1">
+        {/* Two checkboxes with labels do not fit one of five columns — spans
+            two so nothing overflows the card at the sm breakpoint. */}
+        <label className="col-span-2 flex flex-col gap-1 text-xs text-muted">
           Grants
-          <span className="flex h-[34px] items-center gap-3">
+          <span className="flex h-[34px] items-center gap-3 whitespace-nowrap">
             <span className="flex items-center gap-1.5 text-teal-800">
               <input
                 type="checkbox"
