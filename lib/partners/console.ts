@@ -8,6 +8,10 @@ import { createClient } from "@/lib/supabase/server";
 export type PartnerOverview = {
   allowance: number;
   consumed: number;
+  /** Agent seats are a SEPARATE allowance (0023), never licence seats. */
+  agenticAllowance: number;
+  agenticConsumed: number;
+  agenticRemaining: number;
   remaining: number;
   status: string;
   staffLimit: number;
@@ -17,6 +21,9 @@ export type PartnerOverview = {
 export type PartnerCode = {
   id: string;
   code: string | null;
+  /** null = agent-only code (0023) */
+  plan: string | null;
+  agentic: boolean;
   note: string | null;
   maxUses: number;
   usedCount: number;
@@ -42,6 +49,9 @@ export async function getPartnerOverview(
   return {
     allowance: (o.allowance as number) ?? 0,
     consumed: (o.consumed as number) ?? 0,
+    agenticAllowance: (o.agentic_allowance as number) ?? 0,
+    agenticConsumed: (o.agentic_consumed as number) ?? 0,
+    agenticRemaining: (o.agentic_remaining as number) ?? 0,
     remaining: (o.remaining as number) ?? 0,
     status: (o.status as string) ?? "active",
     staffLimit: (o.staff_limit as number) ?? 10,
@@ -56,7 +66,7 @@ export async function listPartnerCodes(partnerId: string): Promise<PartnerCode[]
   const { data } = await supabase
     .from("access_codes")
     .select(
-      "id, code, note, max_uses, used_count, grant_days, expires_at, revoked_at, batch_id, created_at",
+      "id, code, plan, agentic, note, max_uses, used_count, grant_days, expires_at, revoked_at, batch_id, created_at",
     )
     .eq("partner_id", partnerId)
     .order("created_at", { ascending: false })
@@ -65,6 +75,8 @@ export async function listPartnerCodes(partnerId: string): Promise<PartnerCode[]
   return ((data ?? []) as Record<string, unknown>[]).map((c) => ({
     id: c.id as string,
     code: (c.code as string | null) ?? null,
+    plan: (c.plan as string | null) ?? null,
+    agentic: Boolean(c.agentic),
     note: (c.note as string | null) ?? null,
     maxUses: c.max_uses as number,
     usedCount: c.used_count as number,

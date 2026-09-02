@@ -62,6 +62,18 @@ export async function mintPartnerCodes(
 
   const note = String(formData.get("note") || "").trim().slice(0, 200) || null;
 
+  // A code may grant a licence, agent access, or both (0023). The two
+  // allowances are separate, so an agent-only code costs no licence seats and a
+  // licence-only code costs no agent seats — both checks run inside the RPC's
+  // row lock, not here.
+  const withPlan = String(formData.get("plan") || "on") === "on";
+  const agentic = String(formData.get("agentic") || "") === "on";
+  if (!withPlan && !agentic)
+    return { error: "A code must grant a licence, agent access, or both." };
+
+  const agenticDays = optInt(formData, "agenticDays", 3650);
+  if (agenticDays !== null && typeof agenticDays === "object") return agenticDays;
+
   const raws = generateCodes(count);
   const supabase = await createClient();
   // The allowance check lives inside this RPC, under a row lock on the partner —
@@ -73,15 +85,22 @@ export async function mintPartnerCodes(
     p_grant_days: grantDays,
     p_redeem_days: redeemDays,
     p_note: note,
+    p_plan: withPlan,
+    p_agentic: agentic,
+    p_agentic_days: agenticDays,
   });
   if (error) return { error: error.message };
 
   revalidatePath("/partner");
+  // Name what the seats were actually spent on — "3 codes created (3 licences)"
+  // on an agent-only mint would be wrong twice over.
+  const seats = count * maxUses;
+  const what = [withPlan ? "licences" : null, agentic ? "agent seats" : null]
+    .filter(Boolean)
+    .join(" + ");
   return {
     message:
-      count === 1
-        ? "Code created."
-        : `${count} codes created (${count * maxUses} licences).`,
+      count === 1 ? "Code created." : `${count} codes created (${seats} ${what}).`,
     codes: raws,
   };
 }

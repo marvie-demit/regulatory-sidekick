@@ -23,8 +23,20 @@ import {
 // common follow-up to minting a code (checking it exists, copying the link) was
 // three sections and a scroll away from the form that made it.
 
-const planLabel = (p: string) =>
+const planLabel = (p: string | null) =>
   p === "enterprise" ? "Enterprise" : p === "full" ? "Full" : "Explore";
+
+/**
+ * What a code actually grants. Since 0023 that is a licence, agent access, or
+ * both — and `plan` is null on an agent-only code, so "Explore" would be a
+ * plainly wrong label rather than a harmless default.
+ */
+const grantsLabel = (c: { plan: string | null; agentic: boolean; agenticDays: number | null }) => {
+  const parts: string[] = [];
+  if (c.plan) parts.push(planLabel(c.plan));
+  if (c.agentic) parts.push(`Agent ${c.agenticDays ? `${c.agenticDays}d` : "∞"}`);
+  return parts.join(" + ") || "—";
+};
 
 type Res = {
   error?: string;
@@ -114,7 +126,22 @@ function MintForm({ partners }: { partners: AdminPartner[] }) {
           >
             <option value="full">Full</option>
             <option value="enterprise">Enterprise</option>
+            {/* An agent-only code leaves the licence untouched, which is what
+                makes a trial possible for a customer who already has one. */}
+            <option value="none">None (agent only)</option>
           </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs text-muted">
+          Agent access
+          <span className="flex h-[34px] items-center gap-2">
+            <input type="checkbox" name="agentic" className="accent-coral" />
+            <input
+              name="agenticDays"
+              placeholder="days (blank = ∞)"
+              inputMode="numeric"
+              className={`${input} flex-1`}
+            />
+          </span>
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
           How many codes
@@ -194,8 +221,8 @@ function CodeRow({
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <div className="truncate text-sm text-teal-900">
-            {c.note || "(no note)"} · {planLabel(c.plan)}
-            {c.grantDays ? ` · ${c.grantDays}d` : " · ∞"}
+            {c.note || "(no note)"} · {grantsLabel(c)}
+            {c.plan ? (c.grantDays ? ` · ${c.grantDays}d` : " · ∞") : ""}
             {partnerName ? (
               <span className="text-teal-700"> · via {partnerName}</span>
             ) : null}

@@ -24,8 +24,19 @@ export async function redeemCode(_prev: Res, formData: FormData): Promise<Res> {
   if (error) return { error: error.message };
 
   revalidatePath("/", "layout");
-  const plan = (data as { plan?: string } | null)?.plan ?? "full";
+
+  // A code can now grant a licence, agent access, or both (0023), so the
+  // message has to name what was actually given. `plan` is null on an
+  // agent-only code — defaulting it to "full" would tell a customer they had
+  // been given something they had not.
+  const r = (data ?? {}) as { plan?: string | null; agentic?: boolean };
+  const granted: string[] = [];
+  if (r.plan) granted.push(r.plan === "enterprise" ? "Enterprise access" : "Full access");
+  if (r.agentic) granted.push("Agent access");
+
   return {
-    message: `Success. ${org.name} now has ${plan === "enterprise" ? "Enterprise" : "Full"} access.`,
+    message: granted.length
+      ? `Success. ${org.name} now has ${granted.join(" and ")}.`
+      : `Success. ${org.name} is set up.`,
   };
 }

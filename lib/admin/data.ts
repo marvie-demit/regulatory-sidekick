@@ -5,7 +5,12 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export type AccessCode = {
   id: string;
   code: string | null; // raw code (null for codes minted before 0005)
-  plan: string;
+  /** null = agent-only code, which grants no licence at all (0023) */
+  plan: string | null;
+  /** grants the agent add-on (0023) */
+  agentic: boolean;
+  /** null with agentic = indefinite, mirroring grantDays */
+  agenticDays: number | null;
   grantDays: number | null;
   maxUses: number;
   usedCount: number;
@@ -80,15 +85,19 @@ export async function listAccessCodes(): Promise<AccessCode[]> {
       .limit(200);
 
   let res: { data: unknown[] | null; error: unknown } = await pick(
-    `${WITH_RAW}, partner_id, batch_id, revoked_at`,
+    `${WITH_RAW}, partner_id, batch_id, revoked_at, agentic, agentic_days`,
   );
+  // Step down through narrower selects so the list still renders before 0023.
+  if (res.error) res = await pick(`${WITH_RAW}, partner_id, batch_id, revoked_at`);
   if (res.error) res = await pick(WITH_RAW);
   if (res.error) res = await pick(BASE);
   const rows = (res.data ?? []) as Record<string, unknown>[];
   return rows.map((c) => ({
     id: c.id as string,
     code: (c.code as string | null) ?? null,
-    plan: c.plan as string,
+    plan: (c.plan as string | null) ?? null,
+    agentic: Boolean(c.agentic),
+    agenticDays: (c.agentic_days as number | null) ?? null,
     grantDays: (c.grant_days as number | null) ?? null,
     maxUses: c.max_uses as number,
     usedCount: c.used_count as number,

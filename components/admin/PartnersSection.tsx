@@ -5,6 +5,7 @@ import {
   createPartner,
   deletePartner,
   invitePartnerAdmin,
+  setPartnerAgenticAllowance,
   setPartnerAllowance,
   setPartnerBranding,
   setPartnerStatus,
@@ -53,7 +54,8 @@ function AllowanceBar({ p }: { p: AdminPartner }) {
         />
       </div>
       <div className="mt-1 text-xs text-muted">
-        {p.consumed} of {p.licenceAllowance} licences issued ·{" "}
+        {p.consumed} of {p.licenceAllowance} licences ·{" "}
+        {p.agenticConsumed} of {p.agenticAllowance} agent seats issued ·{" "}
         {over ? (
           <span className="font-medium text-coral">over by {p.overBy}</span>
         ) : (
@@ -135,6 +137,13 @@ function CreatePartnerForm() {
 function PartnerRow({ p }: { p: AdminPartner }) {
   const [allowState, allowAction, allowPending] = useActionState<Res, FormData>(
     setPartnerAllowance,
+    {},
+  );
+  // A separate action for a separate allowance (0023) — agent seats are never
+  // licence seats, and one form setting both would invite exactly that
+  // confusion.
+  const [agentState, agentAction, agentPending] = useActionState<Res, FormData>(
+    setPartnerAgenticAllowance,
     {},
   );
   const [statusState, statusAction, statusPending] = useActionState<Res, FormData>(
@@ -233,6 +242,19 @@ function PartnerRow({ p }: { p: AdminPartner }) {
             />
             <button type="submit" disabled={allowPending} className={smallBtn}>
               {allowPending ? "…" : "Set licences"}
+            </button>
+          </form>
+          <form action={agentAction} className="flex items-center gap-2">
+            <input type="hidden" name="partnerId" value={p.id} />
+            <input
+              name="agenticAllowance"
+              defaultValue={String(p.agenticAllowance)}
+              inputMode="numeric"
+              title="Agent seats this partner may hand out — separate from licences"
+              className={`${input} w-20 py-1.5`}
+            />
+            <button type="submit" disabled={agentPending} className={smallBtn}>
+              {agentPending ? "…" : "Set agent seats"}
             </button>
           </form>
           <form action={statusAction}>
@@ -522,6 +544,13 @@ function PartnerRow({ p }: { p: AdminPartner }) {
       {allowState.error ? <p className={`${errCls} mt-2`}>{allowState.error}</p> : null}
       {allowState.message ? (
         <p className={`${okCls} mt-2`}>{allowState.message}</p>
+      ) : null}
+      {agentState.error ? <p className={`${errCls} mt-2`}>{agentState.error}</p> : null}
+      {agentState.message ? (
+        <p className={`${okCls} mt-2`}>{agentState.message}</p>
+      ) : null}
+      {agentState.warning ? (
+        <p className={`${warnCls} mt-2`}>{agentState.warning}</p>
       ) : null}
       {allowState.warning ? (
         <p className={`${warnCls} mt-2`}>{allowState.warning}</p>
