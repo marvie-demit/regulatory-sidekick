@@ -132,16 +132,20 @@ function MintForm({ partners }: { partners: AdminPartner[] }) {
           </select>
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
-          Agent access
-          <span className="flex h-[34px] items-center gap-2">
+          {/* Checkbox rides in the label row so the days field keeps the same
+              shape as every other input here. Side by side they overflowed the
+              column: a flex child will not shrink below its content width
+              without min-w-0, and the placeholder set that floor. */}
+          <span className="flex items-center gap-1.5">
+            Agent access
             <input type="checkbox" name="agentic" className="accent-coral" />
-            <input
-              name="agenticDays"
-              placeholder="days (blank = ∞)"
-              inputMode="numeric"
-              className={`${input} flex-1`}
-            />
           </span>
+          <input
+            name="agenticDays"
+            placeholder="days · blank = ∞"
+            inputMode="numeric"
+            className={`${input} min-w-0`}
+          />
         </label>
         <label className="flex flex-col gap-1 text-xs text-muted">
           How many codes
