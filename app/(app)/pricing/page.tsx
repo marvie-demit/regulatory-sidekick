@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { CheckoutForm } from "@/components/billing/CheckoutForm";
 import { RedeemField } from "@/components/auth/RedeemField";
-import { hasFullAccess } from "@/lib/auth/access";
+import { hasAgenticAccess, hasFullAccess } from "@/lib/auth/access";
 import { getActiveOrg } from "@/lib/auth/org";
+import { createClient } from "@/lib/supabase/server";
 import { counts } from "@/lib/content/content";
 import type { ContentCounts } from "@/lib/content/content";
 import { getTier, offeredOptions, type Tier } from "@/lib/billing/catalog";
@@ -198,6 +199,29 @@ export default async function PricingPage({
   const { checkout } = await searchParams;
   const org = await getActiveOrg();
   const full = hasFullAccess(org?.plan);
+
+  // Whether the ADD-ON is already held, which is a different question from the
+  // licence. Since 0023 a code can grant agent access on its own, so a customer
+  // who already has full access may still have something to redeem — and
+  // hiding the field on `full` alone left them nowhere to type it.
+  // Scoped query rather than widening getActiveOrg, mirroring agentIdle() on
+  // the dashboard: a missing 0013 degrades to "no agent" rather than throwing.
+  let hasAgent = false;
+  if (org) {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("organizations")
+      .select("agentic_enabled, agentic_expires_at")
+      .eq("id", org.id)
+      .maybeSingle();
+    if (data)
+      hasAgent = hasAgenticAccess({
+        plan: org.plan,
+        agenticEnabled: (data as { agentic_enabled: boolean | null }).agentic_enabled,
+        agenticExpiresAt: (data as { agentic_expires_at: string | null })
+          .agentic_expires_at,
+      });
+  }
   const isAdmin = org?.role === "admin";
 
   const startup = getTier("startup")!;
@@ -287,7 +311,10 @@ export default async function PricingPage({
         />
       </div>
 
-      {!full ? <RedeemField /> : null}
+      {/* Shown while EITHER grant is missing. A code can now carry the licence,
+          the agent add-on, or both, so "already has full access" is no longer
+          the same as "has nothing left to redeem". */}
+      {!full || !hasAgent ? <RedeemField /> : null}
 
       <div className="mt-6 max-w-3xl rounded-xl border border-line bg-cream px-5 py-4 text-sm text-ink">
         <b className="text-teal-900">

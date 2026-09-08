@@ -83,6 +83,7 @@ export function AdminConsole({
       {active === "organizations" ? (
         <OrganizationsTab
           orgs={orgs}
+          codes={codes}
           idleOnly={idleOnly}
           onIdleOnlyChange={setIdleOnly}
         />
