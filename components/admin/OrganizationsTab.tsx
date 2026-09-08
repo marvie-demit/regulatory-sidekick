@@ -8,7 +8,7 @@ import {
   setOrgAgentLimits,
   setOrgPlan,
 } from "@/lib/admin/actions";
-import type { AdminOrg } from "@/lib/admin/data";
+import type { AccessCode, AdminOrg } from "@/lib/admin/data";
 import {
   DEFAULT_AGENT_RATE_LIMIT,
   DEFAULT_AGENT_WRITE_LIMIT,
@@ -60,8 +60,31 @@ type Res = {
 const planLabel = (p: string) =>
   p === "enterprise" ? "Enterprise" : p === "full" ? "Full" : "Explore";
 
+/**
+ * A code issued to this workspace that nobody has redeemed yet.
+ *
+ * The same revoked / lapsed / spent vocabulary the Codes tab uses, so the two
+ * places cannot disagree about what "outstanding" means. Worth surfacing on the
+ * row because that is where you mint one: without it, checking whether a code
+ * you sent was ever used means switching tab and searching for it.
+ */
+function redemptionOf(c: AccessCode): "outstanding" | "redeemed" | "dead" {
+  if (c.revokedAt) return "dead";
+  if (c.expiresAt && new Date(c.expiresAt) < new Date()) return "dead";
+  if (c.usedCount >= c.maxUses) return "redeemed";
+  return c.usedCount > 0 ? "redeemed" : "outstanding";
+}
+
+/** What a code grants, in the Codes tab's words. */
+function grantsOf(c: AccessCode): string {
+  const parts: string[] = [];
+  if (c.plan) parts.push(planLabel(c.plan));
+  if (c.agentic) parts.push(`Agent ${c.agenticDays ? `${c.agenticDays}d` : "∞"}`);
+  return parts.join(" + ") || "—";
+}
+
 /** Which section's form is open. Exactly one, or none. */
-type Section = "licence" | "agent" | "limits" | "members" | null;
+type Section = "licence" | "agent" | "limits" | "code" | "members" | null;
 
 const Chevron = ({ open }: { open: boolean }) => (
   <svg
@@ -146,7 +169,7 @@ function SectionRow({
   );
 }
 
-function OrgRow({ o }: { o: AdminOrg }) {
+function OrgRow({ o, codes }: { o: AdminOrg; codes: AccessCode[] }) {
   const [applyState, applyAction, applyPending] = useActionState<Res, FormData>(
     setOrgPlan,
     {},
@@ -167,6 +190,10 @@ function OrgRow({ o }: { o: AdminOrg }) {
     setOrgAgentAccess,
     {},
   );
+  // The ROW collapses too, not just its sections. Seven orgs times five
+  // section rows is a wall you have to scroll past to reach anyone, so the
+  // list defaults to headers and you open the one you came for.
+  const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState<Section>(null);
   const [menu, setMenu] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -175,6 +202,23 @@ function OrgRow({ o }: { o: AdminOrg }) {
   // used to leave five boxes stacked with no way to clear them, so after a few
   // operations the row was mostly green and none of it was current.
   const [hidden, setHidden] = useState<Record<string, boolean>>({});
+
+  // Codes locked to THIS workspace. Filtered from the list the console already
+  // loaded, so this costs no extra query.
+  const mine = codes.filter((c) => c.targetOrgId === o.id);
+  const outstanding = mine.filter((c) => redemptionOf(c) === "outstanding");
+
+  // What a reader must be able to see WITHOUT opening the row.
+  const attention: string[] = [];
+  if (o.agenticEnabled && !o.agentLastUsedAt) attention.push("Never connected");
+  if (outstanding.length)
+    attention.push(
+      `${outstanding.length} code${outstanding.length === 1 ? "" : "s"} not redeemed`,
+    );
+  if (o.agentKeysPending)
+    attention.push(
+      `${o.agentKeysPending} key${o.agentKeysPending === 1 ? "" : "s"} awaiting approval`,
+    );
 
   const toggle = (s: Section) => setOpen((cur) => (cur === s ? null : s));
   const drop = (k: string) => setHidden((h) => ({ ...h, [k]: true }));
@@ -193,17 +237,41 @@ function OrgRow({ o }: { o: AdminOrg }) {
 
   return (
     <li className="flex flex-col gap-3 border-b border-line py-4 last:border-0">
-      {/* Identity and the two facts worth having when scanning a long list. */}
+      {/* Identity, plus anything that needs attention. Both stay on the
+          COLLAPSED line on purpose: a churn signal you have to expand a row to
+          find is a signal nobody sees. */}
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <div className="truncate font-display text-[17px] font-semibold leading-tight text-teal-900">
-            {o.name}
-          </div>
-          <div className="truncate text-xs text-muted">
-            {o.ownerEmail ?? "no owner"} · {o.members} member
-            {o.members === 1 ? "" : "s"}
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          className="flex min-w-0 flex-1 items-start gap-2 text-left"
+        >
+          <span className="pt-1 text-muted transition">
+            <Chevron open={expanded} />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate font-display text-[17px] font-semibold leading-tight text-teal-900">
+              {o.name}
+            </span>
+            <span className="block truncate text-xs text-muted">
+              {o.ownerEmail ?? "no owner"} · {o.members} member
+              {o.members === 1 ? "" : "s"}
+            </span>
+            {attention.length ? (
+              <span className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                {attention.map((a) => (
+                  <span
+                    key={a}
+                    className="rounded-full bg-cream2 px-2 py-0.5 text-[11px] font-semibold text-[#b4471f]"
+                  >
+                    {a}
+                  </span>
+                ))}
+              </span>
+            ) : null}
+          </span>
+        </button>
         <div className="flex shrink-0 items-center gap-2">
           <Badge tone="plan">{planLabel(o.plan)}</Badge>
           <Badge tone={o.agenticEnabled ? "on" : "off"}>
@@ -243,6 +311,8 @@ function OrgRow({ o }: { o: AdminOrg }) {
         </div>
       </div>
 
+      {expanded ? (
+        <>
       <div className="overflow-hidden rounded-xl border border-line">
         <SectionRow
           label="Licence"
@@ -257,8 +327,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
             </>
           }
         >
-          <div className="flex flex-wrap items-end gap-3">
-            <form action={applyAction} className="flex flex-wrap items-end gap-3">
+          <form action={applyAction} className="flex flex-wrap items-end gap-3">
               <input type="hidden" name="orgId" value={o.id} />
               <label className="flex flex-col gap-1.5">
                 <span className="text-[11px] text-muted">Change plan to</span>
@@ -289,18 +358,7 @@ function OrgRow({ o }: { o: AdminOrg }) {
               >
                 {applyPending ? "…" : "Apply"}
               </button>
-            </form>
-            {/* Minting a full-access code is a way of granting the LICENCE, so
-                it belongs here rather than adrift in a row of mixed actions. */}
-            <form action={codeAction}>
-              <input type="hidden" name="targetOrgId" value={o.id} />
-              <input type="hidden" name="plan" value="full" />
-              <input type="hidden" name="grantDays" value="365" />
-              <button type="submit" disabled={codePending} className={smallBtn}>
-                {codePending ? "…" : "Create code for this org"}
-              </button>
-            </form>
-          </div>
+          </form>
         </SectionRow>
 
         <SectionRow
@@ -431,6 +489,109 @@ function OrgRow({ o }: { o: AdminOrg }) {
           </form>
         </SectionRow>
 
+        {/* Its own row rather than a corner of Licence: since 0023 a code can
+            carry the licence, the agent add-on, or both, so it is no longer a
+            licence concern — and a second plan <select> inside the Licence
+            form would be read as part of Apply. */}
+        <SectionRow
+          label="Code"
+          cta="Mint"
+          open={open === "code"}
+          onToggle={() => toggle("code")}
+          summary={
+            outstanding.length ? (
+              <span>
+                {outstanding.length} code{outstanding.length === 1 ? "" : "s"}{" "}
+                <span className="font-medium text-[#b4471f]">
+                  waiting to be redeemed
+                </span>
+              </span>
+            ) : (
+              <span className="text-muted">
+                Mint a code locked to this workspace
+              </span>
+            )
+          }
+        >
+          <form action={codeAction} className="flex flex-wrap items-end gap-3">
+            {/* Locked to this org, which is the whole point of minting from the
+                customer's own row: an unlocked agent code works for whoever
+                receives it, and the add-on is €150/month. */}
+            <input type="hidden" name="targetOrgId" value={o.id} />
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[11px] text-muted">Grants plan</span>
+              <select name="plan" defaultValue="full" className={`${input} py-1.5`}>
+                <option value="full">Full</option>
+                <option value="enterprise">Enterprise</option>
+                <option value="none">None (agent only)</option>
+              </select>
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[11px] text-muted">Plan days</span>
+              <input
+                name="grantDays"
+                defaultValue="365"
+                inputMode="numeric"
+                title="0 or blank = no expiry"
+                className={`${input} w-20 py-1.5`}
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="flex items-center gap-1.5 text-[11px] text-muted">
+                Agent access
+                <input type="checkbox" name="agentic" className="accent-coral" />
+              </span>
+              <input
+                name="agenticDays"
+                placeholder="days · blank = ∞"
+                inputMode="numeric"
+                className={`${input} w-32 min-w-0 py-1.5`}
+              />
+            </label>
+            <button type="submit" disabled={codePending} className={smallBtn}>
+              {codePending ? "…" : "Create code"}
+            </button>
+            <span className="text-[11px] text-muted">
+              Redeemable for 14 days. Works even if they already have access —
+              that is how you add the agent later.
+            </span>
+          </form>
+
+          {mine.length ? (
+            <ul className="mt-3 flex flex-col gap-1 border-t border-line pt-3">
+              {mine.map((c) => {
+                const st = redemptionOf(c);
+                return (
+                  <li
+                    key={c.id}
+                    className="flex items-center justify-between gap-3 text-xs"
+                  >
+                    <span className="truncate font-mono text-[11px] text-teal-800">
+                      {c.code ?? "(code not stored)"}
+                    </span>
+                    <span className="flex shrink-0 items-center gap-2">
+                      <span className="text-muted">{grantsOf(c)}</span>
+                      {st === "outstanding" ? (
+                        <span className="rounded-full bg-cream2 px-2 py-0.5 font-semibold text-[#b4471f]">
+                          not redeemed
+                        </span>
+                      ) : st === "redeemed" ? (
+                        <span className="rounded-full bg-[#e7f0ec] px-2 py-0.5 font-semibold text-[#1d6e62]">
+                          redeemed
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-chip px-2 py-0.5 text-muted">
+                          {c.revokedAt ? "revoked" : "expired"}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+        </SectionRow>
+
         <SectionRow
           label="Members"
           cta="View"
@@ -495,6 +656,8 @@ function OrgRow({ o }: { o: AdminOrg }) {
           </div>
         ))}
       <CodeResult state={codeState} />
+        </>
+      ) : null}
 
       {confirming ? (
         <form
@@ -540,10 +703,14 @@ function OrgRow({ o }: { o: AdminOrg }) {
 
 export function OrganizationsTab({
   orgs,
+  codes,
   idleOnly,
   onIdleOnlyChange,
 }: {
   orgs: AdminOrg[];
+  /** Already loaded for the Codes tab; reused so the row can show redemption
+   *  state without a second query. */
+  codes: AccessCode[];
   /**
    * "Paying for agent access and has never connected" — the churn list.
    *
@@ -608,7 +775,7 @@ export function OrganizationsTab({
       </p>
       <ul className="flex flex-col">
         {filtered.map((o) => (
-          <OrgRow key={o.id} o={o} />
+          <OrgRow key={o.id} o={o} codes={codes} />
         ))}
       </ul>
       {filtered.length === 0 ? (
