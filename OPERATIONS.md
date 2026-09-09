@@ -35,6 +35,45 @@ the note is kept because the failure mode it describes is the one to re-check
 after any future billing migration: **a webhook that cannot claim its event
 returns 500 forever and the customer pays for nothing.**
 
+## VAT verification arrives after the sale
+
+**Enable `customer.tax_id.updated` on the live webhook destination.** It is not
+on by default, and without it the handler below never runs. Nothing breaks
+visibly; you simply stop hearing about VAT numbers that turned out to be fake.
+
+Stripe zero-rates a reverse-charge sale on the **format** of the VAT number the
+buyer types, then asks VIES whether it exists. That answer comes back minutes or
+days later, long after the money moved. If VIES rejects it, the sale was never
+eligible for reverse charge and the VAT is yours to pay. Prices are
+tax-inclusive, so it comes out of what you received rather than being added to
+it: a rejected number on an EUR 1,800 sale is a real loss, not an invoice you
+can send.
+
+`onTaxIdUpdated` in the webhook writes one of two audit entries against the
+workspace, each listing the sales it covers and what was received:
+
+| Action | Means |
+|---|---|
+| `billing.vat_id_rejected` | VIES said the number does not exist. Assume you owe the VAT on the listed sales |
+| `billing.vat_id_unchecked` | VIES was unreachable. No liability established, but no evidence of a check either. It may resolve on its own |
+
+`pending` and `verified` are deliberately not recorded. Stripe keeps the
+evidence of a successful check on the tax ID itself, and logging the happy path
+would bury the two statuses that need a person.
+
+**The handler never revokes access and never computes the amount owed.** Access
+stays for the same reason a failed instalment does not revoke it. The amount is
+left out because which rate applies once reverse charge fails depends on place
+of supply and on whether OSS is in play, which is the accountant's call and not
+a constant belonging in a webhook. Query the audit log at filing time:
+
+```sql
+select created_at, org_id, detail
+from audit_log
+where action in ('billing.vat_id_rejected', 'billing.vat_id_unchecked')
+order by created_at desc;
+```
+
 ## The Startup Programme
 
 The €1,800 tier was renamed from Practitioner and is no longer self-serve. A
