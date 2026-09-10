@@ -333,8 +333,8 @@ export default async function PricingPage({
       </div>
 
       <p className="mt-4 max-w-3xl text-xs text-muted">
-        Prices exclude VAT; the applicable rate is calculated at checkout and EU
-        businesses can enter a VAT number for reverse charge. 12 months of
+        Prices include VAT. The figure you see is the figure you pay, whether or
+        not you enter a VAT number at checkout for reverse charge. 12 months of
         updates and support are included; then an optional €2,000 / year keeps
         them coming.{" "}
         {anySelfServe

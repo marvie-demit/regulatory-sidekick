@@ -88,6 +88,8 @@ async function handle(admin: Admin, stripe: Stripe, event: Stripe.Event) {
       return onInvoiceFailed(admin, stripe, event.data.object);
     case "customer.subscription.deleted":
       return onSubscriptionEnded(admin, stripe, event.data.object);
+    case "customer.tax_id.updated":
+      return onTaxIdUpdated(admin, event.data.object);
     default:
       // Everything else is deliberately ignored, but stays recorded in
       // stripe_events so the delivery log and our table agree.
@@ -543,4 +545,91 @@ async function onAgentSubscriptionEnded(
     entity_id: purchase.id,
     detail: { subscription_id: sub.id, access: "runs to the paid period end" },
   });
+}
+
+// ---------------------------------------------------------------------------
+// VAT numbers are validated AFTER the sale.
+//
+// Stripe zero-rates a reverse-charge sale on the FORMAT of the number the buyer
+// typed, then asks VIES whether it actually exists. That answer arrives here,
+// minutes or days later, by which time the money has moved. If VIES says no,
+// the sale was never eligible for reverse charge and the VAT is ours to pay.
+// Because prices are tax-inclusive it comes out of the amount received rather
+// than being added to it, so a rejected number is a straight loss on that sale.
+//
+// Nothing here can fix that automatically, and it deliberately does not try: we
+// cannot re-charge a customer for tax they were never quoted, and we must not
+// touch their access over a tax finding. What it does is make the liability
+// visible on the workspace that caused it, naming the sales it covers, so it is
+// settled at filing time rather than discovered in an audit.
+// ---------------------------------------------------------------------------
+
+async function onTaxIdUpdated(admin: Admin, taxId: Stripe.TaxId) {
+  const status = taxId.verification?.status;
+
+  // pending is validation still in flight, and verified is the happy path —
+  // Stripe keeps the evidence of the check on the tax ID itself, so recording
+  // it again here would only bury the two statuses that need a human.
+  if (status !== "unverified" && status !== "unavailable") return;
+
+  const customerId = idOf(taxId.customer);
+  if (!customerId) return; // an account-level tax ID, not a customer's
+
+  // The org may be reachable either way round: organizations carries the
+  // customer id once a purchase completes, but a checkout that never wrote it
+  // back still leaves the trail on the purchase row.
+  const org = await admin
+    .from("organizations")
+    .select("id")
+    .eq("stripe_customer_id", customerId)
+    .maybeSingle();
+
+  const sales = await admin
+    .from("purchases")
+    .select("id, org_id, tier, amount_total, currency, status, created_at")
+    .eq("stripe_customer_id", customerId)
+    .in("status", ["paid", "active", "completed"])
+    .order("created_at", { ascending: false });
+
+  const orgId = org.data?.id ?? sales.data?.[0]?.org_id ?? null;
+  if (!orgId) {
+    // audit_log.org_id is NOT NULL and a retry will not conjure a workspace, so
+    // acknowledge rather than making Stripe redeliver this forever.
+    console.error(
+      `[stripe] tax id ${taxId.id} is ${status} but no workspace holds customer ${customerId}`,
+    );
+    return;
+  }
+
+  const { error } = await admin.from("audit_log").insert({
+    org_id: orgId,
+    actor_id: null,
+    action:
+      status === "unverified"
+        ? "billing.vat_id_rejected"
+        : "billing.vat_id_unchecked",
+    entity_type: "tax_id",
+    entity_id: taxId.id,
+    detail: {
+      customer_id: customerId,
+      vat_number: taxId.value,
+      tax_id_type: taxId.type,
+      country: taxId.country,
+      verification_status: status,
+      verified_name: taxId.verification?.verified_name ?? null,
+      // The sales this covers, with what was received. The VAT owed is
+      // deliberately NOT computed: which rate applies once reverse charge
+      // fails depends on place of supply and on whether OSS is in play, and
+      // that is the accountant's call rather than a constant in a webhook.
+      affected_sales: (sales.data ?? []).map((row) => ({
+        purchase_id: row.id,
+        tier: row.tier,
+        amount_total: row.amount_total,
+        currency: row.currency,
+        paid_at: row.created_at,
+      })),
+      access: "retained",
+    },
+  });
+  if (error) throw new Error(`vat verification audit failed: ${error.message}`);
 }
