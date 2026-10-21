@@ -41,6 +41,15 @@ export default async function Home() {
         >
           Open the platform
         </a>
+        {/* Rung 1 of the ladder (BUSINESS-MODEL.md §3) and the only thing here a
+            cold visitor can finish without an account, so it sits above "Sign
+            in" rather than in the footer. */}
+        <Link
+          href="/readiness"
+          className="rounded-full border border-teal-200 bg-teal-50 px-6 py-3 text-sm font-semibold text-teal-800 transition hover:border-coral"
+        >
+          Free readiness check
+        </Link>
         <a
           href="/login"
           className="rounded-full border border-line bg-card px-6 py-3 text-sm font-medium text-teal-800 transition hover:bg-white"

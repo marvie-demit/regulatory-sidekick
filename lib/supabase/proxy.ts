@@ -18,6 +18,10 @@ const PUBLIC_PREFIXES = [
   // login is not an Impressum.
   "/impressum",
   "/privacy",
+  // The free readiness self-assessment (rung 1) and the permanent result pages
+  // it mints. A lead magnet behind a login is not a lead magnet, and the shared
+  // result is meant to be opened by an investor who has no account at all.
+  "/readiness",
   // Machine API: authenticated by bearer token inside the route (withAgentAuth),
   // not by a session cookie. Exempt here so an agent gets a JSON 401 instead of
   // an HTML redirect to /login. (/api/docs/* stays session-gated.)
