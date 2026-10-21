@@ -122,6 +122,46 @@ const DE = (
       den Zahlungsstatus.
     </p>
 
+    <h3>Kostenlose Reifegrad-Selbsteinschätzung</h3>
+    <p>
+      Die Selbsteinschätzung unter <code>/readiness</code> steht ohne Konto zur
+      Verfügung. Um das Ergebnis anzuzeigen und den dauerhaften Ergebnislink
+      bereitzustellen, verarbeiten wir Ihre E-Mail-Adresse, auf Wunsch
+      Unternehmensname und Ihre Rolle, Ihre Antworten im Fragebogen (Regulierung,
+      Risikoklasse, Produktmerkmale, Projektfortschritt, Stand der Benannten
+      Stelle, Zeitdruck) sowie den daraus berechneten Punktwert. Rechtsgrundlage
+      ist Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO (vorvertragliche Maßnahme auf
+      Ihre Anfrage hin): ohne diese Angaben kann das angeforderte Ergebnis nicht
+      erstellt und nicht erneut aufgerufen werden.
+    </p>
+    <p>
+      Das Ergebnis ist unter einer nicht erratbaren Adresse abrufbar, damit Sie
+      es weitergeben können. Wer den Link kennt, sieht den Punktwert, die
+      Auswertung und den von Ihnen angegebenen Unternehmensnamen —{" "}
+      <strong>nicht Ihre E-Mail-Adresse</strong> und nicht, ob Sie dem
+      E-Mail-Versand zugestimmt haben. Geben Sie den Link nur weiter, soweit Sie
+      das wünschen.
+    </p>
+    <p>
+      Haben Sie im Formular zusätzlich dem Versand des vierteljährlichen
+      Regulierungs-Changelogs zugestimmt, verarbeiten wir Ihre E-Mail-Adresse zu
+      diesem Zweck auf Grundlage Ihrer Einwilligung (Art.&nbsp;6 Abs.&nbsp;1
+      lit.&nbsp;a DSGVO). Die Einwilligung ist freiwillig, für das Ergebnis nicht
+      erforderlich und jederzeit widerrufbar; der Wortlaut, dem Sie zugestimmt
+      haben, wird zum Nachweis mitgespeichert. Sie wird erst wirksam, wenn Sie
+      einen an die angegebene Adresse versandten Bestätigungslink aufrufen — so
+      kann niemand mit einer fremden Adresse angemeldet werden. Ohne diese
+      Zustimmung erhalten Sie von uns keine weiteren E-Mails.
+    </p>
+    <p>
+      <strong>Missbrauchsschutz:</strong> Beim Absenden des
+      Readiness-Fragebogens speichern wir einen mit einem geheimen Schlüssel
+      gebildeten Hash Ihrer IP-Adresse für wenige Stunden, um
+      Massenübermittlungen zu unterbinden. Die IP-Adresse selbst wird nicht
+      gespeichert. Rechtsgrundlage ist Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO
+      (Sicherheit der Verarbeitung).
+    </p>
+
     <h3>Bewerbung zum Startup-Programm</h3>
     <p>
       Bewirbt sich ein Arbeitsbereich um den vergünstigten Preis des
@@ -180,6 +220,13 @@ const DE = (
       <li>
         <strong>Transaktionale E-Mails</strong> (Bestätigung, Passwortzurück&shy;setzung,
         Einladungen): Art. 6 Abs. 1 lit. b DSGVO.
+      </li>
+      <li>
+        <strong>Reifegrad-Selbsteinschätzung</strong>: Erstellung und
+        Bereitstellung des angeforderten Ergebnisses: Art. 6 Abs. 1 lit. b
+        DSGVO. Versand des Regulierungs-Changelogs ausschließlich bei
+        ausdrücklicher und per E-Mail bestätigter Zustimmung: Art. 6 Abs. 1 lit.
+        a DSGVO.
       </li>
     </ul>
 
@@ -331,6 +378,16 @@ const DE = (
         die Dauer des Vertragsverhältnisses, danach Löschung gemeinsam mit dem
         Arbeitsbereich.
       </li>
+      <li>
+        <strong>Reifegrad-Selbsteinschätzungen</strong>: E-Mail-Adresse,
+        Antworten und Ergebnis werden 24&nbsp;Monate ab Erstellung gespeichert,
+        danach gelöscht; der Ergebnislink ist ab der Löschung nicht mehr
+        abrufbar. Wird daraus ein Vertragsverhältnis, gilt die Frist für
+        Vertragsdaten. Eine Einwilligung zum Changelog-Versand gilt bis zum
+        Widerruf; nach einem Widerruf bleibt allein deren Nachweis erhalten.
+        Hashes aus dem Missbrauchsschutz werden nach wenigen Stunden automatisch
+        gelöscht.
+      </li>
     </ul>
 
     <h2>7. Ihre Rechte</h2>
@@ -468,6 +525,40 @@ const EN = (
       identifiers, the scope purchased and the payment status.
     </p>
 
+    <h3>Free readiness self-assessment</h3>
+    <p>
+      The self-assessment at <code>/readiness</code> is available without an
+      account. To show you the result and to keep the permanent result link
+      working, we process your email address, optionally your company name and
+      role, your answers to the questionnaire (regulation, risk class, device
+      characteristics, project progress, notified-body status, timeline pressure)
+      and the score computed from them. The legal basis is Art.&nbsp;6(1)(b)
+      GDPR, a pre-contractual measure taken at your request: without this we
+      cannot produce the result you asked for or let you open it again.
+    </p>
+    <p>
+      The result is reachable at an unguessable address so that you can forward
+      it. Anyone holding the link sees the score, the breakdown and the company
+      name you entered — <strong>not your email address</strong>, and not whether
+      you agreed to be emailed. Share the link only as far as you intend to.
+    </p>
+    <p>
+      If you also ticked the box for the quarterly regulatory changelog, we
+      process your email address for that purpose on the basis of your consent
+      (Art.&nbsp;6(1)(a) GDPR). It is optional, it is not needed for the result,
+      and you may withdraw it at any time; the wording you agreed to is stored
+      alongside it as evidence. It takes effect only once you open a confirmation
+      link sent to the address you gave, so nobody can be subscribed using
+      someone else&apos;s address. Without that consent we send you no further
+      email.
+    </p>
+    <p>
+      <strong>Abuse prevention:</strong> when the readiness questionnaire is
+      submitted we store a keyed hash of your IP address for a few hours in
+      order to prevent bulk submissions. The address itself is not stored. The
+      legal basis is Art.&nbsp;6(1)(f) GDPR (security of processing).
+    </p>
+
     <h3>Startup Programme application</h3>
     <p>
       Where a workspace applies for the discounted Startup Programme price, we
@@ -522,6 +613,12 @@ const EN = (
       <li>
         <strong>Transactional email</strong> (confirmation, password reset,
         invitations): Art. 6(1)(b) GDPR.
+      </li>
+      <li>
+        <strong>Readiness self-assessment</strong>: producing and serving the
+        result you asked for: Art. 6(1)(b) GDPR. Sending the regulatory
+        changelog, only where expressly agreed and confirmed by email: Art.
+        6(1)(a) GDPR.
       </li>
     </ul>
 
@@ -671,6 +768,15 @@ const EN = (
         duration of the contractual relationship, then deleted together with the
         workspace.
       </li>
+      <li>
+        <strong>Readiness self-assessments</strong>: the email address, the
+        answers and the result are kept for 24&nbsp;months from completion and
+        then deleted; the result link stops working at that point. Where a
+        contractual relationship follows, the retention period for contract data
+        applies instead. A consent to the changelog lasts until withdrawn; after
+        a withdrawal only the record of the consent is kept. Abuse-prevention
+        hashes are deleted automatically after a few hours.
+      </li>
     </ul>
 
     <h2>7. Your rights</h2>
@@ -702,7 +808,7 @@ export default function PrivacyPage() {
     <LegalDoc
       titleDe="Datenschutzerklärung"
       titleEn="Privacy policy"
-      updated="19.08.2026"
+      updated="21.10.2026"
       de={DE}
       en={EN}
     />
