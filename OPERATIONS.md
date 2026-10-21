@@ -12,15 +12,16 @@ idempotent and safe to re-run.
 | # | What it adds |
 |---|---|
 | `0014_billing.sql` | `purchases`, `stripe_events`, `organizations.stripe_customer_id` — applied 2026-08-18 |
-| `0015_partners.sql` | partners, partner_members, partner_invitations, partner_audit; `access_codes.partner_id/batch_id/revoked_at`; allowance + mint/revoke/portfolio RPCs |
-| `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` |
-| `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket |
-| `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` |
-| `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` |
-| `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases` |
-| `0021_draft_review_identity.sql` | tightens `dd_update` so a reviewer can only sign as themselves — **apply this**; without it a member can forge who reviewed a draft |
-| `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** |
-| `0023_agentic_access_codes.sql` | access codes can grant agent access: nullable `plan`, `agentic`/`agentic_days`, `partners.agentic_allowance`, `app.partner_agentic_seats_consumed()`, and rewritten `redeem_access_code` / `partner_mint_codes` / `partner_overview`. **Requires `0004`, `0013`, `0015`** |
+| `0015_partners.sql` | partners, partner_members, partner_invitations, partner_audit; `access_codes.partner_id/batch_id/revoked_at`; allowance + mint/revoke/portfolio RPCs — applied, verified 2026-10-21 |
+| `0016_partner_staff.sql` | `remove_partner_member`, `set_partner_member_role`; corrected `partner_revoke_code` — applied, verified 2026-10-21 |
+| `0017_partner_branding.sql` | `partner_brand_by_slug`, public `brand` storage bucket — applied, verified 2026-10-21 |
+| `0018_agent_document_scope.sql` | widens `agent_tokens_scopes_chk` to allow `read:documents` — applied, verified 2026-10-21 |
+| `0019_document_drafts.sql` | `document_drafts` (metadata only, no content column); widens the scope CHECK again for `write:drafts` — applied, verified 2026-10-21 |
+| `0020_agent_subscription.sql` | `purchases.kind`, nullable `plan`, `agent` tier, `monthly` cadence, `organizations.agentic_subscription_id`. **Requires `0014` first** — it alters `purchases`. Applied 2026-08-18, re-verified 2026-10-21 |
+| `0021_draft_review_identity.sql` | tightens `dd_update` so a reviewer can only sign as themselves — applied, verified 2026-10-21 |
+| `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** — applied, verified 2026-10-21 |
+| `0023_agentic_access_codes.sql` | access codes can grant agent access: nullable `plan`, `agentic`/`agentic_days`, `partners.agentic_allowance`, `app.partner_agentic_seats_consumed()`, and rewritten `redeem_access_code` / `partner_mint_codes` / `partner_overview`. **Requires `0004`, `0013`, `0015`** — applied, verified 2026-10-21 |
+| `0024_readiness_leads.sql` | `readiness_leads` (the free readiness assessment's lead capture) with RLS **on and no policies**, plus `readiness_result_by_token()` for the public result page. **Requires `0015`** for the `partner_id` reference. ⚠️ **NOT YET APPLIED** — see below |
 
 ### `0014` / `0020` — applied 2026-08-18
 
@@ -34,6 +35,88 @@ customer completing checkout would be charged and get nothing. That is resolved;
 the note is kept because the failure mode it describes is the one to re-check
 after any future billing migration: **a webhook that cannot claim its event
 returns 500 forever and the customer pays for nothing.**
+
+### `0015`–`0023` — verified 2026-10-21
+
+All live. Checked against the live PostgREST schema: every table, column and
+RPC these migrations add is present, including the 9-argument
+`partner_mint_codes` and a nullable `access_codes.plan` from `0023`.
+
+The schema does not expose CHECK constraints, policies or storage buckets, so
+the rest is inferred: every file runs between `begin;` and `commit;`, and if its
+visible objects exist the whole file ran. That covers the `brand` bucket
+(`0017`) and the `startup` tier (`0022`). `0018` adds nothing visible; it is
+covered because `0019` rewrites the same constraint to a superset.
+
+`0021` replaces one RLS policy and nothing else, so it was checked directly in
+the SQL editor. Re-check it after any restore — without it a member can sign a
+draft review in a colleague's name:
+
+```sql
+select with_check from pg_policies
+where schemaname = 'public' and tablename = 'document_drafts'
+  and policyname = 'dd_update';  -- must mention auth.uid()
+```
+
+### `0024` — NOT YET APPLIED
+
+Written, not run. **Apply it in the SQL editor before the deploy that ships
+`/readiness`**, per the convention at the top of this section. Until it is
+applied the assessment still works and still scores — `saveLead()` returns
+`stored: false` and the respondent sees their result — but nothing is captured
+and the permanent `/readiness/r/<token>` link 404s. That is the whole point of
+the rung, so this is not a migration to leave pending.
+
+Two things to know before applying it, both deliberate:
+
+**The table has RLS enabled and no policies at all.** Not an oversight. It means
+`anon` and `authenticated` can do nothing with `readiness_leads`, and the only
+reader is the service role — which is what "platform admin" means here
+(`lib/auth/platform.ts`: an env allowlist, never a database role). A lead list is
+other people's email addresses next to their own account of how unready they are;
+no customer workspace has any business reading it. If a future migration adds a
+policy to this table, that is the thing to question.
+
+**The public result page does not hold the service role.** It calls
+`readiness_result_by_token()`, a security-definer function that takes an
+unguessable token and returns the score, the name on it and nothing else — no
+email, no consent flag, no answers. So the blast radius of a guessed or leaked
+token is one company's readiness score rather than the lead list.
+
+Verify after applying:
+
+```sql
+-- the table exists, RLS is on, and there are no policies on it
+select relrowsecurity from pg_class where oid = 'public.readiness_leads'::regclass;
+select count(*) from pg_policies
+where schemaname = 'public' and tablename = 'readiness_leads';  -- must be 0
+
+-- the public read works and leaks nothing: this must error on l.email
+select email from public.readiness_result_by_token('x');
+```
+
+There is no admin UI for the leads yet (see below). Read them in the SQL editor:
+
+```sql
+select created_at, email, org_name, overall, band, route, risk_class
+from public.readiness_leads order by created_at desc limit 50;
+```
+
+## The readiness assessment has no admin view yet
+
+`/readiness` captures leads into `readiness_leads` and there is **no page in the
+admin console that lists them**. Deliberate, not forgotten: the table ships
+unapplied, so a tab would have had nothing to query, and the console's own tabs
+are a separate piece of work. Until it exists the lead list lives in the SQL
+editor (query above), and `marketing_consent` is the column to filter on before
+sending anyone the quarterly changelog — the flag defaults to false and the
+wording the respondent agreed to is stored next to it in `consent_text`.
+
+There is also **no email delivery**. The gate says "show my result", never "we'll
+email it", because this app has no transactional email provider — only Supabase's
+own auth mail. The permanent link is what the respondent keeps. If a provider is
+ever wired up, the copy on the gate is what has to change first; promising an
+email that never arrives would be worse than not offering one.
 
 ## VAT verification arrives after the sale
 
@@ -93,9 +176,13 @@ is a gate in front of checkout, not a second way to grant.
 | `STRIPE_PRICE_PRACTITIONER_3X` | `STRIPE_PRICE_STARTUP_3X` |
 | `STRIPE_PRICE_PRACTITIONER_6X` | `STRIPE_PRICE_STARTUP_6X` |
 
-**Rename these in Vercel before deploying**, or the tier silently becomes
-unbuyable: `offeredOptions()` sees no price and the card falls back to the
-apply/contact route with no error anywhere.
+**Done in Vercel.** `STRIPE_PRICE_STARTUP` is set for Production and Preview
+(updated 2026-08-26) and no `PRACTITIONER` name remains. The `_3X`/`_6X`
+variants were not checked; an unset one is simply not offered.
+
+Keep the failure mode in mind for any future rename: a missing variable makes
+the tier silently unbuyable. `offeredOptions()` sees no price and the card
+falls back to the apply/contact route with no error anywhere.
 
 ### The solo-practitioner discount
 
@@ -142,8 +229,10 @@ The old 6-argument `partner_mint_codes` is **dropped** rather than left beside
 the new 9-argument one: a caller reaching the old signature would mint with no
 agentic allowance check at all.
 
-Nothing here is sellable until `STRIPE_PRICE_AGENT_MONTHLY` exists — a code can
-grant the add-on, but nobody can buy it.
+`STRIPE_PRICE_AGENT_MONTHLY` is set in Vercel for Production since 2026-09-08,
+so the add-on can be bought as well as granted by a code. It is not set for
+Preview, so preview deployments do not offer it. The variable is confirmed; the
+price behind it has not been checked against Stripe.
 
 ## Releasing the desktop bundle
 
