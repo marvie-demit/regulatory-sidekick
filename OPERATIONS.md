@@ -167,6 +167,53 @@ select consent_state from public.readiness_leads limit 1;  -- column exists
 select public.readiness_confirm_consent('x');              -- false, not an error
 ```
 
+## The readiness privacy promises are kept by hand
+
+`app/privacy/page.tsx` now states three things about `/readiness` that **no code
+enforces**. Published text is a commitment, so each one is a job for a person
+until it is automated. This section exists so that the gap is visible rather
+than discovered by a data subject.
+
+**1. The 24-month deletion.** The policy says an assessment is deleted 24 months
+after completion and the result link stops working. Nothing deletes anything.
+Run this quarterly — put it in the calendar, not in your memory:
+
+```sql
+delete from public.readiness_leads
+where created_at < now() - interval '24 months';
+```
+
+**2. Withdrawing the changelog consent.** The policy says consent can be
+withdrawn at any time and that only the record of it is kept afterwards. There
+is no unsubscribe link, because there is no mail delivery yet (see below). Until
+there is, a withdrawal arrives by email and is actioned by hand. `withdrawn` is
+a value the `0025` CHECK already allows, and `consent_text` is deliberately left
+in place as the evidence the policy says is retained:
+
+```sql
+update public.readiness_leads
+   set marketing_consent = false,
+       consent_state = 'withdrawn',
+       consent_token = null
+ where lower(email) = lower('<address>');
+```
+
+**Nothing may be sent to that list before an unsubscribe link exists.** The
+moment a mailer is wired up, a working withdrawal route is a precondition of the
+first send, not a follow-up — the policy already promises one.
+
+**3. Erasure requests (Art. 17).** There is no self-service path. A request
+against a readiness lead is one statement in the SQL editor, and the volumes
+rung 1 will see make that proportionate for now:
+
+```sql
+delete from public.readiness_leads where lower(email) = lower('<address>');
+```
+
+Note what this does to a result the person may have forwarded: the row carries
+the `token`, so deleting it makes `/readiness/r/<token>` 404 for everyone who
+holds the link. That is the correct outcome and worth saying plainly if they ask.
+
 ## The readiness assessment has no admin view yet
 
 `/readiness` captures leads into `readiness_leads` and there is **no page in the

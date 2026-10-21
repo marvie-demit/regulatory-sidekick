@@ -1,8 +1,23 @@
 # The privacy policy needs a paragraph before `/readiness` goes live
 
-**Finding: yes, it needs one.** This file is a draft for you to accept, change or
-reject. `app/privacy/page.tsx` is a real published policy under two legal
-regimes, so nothing here has been applied to it.
+**Finding: yes, it needed one.** This file was a draft for you to accept, change
+or reject, because `app/privacy/page.tsx` is a real published policy under two
+legal regimes.
+
+> **APPLIED 2026-10-21, both language bodies**, on your instruction: the §2
+> section (including the abuse-prevention paragraph from the addendum), the §3
+> legal-basis bullet, and the §6 retention item with its 24-month period. The
+> published wording adds one clause this draft did not have — that the consent
+> takes effect only once a confirmation link is opened — because `0025` made
+> that true and a policy should describe the mechanism that exists.
+>
+> The three things the text *implies but no code enforces* (the 24-month
+> deletion, a withdrawal route, erasure requests) are now written up as manual
+> procedures with their SQL in `OPERATIONS.md`, under "The readiness privacy
+> promises are kept by hand". The bullets at the end of this file are what that
+> section was built from; they are kept here as the reasoning.
+>
+> Read the German first if you revise it. It is the binding version.
 
 ## Why the existing text does not cover it
 
