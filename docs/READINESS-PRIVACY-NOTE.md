@@ -185,3 +185,71 @@ soften the wording before this goes live:
   public.readiness_leads where lower(email) = …` in the SQL editor, which is fine
   for the volumes rung 1 will see at first, and worth writing into the runbook
   rather than remembering.
+
+---
+
+## Addendum — what migration 0025 changes in the above
+
+`0025` closed the two gaps `0024` shipped with (rate limiting and an unverified
+address). Both touch this draft, so read these before accepting the text above.
+
+### The consent paragraph gets easier to defend, not harder
+
+The §3 item above asks you to publish Art. 6(1)(a) as a legal basis for the
+changelog. That claim is now true in a way it was not before: `marketing_consent`
+can only be set by `readiness_confirm_consent()`, reached by opening a link sent
+to the address itself, so a consent record in the table is evidence that someone
+holding that mailbox acted. Before `0025` it was evidence that somebody typed an
+address into a public form, which is not the same thing and is exactly what Art.
+7(1) asks you to be able to demonstrate.
+
+Two consequences for the wording:
+
+- **A sentence saying the subscription takes effect only after confirmation is
+  worth adding**, because it is now a factual description of the mechanism and it
+  is the kind of detail a supervisory authority reads as diligence.
+- **The "until withdrawn" retention line still needs an unsubscribe**, and the
+  bullet above about that is unchanged. `consent_state` has a `withdrawn` value
+  reserved for it; nothing writes it yet.
+
+### A new processing to disclose: the rate-limit bucket
+
+`readiness_attempts` stores **sha256(server-side salt + ip address)** with a
+retention of four one-hour windows, pruned by the function on each write. The
+raw address is never stored and never leaves the request.
+
+Whether this needs its own line in §2 is a judgement call, and the honest answer
+is that it probably does. A salted hash of an IP is still personal data in the
+GDPR sense — pseudonymised, not anonymised, because the salt exists. It is a
+different processing from everything else in §2 (security of processing, Art.
+6(1)(f), not contract performance), and the balancing test is easy to pass: the
+purpose is preventing abuse of a public form, the data is a hash, the retention
+is hours, and the alternative was an open write endpoint. Suggested wording for
+both language bodies, to sit after the readiness item:
+
+> **Missbrauchsschutz:** Beim Absenden des Readiness-Fragebogens speichern wir
+> einen mit einem geheimen Schlüssel gebildeten Hash Ihrer IP-Adresse für
+> wenige Stunden, um Massenübermittlungen zu unterbinden. Die IP-Adresse selbst
+> wird nicht gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO
+> (Sicherheit der Verarbeitung).
+
+> **Abuse prevention:** When the readiness questionnaire is submitted we store a
+> keyed hash of your IP address for a few hours in order to prevent bulk
+> submissions. The address itself is not stored. The legal basis is Art. 6(1)(f)
+> GDPR (security of processing).
+
+If you would rather not add a line to the policy at all, the alternative is to
+drop the rate limiter and accept that the lead list can be filled with
+fabricated rows. That is a worse trade: the list is the asset BUSINESS-MODEL.md
+§6.7 sells to a fund, and a policy sentence about a short-lived hash is cheaper
+than a list nobody can trust.
+
+### The §6 retention item needs one more clause
+
+The 24-month line above covers the lead. Add the bucket, which is on a different
+clock and genuinely automatic — unlike the 24 months, which still is not:
+
+> Hashes aus dem Missbrauchsschutz werden nach wenigen Stunden automatisch
+> gelöscht.
+
+> Abuse-prevention hashes are deleted automatically after a few hours.

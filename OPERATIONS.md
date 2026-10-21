@@ -22,6 +22,7 @@ idempotent and safe to re-run.
 | `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** — applied, verified 2026-10-21 |
 | `0023_agentic_access_codes.sql` | access codes can grant agent access: nullable `plan`, `agentic`/`agentic_days`, `partners.agentic_allowance`, `app.partner_agentic_seats_consumed()`, and rewritten `redeem_access_code` / `partner_mint_codes` / `partner_overview`. **Requires `0004`, `0013`, `0015`** — applied, verified 2026-10-21 |
 | `0024_readiness_leads.sql` | `readiness_leads` (the free readiness assessment's lead capture) with RLS **on and no policies**, plus `readiness_result_by_token()` for the public result page. **Requires `0015`** for the `partner_id` reference. ⚠️ **NOT YET APPLIED** — see below |
+| `0025_readiness_abuse_and_consent.sql` | `readiness_attempts` (hashed-ip rate-limit bucket, RLS on and no policies) + `readiness_rate_take()`; and double opt-in on `readiness_leads` — `consent_state`/`consent_token`/`consent_requested_at`/`consent_confirmed_at` plus `readiness_confirm_consent()`, which is now the only thing that can set `marketing_consent` true. **Requires `0024`**. ⚠️ **NOT YET APPLIED** — see below |
 
 ### `0014` / `0020` — applied 2026-08-18
 
@@ -102,6 +103,70 @@ select created_at, email, org_name, overall, band, route, risk_class
 from public.readiness_leads order by created_at desc limit 50;
 ```
 
+### `0025` — NOT YET APPLIED
+
+Written, not run. **Apply it after `0024` and before the deploy that ships
+`/readiness`.** It closes the two things `0024` left open on a public,
+unauthenticated route whose server action holds the service role.
+
+**Nothing limited the write.** The only brake was a 120-second dedupe on the
+same address, so a script varying the local part could fill the table. `0025`
+adds `readiness_attempts` and `readiness_rate_take()`: ten submissions an hour
+per client address, counted and recorded in one function so two simultaneous
+requests cannot both squeeze past the check.
+
+The bucket stores **sha256(salt + ip)**, never an address. The salt is
+`READINESS_IP_SALT` if set, otherwise `SUPABASE_SERVICE_ROLE_KEY` — so the
+limiter starts working the moment this migration is applied instead of waiting
+for a second variable nobody remembers. Set the dedicated one if you would
+rather not reuse the key; rotating it just empties every bucket. Rows older than
+four windows are pruned by the function itself, so there is no cron to forget.
+
+**The limiter fails OPEN in every degraded case** — no address header, no salt,
+no service role, migration unapplied, database unreachable. That is deliberate
+(`lib/readiness/ratelimit.ts`): it protects the quality of a lead list, not
+access to anything, so a fault in it must never stop a founder who answered
+twenty questions from seeing their score. If you want to know whether it is
+actually running, check that rows are arriving:
+
+```sql
+select count(*), max(created_at) from public.readiness_attempts;
+```
+
+**The address was never verified.** `marketing_consent` used to be set straight
+from a tick box on a form anyone can submit with anyone's address, which is not
+something Art. 7(1) GDPR lets you demonstrate as consent. Now the form can only
+*ask*: the row is written `consent_state = 'pending'` with a `consent_token`,
+and **only `readiness_confirm_consent()` can set `marketing_consent` true**,
+reached by opening `/readiness/confirm/<token>`. The migration also demotes any
+pre-existing `marketing_consent = true` row to `pending`, which in practice
+updates nothing because `0024` has never been applied.
+
+**The confirmation email is the one piece still missing.** There is no
+transactional mailer in this project, so nothing sends that link today and the
+confirmed list stays empty — which is the correct state for a list that cannot
+yet prove its addresses. Wiring a provider is what makes the changelog sendable;
+until then `/readiness/confirm/<token>` works if you paste a token into it by
+hand, which is also how to test it.
+
+Verify after applying:
+
+```sql
+-- the bucket exists, RLS on, no policies
+select relrowsecurity from pg_class where oid = 'public.readiness_attempts'::regclass;
+select count(*) from pg_policies
+where schemaname = 'public' and tablename = 'readiness_attempts';  -- must be 0
+
+-- the limiter answers, and twice in a row with max 1 must give true then false
+select public.readiness_rate_take(repeat('a', 64), 1, 3600);
+select public.readiness_rate_take(repeat('a', 64), 1, 3600);
+delete from public.readiness_attempts where ip_hash = repeat('a', 64);
+
+-- consent columns and the CHECK are in place
+select consent_state from public.readiness_leads limit 1;  -- column exists
+select public.readiness_confirm_consent('x');              -- false, not an error
+```
+
 ## The readiness assessment has no admin view yet
 
 `/readiness` captures leads into `readiness_leads` and there is **no page in the
@@ -109,14 +174,30 @@ admin console that lists them**. Deliberate, not forgotten: the table ships
 unapplied, so a tab would have had nothing to query, and the console's own tabs
 are a separate piece of work. Until it exists the lead list lives in the SQL
 editor (query above), and `marketing_consent` is the column to filter on before
-sending anyone the quarterly changelog — the flag defaults to false and the
-wording the respondent agreed to is stored next to it in `consent_text`.
+sending anyone the quarterly changelog. Since `0025` that flag means **confirmed
+by the address owner** and nothing else can set it, so it is safe to treat as the
+mailing list:
+
+```sql
+select email, org_name, consent_confirmed_at from public.readiness_leads
+where marketing_consent is true order by consent_confirmed_at desc;
+```
+
+`consent_state = 'pending'` is the queue of people who asked and have not
+confirmed. Do not send to that queue; it is what the confirmation email is for.
 
 There is also **no email delivery**. The gate says "show my result", never "we'll
 email it", because this app has no transactional email provider — only Supabase's
 own auth mail. The permanent link is what the respondent keeps. If a provider is
 ever wired up, the copy on the gate is what has to change first; promising an
 email that never arrives would be worse than not offering one.
+
+The missing mailer is now also what keeps the changelog list empty: `0025` makes
+confirmation the only route to `marketing_consent = true`, and nothing sends the
+confirmation link. That is the right failure direction — an empty list rather
+than one you cannot defend — but it does mean **wiring a provider is a
+prerequisite for the §4 renewal product**, not a nicety, since the quarterly
+changelog is what the renewal is sold on.
 
 ## VAT verification arrives after the sale
 

@@ -6,6 +6,7 @@ import {
   parseAnswers,
   type ReadinessResult,
 } from "./assessment";
+import { takeReadinessSlot } from "./ratelimit";
 import { score } from "./score";
 import { saveLead } from "./store";
 
@@ -16,6 +17,10 @@ export type ReadinessRes = {
   token?: string;
   /** False when the lead could not be stored — the score is still returned. */
   stored?: boolean;
+  /** True when the rate limiter is why nothing was stored. Different copy. */
+  limited?: boolean;
+  /** The changelog was asked for and is awaiting confirmation by email. */
+  consentPending?: boolean;
 };
 
 /**
@@ -30,7 +35,9 @@ export type ReadinessRes = {
  *
  * It returns the result even when the insert fails. The respondent answered
  * twenty questions; withholding their score because our lead capture broke
- * punishes them for our outage.
+ * punishes them for our outage. The same holds when the rate limiter refuses
+ * the write — see lib/readiness/ratelimit.ts for why that only costs them the
+ * permanent link.
  */
 export async function submitAssessment(
   _prev: ReadinessRes,
@@ -51,14 +58,27 @@ export async function submitAssessment(
   const answers = parseAnswers(raw);
   const result = score(answers);
 
-  const marketingConsent = String(formData.get("changelog") ?? "") === "on";
-  const { token, stored } = await saveLead({
+  // Checked after scoring and before the write, so a refused caller still gets
+  // the thing they came for. Scoring is pure and in-process; it is the row that
+  // is worth protecting.
+  if (!(await takeReadinessSlot()))
+    return { result, stored: false, limited: true };
+
+  const consentRequested = String(formData.get("changelog") ?? "") === "on";
+  const { token, stored, consentToken } = await saveLead({
     email,
     answers,
     result,
-    marketingConsent,
-    consentText: marketingConsent ? CHANGELOG_CONSENT : null,
+    consentRequested,
+    consentText: consentRequested ? CHANGELOG_CONSENT : null,
   });
 
-  return { result, token, stored };
+  return {
+    result,
+    token,
+    stored,
+    // Only claim a pending subscription when the confirmation token actually
+    // reached the database. Otherwise there is no link anyone could ever click.
+    consentPending: Boolean(consentToken),
+  };
 }

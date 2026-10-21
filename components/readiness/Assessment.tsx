@@ -346,11 +346,24 @@ export function Assessment({
     return (
       <>
         <Report result={state.result} shareUrl={shareUrl} />
-        {state.stored === false ? (
+        {state.limited ? (
+          <p className="mt-6 rounded-lg border border-line bg-cream px-4 py-3 text-xs text-muted">
+            Your score is above, but this network has run the assessment several
+            times in the last hour, so we have not saved this one and there is
+            no permanent link for it. Copy or print this page if you need to
+            keep it, or try again later.
+          </p>
+        ) : state.stored === false ? (
           <p className="mt-6 rounded-lg border border-line bg-cream px-4 py-3 text-xs text-muted">
             Your score is above, but we could not save it on our side, so there
             is no permanent link for it this time. Nothing you did caused that —
             copy or print this page if you need to keep it.
+          </p>
+        ) : null}
+        {state.consentPending ? (
+          <p className="mt-3 rounded-lg border border-teal-200 bg-teal-50 px-4 py-3 text-xs text-teal-800">
+            You asked for the quarterly regulatory changelog. We will send one
+            email asking you to confirm, and nothing at all until you do.
           </p>
         ) : null}
       </>
@@ -666,7 +679,9 @@ export function Assessment({
               We store your address, your answers and the resulting score so we
               can show you the result and keep the link working. We do not pass
               it to anyone, and leaving the box above unticked means we will not
-              email you about anything else.{" "}
+              email you about anything else. Ticking it does not subscribe you
+              on its own — we ask you to confirm by email first, so nobody ends
+              up on the list because someone else typed their address.{" "}
               <Link href="/privacy" className="font-semibold text-teal-700 hover:underline">
                 Privacy
               </Link>
