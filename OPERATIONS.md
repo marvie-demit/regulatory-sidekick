@@ -22,7 +22,8 @@ idempotent and safe to re-run.
 | `0022_startup_programme.sql` | `startup_applications` + RLS, `decide_startup_application()`, `partner_startup_applications()`, `purchases.startup_application_id`, widens the tier CHECK to allow `startup`. **Requires `0014` and `0015`** — applied, verified 2026-10-21 |
 | `0023_agentic_access_codes.sql` | access codes can grant agent access: nullable `plan`, `agentic`/`agentic_days`, `partners.agentic_allowance`, `app.partner_agentic_seats_consumed()`, and rewritten `redeem_access_code` / `partner_mint_codes` / `partner_overview`. **Requires `0004`, `0013`, `0015`** — applied, verified 2026-10-21 |
 | `0024_readiness_leads.sql` | `readiness_leads` (the free readiness assessment's lead capture) with RLS **on and no policies**, plus `readiness_result_by_token()` for the public result page. **Requires `0015`** for the `partner_id` reference. ⚠️ **NOT YET APPLIED** — see below |
-| `0025_readiness_abuse_and_consent.sql` | `readiness_attempts` (hashed-ip rate-limit bucket, RLS on and no policies) + `readiness_rate_take()`; and double opt-in on `readiness_leads` — `consent_state`/`consent_token`/`consent_requested_at`/`consent_confirmed_at` plus `readiness_confirm_consent()`, which is now the only thing that can set `marketing_consent` true. **Requires `0024`**. ⚠️ **NOT YET APPLIED** — see below |
+| `0025_readiness_abuse_and_consent.sql` | `readiness_attempts` (hashed-ip rate-limit bucket, RLS on and no policies) + `readiness_rate_take()`; and double opt-in on `readiness_leads` — `consent_state`/`consent_token`/`consent_requested_at`/`consent_confirmed_at` plus `readiness_confirm_consent()`, which is now the only thing that can set `marketing_consent` true. **Requires `0024`**. Applied, verified 2026-10-21 — but see `0026` |
+| `0026_rate_take_grants.sql` | revokes `execute` on `readiness_rate_take()` from `anon`/`authenticated`, which `0025` only *looked* like it did. **Requires `0025`**. ⚠️ **NOT YET APPLIED** — see below |
 
 ### `0014` / `0020` — applied 2026-08-18
 
@@ -59,10 +60,15 @@ where schemaname = 'public' and tablename = 'document_drafts'
   and policyname = 'dd_update';  -- must mention auth.uid()
 ```
 
-### `0024` — NOT YET APPLIED
+### `0024` — applied, verified 2026-10-21
 
-Written, not run. **Apply it in the SQL editor before the deploy that ships
-`/readiness`**, per the convention at the top of this section. Until it is
+Applied 2026-10-21. Verified from outside with the public anon key: an RPC call
+to `readiness_result_by_token` answers `200 []` rather than "function not
+found", and a direct `select` on `readiness_leads` as `anon` is refused with
+`42501 permission denied for table readiness_leads` — which is the RLS-on,
+no-policies decision below, working.
+
+For the record, the failure mode this section used to describe: until it was
 applied the assessment still works and still scores — `saveLead()` returns
 `stored: false` and the respondent sees their result — but nothing is captured
 and the permanent `/readiness/r/<token>` link 404s. That is the whole point of
@@ -103,10 +109,12 @@ select created_at, email, org_name, overall, band, route, risk_class
 from public.readiness_leads order by created_at desc limit 50;
 ```
 
-### `0025` — NOT YET APPLIED
+### `0025` — applied, verified 2026-10-21
 
-Written, not run. **Apply it after `0024` and before the deploy that ships
-`/readiness`.** It closes the two things `0024` left open on a public,
+Applied 2026-10-21, and **superseded in one respect by `0026`** — read that
+entry before trusting the grant line at the end of this file. Verified from
+outside: `readiness_confirm_consent` answers `200 false` for a junk token, and
+`readiness_attempts` is refused to `anon` with `42501`. It closes the two things `0024` left open on a public,
 unauthenticated route whose server action holds the service role.
 
 **Nothing limited the write.** The only brake was a 120-second dedupe on the
@@ -165,6 +173,64 @@ delete from public.readiness_attempts where ip_hash = repeat('a', 64);
 -- consent columns and the CHECK are in place
 select consent_state from public.readiness_leads limit 1;  -- column exists
 select public.readiness_confirm_consent('x');              -- false, not an error
+```
+
+### `0026` — NOT YET APPLIED, and it closes a hole `0025` opened
+
+**Apply this.** `0025` ended with what looked like "service role only" on the
+rate limiter:
+
+```sql
+revoke all on function public.readiness_rate_take(text, int, int) from public;
+grant  execute on function public.readiness_rate_take(text, int, int) to service_role;
+```
+
+`revoke ... from public` drops the implicit grant held by the PUBLIC
+pseudo-role. It does **not** touch an explicit grant to `anon` — and this
+project's Supabase has `alter default privileges in schema public grant all on
+functions to anon, authenticated, service_role`, so the function was granted to
+`anon` the moment it was created and that revoke never reached it.
+
+Confirmed against the live database straight after `0025` went in: an
+anon-keyed POST to `/rest/v1/rpc/readiness_rate_take` returned **200**, not 401.
+
+**What that let an anonymous caller do.** The function is security definer and,
+unlike every other definer function in this schema, performs no caller check —
+it had no reason to, on the assumption only the service role could reach it. So
+anyone could insert unbounded rows into `readiness_attempts`: an open write
+primitive, in the table whose whole purpose is to bound writes. Nothing is
+exposed by it; it returns a boolean and reads only its own counts.
+
+**The rest of the schema is not affected, and the reason is worth keeping.**
+The established pattern here authorises *inside* the function instead of leaning
+on grants: `partner_mint_codes` takes `auth.uid()`, raises `not authenticated`
+when it is null, then checks `partner_members`; `redeem_access_code` does the
+same. Those are reachable by `anon` and refuse `anon`. `readiness_rate_take` was
+the one function that trusted a grant — which is the assumption that failed.
+
+The lesson for any future definer function: **name the roles in the revoke**, or
+check the caller in the body. Do not rely on `revoke from public` alone.
+
+Verify after applying, with the project's public anon key:
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' -X POST \
+  "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/rpc/readiness_rate_take" \
+  -H "apikey: $ANON" -H "Authorization: Bearer $ANON" \
+  -H 'Content-Type: application/json' \
+  -d '{"p_ip_hash":"'"$(printf 'a%.0s' {1..64})"'","p_max":1,"p_window_seconds":60}'
+```
+
+Must print **401**. It printed 200 before. The two intentionally public
+functions must still print 200 — `readiness_result_by_token` and
+`readiness_confirm_consent` are what the shared result page and the
+confirmation link run on, and breaking them would take the rung down.
+
+Rows an anonymous caller may already have inserted are harmless and expire on
+their own, but the bucket can be emptied if you want a clean start:
+
+```sql
+delete from public.readiness_attempts;
 ```
 
 ## The readiness privacy promises are kept by hand
