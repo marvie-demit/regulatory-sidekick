@@ -93,7 +93,7 @@
         },
         {
           "id": "DEV.validate",
-          "title": "Design validation, transfer & release",
+          "title": "Design validation & release",
           "phase": 3,
           "maturity": "full",
           "appliesWhen": {},
@@ -157,12 +157,14 @@
         {
           "id": "DEV.transfer",
           "title": "Transfer the design to production",
-          "phase": 4,
+          "phase": 3,
           "maturity": "lean",
           "appliesWhen": {},
           "produces": [],
           "consumes": [],
-          "handoffTo": []
+          "handoffTo": [
+            "DEV.validate"
+          ]
         },
         {
           "id": "DEV.ddplan",
@@ -617,7 +619,7 @@
         {
           "id": "AIM.build",
           "title": "Model validation, oversight & logging",
-          "phase": 2,
+          "phase": 3,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -638,7 +640,7 @@
         {
           "id": "AIM.compliance",
           "title": "PCCP + EU AI Act technical documentation",
-          "phase": 2,
+          "phase": 4,
           "maturity": "full",
           "appliesWhen": {
             "characteristics": [
@@ -2039,7 +2041,7 @@
       "steps": [
         {
           "id": "SEC.establish",
-          "title": "Product security, SBOM & pen-test",
+          "title": "Product security, SBOM & threat model",
           "phase": 2,
           "maturity": "full",
           "appliesWhen": {
@@ -2051,10 +2053,30 @@
             "SEC-SOP-01",
             "SEC-POL-01",
             "SEC-TPL-01",
-            "SEC-LIS-01",
-            "SEC-FOR-01"
+            "SEC-LIS-01"
           ],
           "consumes": [],
+          "handoffTo": [
+            "SEC.pentest",
+            "SEC.postmarket"
+          ]
+        },
+        {
+          "id": "SEC.pentest",
+          "title": "Penetration test & findings closure",
+          "phase": 3,
+          "maturity": "full",
+          "appliesWhen": {
+            "characteristics": [
+              "security"
+            ]
+          },
+          "produces": [
+            "SEC-FOR-01"
+          ],
+          "consumes": [
+            "SEC-TPL-01"
+          ],
           "handoffTo": [
             "SEC.postmarket"
           ]

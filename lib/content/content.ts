@@ -34,6 +34,7 @@ export function activitiesByPhase(n: number): Activity[] {
 // device-profile scoping — delegates to the shared reg + mods helper (scope.ts)
 // so server and client apply IDENTICAL rules (regulation route AND characteristics).
 import { actInScope, docInScope } from "./scope";
+import { PHASE_LABELS } from "./process-scope";
 
 export function inScopeAct(a: Activity, prof: Profile): boolean {
   return actInScope(a, prof);
@@ -276,10 +277,8 @@ export function docStep(docId: string): DocStep | null {
   return docStepsMap()[docId] ?? null;
 }
 
-export const PHASE_NAMES: Record<number, string> = {
-  1: "Research & foundations",
-  2: "Develop under control",
-  3: "Govern & lead",
-  4: "Certify, launch & improve",
-};
+// One set of phase names for the whole product. This used to be a second,
+// older list ("Govern & lead", "Certify, launch & improve") that the agent API
+// and the library page printed while the roadmap printed PHASE_LABELS.
+export const PHASE_NAMES: Record<number, string> = PHASE_LABELS;
 

@@ -10,11 +10,11 @@
   },
   {
    "n": 3,
-   "focus": "Verify, validate & make: execute design and software V&V, complete the clinical, performance and usability evidence, stand up production and sterilization, and run the operational QMS — CAPA, complaints and nonconforming product."
+   "focus": "Verify, validate & make: execute design and software V&V, complete the clinical, performance and usability evidence, transfer the design and stand up production and sterilization, and run the operational QMS — CAPA, complaints and nonconforming product."
   },
   {
    "n": 4,
-   "focus": "Certify, launch & operate: compile the technical file, pass the Notified Body assessment and CE-mark, then run the live system — post-market surveillance, vigilance, internal audit and management review."
+   "focus": "Certify, launch & operate: finalise the evidence and compile the technical file, prove the QMS works with a full internal audit and management review, pass the Notified Body assessment and CE-mark, then run the live system — post-market surveillance, clinical follow-up and vigilance."
   }
  ],
  "qses": [
@@ -766,7 +766,7 @@
    "who": "Design & Development Lead",
    "documents": "DEV-FOR-07",
    "depends": "DEV.inputs, CHG.setup",
-   "leads": "DEV.validate, DEV.trace",
+   "leads": "DEV.validate, DEV.trace, RSK.report, DEV.transfer",
    "clause": "ISO 13485 7.3.6; MDR Annex I",
    "mods": [
     "Core"
@@ -898,14 +898,14 @@
    "phase": "P3",
    "wave": "W4",
    "qse": "Process Management",
-   "statement": "Validate against user needs, transfer to production, release.",
-   "why": "Design validation confirms the device meets user needs and intended use under actual or simulated use conditions - that you built the right device. ISO 13485 7.3.7 requires validation on representative product before release; for many devices this is where clinical / performance evidence and summative usability land. Design transfer (7.3.8) then verifies the design is correctly translated into production, and the product is released for market once validation, risk and transfer are complete.",
+   "statement": "Validate against user needs on production-equivalent units, then release.",
+   "why": "Design validation confirms the device meets user needs and intended use under actual or simulated use conditions - that you built the right device. ISO 13485 7.3.7 requires validation on representative product before release; for many devices this is where clinical / performance evidence and summative usability land. Design transfer (7.3.8) comes first, so that validation runs on units built the way production will build them, and the product is released for market once validation, risk and transfer are complete.",
    "what": "Validate the design against user needs and intended use (drawing on the clinical/performance evidence and summative usability), verify design transfer into production, and record the product development release once validation, risk and transfer are all closed.",
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Design & Development Lead",
    "documents": "DEV-FOR-08; DEV-FOR-09",
-   "depends": "DEV.verify, RSK.report, HUF.summative",
-   "leads": "TEF.file, DEV.transfer",
+   "depends": "DEV.verify, RSK.report, HUF.summative, DEV.transfer",
+   "leads": "TEF.file",
    "clause": "ISO 13485 7.3.7 & 7.3.8",
    "mods": [
     "Core"
@@ -1023,8 +1023,8 @@
     }
    ],
    "dur": 15,
-   "es": 116,
-   "ef": 131,
+   "es": 121,
+   "ef": 136,
    "sid": "DEV.validate",
    "proc": "DEV",
    "procName": "Design & development",
@@ -1940,15 +1940,15 @@
   {
    "id": "RSK.report",
    "phase": "P3",
-   "wave": "W1",
+   "wave": "W3",
    "qse": "Continual Improvement",
    "statement": "Conclude overall residual risk & benefit-risk in the RM report.",
-   "why": "The risk management report concludes the process: it reviews that the risk management plan was executed, that residual risks are acceptable individually and overall, and that the overall benefit-risk is favourable (ISO 14971 section 8). It is signed by management and feeds the CER/PER and the technical file. A missing or weak overall residual-risk evaluation is a common conformity finding.",
+   "why": "The risk management report concludes the process: it reviews that the risk management plan was executed, that residual risks are acceptable individually and overall, and that the overall benefit-risk is favourable (ISO 14971 section 8). It can only conclude once verification and summative usability have shown the risk controls are implemented and effective (ISO 14971 7.2), so it follows them. Management's final sign-off is the separate gate before the technical file (RSK.signoff). The report feeds the CER/PER and the technical file. A missing or weak overall residual-risk evaluation is a common conformity finding.",
    "what": "Produce the risk management report: confirm the plan was implemented, evaluate the overall residual risk and the overall benefit-risk, and conclude acceptability - feeding the CER/PER and the technical file.",
    "how": "1. Complete the Risk Management Plan first (RSK-TPL-01): criteria & matrix.\n2. Start the risk table (RSK-TPL-03) with hazards/threats/AI risks.\n3. Define how security (TIR57) and AI (Art 9) risk branch into the same file.",
    "who": "Risk Manager",
    "documents": "RSK-TPL-04; RSK-TPL-05; RSK-FOR-03",
-   "depends": "RSK.analyze",
+   "depends": "RSK.analyze, DEV.verify, HUF.summative, SWD.verify",
    "leads": "DEV.validate, RSK.postmarket, CLE.report, PEV.report, TEF.file, RSK.signoff",
    "clause": "ISO 14971 8/9",
    "mods": [
@@ -1995,12 +1995,12 @@
    ],
    "tips": [
     "Evaluate OVERALL residual risk, not just each risk in isolation - section 8 requires the aggregate view.",
-    "The report must conclude an acceptable overall benefit-risk and be signed off by management.",
+    "The report must conclude an acceptable overall benefit-risk on verified risk controls - do not conclude while verification or summative usability are still open.",
     "Keep it in sync with the CER/PER benefit-risk - the two must agree, or a reviewer will notice.",
     "It is a living conclusion - post-market data can re-open it via post-market risk updates."
    ],
    "lean": {
-    "start": "An RM report concluding acceptable overall residual risk and benefit-risk, signed by management.",
+    "start": "An RM report concluding acceptable overall residual risk and benefit-risk on verified risk controls, ready for management sign-off.",
     "evolve": "Kept current from post-market data, consistent with the CER/PER.",
     "startDetail": [
      "Confirmation that the risk-management plan was implemented as written.",
@@ -2050,8 +2050,8 @@
     }
    ],
    "dur": 5,
-   "es": 101,
-   "ef": 106,
+   "es": 116,
+   "ef": 121,
    "sid": "RSK.report",
    "proc": "RSK",
    "procName": "Risk management",
@@ -2497,8 +2497,8 @@
     }
    ],
    "dur": 4,
-   "es": 238,
-   "ef": 242,
+   "es": 240,
+   "ef": 244,
    "sid": "RSK.postmarket",
    "proc": "RSK",
    "procName": "Risk management",
@@ -3000,7 +3000,7 @@
    "who": "Software Lead / Development Team",
    "documents": "SWD-FOR-04; SWD-FOR-05",
    "depends": "SWD.design",
-   "leads": "SWD.verify",
+   "leads": "SWD.verify, AIM.build, SEC.pentest",
    "clause": "IEC 62304 5.5-5.6",
    "mods": [
     "SW"
@@ -3141,7 +3141,7 @@
    "who": "Software / Test Lead",
    "documents": "SWD-TPL-05; SWD-TPL-11; SWD-TPL-12; SWD-TPL-13; SWD-TPL-14; SWD-LIS-01",
    "depends": "SWD.build",
-   "leads": "SWD.release",
+   "leads": "SWD.release, RSK.report",
    "clause": "IEC 62304 s5.5-s5.7",
    "mods": [
     "SW"
@@ -3299,7 +3299,7 @@
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Software Lead / Security Lead",
    "documents": "SWD-FOR-03; SWD-TPL-09; SWD-TPL-10",
-   "depends": "SWD.verify, SWD.relproc",
+   "depends": "SWD.verify, SWD.relproc, SEC.pentest",
    "leads": "DEP.release",
    "clause": "IEC 62304 5.8; IEC 81001-5-1; MDCG 2019-16",
    "mods": [
@@ -3602,7 +3602,7 @@
    "wave": "W4",
    "qse": "Process Management",
    "statement": "Meet the DiGA fast-track requirements (German market).",
-   "why": "DiGA (Digitale Gesundheitsanwendungen) is the German fast-track for reimbursable digital health applications, run by BfArM under the DVG and DiGAV. Beyond CE marking (class I / IIa), it demands specific requirements: data protection and security (including a security assessment), interoperability, usability, and evidence of a positive healthcare effect. It is a distinct, additional pathway for the German market, not a replacement for MDR conformity.",
+   "why": "DiGA (Digitale Gesundheitsanwendungen) is the German fast-track for reimbursable digital health applications, run by BfArM under the DVG and DiGAV. Beyond CE marking (class I, IIa or, since 2024, IIb), it demands specific requirements: data protection and security (including a security assessment), interoperability, usability, and evidence of a positive healthcare effect. Since the DiGAV amendment of 1 February 2026, listed DiGA must also run usage-based success measurement (AbEM) and report it to BfArM, with the first report due 15 April 2027. It is a distinct, additional pathway for the German market, not a replacement for MDR conformity.",
    "what": "Assess and document the DiGA requirements per DiGAV / BfArM: the CE baseline plus data protection & security, interoperability, usability, and the positive-healthcare-effect evidence needed for the DiGA directory listing.",
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Regulatory Affairs (DE market)",
@@ -3643,7 +3643,7 @@
     {
      "std": "Baseline",
      "refs": [
-      "CE mark (MDR class I/IIa)",
+      "CE mark (MDR class I/IIa/IIb)",
       "GDPR",
       "Security assessment"
      ]
@@ -3658,7 +3658,9 @@
     "DiGA is on top of CE marking, not instead of it - you still need MDR conformity first.",
     "The positive-healthcare-effect study is the hard part - plan and resource it like a clinical study.",
     "BfArM's security and interoperability requirements are specific and audited - map them explicitly, not generically.",
-    "Provisional listing (with a trial period) is an option if the positive-effect study isn't complete - use it strategically."
+    "Provisional listing (with a trial period) is an option if the positive-effect study isn't complete - use it strategically.",
+    "Data security is evidenced with a BSI certificate to TR-03161, not a self-declaration - book the certification early, it has its own lead time.",
+    "Plan the usage-based success measurement (AbEM) into the product: the data has to be collected every quarter and reported to BfArM, and part of the price depends on it."
    ],
    "lean": {
     "start": "A DiGAV requirements checklist mapping data-protection, security, interoperability and usability to your evidence.",
@@ -4177,7 +4179,7 @@
    "who": "Human Factors / Usability Lead",
    "documents": "HUF-TPL-04; HUF-TPL-05",
    "depends": "HUF.formative",
-   "leads": "DEV.validate, TEF.file",
+   "leads": "DEV.validate, TEF.file, RSK.report",
    "clause": "IEC 62366-1 (summative evaluation)",
    "mods": [
     "Core"
@@ -4332,7 +4334,7 @@
    "wave": "W2",
    "qse": "Process Management",
    "statement": "AI/ML lifecycle & data-governance plan.",
-   "why": "An AI/ML component adds obligations on top of the device rules: under the EU AI Act a medical-device AI is typically high-risk, requiring a risk-management system, data and data governance, technical documentation, transparency, human oversight and demonstrated accuracy, robustness and cybersecurity. ISO/IEC 42001 provides the AI management system to govern it. Treating AI like ordinary software misses these duties and the model-specific risks of drift, bias and opacity.",
+   "why": "An AI/ML component adds obligations on top of the device rules: under the EU AI Act a medical-device AI is typically high-risk, requiring a risk-management system, data and data governance, technical documentation, transparency, human oversight and demonstrated accuracy, robustness and cybersecurity. ISO/IEC 42001 provides the AI management system to govern it. Treating AI like ordinary software misses these duties and the model-specific risks of drift, bias and opacity. The high-risk obligations apply to AI in medical devices from 2 August 2028 (deferred from 2027 by Regulation (EU) 2026/1744), so build to them now and check the date against your launch plan.",
    "what": "Run the AI/ML lifecycle: data governance (relevant, representative, quality-checked data), model development and validation, performance and robustness evaluation, logging and record-keeping, transparency and human-oversight measures, and post-market model monitoring for drift - integrated with the risk file and technical documentation.",
    "how": "1. Govern training/validation/test data and examine bias (AIM-TPL-02).\n2. Validate model performance and subgroups (AIM-TPL-03).",
    "who": "AI Lead",
@@ -4620,16 +4622,16 @@
   },
   {
    "id": "AIM.build",
-   "phase": "P2",
-   "wave": "W5",
+   "phase": "P3",
+   "wave": "W2",
    "qse": "Information Management",
    "statement": "Model validation, oversight & logging.",
-   "why": "For an AI medical device, the EU AI Act adds obligations that culminate near market entry: record-keeping and logging (Art 12), transparency and instructions for use (Art 13), human-oversight design (Art 14), and registration plus the Annex IV technical documentation. Completing these makes the AI conformant and traceable, and is checked at conformity assessment.",
-   "what": "Complete the AI transparency, human-oversight, logging and registration obligations: finalise the transparency information and instructions, the human-oversight measures, the automatic logging / record-keeping, and the EU-database registration and Annex IV technical documentation for the AI system.",
+   "why": "For an AI medical device, the EU AI Act adds obligations that culminate near market entry: record-keeping and logging (Art 12), transparency and instructions for use (Art 13) and human-oversight design (Art 14), all feeding the Annex IV technical documentation. They can only be finalised and verified on the built, trained system, which is why this step sits with verification. The high-risk obligations apply to AI in medical devices from 2 August 2028 (deferred from 2027 by Regulation (EU) 2026/1744); from then your Notified Body assesses them together with the MDR/IVDR conformity assessment.",
+   "what": "Complete the AI transparency, human-oversight and logging obligations on the built system: finalise the transparency information and instructions, verify the human-oversight measures, switch on the automatic logging / record-keeping, and collect the evidence the Annex IV technical documentation will need.",
    "how": "1. Define transparency & human-oversight measures (AIM-TPL-05).\n2. Design logging (AIM-TPL-07) and the PCCP (AIM-TPL-04).",
    "who": "AI Lead",
    "documents": "AIM-TPL-03; AIM-TPL-05; AIM-TPL-07; AIM-LIS-01",
-   "depends": "SWD.ml, AIM.plan",
+   "depends": "SWD.ml, AIM.plan, SWD.build",
    "leads": "AIM.compliance",
    "clause": "EU AI Act 12/13/14/43",
    "mods": [
@@ -4666,8 +4668,8 @@
        "d": "complete the EU AI Act technical documentation (Annex IV) for the AI system, alongside the device technical file."
       },
       {
-       "t": "Register the system",
-       "d": "complete the required EU-database registration for the high-risk AI system (Art 49/71) before placing it on the market."
+       "t": "Confirm where the system is registered",
+       "d": "AI in a medical device is high-risk through Annex I, so it is registered with the device in EUDAMED; the AI Act's own EU database (Art 49/71) is for Annex III systems. Record that conclusion so nobody chases a registration that does not apply."
       }
      ]
     },
@@ -4687,7 +4689,7 @@
        "d": ""
       },
       {
-       "t": "Required transparency / registration information is prepared.",
+       "t": "Required transparency information is prepared.",
        "d": ""
       }
      ]
@@ -4701,7 +4703,7 @@
       "Art 13 Transparency",
       "Art 14 Human oversight",
       "Art 43 Conformity assessment",
-      "Art 49/71 Registration"
+      "Art 11 Technical documentation (one file with MDR/IVDR)"
      ]
     },
     {
@@ -4721,27 +4723,27 @@
     "Transparency information and instructions for use",
     "Human-oversight design and verification",
     "Logging / record-keeping configuration",
-    "Annex IV technical documentation and registration records"
+    "Evidence for the Annex IV technical documentation"
    ],
    "tips": [
-    "These AI obligations are checked at conformity assessment - incomplete transparency, oversight or registration can block your market entry just as surely as a device gap.",
+    "From 2 August 2028 these obligations are assessed with your MDR/IVDR conformity assessment - incomplete transparency, oversight or logging can then block market entry just as surely as a device gap. Check the date against your launch plan and build to them now.",
     "Transparency means honest limitations, not marketing. Stating where the AI shouldn't be used protects patients and protects you - over-claiming is a fast route to harm and liability.",
     "Human oversight must be MEANINGFUL - a person who can actually understand and override, not a rubber-stamp 'confirm' button. Auditors and the public both test this.",
-    "The AI Act registration and Annex IV documentation are IN ADDITION to your MDR/IVDR technical file, not instead of it. Plan for both."
+    "Annex IV documentation is not a second technical file: the AI Act (Art 11) lets you fold it into the MDR/IVDR technical documentation as one set. Map every Annex IV item so nothing is lost in the merge."
    ],
    "lean": {
     "start": "Clear instructions and limitations, a working human-override, and logging switched on.",
-    "evolve": "Add formal Annex IV documentation depth and registration workflows as the AI nears market.",
+    "evolve": "Add formal Annex IV documentation depth as the AI nears market.",
     "startDetail": [
      "Transparency information and instructions finalised: what the AI does, its limits, how to interpret outputs.",
      "Human-oversight measures implemented — a real ability to review, override or stop the system.",
      "Automatic logging / record-keeping switched on and retained for the required period.",
      "The intended purpose and operating envelope communicated to users.",
-     "The EU-database registration and Annex IV technical documentation prepared for the AI system."
+     "The evidence for the Annex IV technical documentation collected as you go."
     ],
     "evolveDetail": [
      "Full Annex IV technical-documentation depth.",
-     "Registration workflows and conformity declarations completed.",
+     "One EU declaration of conformity covering both the device and the AI requirements.",
      "Oversight and logging reviewed against real-world use."
     ]
    },
@@ -4850,7 +4852,7 @@
      "refs": []
     },
     {
-     "t": "Prepare registration & PCCP",
+     "t": "Prepare documentation & PCCP",
      "who": "AI / Regulatory",
      "why": "Bringing the AI to market needs its documentation and, for foreseen changes, a predetermined change-control plan so updates don't each need a full re-assessment.",
      "what": "Prepare the conformity documentation and a predetermined change-control plan for foreseen updates.",
@@ -4864,8 +4866,8 @@
        "d": "AI Act and MDR/IVDR evidence as one coherent file."
       },
       {
-       "t": "Plan registration",
-       "d": "In the required databases/registries."
+       "t": "Confirm the registration route",
+       "d": "EUDAMED with the device; the AI Act database covers Annex III systems only."
       },
       {
        "t": "Draft a PCCP",
@@ -4886,8 +4888,8 @@
     }
    ],
    "dur": 6,
-   "es": 45,
-   "ef": 51,
+   "es": 101,
+   "ef": 107,
    "sid": "AIM.build",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
@@ -4899,11 +4901,11 @@
   },
   {
    "id": "AIM.compliance",
-   "phase": "P2",
-   "wave": "W6",
+   "phase": "P4",
+   "wave": "W1",
    "qse": "Information Management",
    "statement": "Produce the PCCP + EU AI Act technical documentation.",
-   "why": "AI-enabled devices carry extra documentation duties. A Predetermined Change Control Plan (PCCP) lets you pre-authorise defined model updates (retraining within bounds) without re-certifying each time - both FDA and EU frameworks recognise it. The EU AI Act additionally requires technical documentation (Annex IV) for high-risk AI systems: system description, data governance, risk management, human oversight, accuracy/robustness and logging. This is what makes an AI device maintainable and compliant post-market.",
+   "why": "AI-enabled devices carry extra documentation duties. A Predetermined Change Control Plan (PCCP) lets you pre-authorise defined model updates (retraining within bounds) without re-certifying each time. FDA has final PCCP guidance; in the EU, the AI Act treats changes pre-determined at the initial conformity assessment as non-substantial (Art 43(4)), and your Notified Body decides how far it accepts a PCCP under MDR/IVDR - agree it with them early. The EU AI Act additionally requires technical documentation (Annex IV) for high-risk AI systems: system description, data governance, risk management, human oversight, accuracy/robustness and logging. This is what makes an AI device maintainable and compliant post-market.",
    "what": "Produce the Predetermined Change Control Plan defining the bounds of permitted model changes and their validation, and compile the EU AI Act Annex IV technical documentation for the AI system.",
    "how": "1. Define transparency & human-oversight measures (AIM-TPL-05).\n2. Design logging (AIM-TPL-07) and the PCCP (AIM-TPL-04).",
    "who": "AI / Regulatory Affairs Lead",
@@ -5026,8 +5028,8 @@
     }
    ],
    "dur": 10,
-   "es": 51,
-   "ef": 61,
+   "es": 171,
+   "ef": 181,
    "sid": "AIM.compliance",
    "proc": "AIM",
    "procName": "AI/ML lifecycle",
@@ -5395,7 +5397,7 @@
    "who": "Clinical / Performance Lead",
    "documents": "CLE-SOP-01; CLE-TPL-02; CLE-TPL-08; CLE-TPL-04; CLE-WI-01",
    "depends": "DEV.intended",
-   "leads": "CLE.evidence, CLE.sota",
+   "leads": "CLE.evidence, CLE.sota, CLE.investigation",
    "clause": "MDR Art 61 / IVDR Annex XIII",
    "mods": [
     "Core"
@@ -5831,7 +5833,7 @@
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Clinical Operations / Regulatory Affairs",
    "documents": "CLE-TPL-09; CLE-TPL-10; CLE-TPL-11; CLE-TPL-12",
-   "depends": "-",
+   "depends": "CLE.plan",
    "leads": "CLE.report",
    "clause": "MDR Art 62-82 & Annex XV; ISO 14155",
    "mods": [
@@ -5888,7 +5890,8 @@
     "This is conditional and staged - a feasibility/pilot investigation normally precedes the pivotal study; do not jump straight to pivotal.",
     "You cannot enrol a single subject before competent-authority and ethics approval (MDR Art 70) - build the approval timeline in first.",
     "Design endpoints to your intended-purpose claims, not to what is easy to measure - the CIR must support the CER's conclusions.",
-    "The clinical investigation report must be signed off and feed the CER - plan the whole timeline back from your submission date."
+    "The clinical investigation report must be signed off and feed the CER - plan the whole timeline back from your submission date.",
+    "ISO 14155 was revised in 2026. The edition harmonised under the MDR can lag the latest one, so state in the CIP which edition you follow and why."
    ],
    "lean": {
     "start": "Only if required: a feasibility/pilot investigation with approvals, then a CIP designed to your claims.",
@@ -6019,7 +6022,7 @@
       },
       {
        "t": "Produce the SSCP if in scope",
-       "d": "Implantable or class III: write the SSCP per MDCG 2019-9 in professional (and where relevant lay) versions; the NB validates it and it is published on EUDAMED."
+       "d": "Implantable or class III: write the SSCP per MDCG 2019-9 in professional (and where relevant lay) versions; the NB validates it and it is published on EUDAMED (MDCG 2026-4 moves the upload from the Notified Body to the manufacturer - check which applies when you submit)."
       },
       {
        "t": "Wire the update loop",
@@ -7272,7 +7275,8 @@
     "The PER is the IVDR CER - structure it to Annex XIII and trace each claim to SV/AP/CP evidence.",
     "The SSP (class C/D) is public via EUDAMED - keep it accurate and consistent with the PER.",
     "Wire the PMPF loop now - the PER is living, and the NB checks it is maintained.",
-    "The three evidence tiers must cohere in the PER, not sit as three disconnected reports."
+    "The three evidence tiers must cohere in the PER, not sit as three disconnected reports.",
+    "MDCG 2026-4 moves the SSP upload to EUDAMED from the Notified Body to the manufacturer - check which applies when you submit."
    ],
    "lean": {
     "start": "A PER consolidating SV/AP/CP with a benefit-risk conclusion, plus a PMPF plan.",
@@ -7420,7 +7424,7 @@
     {
      "std": "MDCG guidance",
      "refs": [
-      "MDCG 2021-24 Classification"
+      "MDCG 2021-24 rev.1 Classification"
      ]
     }
    ],
@@ -7670,7 +7674,7 @@
    "documents": "TEF-FOR-01; TEF-FOR-09",
    "depends": "TEF.classify.mdr",
    "leads": "TEF.file",
-   "clause": "FDA 21 CFR 820",
+   "clause": "MDR Annex I (GSPR) & Annex II",
    "mods": [
     "Core"
    ],
@@ -7719,11 +7723,10 @@
    ],
    "clausemap": [
     {
-     "std": "FDA 21 CFR",
+     "std": "EU MDR 2017/745",
      "refs": [
-      "820 QMSR",
-      "807 establishment registration & listing",
-      "Pathway: 510(k) / De Novo / PMA"
+      "Annex I General safety and performance requirements",
+      "Annex II 4 Demonstration of conformity with the GSPR"
      ]
     }
    ],
@@ -8045,7 +8048,7 @@
    "how": "",
    "who": "Regulatory Affairs Lead",
    "documents": "TEF-TPL-01; TEF-LIS-01",
-   "depends": "DEV.validate, DEV.ivd, RSK.report, RSK.ivd, HUF.summative, AIM.compliance, CLE.report, PEV.report, TEF.gspr.mdr, TEF.gspr.ivdr, LBL.produce, AES.setup, BIO.setup, CMB.setup, STE.setup",
+   "depends": "DEV.validate, DEV.ivd, RSK.report, RSK.ivd, HUF.summative, AIM.compliance, CLE.report, PEV.report, TEF.gspr.mdr, TEF.gspr.ivdr, LBL.produce, AES.setup, BIO.setup, CMB.setup, STE.setup, PMS.plan, PCF.plan, RSK.signoff",
    "leads": "TEF.certify.stage1, TEF.market.fda, TEF.cdx",
    "clause": "MDR/IVDR Annex II & III; Art 19 (DoC)",
    "mods": [
@@ -8177,8 +8180,8 @@
     }
    ],
    "dur": 12,
-   "es": 185,
-   "ef": 197,
+   "es": 187,
+   "ef": 199,
    "sid": "TEF.file",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8194,12 +8197,12 @@
    "wave": "W5",
    "qse": "Assessment",
    "statement": "Notified Body Stage 1 — documentation readiness.",
-   "why": "Conformity assessment under MDR/IVDR Annex IX is a two-stage Notified Body audit. Stage 1 reviews the QMS documentation and the technical documentation to confirm the system is in place and the device is ready for the full assessment. Passing Stage 1 - or closing its findings - is the gate to the on-site Stage 2.",
+   "why": "Conformity assessment under MDR/IVDR Annex IX has two strands: a QMS audit, which Notified Bodies run in two stages, and an assessment of the technical documentation, which runs alongside in rounds of questions and is usually the longer of the two. The Notified Body expects a completed internal audit and management review before it starts. Stage 1 reviews the QMS documentation and the technical documentation to confirm the system is in place and the device is ready for the full assessment. Passing Stage 1 - or closing its findings - is the gate to the on-site Stage 2.",
    "what": "Undergo the Notified Body Stage 1 audit: submit the QMS and technical documentation, host the documentation review, and respond to and close any nonconformities or observations raised.",
    "how": "1. Submit the QMS and technical file for the Stage 1 review.\n2. Address Stage 1 findings.",
    "who": "RA Manager",
    "documents": "-",
-   "depends": "TEF.file",
+   "depends": "TEF.file, AUD.establish, MRV.establish",
    "leads": "TEF.certify.stage2",
    "clause": "MDR/IVDR conformity assessment",
    "mods": [
@@ -8279,7 +8282,9 @@
     "Notified Body capacity is a real bottleneck under MDR/IVDR. Apply early - waiting until the device is 'ready' to even start looking for a Notified Body can add many months.",
     "Make sure your Notified Body is designated for your specific device type and codes. Applying to the wrong one wastes precious time you can't get back.",
     "Stage 1 is about whether you're READY for Stage 2. Treat its findings as a gift - they tell you exactly what to fix before the expensive on-site audit.",
-    "Fast, organised responses to the reviewer build credibility. Slow, defensive ones invite deeper scrutiny - the relationship with your Notified Body matters."
+    "Fast, organised responses to the reviewer build credibility. Slow, defensive ones invite deeper scrutiny - the relationship with your Notified Body matters.",
+    "The day counts here are your own effort. The Notified Body's elapsed time is months, not weeks - plan on the lead times you agreed when you engaged them.",
+    "Run a full internal audit and a management review first. A Notified Body will not certify a QMS that has never audited or reviewed itself."
    ],
    "lean": {
     "start": "A well-organised submission and fast, honest responses to the reviewer.",
@@ -8403,8 +8408,8 @@
     }
    ],
    "dur": 10,
-   "es": 197,
-   "ef": 207,
+   "es": 199,
+   "ef": 209,
    "sid": "TEF.certify.stage1",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8641,8 +8646,8 @@
     }
    ],
    "dur": 15,
-   "es": 207,
-   "ef": 222,
+   "es": 209,
+   "ef": 224,
    "sid": "TEF.certify.stage2",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -8660,15 +8665,15 @@
    "phase": "P4",
    "wave": "W7",
    "qse": "Process Management",
-   "statement": "Placing on the market — MDR.",
-   "why": "The technical documentation is the dossier that demonstrates conformity, and the Declaration of Conformity is the manufacturer's legal statement that the device meets the regulation - MDR/IVDR Annex II/III define the technical-file content, and MDR Art 19 / IVDR Art 17 require the DoC. Assembling a complete, well-structured technical file is what the Notified Body reviews; gaps here stop certification.",
-   "what": "Compile the technical documentation per Annex II/III - device description, GSPR checklist, design / manufacturing information, benefit-risk and risk management, verification and validation, clinical / performance evaluation, labelling and PMS - and draw up the EU Declaration of Conformity once conformity is demonstrated.",
-   "how": "1. Compile the technical file (Annex II/III); confirm classification & GSPR.\n2. Issue the DoC; assign UDI & register (LBL); release.",
+   "statement": "Place the device on the market under MDR.",
+   "why": "Placing on the market is the final regulatory gate. With the certificate in hand (or, for class I, the self-declaration complete), you sign the EU Declaration of Conformity, affix the CE mark, register the device in EUDAMED and make sure your importers and distributors can meet their own duties. Device registration in EUDAMED has been mandatory since 28 May 2026, so an unregistered device cannot lawfully be placed. Placement also starts PMS, PMCF and vigilance - it is a start, not an end.",
+   "what": "Complete MDR market placement: confirm the certificate covers the device and variants you are shipping, sign the Declaration of Conformity, affix CE marking, register the device and UDI in EUDAMED, confirm the authorised-representative, importer and distributor arrangements, and switch on the post-market obligations (PMS, PMCF, vigilance).",
+   "how": "1. Confirm the certificate and sign the DoC (TEF-SOP-02).\n2. Affix CE, register the device and UDI in EUDAMED, brief the supply chain, and switch on PMS and vigilance.",
    "who": "RA Manager",
    "documents": "TEF-SOP-02",
    "depends": "TEF.certify.stage2",
-   "leads": "PMS.operate",
-   "clause": "MDR/IVDR Annex II/III, Art 19/17",
+   "leads": "PMS.operate, PCF.report",
+   "clause": "MDR Art 5, 10, 19-20; Art 29 (EUDAMED)",
    "mods": [
     "Core"
    ],
@@ -8678,32 +8683,32 @@
      "role": "Regulatory Affairs / QMR",
      "steps": [
       {
-       "t": "Build to the Annex II/III structure",
-       "d": "assemble the technical documentation in the MDR/IVDR Annex II/III order: device description, GSPR, design & manufacturing info, benefit-risk, V&V, clinical/performance, labelling, PMS. A well-organised file is half the battle."
+       "t": "Confirm the conformity route is complete",
+       "d": "check the certificate scope covers the exact device, variants and sites you are shipping (class I: the self-declaration and technical documentation are complete)."
       },
       {
-       "t": "Fill the GSPR checklist",
-       "d": "work through the General Safety and Performance Requirements checklist and, for each, point to the specific evidence and the standard used. This is the spine of the file."
+       "t": "Sign the Declaration of Conformity",
+       "d": "sign the EU Declaration of Conformity (MDR Art 19, Annex IV) only now that conformity is demonstrated - it is your legal statement and carries liability."
       },
       {
-       "t": "Link every requirement to evidence",
-       "d": "make sure every GSPR has traceable evidence behind it - 'we comply' with nothing to show is the fastest way to a major nonconformity."
+       "t": "Affix the CE marking",
+       "d": "apply the CE mark to the device, packaging and IFU (Art 20), with the Notified Body number where one was involved."
       },
       {
-       "t": "Hunt for and close gaps",
-       "d": "go through the file looking for missing or weak evidence and fix it BEFORE the Notified Body finds it. Your own gap-check is far cheaper than theirs."
+       "t": "Register the device in EUDAMED",
+       "d": "with your SRN in place, register the Basic UDI-DI, the UDI-DI and the device data (Art 29) before the first unit is placed - mandatory since 28 May 2026."
       },
       {
-       "t": "Get the labelling right",
-       "d": "confirm labelling and instructions for use meet the requirements (symbols, UDI carrier, warnings). Labelling errors are a very common, very avoidable finding."
+       "t": "Confirm the supply chain",
+       "d": "an authorised-representative mandate if you are outside the EU (Art 11), and importers and distributors briefed on their own checks (Art 13/14) - they must verify your CE mark, DoC and registration."
       },
       {
-       "t": "Assign UDI and Basic UDI-DI",
-       "d": "assign the Basic UDI-DI and UDI and prepare the device for registration (EUDAMED)."
+       "t": "Cover languages and liability",
+       "d": "label and IFU in the languages each member state requires (Art 10(11)), and financial coverage for potential liability in place (Art 10(16))."
       },
       {
-       "t": "Draw up the Declaration of Conformity",
-       "d": "once conformity is genuinely demonstrated, prepare the EU Declaration of Conformity (MDR Art 19 / IVDR Art 17) - your legal statement that the device complies."
+       "t": "Switch on the post-market duties",
+       "d": "PMS, PMCF and vigilance running from the first sale, with the PRRC's release checks in place (Art 15)."
       }
      ]
     },
@@ -8711,19 +8716,19 @@
      "role": "Verify & evidence",
      "steps": [
       {
-       "t": "The technical documentation follows the Annex II/III structure.",
+       "t": "The certificate (or class I self-declaration) covers the device and variants being placed.",
        "d": ""
       },
       {
-       "t": "A GSPR / essential-requirements checklist links each requirement to evidence.",
+       "t": "The Declaration of Conformity is signed and consistent with the certificate and technical documentation.",
        "d": ""
       },
       {
-       "t": "The Declaration of Conformity is drafted and consistent with the evidence.",
+       "t": "The device and UDI are registered in EUDAMED before the first unit is placed.",
        "d": ""
       },
       {
-       "t": "The file is kept current under change control.",
+       "t": "Importer / distributor arrangements and post-market duties are active at launch.",
        "d": ""
       }
      ]
@@ -8733,45 +8738,35 @@
     {
      "std": "EU MDR 2017/745",
      "refs": [
-      "Annex II/III Technical documentation",
+      "Art 5 Placing on the market",
       "Art 19 Declaration of Conformity",
-      "Annex I GSPR"
-     ]
-    },
-    {
-     "std": "EU IVDR 2017/746",
-     "refs": [
-      "Annex II/III",
-      "Art 17 Declaration of Conformity"
-     ]
-    },
-    {
-     "std": "FDA",
-     "refs": [
-      "510(k) / PMA dossier (if US route)"
+      "Art 20 CE marking",
+      "Art 27 / 29 UDI & device registration (EUDAMED)",
+      "Art 11, 13, 14 Authorised representative, importers, distributors",
+      "Art 10(16) Financial coverage"
      ]
     }
    ],
    "records": [
-    "Technical documentation (Annex II/III)",
-    "Completed GSPR checklist with evidence links",
-    "EU Declaration of Conformity",
-    "UDI / Basic UDI-DI assignment"
+    "Placing on the Market (MDR) SOP",
+    "Signed EU Declaration of Conformity",
+    "EUDAMED device / UDI registration",
+    "Authorised-representative, importer and distributor agreements"
    ],
    "tips": [
-    "The GSPR checklist is the document a reviewer lives in. Every requirement gets specific, traceable evidence - 'complies' with nothing behind it is the fastest route to a major finding.",
-    "Organise the file to the Annex II/III structure. Reviewers know exactly where things should be; a disorganised file makes them assume the content is disorganised too.",
-    "Do your OWN gap analysis first. Every gap you find and fix is one the Notified Body won't raise - and finding it yourself is far cheaper than a deficiency letter.",
-    "Don't sign the Declaration of Conformity until the evidence genuinely supports it. It's a legal statement with real liability, not a formality to rush at the end."
+    "Don't sign the Declaration of Conformity until the evidence genuinely supports it. It's a legal statement with real liability, not a formality to rush at the end.",
+    "Register the device and UDI in EUDAMED before the first unit ships - since 28 May 2026 a registration gap blocks lawful placement.",
+    "Check the certificate scope against what you actually ship. A variant, accessory or site that is not on the certificate is not CE-marked.",
+    "Placement switches on PMS, PMCF and vigilance - have them running, not just planned. Class I (self-declared) still needs the DoC and the registration."
    ],
    "lean": {
-    "start": "Conformity demonstrated, the EU Declaration of Conformity signed, CE marking affixed, and registration ready.",
-    "evolve": "Deepen the evidence, add manufacturing detail, and keep the file live through change control after launch.",
+    "start": "Conformity demonstrated, the EU Declaration of Conformity signed, CE marking affixed, and the device registered in EUDAMED.",
+    "evolve": "Multi-market placement with the right per-market registrations, and the file kept live through change control after launch.",
     "startDetail": [
      "Conformity assessment completed for the device's class (self-declared, or NB certificate in hand).",
      "The EU Declaration of Conformity signed, listing the device, the route and the standards applied.",
      "CE marking affixed correctly, with the Notified Body number where a NB is involved.",
-     "Manufacturer, device and UDI registration in EUDAMED prepared/submitted.",
+     "Manufacturer (SRN), device and UDI registered in EUDAMED before placement.",
      "Authorised-representative and importer/distributor obligations covered.",
      "Post-market obligations (PMS, vigilance) switched on at launch."
     ],
@@ -8783,93 +8778,25 @@
    },
    "subs": [
     {
-     "t": "Structure the technical documentation",
-     "who": "RA / Quality",
-     "why": "The technical file is the dossier that proves conformity. Structuring it to Annex II/III makes it reviewable - organised beats exhaustive.",
-     "what": "Set up the technical documentation to the Annex II/III structure.",
-     "how": [
-      {
-       "t": "Build to the Annex II/III structure",
-       "d": "The required headings - organised beats exhaustive."
-      },
-      {
-       "t": "Populate from your QMS",
-       "d": "Design, risk, clinical and manufacturing evidence."
-      },
-      {
-       "t": "Cross-reference, don't duplicate",
-       "d": "Point to the source records."
-      },
-      {
-       "t": "Keep it navigable",
-       "d": "A reviewer can find anything fast."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "EU MDR",
-       "refs": [
-        "Annex II / III technical documentation"
-       ]
-      }
-     ],
-     "docs": "",
-     "refs": []
-    },
-    {
-     "t": "Complete the GSPR checklist",
-     "who": "RA / Quality",
-     "why": "The GSPR (essential requirements) checklist links every applicable requirement to your evidence - the spine of the technical file.",
-     "what": "Complete the GSPR checklist, linking each requirement to the standard and evidence that satisfies it.",
-     "how": [
-      {
-       "t": "Address every applicable GSPR",
-       "d": "Applicable, or a justified not-applicable."
-      },
-      {
-       "t": "Cite the standard used",
-       "d": "The harmonised/consensus standard you applied."
-      },
-      {
-       "t": "Link to the evidence",
-       "d": "The document that proves each requirement is met."
-      },
-      {
-       "t": "Spot & close gaps",
-       "d": "Any unmet requirement is a submission blocker."
-      }
-     ],
-     "clauses": [
-      {
-       "std": "EU MDR",
-       "refs": [
-        "Annex I GSPR"
-       ]
-      }
-     ],
-     "docs": "",
-     "refs": []
-    },
-    {
-     "t": "Draft the Declaration of Conformity",
+     "t": "Confirm certification & sign the DoC",
      "who": "RA / Top management",
-     "why": "The DoC is your legal statement that the device conforms. It must be consistent with the evidence and signed by the manufacturer.",
-     "what": "Draft the Declaration of Conformity, consistent with the technical file.",
+     "why": "Placement is only lawful once conformity is truly demonstrated. The DoC is your legal statement that it is, signed by the manufacturer.",
+     "what": "Check the certificate scope and sign the Declaration of Conformity.",
      "how": [
       {
-       "t": "Draft the Declaration of Conformity",
-       "d": "With all the Annex IV required content."
+       "t": "Check the certificate",
+       "d": "Right device, variants, class and sites."
       },
       {
-       "t": "Check consistency",
-       "d": "Against the classification, evidence and file."
+       "t": "Class I: confirm the self-declaration",
+       "d": "Technical documentation complete, no certificate needed."
       },
       {
-       "t": "Confirm the manufacturer details",
-       "d": "Legal manufacturer, and SRN/Basic UDI-DI where required."
+       "t": "Check DoC consistency",
+       "d": "Against the classification, certificate and file."
       },
       {
-       "t": "Prepare for signature",
+       "t": "Sign it",
        "d": "By the manufacturer's authorised signatory."
       }
      ],
@@ -8877,6 +8804,7 @@
       {
        "std": "EU MDR",
        "refs": [
+        "Art. 52 Conformity assessment",
         "Art. 19 / Annex IV DoC"
        ]
       }
@@ -8885,22 +8813,93 @@
      "refs": []
     },
     {
-     "t": "Keep the file live under change control",
-     "who": "RA / Quality",
-     "why": "The technical file is not frozen at launch - it lives through change control and PMS for the device's life.",
-     "what": "Establish how the technical file is maintained current under change control after launch.",
+     "t": "CE mark & register in EUDAMED",
+     "who": "RA",
+     "why": "The CE mark and the EUDAMED registration are legal preconditions for placing the device, not paperwork to catch up on later.",
+     "what": "Affix the CE mark and register the device and UDI in EUDAMED.",
      "how": [
+      {
+       "t": "Affix CE per route",
+       "d": "With the NB number where applicable."
+      },
+      {
+       "t": "Confirm the SRN",
+       "d": "Actor registration is already in place."
+      },
+      {
+       "t": "Register the device",
+       "d": "Basic UDI-DI, UDI-DI and device data."
+      },
+      {
+       "t": "Keep it current",
+       "d": "Update the registration when the device changes."
+      }
+     ],
+     "clauses": [
+      {
+       "std": "EU MDR",
+       "refs": [
+        "Art. 20 CE marking",
+        "Art. 27 / 29 UDI & registration"
+       ]
+      }
+     ],
+     "docs": "",
+     "refs": []
+    },
+    {
+     "t": "Confirm the supply chain",
+     "who": "RA / Commercial",
+     "why": "Importers and distributors have their own legal checks, and they will ask you for the evidence. A gap here stops the product at the border, not at the audit.",
+     "what": "Confirm the authorised representative, importers and distributors can meet their obligations.",
+     "how": [
+      {
+       "t": "Authorised representative",
+       "d": "Mandate in place if you are outside the EU."
+      },
+      {
+       "t": "Brief importers & distributors",
+       "d": "CE mark, DoC, registration and label checks."
+      },
+      {
+       "t": "Cover the languages",
+       "d": "Label and IFU per member state."
+      },
+      {
+       "t": "Cover liability",
+       "d": "Financial coverage proportionate to the risk class."
+      }
+     ],
+     "clauses": [
+      {
+       "std": "EU MDR",
+       "refs": [
+        "Art. 11 Authorised representative",
+        "Art. 13 / 14 Importers & distributors",
+        "Art. 10(16) Financial coverage"
+       ]
+      }
+     ],
+     "docs": "",
+     "refs": []
+    },
+    {
+     "t": "Activate post-market duties & keep the file live",
+     "who": "RA / Quality",
+     "why": "Obligations start at placement, not later, and the technical file lives on through change control and PMS for the device's life.",
+     "what": "Switch on PMS, PMCF and vigilance, and keep the technical file current under change control.",
+     "how": [
+      {
+       "t": "Confirm PMS / PMCF running",
+       "d": "Not just documented."
+      },
+      {
+       "t": "Vigilance ready",
+       "d": "Reporting path live."
+      },
       {
        "t": "Link to change control",
        "d": "Every change updates the file."
-      },
-      {
-       "t": "Link to PMS & vigilance",
-       "d": "Field data flows into the file."
-      },
-      {
-       "t": "Schedule reviews",
-       "d": "Keep it current, not frozen at launch."
       },
       {
        "t": "Version it",
@@ -8911,6 +8910,8 @@
       {
        "std": "EU MDR",
        "refs": [
+        "Art. 83 PMS",
+        "Art. 87 Vigilance",
         "Annex II (living file)"
        ]
       }
@@ -8920,8 +8921,8 @@
     }
    ],
    "dur": 10,
-   "es": 222,
-   "ef": 232,
+   "es": 224,
+   "ef": 234,
    "sid": "TEF.market.mdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9059,8 +9060,8 @@
     }
    ],
    "dur": 5,
-   "es": 222,
-   "ef": 227,
+   "es": 224,
+   "ef": 229,
    "sid": "TEF.market.ivdr",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9078,7 +9079,7 @@
    "wave": "W5",
    "qse": "Customer Focus",
    "statement": "Release the product to the US market (FDA pathway).",
-   "why": "The US pathway is separate from CE marking: most devices need a 510(k) clearance (substantial equivalence), some a De Novo, and high-risk devices a PMA approval, with establishment registration and device listing under 21 CFR 807. From 2026 the Quality System Regulation aligns to ISO 13485 as the QMSR. FDA product release means the US-specific submission is cleared/approved and the device is registered and listed.",
+   "why": "The US pathway is separate from CE marking: most devices need a 510(k) clearance (substantial equivalence), some a De Novo, and high-risk devices a PMA approval, with establishment registration and device listing under 21 CFR 807. Since 2 February 2026 the Quality Management System Regulation (QMSR) incorporates ISO 13485:2016 by reference, replacing the old Quality System Regulation. FDA product release means the US-specific submission is cleared/approved and the device is registered and listed.",
    "what": "Complete the US market pathway: determine the route (510(k) / De Novo / PMA), prepare and clear/approve the submission, register the establishment and list the device (21 CFR 807), and release for the US market under the QMSR.",
    "how": "",
    "who": "Regulatory Affairs (US)",
@@ -9127,7 +9128,7 @@
    "tips": [
     "Pick the route early - 510(k) needs a predicate; no predicate may mean De Novo or PMA, a very different effort.",
     "The US submission is separate from CE - do not assume EU evidence maps one-to-one.",
-    "QMSR (from 2026) aligns FDA to ISO 13485 - your 13485 QMS is largely reusable, but check the deltas.",
+    "QMSR (in force since 2 February 2026) aligns FDA to ISO 13485 - your 13485 QMS is largely reusable, but check the deltas.",
     "Establishment registration and device listing are required even after clearance - do not stop at 510(k)."
    ],
    "lean": {
@@ -9198,8 +9199,8 @@
     }
    ],
    "dur": 8,
-   "es": 197,
-   "ef": 205,
+   "es": 199,
+   "ef": 207,
    "sid": "TEF.market.fda",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -9355,7 +9356,7 @@
    "wave": "W3",
    "qse": "Process Management",
    "statement": "Produce the label, UDI layout and IFU to Annex I Ch III.",
-   "why": "Labelling and the instructions for use are regulated deliverables: MDR/IVDR Annex I Chapter III sets what the label and IFU must contain, and Art 27 requires UDI (unique device identification) to be assigned and, for higher classes, registered in EUDAMED. Errors here - missing symbols, wrong UDI, an unclear IFU - are common causes of nonconformity and field actions. eIFU is permitted for certain professional devices under specific conditions.",
+   "why": "Labelling and the instructions for use are regulated deliverables: MDR/IVDR Annex I Chapter III sets what the label and IFU must contain, and MDR Art 27 (IVDR Art 24) requires UDI (unique device identification) to be assigned, and MDR Art 29 (IVDR Art 26) requires the device and its UDI-DI to be registered in EUDAMED before it is placed on the market - mandatory for every class since 28 May 2026. Errors here - missing symbols, wrong UDI, an unclear IFU - are common causes of nonconformity and field actions. eIFU is permitted for certain professional devices under specific conditions.",
    "what": "Produce the label and UDI layout, assign and record the device identifiers (UDI-DI/PI), and write the instructions for use (paper or eIFU) meeting Annex I Chapter III, ready for the technical file and EUDAMED registration.",
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Regulatory Affairs / Labeling Lead",
@@ -9525,7 +9526,7 @@
    "who": "PMS Owner / RA",
    "documents": "PMS-SOP-01; PMS-TPL-03; PMS-TPL-08",
    "depends": "-",
-   "leads": "PMS.operate",
+   "leads": "PMS.operate, TEF.file",
    "clause": "MDR Art 83-92 / IVDR 78-81",
    "mods": [
     "Core"
@@ -9940,8 +9941,8 @@
     }
    ],
    "dur": 6,
-   "es": 232,
-   "ef": 238,
+   "es": 234,
+   "ef": 240,
    "sid": "PMS.operate",
    "proc": "PMS",
    "procName": "Post-market surveillance",
@@ -10161,7 +10162,7 @@
    "who": "Clinical / Regulatory Affairs",
    "documents": "PCF-SOP-01; PCF-TPL-01",
    "depends": "CLE.report",
-   "leads": "PCF.report",
+   "leads": "PCF.report, TEF.file",
    "clause": "MDR Annex XIV Part B; MDCG 2020-7",
    "mods": [
     "Core"
@@ -10294,15 +10295,15 @@
   {
    "id": "PCF.report",
    "phase": "P4",
-   "wave": "W4",
+   "wave": "W8",
    "qse": "Process Management",
    "statement": "Execute PMCF and write the PMCF evaluation report.",
-   "why": "Post-Market Clinical Follow-up (PMCF) is the proactive, continuous collection of clinical data once the device is marketed, to confirm safety and performance over its lifetime and refine the benefit-risk. MDR Annex XIV Part B requires a PMCF plan and, following it, a PMCF evaluation report that feeds the CER and the PSUR. For IVDs the equivalent is PMPF (post-market performance follow-up). Where PMCF is not conducted, the absence must be justified.",
+   "why": "Post-Market Clinical Follow-up (PMCF) is the proactive, continuous collection of clinical data once the device is marketed, to confirm safety and performance over its lifetime and refine the benefit-risk. MDR Annex XIV Part B requires a PMCF plan and, following it, a PMCF evaluation report that feeds the CER and the PSUR. For IVDs the equivalent is PMPF (post-market performance follow-up). It can only start once the device is on the market, which is why it follows market placement and not the technical file. Where PMCF is not conducted, the absence must be justified.",
    "what": "Execute the PMCF plan and produce the PMCF evaluation report: analyse the clinical data collected post-market (registries, surveys, studies, literature) against the plan's objectives, update the benefit-risk and clinical claims, and feed the CER and PSUR.",
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Clinical / Regulatory Affairs",
    "documents": "PCF-TPL-02",
-   "depends": "PCF.plan",
+   "depends": "PCF.plan, TEF.market.mdr",
    "leads": "-",
    "clause": "MDR Annex XIV Part B; MDCG 2020-7/8",
    "mods": [
@@ -10428,8 +10429,8 @@
     }
    ],
    "dur": 5,
-   "es": 187,
-   "ef": 192,
+   "es": 234,
+   "ef": 239,
    "sid": "PCF.report",
    "proc": "PCF",
    "procName": "Post-market clinical follow-up",
@@ -10448,7 +10449,7 @@
    "qse": "Continual Improvement",
    "statement": "Set up EU vigilance & incident reporting.",
    "why": "Vigilance is the reactive duty to report serious incidents and field safety corrective actions to competent authorities within strict deadlines. MDR Art 87-92 (IVDR Art 82-87) set what and when to report - a serious incident is generally reportable within 15 days (2 days for serious public-health threat, 10 for death/serious deterioration). This is distinct from proactive PMS; missing a vigilance deadline is a serious regulatory failure.",
-   "what": "Establish the EU vigilance process: how serious incidents are captured, evaluated for reportability, and reported to authorities within the deadlines (via EUDAMED where available), including field safety corrective actions and FSNs.",
+   "what": "Establish the EU vigilance process: how serious incidents are captured, evaluated for reportability, and reported to authorities within the deadlines (through the national competent authority's route until the EUDAMED vigilance module becomes mandatory), including field safety corrective actions and FSNs.",
    "how": "1. Run PMS and produce PMS report/PSUR (PMS-SOP-01).\n2. Operate vigilance reporting (VIG-SOP-02) and PMCF/PMPF (PCF/PEV).",
    "who": "Regulatory Affairs / Vigilance",
    "documents": "VIG-SOP-02; VIG-FOR-02; VIG-FOR-03",
@@ -10469,7 +10470,7 @@
       },
       {
        "t": "Report within the deadlines",
-       "d": "Authorities via EUDAMED; 15/10/2-day clocks."
+       "d": "National competent authority (MIR form) until the EUDAMED vigilance module is mandatory; 15/10/2-day clocks."
       },
       {
        "t": "Manage FSCA / FSN",
@@ -10502,7 +10503,8 @@
     "Vigilance is reactive reporting; PMS is proactive surveillance - do not merge the two processes.",
     "Know the clocks: generally 15 days, 10 for death/serious deterioration, 2 for a serious public-health threat.",
     "Evaluate reportability quickly and document the decision - even 'not reportable' needs a rationale.",
-    "A field safety corrective action needs an FSN to users - plan the communication path."
+    "A field safety corrective action needs an FSN to users - plan the communication path.",
+    "Check the status of the EUDAMED vigilance module when you set this up: unlike registration, it was not among the modules made mandatory on 28 May 2026, and reporting moves there once it is."
    ],
    "lean": {
     "start": "A vigilance SOP with the reportability decision and the deadline clocks, plus the report forms.",
@@ -10511,7 +10513,7 @@
      "A vigilance SOP: how a potential serious incident is captured and triaged.",
      "A reportability decision aid distinguishing reportable serious incidents from non-reportable events.",
      "The reporting deadline clocks understood (immediate / 2 / 10 / 15-day) and how they start.",
-     "The manufacturer incident report (MIR) form and the route (EUDAMED where available).",
+     "The manufacturer incident report (MIR) form and the route (national competent authority; EUDAMED once its vigilance module is mandatory).",
      "The field-safety-corrective-action (FSCA) and field-safety-notice (FSN) process.",
      "The links into PMS, the risk file and CAPA."
     ],
@@ -10545,7 +10547,7 @@
      "what": "Report to authorities within the timelines.",
      "how": [
       {
-       "t": "Use EUDAMED / forms",
+       "t": "Use the MIR form & the current route",
        "d": "Required channel and content."
       },
       {
@@ -10783,8 +10785,8 @@
     }
    ],
    "dur": 6,
-   "es": 205,
-   "ef": 211,
+   "es": 207,
+   "ef": 213,
    "sid": "VIG.us",
    "proc": "VIG",
    "procName": "Vigilance",
@@ -12560,13 +12562,13 @@
    "wave": "W2",
    "qse": "Organisation",
    "statement": "Management review & data analysis.",
-   "why": "Management review is where Top Management judges whether the QMS is suitable, adequate and effective, using analysed data - audit results, complaints, CAPA, supplier and process performance, post-market and regulatory inputs - and decides on resources, changes and improvements (ISO 13485 5.6, 8.4). It is the formal closing of the loop and a mandatory record auditors always check.",
+   "why": "Management review is where Top Management judges whether the QMS is suitable, adequate and effective, using analysed data - audit results, complaints, CAPA, supplier and process performance, post-market and regulatory inputs - and decides on resources, changes and improvements (ISO 13485 5.6, 8.4). The first review has to be held, with the internal-audit results as an input, before the Notified Body's Stage 1. It is the formal closing of the loop and a mandatory record auditors always check.",
    "what": "Run management review and the analysis of data that feeds it: define the inputs, collect and analyse data on QMS and product performance, hold the review at planned intervals, and record the outputs - decisions on suitability and effectiveness, improvements, resource and change actions.",
    "how": "1. Analyse quality/security/AI data and trends (MRV-FOR-01).\n2. Hold the management review and decide actions (MRV-TPL-01).",
    "who": "Top Management",
    "documents": "MRV-SOP-01; MRV-TPL-01; MRV-FOR-01",
    "depends": "-",
-   "leads": "-",
+   "leads": "TEF.certify.stage1",
    "clause": "ISO 13485 5.6/8.4",
    "mods": [
     "Core"
@@ -12839,13 +12841,13 @@
    "wave": "W2",
    "qse": "Assessment",
    "statement": "Internal audit programme, plan & report.",
-   "why": "Internal audits are how the organisation checks itself before a Notified Body or the FDA does - ISO 13485 (8.2.4) requires planned audits at intervals based on status and importance, conducted by objective auditors, with findings driving correction and CAPA. A working internal-audit programme is direct evidence the QMS is monitored and improved, and it surfaces problems while they are still cheap to fix.",
+   "why": "Internal audits are how the organisation checks itself before a Notified Body or the FDA does - ISO 13485 (8.2.4) requires planned audits at intervals based on status and importance, conducted by objective auditors, with findings driving correction and CAPA. One full audit cycle, followed by a management review, has to be complete before the Notified Body's Stage 1. A working internal-audit programme is direct evidence the QMS is monitored and improved, and it surfaces problems while they are still cheap to fix.",
    "what": "Establish the internal-audit programme: a risk-based audit schedule covering all processes and applicable requirements, trained and independent auditors, an audit procedure (planning, conduct, reporting, follow-up), and the link from findings to correction and CAPA.",
    "how": "1. Build a risk-based annual audit programme (AUD-TPL-01).\n2. Conduct audits with independent auditors; raise CAPAs.",
    "who": "QMR",
    "documents": "AUD-SOP-01; AUD-TPL-01; AUD-TPL-02; AUD-TPL-03; AUD-LIS-01",
    "depends": "-",
-   "leads": "-",
+   "leads": "TEF.certify.stage1",
    "clause": "ISO 13485 8.2.4",
    "mods": [
     "Core"
@@ -16721,14 +16723,14 @@
    "phase": "P2",
    "wave": "W3",
    "qse": "Information Management",
-   "statement": "Establish product security: SBOM, threat model & pen-test.",
-   "why": "Product security is now a safety requirement for connected and software devices. IEC 81001-5-1 and MDCG 2019-16 expect a security risk management process, a software bill of materials (SBOM) with SOUP/third-party components tracked, a threat model and security controls, penetration testing, and a coordinated vulnerability disclosure policy. Security weaknesses can become patient-safety hazards, so security and safety risk management must connect.",
-   "what": "Establish the product security process: build the SBOM/SOUP list, run security risk management and threat modelling, test via penetration testing, and publish a coordinated vulnerability disclosure policy - feeding the safety risk file.",
+   "statement": "Establish product security: SBOM, threat model & security risk management.",
+   "why": "Product security is now a safety requirement for connected and software devices. IEC 81001-5-1 and MDCG 2019-16 expect a security risk management process, a software bill of materials (SBOM) with SOUP/third-party components tracked, a threat model and security controls, security testing of the built system (run in Phase 3), and a coordinated vulnerability disclosure policy. Security weaknesses can become patient-safety hazards, so security and safety risk management must connect.",
+   "what": "Establish the product security process: build the SBOM/SOUP list, run security risk management and threat modelling, plan the security testing you will run on the built system, and publish a coordinated vulnerability disclosure policy - feeding the safety risk file.",
    "how": "1. Define ISMS scope & SoA (ISM-TPL-01); assess infosec risk (ISM-TPL-02).\n2. Threat-model the product; build the SBOM (SEC-LIS-01); plan security testing.",
    "who": "Security Lead",
-   "documents": "SEC-SOP-01; SEC-POL-01; SEC-TPL-01; SEC-LIS-01; SEC-FOR-01",
+   "documents": "SEC-SOP-01; SEC-POL-01; SEC-TPL-01; SEC-LIS-01",
    "depends": "-",
-   "leads": "SEC.postmarket",
+   "leads": "SEC.postmarket, SEC.pentest",
    "clause": "IEC 81001-5-1; MDCG 2019-16",
    "mods": [
     "SEC"
@@ -16743,8 +16745,8 @@
        "d": "Component inventory (SOUP) and the threats/controls."
       },
       {
-       "t": "Run security risk mgmt & pen-test",
-       "d": "Security risk report; penetration testing."
+       "t": "Run security risk mgmt & plan testing",
+       "d": "Security risk report; the security test plan for the built system."
       },
       {
        "t": "Publish CVD policy",
@@ -16771,23 +16773,23 @@
     "Product Security & Cybersecurity SOP",
     "SBOM & SOUP list",
     "Security Risk Management Report",
-    "Penetration Test Report",
+    "Security test plan",
     "CVD Policy"
    ],
    "tips": [
     "Maintain an SBOM from day one - you cannot manage vulnerabilities in components you have not listed.",
     "Connect security risk to safety risk (ISO 14971) - a vulnerability can be a patient-safety hazard.",
-    "Penetration test the real system, not a mock-up - and re-test after significant changes.",
+    "Plan the penetration test now and run it later: it only counts on the real, built system (Phase 3), so scope it from the threat model while the architecture is fresh.",
     "Publish a coordinated vulnerability disclosure policy - regulators expect a way for researchers to report."
    ],
    "lean": {
     "start": "An SBOM, a threat model with controls, and a basic security risk assessment plus a disclosure route.",
-    "evolve": "Full security risk management, penetration testing and a mature CVD process feeding post-market surveillance.",
+    "evolve": "Full security risk management and a mature CVD process feeding post-market surveillance.",
     "startDetail": [
      "An SBOM / SOUP list of the components in the product.",
      "A threat model identifying the attack surface and the controls that mitigate it.",
      "A security risk assessment feeding into the safety risk file.",
-     "Security testing appropriate to the product (at least basic penetration testing).",
+     "A security test plan scoped from the threat model, ready for the Phase 3 penetration test.",
      "A coordinated vulnerability-disclosure route so researchers can report safely.",
      "Secure-design requirements captured as design inputs."
     ],
@@ -16815,18 +16817,18 @@
      ]
     },
     {
-     "t": "Run security risk management & pen-test",
+     "t": "Run security risk management & plan testing",
      "who": "Security",
-     "why": "Testing and risk analysis turn the threat model into evidence.",
-     "what": "Assess security risk and run penetration testing.",
+     "why": "Risk analysis turns the threat model into decisions, and tells you what the later penetration test has to cover.",
+     "what": "Assess security risk and plan the security testing.",
      "how": [
       {
        "t": "Assess & link to safety",
        "d": "Security risks that affect safety."
       },
       {
-       "t": "Penetration test",
-       "d": "On the real system."
+       "t": "Plan the security test",
+       "d": "Scope and timing for the Phase 3 test on the built system."
       }
      ]
     },
@@ -16847,9 +16849,9 @@
      ]
     }
    ],
-   "dur": 12,
+   "dur": 8,
    "es": 33,
-   "ef": 45,
+   "ef": 41,
    "sid": "SEC.establish",
    "proc": "SEC",
    "procName": "Product security",
@@ -16857,6 +16859,119 @@
    "reg": [],
    "authored": true,
    "ord": 78,
+   "workstream": "tf"
+  },
+  {
+   "id": "SEC.pentest",
+   "phase": "P3",
+   "wave": "W2",
+   "qse": "Information Management",
+   "statement": "Penetration-test the built system and close the findings.",
+   "why": "A threat model says what could go wrong; a penetration test shows what actually does. IEC 81001-5-1 expects security testing of the implemented software - requirements testing, threat-mitigation testing, vulnerability scanning and penetration testing - and MDCG 2019-16 expects that evidence in the technical documentation. It only means something on the real, integrated build, which is why it sits here with verification and not with the threat model in Phase 2.",
+   "what": "Run security testing on the release-candidate system: scope the test from the threat model and SBOM, have someone independent of the developers penetration-test it, triage every finding into the security risk file, fix or justify each one, and re-test the fixes.",
+   "how": "1. Scope the test from the threat model and SBOM (SEC-TPL-01, SEC-LIS-01).\n2. Test the built system, triage and fix the findings, re-test, and record the report (SEC-FOR-01).",
+   "who": "Security Lead",
+   "documents": "SEC-FOR-01",
+   "depends": "SEC.establish, SWD.build",
+   "leads": "SWD.release, SEC.postmarket",
+   "clause": "IEC 81001-5-1; MDCG 2019-16",
+   "mods": [
+    "SEC"
+   ],
+   "deep": 1,
+   "how2": [
+    {
+     "role": "Security",
+     "steps": [
+      {
+       "t": "Scope the test from the threat model",
+       "d": "Interfaces, trust boundaries and the threats you claimed to mitigate; include third-party components from the SBOM."
+      },
+      {
+       "t": "Test the real, built system",
+       "d": "The release-candidate build in a production-like environment, by a tester independent of the developers."
+      },
+      {
+       "t": "Triage findings into the risk file",
+       "d": "Rate each finding and decide whether it can affect safety; safety-relevant ones go into the ISO 14971 risk file."
+      },
+      {
+       "t": "Fix, justify and re-test",
+       "d": "Close each finding or record why it is accepted, then re-test the fixes before release."
+      }
+     ]
+    },
+    {
+     "role": "Verify & evidence",
+     "steps": [
+      {
+       "t": "A penetration test report covers the release-candidate build, with scope and tester independence stated.",
+       "d": ""
+      },
+      {
+       "t": "Every finding has a disposition, and fixes are re-tested.",
+       "d": ""
+      }
+     ]
+    }
+   ],
+   "clausemap": [
+    {
+     "std": "IEC 81001-5-1",
+     "refs": [
+      "5.7 Software system testing (security requirements, threat mitigation, vulnerability and penetration testing)"
+     ]
+    },
+    {
+     "std": "MDCG guidance",
+     "refs": [
+      "MDCG 2019-16 Cybersecurity - verification & validation"
+     ]
+    },
+    {
+     "std": "FDA guidance",
+     "refs": [
+      "Premarket cybersecurity - security testing (if US)"
+     ]
+    }
+   ],
+   "records": [
+    "Security / Penetration Test Report",
+    "Findings log with dispositions",
+    "Re-test evidence"
+   ],
+   "tips": [
+    "Test the build you intend to release. A test on a prototype or a mock-up tells a reviewer nothing about the product.",
+    "Use a tester who did not write the code - IEC 81001-5-1 asks for independence, and developers do not attack their own assumptions.",
+    "A finding that could harm a patient is a safety risk, not just a security ticket. Put it in the risk file.",
+    "Re-test after significant changes. A penetration test describes one build on one day."
+   ],
+   "lean": {
+    "start": "One scoped penetration test of the release-candidate build by an independent tester, with every finding closed or justified.",
+    "startDetail": [
+     "A test scope derived from the threat model and the SBOM.",
+     "A penetration test of the real, built system by someone independent of development.",
+     "Each finding rated, with safety-relevant ones entered in the risk file.",
+     "Fixes re-tested, and accepted findings justified in writing.",
+     "The test report filed for the technical documentation."
+    ],
+    "evolve": "Recurring tests tied to releases, automated vulnerability scanning in the build, and findings trended over time.",
+    "evolveDetail": [
+     "Penetration tests repeated on significant change and at a fixed interval.",
+     "Automated dependency and vulnerability scanning in the build pipeline.",
+     "Findings trended and fed into post-market security surveillance."
+    ]
+   },
+   "dur": 4,
+   "es": 101,
+   "ef": 105,
+   "sid": "SEC.pentest",
+   "proc": "SEC",
+   "procName": "Product security",
+   "maturity": "full",
+   "reg": [],
+   "authored": true,
+   "ord": 94,
    "workstream": "tf"
   },
   {
@@ -16870,7 +16985,7 @@
    "how": "[TO AUTHOR in Phase 2]",
    "who": "Security Lead / PSIRT",
    "documents": "SEC-TPL-02",
-   "depends": "SEC.establish",
+   "depends": "SEC.establish, SEC.pentest",
    "leads": "VIG.eu",
    "clause": "MDCG 2019-16; IEC 81001-5-1",
    "mods": [
@@ -20206,7 +20321,7 @@
    "wave": "W2",
    "qse": "Continual Improvement",
    "statement": "Establish the device & actor registration procedure.",
-   "why": "Manufacturers, their authorised representatives and importers, and each device, must be registered with the authorities (EUDAMED under MDR/IVDR; FDA establishment registration & listing) before or at market placement. A defined procedure means registrations are complete, correct and renewed on time - missing or lapsed registrations block market access and are a common inspection finding.",
+   "why": "Manufacturers, their authorised representatives and importers, and each device, must be registered with the authorities (EUDAMED under MDR/IVDR; FDA establishment registration & listing) before or at market placement. EUDAMED's actor, UDI/device and certificate modules have been mandatory since 28 May 2026. A defined procedure means registrations are complete, correct and renewed on time - missing or lapsed registrations block market access and are a common inspection finding.",
    "what": "Write the registration procedure: which actors and devices must be registered in which systems (EUDAMED, national registers, FDA), who owns each, the data required (SRN, Basic UDI-DI, UDI-DI), the trigger points, and how registrations are kept current.",
    "how": "",
    "who": "RA",
@@ -20277,7 +20392,7 @@
     "Registration tracker"
    ],
    "tips": [
-    "Register early where the system allows - a lapsed registration blocks market access.",
+    "Get your SRN early: actor registration needs competent-authority validation, and you use the SRN when you apply to a Notified Body (MDR Art 31).",
     "Basic UDI-DI is the key that ties your registrations and technical documentation together.",
     "Actor registration (SRN) usually comes before device registration - sequence them."
    ],
@@ -20518,17 +20633,17 @@
   },
   {
    "id": "DEV.transfer",
-   "phase": "P4",
+   "phase": "P3",
    "wave": "W2",
    "qse": "Process Management",
    "statement": "Transfer the design to production.",
-   "why": "Design transfer is where the verified, validated design becomes something production can build repeatably. ISO 13485 7.3.8 requires design outputs to be verified as suitable for manufacturing before they become production specifications - skip a controlled transfer and you ship a product that differs from what you designed and validated.",
-   "what": "Verify that design outputs are correctly translated into production specifications, work instructions and acceptance criteria; confirm production can reproducibly build to spec; and record the design transfer before routine manufacturing begins.",
+   "why": "Design transfer is where the verified design becomes something production can build repeatably - and it comes before validation, because ISO 13485 7.3.7 wants validation run on initial production units or their equivalents. ISO 13485 7.3.8 requires design outputs to be verified as suitable for manufacturing before they become production specifications - skip a controlled transfer and you validate, then ship, a product that differs from what you designed.",
+   "what": "Verify that design outputs are correctly translated into production specifications, work instructions and acceptance criteria; confirm production can reproducibly build to spec; and record the design transfer before validation units are built and routine manufacturing begins.",
    "how": "",
    "who": "R&D / Operations",
    "documents": "",
-   "depends": "DEV.validate",
-   "leads": "-",
+   "depends": "DEV.verify",
+   "leads": "DEV.validate",
    "clause": "ISO 13485 7.3.8 design and development transfer",
    "mods": [
     "Core"
@@ -20540,7 +20655,7 @@
      "steps": [
       {
        "t": "Produce production specs & instructions",
-       "d": "From the verified/validated design outputs."
+       "d": "From the verified design outputs."
       },
       {
        "t": "Set acceptance criteria",
@@ -20565,7 +20680,7 @@
      "role": "Verify & evidence",
      "steps": [
       {
-       "t": "A signed design-transfer record confirms production can build the validated design.",
+       "t": "A signed design-transfer record confirms production can build the verified design.",
        "d": ""
       }
      ]
@@ -20579,9 +20694,9 @@
      ]
     },
     {
-     "std": "FDA 21 CFR 820",
+     "std": "FDA 21 CFR 820 (QMSR)",
      "refs": [
-      "820.30(h) design transfer"
+      "820.10 (via ISO 13485 7.3.8 Design & development transfer)"
      ]
     }
    ],
@@ -20590,16 +20705,16 @@
     "Production specifications & work instructions"
    ],
    "tips": [
-    "Transfer is a gate, not a formality - production must prove it can build the validated design.",
+    "Transfer is a gate, not a formality - production must prove it can build the verified design, on the units you then validate.",
     "Define acceptance criteria before the first production run, not after.",
     "A pilot / first-article run catches transfer gaps before they become field failures."
    ],
    "lean": {
-    "start": "A design-transfer record confirming production specs, work instructions and acceptance criteria match the validated design.",
+    "start": "A design-transfer record confirming production specs, work instructions and acceptance criteria match the verified design.",
     "startDetail": [
      "Design outputs translated into production specifications and work instructions.",
      "Acceptance criteria defined for incoming, in-process and final checks.",
-     "A confirmation that production can reproducibly build to the validated spec (first-article / pilot run).",
+     "A confirmation that production can reproducibly build to the verified spec (first-article / pilot run).",
      "A design-transfer record signed before routine manufacturing.",
      "Any process validation (IQ/OQ/PQ) needs identified and scheduled."
     ],
@@ -20611,8 +20726,8 @@
     ]
    },
    "dur": 5,
-   "es": 171,
-   "ef": 176,
+   "es": 116,
+   "ef": 121,
    "sid": "DEV.transfer",
    "proc": "DEV",
    "procName": "Design & development",
@@ -20788,9 +20903,9 @@
      ]
     },
     {
-     "std": "FDA 21 CFR 820",
+     "std": "FDA 21 CFR 820 (QMSR)",
      "refs": [
-      "820.30(b) design and development planning"
+      "820.10 (via ISO 13485 7.3.2 Design & development planning)"
      ]
     }
    ],
@@ -20890,9 +21005,9 @@
      ]
     },
     {
-     "std": "FDA 21 CFR 820",
+     "std": "FDA 21 CFR 820 (QMSR)",
      "refs": [
-      "820.30(f)(g) verification & validation"
+      "820.10 (via ISO 13485 7.3.6 / 7.3.7 Verification & validation)"
      ]
     }
    ],
@@ -21394,9 +21509,9 @@
      ]
     },
     {
-     "std": "FDA 21 CFR 820",
+     "std": "FDA 21 CFR 820 (QMSR)",
      "refs": [
-      "820.30 design controls"
+      "820.10 (via ISO 13485 7.3 Design & development)"
      ]
     }
    ],
@@ -21448,7 +21563,7 @@
    "who": "Quality / Management",
    "documents": "",
    "depends": "RSK.report",
-   "leads": "-",
+   "leads": "TEF.file",
    "clause": "ISO 14971 8 overall residual risk evaluation",
    "mods": [
     "Core"
@@ -21603,9 +21718,9 @@
      ]
     },
     {
-     "std": "FDA 21 CFR 820",
+     "std": "FDA 21 CFR 820 (QMSR)",
      "refs": [
-      "820.30(f)(g)"
+      "820.10 (via ISO 13485 7.3.6 / 7.3.7 Verification & validation)"
      ]
     }
    ],
@@ -21716,7 +21831,8 @@
    "tips": [
     "ISO 10993-1 is a risk-based method, not a test list - the SOP must say when NOT to test.",
     "It's legitimate to fold this into the D&D procedure rather than maintain a standalone SOP.",
-    "The SOP governs; the device's biological evaluation plan and report are the records."
+    "The SOP governs; the device's biological evaluation plan and report are the records.",
+    "Work to ISO 10993-1:2025, which replaced the 2018 edition: it frames the work as biological safety within risk management and brings in reasonably foreseeable misuse. Check which edition your Notified Body and target markets currently accept, and say which one you follow."
    ],
    "lean": {
     "start": "A one-page biological-evaluation SOP - or a section in the D&D procedure - covering contact categorisation, endpoint selection and when to test.",
@@ -22264,8 +22380,8 @@
     ]
    },
    "dur": 10,
-   "es": 197,
-   "ef": 207,
+   "es": 199,
+   "ef": 209,
    "sid": "TEF.cdx",
    "proc": "TEF",
    "procName": "Technical file & market access",
@@ -25648,35 +25764,35 @@
      "REG.establish",
      "DOC.establish",
      "HRT.establish",
-     "INF.establish"
+     "INF.establish",
+     "PUR.establish",
+     "HRT.mature"
     ],
     "P2": [
      "DEV.inputs",
-     "DEV.verify",
-     "DEV.validate",
      "DEV.ivd",
-     "CMP.setup",
-     "CAP.setup",
      "CHG.setup",
-     "NCP.setup",
-     "INF.csv",
-     "INF.metrology",
-     "PUR.establish",
-     "SAL.setup",
-     "SUP.setup",
-     "PRO.setup",
-     "STE.setup",
-     "PSA.setup"
+     "INF.csv"
     ],
     "P3": [
+     "DEV.verify",
+     "DEV.validate",
+     "CMP.setup",
+     "CAP.setup",
+     "NCP.setup",
+     "INF.metrology",
+     "SAL.setup",
+     "PRO.setup",
+     "STE.setup",
+     "PSA.setup",
      "CAP.operate",
-     "MRV.establish",
-     "AUD.establish",
-     "DOC.maintain",
-     "HRT.mature",
-     "PUR.surveil"
+     "DOC.maintain"
     ],
     "P4": [
+     "SUP.setup",
+     "MRV.establish",
+     "AUD.establish",
+     "PUR.surveil",
      "DEP.release"
     ]
    },
@@ -25763,22 +25879,21 @@
      "acts": {
       "P1": [],
       "P2": [],
-      "P3": [
+      "P3": [],
+      "P4": [
        "MRV.establish"
-      ],
-      "P4": []
+      ]
      }
     },
     {
      "c": "6.2",
      "acts": {
       "P1": [
-       "HRT.establish"
-      ],
-      "P2": [],
-      "P3": [
+       "HRT.establish",
        "HRT.mature"
       ],
+      "P2": [],
+      "P3": [],
       "P4": []
      }
     },
@@ -25797,10 +25912,10 @@
      "c": "6.4.2",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PSA.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25808,10 +25923,10 @@
      "c": "7.2",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "SAL.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25874,10 +25989,10 @@
      "c": "7.3.6; MDR Annex I",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "DEV.verify"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25885,10 +26000,10 @@
      "c": "7.3.7 & 7.3.8",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "DEV.validate"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25906,10 +26021,10 @@
     {
      "c": "7.4",
      "acts": {
-      "P1": [],
-      "P2": [
+      "P1": [
        "PUR.establish"
       ],
+      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -25919,20 +26034,20 @@
      "acts": {
       "P1": [],
       "P2": [],
-      "P3": [
+      "P3": [],
+      "P4": [
        "PUR.surveil"
-      ],
-      "P4": []
+      ]
      }
     },
     {
      "c": "7.5.1",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PRO.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25940,21 +26055,21 @@
      "c": "7.5.4; MDR Art 10",
      "acts": {
       "P1": [],
-      "P2": [
-       "SUP.setup"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "SUP.setup"
+      ]
      }
     },
     {
      "c": "7.5.7",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "STE.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25973,10 +26088,10 @@
      "c": "7.6",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "INF.metrology"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25984,11 +26099,11 @@
      "c": "8.2.2",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CMP.setup",
        "NCP.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -25997,21 +26112,21 @@
      "acts": {
       "P1": [],
       "P2": [],
-      "P3": [
+      "P3": [],
+      "P4": [
        "AUD.establish"
-      ],
-      "P4": []
+      ]
      }
     },
     {
      "c": "8.3",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CMP.setup",
        "NCP.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26020,20 +26135,20 @@
      "acts": {
       "P1": [],
       "P2": [],
-      "P3": [
+      "P3": [],
+      "P4": [
        "MRV.establish"
-      ],
-      "P4": []
+      ]
      }
     },
     {
      "c": "8.5",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CAP.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26053,16 +26168,16 @@
   {
    "std": "ISO 14971",
    "phaseActs": {
-    "P1": [
-     "RSK.plan"
-    ],
+    "P1": [],
     "P2": [
+     "RSK.plan",
      "RSK.analyze",
-     "RSK.report",
      "RSK.ivd",
      "BIO.setup"
     ],
-    "P3": [],
+    "P3": [
+     "RSK.report"
+    ],
     "P4": [
      "RSK.postmarket"
     ]
@@ -26071,10 +26186,10 @@
     {
      "c": "4",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "RSK.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26130,10 +26245,10 @@
      "c": "8",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "RSK.report"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26141,10 +26256,10 @@
      "c": "9",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "RSK.report"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26165,18 +26280,20 @@
    "std": "IEC 62304",
    "phaseActs": {
     "P1": [
-     "DEV.intended",
-     "SWD.plan"
+     "DEV.intended"
     ],
     "P2": [
+     "SWD.plan",
      "SWD.design",
      "SWD.build",
-     "SWD.verify",
-     "SWD.release",
      "DEP.plan"
     ],
-    "P3": [],
-    "P4": []
+    "P3": [
+     "SWD.verify"
+    ],
+    "P4": [
+     "SWD.release"
+    ]
    },
    "clauses": [
     {
@@ -26227,20 +26344,20 @@
      "c": "5.8; IEC 81001-5-1; MDCG 2019-16",
      "acts": {
       "P1": [],
-      "P2": [
-       "SWD.release"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "SWD.release"
+      ]
      }
     },
     {
      "c": "s4-s5.1",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "SWD.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26249,10 +26366,10 @@
      "c": "s5.5-s5.7",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "SWD.verify"
       ],
-      "P3": [],
       "P4": []
      }
     }
@@ -26264,10 +26381,11 @@
     "P1": [],
     "P2": [
      "HUF.plan",
-     "HUF.formative",
+     "HUF.formative"
+    ],
+    "P3": [
      "HUF.summative"
     ],
-    "P3": [],
     "P4": []
    },
    "clauses": [
@@ -26297,10 +26415,10 @@
      "c": "(summative evaluation)",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "HUF.summative"
       ],
-      "P3": [],
       "P4": []
      }
     }
@@ -26315,7 +26433,9 @@
      "SEC.establish",
      "IRP.establish"
     ],
-    "P3": [],
+    "P3": [
+     "SEC.pentest"
+    ],
     "P4": []
    },
    "clauses": [
@@ -26337,7 +26457,9 @@
       "P2": [
        "SEC.establish"
       ],
-      "P3": [],
+      "P3": [
+       "SEC.pentest"
+      ],
       "P4": []
      }
     },
@@ -26381,10 +26503,10 @@
   {
    "std": "AAMI TIR57",
    "phaseActs": {
-    "P1": [
+    "P1": [],
+    "P2": [
      "RSK.plan"
     ],
-    "P2": [],
     "P3": [],
     "P4": []
    },
@@ -26392,10 +26514,10 @@
     {
      "c": "(general)",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "RSK.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26406,30 +26528,32 @@
    "std": "EU MDR",
    "phaseActs": {
     "P1": [
-     "CLE.plan",
      "TEF.classify.mdr"
     ],
     "P2": [
+     "CLE.plan",
+     "CMB.setup",
+     "CMD.setup",
+     "TEF.gspr.mdr"
+    ],
+    "P3": [
      "CLE.evidence",
-     "CLE.investigation",
+     "CLE.investigation"
+    ],
+    "P4": [
      "LBL.setup",
      "PMS.plan",
      "VIG.eu",
-     "CMB.setup",
-     "CMD.setup"
-    ],
-    "P3": [],
-    "P4": [
      "RSK.postmarket",
      "CLE.report",
      "TEF.file",
      "TEF.certify.stage1",
      "TEF.certify.stage2",
-     "TEF.market.mdr",
      "LBL.produce",
      "PMS.operate",
      "PCF.plan",
-     "PCF.report"
+     "PCF.report",
+     "TEF.market.mdr"
     ]
    },
    "clauses": [
@@ -26441,17 +26565,6 @@
       "P3": [],
       "P4": [
        "TEF.file"
-      ]
-     }
-    },
-    {
-     "c": "Annex II/III, Art 19/17",
-     "acts": {
-      "P1": [],
-      "P2": [],
-      "P3": [],
-      "P4": [
-       "TEF.market.mdr"
       ]
      }
     },
@@ -26470,11 +26583,11 @@
      "c": "Art 27 (UDI) & Annex I Ch III",
      "acts": {
       "P1": [],
-      "P2": [
-       "LBL.setup"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "LBL.setup"
+      ]
      }
     },
     {
@@ -26491,10 +26604,10 @@
     {
      "c": "Art 61",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "CLE.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26514,10 +26627,10 @@
      "c": "Art 62-82 & Annex XV; ISO 14155",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CLE.investigation"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26547,22 +26660,22 @@
      "c": "Art 83-92",
      "acts": {
       "P1": [],
-      "P2": [
-       "PMS.plan"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "PMS.plan"
+      ]
      }
     },
     {
      "c": "Art 87-92; IVDR Art 82-87",
      "acts": {
       "P1": [],
-      "P2": [
-       "VIG.eu"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "VIG.eu"
+      ]
      }
     },
     {
@@ -26580,10 +26693,10 @@
      "c": "Annex XIV Part A; MDCG 2020-5",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CLE.evidence"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26631,6 +26744,28 @@
        "TEF.certify.stage2"
       ]
      }
+    },
+    {
+     "c": "Art 5, 10, 19-20; Art 29 (EUDAMED)",
+     "acts": {
+      "P1": [],
+      "P2": [],
+      "P3": [],
+      "P4": [
+       "TEF.market.mdr"
+      ]
+     }
+    },
+    {
+     "c": "Annex I (GSPR) & Annex II",
+     "acts": {
+      "P1": [],
+      "P2": [
+       "TEF.gspr.mdr"
+      ],
+      "P3": [],
+      "P4": []
+     }
     }
    ]
   },
@@ -26638,28 +26773,28 @@
    "std": "EU IVDR",
    "phaseActs": {
     "P1": [
-     "CLE.plan",
-     "PEV.plan",
-     "PEV.sv",
      "TEF.classify.ivdr"
     ],
     "P2": [
+     "CLE.plan",
+     "PEV.plan",
+     "PEV.sv",
+     "TEF.gspr.ivdr"
+    ],
+    "P3": [
      "PEV.feasibility",
      "PEV.ap",
      "PEV.ap.sw",
-     "PEV.cp",
-     "TEF.gspr.ivdr",
+     "PEV.cp"
+    ],
+    "P4": [
      "LBL.setup",
      "PMS.plan",
-     "PMS.ivd"
-    ],
-    "P3": [],
-    "P4": [
+     "PMS.ivd",
      "PEV.report",
      "TEF.file",
      "TEF.certify.stage1",
      "TEF.certify.stage2",
-     "TEF.market.mdr",
      "TEF.market.ivdr",
      "LBL.produce"
     ]
@@ -26669,20 +26804,20 @@
      "c": "78-81",
      "acts": {
       "P1": [],
-      "P2": [
-       "PMS.plan"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "PMS.plan"
+      ]
      }
     },
     {
      "c": "Annex XIII 1.2.1",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "PEV.sv"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26691,10 +26826,10 @@
      "c": "Annex XIII 1.2.3 & Annex I 9.1; ISO 20916",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PEV.cp"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26702,10 +26837,10 @@
      "c": "Annex XIII 1.2; ISO 20916",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PEV.feasibility"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26724,10 +26859,10 @@
      "c": "Annex I 9 & Annex XIII 1.2.2",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PEV.ap"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26735,10 +26870,10 @@
      "c": "Annex I 9; IEC 62304",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "PEV.ap.sw"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26750,17 +26885,6 @@
       "P3": [],
       "P4": [
        "TEF.file"
-      ]
-     }
-    },
-    {
-     "c": "Annex II/III, Art 19/17",
-     "acts": {
-      "P1": [],
-      "P2": [],
-      "P3": [],
-      "P4": [
-       "TEF.market.mdr"
       ]
      }
     },
@@ -26779,11 +26903,11 @@
      "c": "Art 27 (UDI) & Annex I Ch III",
      "acts": {
       "P1": [],
-      "P2": [
-       "LBL.setup"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "LBL.setup"
+      ]
      }
     },
     {
@@ -26812,11 +26936,11 @@
      "c": "Art 78",
      "acts": {
       "P1": [],
-      "P2": [
-       "PMS.ivd"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "PMS.ivd"
+      ]
      }
     },
     {
@@ -26833,11 +26957,11 @@
     {
      "c": "Annex XIII",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "CLE.plan",
        "PEV.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26885,11 +27009,11 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "CAP.setup",
      "ISM.establish",
      "DPR.establish"
     ],
     "P3": [
+     "CAP.setup",
      "BCP.establish"
     ],
     "P4": []
@@ -26910,10 +27034,10 @@
      "c": "A.5.24",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CAP.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26944,26 +27068,27 @@
   {
    "std": "EU AI Act",
    "phaseActs": {
-    "P1": [
-     "RSK.plan",
-     "AIM.plan"
-    ],
+    "P1": [],
     "P2": [
-     "SWD.ml",
-     "AIM.build",
-     "AIM.compliance"
+     "RSK.plan",
+     "AIM.plan",
+     "SWD.ml"
     ],
-    "P3": [],
-    "P4": []
+    "P3": [
+     "AIM.build"
+    ],
+    "P4": [
+     "AIM.compliance"
+    ]
    },
    "clauses": [
     {
      "c": "9",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "RSK.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26971,10 +27096,10 @@
     {
      "c": "10",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "AIM.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -26983,10 +27108,10 @@
      "c": "12",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "AIM.build"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -26994,10 +27119,10 @@
      "c": "13",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "AIM.build"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -27005,20 +27130,20 @@
      "c": "14",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "AIM.build"
       ],
-      "P3": [],
       "P4": []
      }
     },
     {
      "c": "15",
      "acts": {
-      "P1": [
+      "P1": [],
+      "P2": [
        "AIM.plan"
       ],
-      "P2": [],
       "P3": [],
       "P4": []
      }
@@ -27027,10 +27152,10 @@
      "c": "43",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "AIM.build"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -27038,11 +27163,11 @@
      "c": "Annex IV; FDA PCCP guidance",
      "acts": {
       "P1": [],
-      "P2": [
-       "AIM.compliance"
-      ],
+      "P2": [],
       "P3": [],
-      "P4": []
+      "P4": [
+       "AIM.compliance"
+      ]
      }
     },
     {
@@ -27063,12 +27188,13 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "CAP.setup",
      "DPR.establish",
      "DPR.assess",
      "IRP.privacy"
     ],
-    "P3": [],
+    "P3": [
+     "CAP.setup"
+    ],
     "P4": []
    },
    "clauses": [
@@ -27076,10 +27202,10 @@
      "c": "33",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "CAP.setup"
       ],
-      "P3": [],
       "P4": []
      }
     },
@@ -27123,11 +27249,11 @@
    "phaseActs": {
     "P1": [],
     "P2": [
-     "SWD.diga",
-     "TEF.gspr.mdr",
+     "SWD.diga"
+    ],
+    "P3": [
      "AES.setup"
     ],
-    "P3": [],
     "P4": [
      "TEF.market.fda",
      "VIG.us"
@@ -27157,17 +27283,6 @@
      }
     },
     {
-     "c": "FDA 21 CFR 820",
-     "acts": {
-      "P1": [],
-      "P2": [
-       "TEF.gspr.mdr"
-      ],
-      "P3": [],
-      "P4": []
-     }
-    },
-    {
      "c": "DVG",
      "acts": {
       "P1": [],
@@ -27193,10 +27308,10 @@
      "c": "EU MDR Annex I",
      "acts": {
       "P1": [],
-      "P2": [
+      "P2": [],
+      "P3": [
        "AES.setup"
       ],
-      "P3": [],
       "P4": []
      }
     }
@@ -27960,7 +28075,7 @@
    "SEC.establish"
   ],
   "SEC-FOR-01": [
-   "SEC.establish"
+   "SEC.pentest"
   ],
   "SEC-TPL-02": [
    "SEC.postmarket"

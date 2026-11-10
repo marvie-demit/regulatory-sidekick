@@ -1,6 +1,6 @@
 // What KIND of work an activity is, from the agent's point of view.
 //
-// 85 of the 116 activities produce controlled documents; those are `author`.
+// 86 of the 117 activities produce controlled documents; those are `author`.
 // The other 31 split two ways, and **that split cannot be derived from the
 // data** — nothing in content.json marks "this is an act in the world". Hence a
 // curated list, reviewed once with a QARA eye, rather than a model re-inferring
@@ -45,6 +45,7 @@ export const HANDOFF_ACTIVITIES: readonly string[] = [
   "HUF.formative", // formative usability evaluations, with real users
   "PEV.feasibility", // feasibility / proof-of-concept study
   "PEV.selftest", // validate performance with lay users
+  "SEC.pentest", // a penetration test of the built system, by a real tester
   "CAP.operate", // running the CAPA loop, not defining it
   "PUR.surveil", // supplier surveillance & re-evaluation
   "RSK.postmarket", // feeding post-market data back into the risk file

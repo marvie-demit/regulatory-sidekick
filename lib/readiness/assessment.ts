@@ -627,12 +627,11 @@ export function bandFor(overall: number): Band {
 /**
  * The short name of a phase, taken from the head of content.phases[].focus.
  *
- * Same derivation DashboardClient uses, and deliberately NOT PHASE_NAMES: that
- * map calls phase 3 "Govern & lead" and phase 4 "Certify, launch & improve",
- * while the focus text those headings sit above opens "Verify, validate & make"
- * and "Certify, launch & operate". Printing both side by side on an artefact
- * someone forwards to an investor would make the corpus look unsure what its own
- * phases are called, so the title is derived from the text it labels.
+ * Same derivation DashboardClient uses, and deliberately not a separate name
+ * map: the heading sits directly above the focus text, and printing two
+ * different names side by side on an artefact someone forwards to an investor
+ * would make the corpus look unsure what its own phases are called. So the
+ * title is derived from the text it labels. (PHASE_NAMES now agrees with it.)
  */
 export function phaseTitle(focus: string, n: number): string {
   const head = focus.split(/:| - /)[0].trim();
